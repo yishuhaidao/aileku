@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Miuse - AI 音乐创作平台</title>
+<meta name="description" content="Miuse - 免费的 AI 音乐生成与分享平台。在线创作、发布、发现好音乐。">
+<meta property="og:title" content="Miuse - AI 音乐创作平台">
+<meta property="og:description" content="免费的 AI 音乐生成与分享平台。在线创作、发布、发现好音乐。">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+<style>
+:root {
+  --bg: #0a0a12;
+  --card: #161625;
+  --border: #252540;
+  --text: #d0d0e0;
+  --muted: #6b6b80;
+  --accent: #a78bfa;
+  --green: #34d399;
+  --red: #f87171;
+  --gold: #fbbf24;
+  --radius: 14px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'Microsoft YaHei','PingFang SC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}
+
+/* Navigation */
+nav{position:sticky;top:0;z-index:100;background:rgba(10,10,18,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 16px}
+.nav-inner{max-width:800px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px}
+.logo{font-size:1.4em;font-weight:800;background:linear-gradient(135deg,#a78bfa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.5px}
+.nav-tabs{display:flex;gap:4px}
+.nav-tab{padding:8px 16px;border-radius:10px;font-size:0.9em;cursor:pointer;transition:all 0.2s;border:none;background:transparent;color:var(--muted);font-weight:500}
+.nav-tab:hover{background:var(--card);color:var(--text)}
+.nav-tab.active{background:var(--accent);color:#fff}
+
+/* Pages */
+.page{display:none;max-width:800px;margin:0 auto;padding:20px 16px 120px}
+.page.active{display:block}
+
+/* Cards */
+.card{background:var(--card);border-radius:var(--radius);padding:24px;margin-bottom:16px;border:1px solid var(--border)}
+.card h2{font-size:1.2em;margin-bottom:16px;color:var(--text)}
+.card h3{font-size:1em;margin-bottom:12px;color:var(--muted)}
+
+/* Form */
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:0.85em;color:var(--muted);margin-bottom:6px}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:12px 14px;background:#0d0d1a;border:1px solid var(--border);border-radius:10px;color:#fff;font-size:0.95em;outline:none;transition:border 0.2s}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--accent)}
+.form-group textarea{min-height:80px;resize:vertical}
+
+/* Buttons */
+.btn{padding:12px 24px;border:none;border-radius:10px;font-size:0.95em;font-weight:600;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{filter:brightness(1.15);transform:translateY(-1px)}
+.btn-green{background:var(--green);color:#0a0a12}
+.btn-green:hover{filter:brightness(1.15)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-outline:hover{background:var(--card)}
+.btn-block{width:100%;justify-content:center}
+.btn-sm{padding:8px 14px;font-size:0.85em;border-radius:8px}
+
+/* Song Grid */
+.song-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.song-card{background:var(--card);border-radius:var(--radius);padding:20px;border:1px solid var(--border);cursor:pointer;transition:all 0.2s}
+.song-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.song-card .song-title{font-weight:700;font-size:1.05em;margin-bottom:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.song-card .song-meta{font-size:0.8em;color:var(--muted);display:flex;gap:12px}
+.song-card .song-tags{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.tag{padding:3px 10px;background:rgba(167,139,250,0.15);color:var(--accent);border-radius:20px;font-size:0.75em}
+
+/* Generator */
+.gen-row{display:flex;gap:16px;margin-bottom:12px}
+.gen-col{flex:1}
+input[type=range]{width:100%;padding:0;height:6px;-webkit-appearance:none;appearance:none;background:var(--border);border-radius:3px;margin-top:8px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:var(--accent);border-radius:50%;cursor:pointer}
+.range-val{text-align:center;font-size:0.85em;color:var(--accent);margin-top:4px}
+
+/* Visualizer */
+.visualizer{display:flex;justify-content:center;align-items:flex-end;gap:5px;height:80px;margin:16px 0}
+.vis-bar{width:7px;background:linear-gradient(to top,var(--accent),var(--green));border-radius:4px 4px 0 0;transition:height 0.1s}
+
+/* Player Bar */
+.player-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(10,10,18,0.95);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:12px 16px;z-index:100;transform:translateY(100%);transition:transform 0.3s}
+.player-bar.show{transform:translateY(0)}
+.player-inner{max-width:800px;margin:0 auto;display:flex;align-items:center;gap:14px}
+.player-info{flex:1;min-width:0}
+.player-title{font-weight:600;font-size:0.95em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.player-artist{font-size:0.8em;color:var(--muted)}
+.player-controls{display:flex;align-items:center;gap:10px}
+.player-btn{width:36px;height:36px;border-radius:50%;border:none;background:var(--card);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1em}
+.player-btn.play-btn{width:44px;height:44px;background:var(--accent)}
+.player-progress{flex:1;height:4px;background:var(--border);border-radius:2px;position:relative;cursor:pointer}
+.player-progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width 0.1s linear}
+
+/* Toast */
+.toast-container{position:fixed;top:70px;right:16px;z-index:200;display:flex;flex-direction:column;gap:8px}
+.toast{padding:12px 20px;background:var(--card);border:1px solid var(--border);border-radius:10px;font-size:0.9em;animation:slideIn 0.3s ease;box-shadow:0 8px 30px rgba(0,0,0,0.4)}
+.toast.success{border-color:var(--green)}
+.toast.error{border-color:var(--red)}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* Payment modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:300;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.modal{background:var(--card);border-radius:var(--radius);padding:32px;max-width:400px;width:90%;border:1px solid var(--border);text-align:center}
+.modal h3{font-size:1.2em;margin-bottom:16px}
+.modal .qr-placeholder{width:200px;height:200px;background:#fff;margin:16px auto;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:4em}
+
+/* Empty state */
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-state .icon{font-size:3em;margin-bottom:16px}
+.empty-state p{font-size:0.95em;line-height:1.6}
+
+/* Responsive */
+@media (max-width:600px){
+  .song-grid{grid-template-columns:1fr}
+  .gen-row{flex-direction:column}
+  .nav-tab{padding:6px 10px;font-size:0.8em}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">🎵 Miuse</div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-page="plaza">🏠 广场</button>
+      <button class="nav-tab" data-page="create">🎹 创作</button>
+      <button class="nav-tab" data-page="me">👤 我的</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Page: Plaza -->
+<div class="page active" id="page-plaza">
+  <div style="margin-bottom:16px">
+    <input type="text" id="searchInput" placeholder="🔍 搜索歌曲、风格..." style="width:100%;padding:12px 16px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);color:#fff;font-size:0.95em;outline:none" oninput="filterSongs()">
+  </div>
+  <div class="song-grid" id="songGrid">
+    <div class="empty-state">
+      <div class="icon">🎶</div>
+      <p>还没有歌曲<br>去「创作」页面生成你的第一首歌吧！</p>
+    </div>
+  </div>
+</div>
+
+<!-- Page: Create -->
+<div class="page" id="page-create">
+  <div class="card">
+    <h2>🎼 AI 音乐生成</h2>
+    <div class="gen-row">
+      <div class="gen-col">
+        <div class="form-group">
+          <label>音乐风格</label>
+          <select id="style">
+            <option value="happy">😊 欢快明亮</option>
+            <option value="sad">😢 忧伤抒情</option>
+            <option value="epic">⚔️ 史诗宏大</option>
+            <option value="chill">🌊 放松休闲</option>
+            <option value="funky">🕺 放克律动</option>
+            <option value="oriental">🏮 中国风</option>
+            <option value="lofi">📻 Lo-Fi 怀旧</option>
+          </select>
+        </div>
+      </div>
+      <div class="gen-col">
+        <div class="form-group">
+          <label>调性</label>
+          <select id="key">
+            <option value="C">C 大调</option><option value="D">D 大调</option>
+            <option value="E">E 大调</option><option value="F">F 大调</option>
+            <option value="G">G 大调</option><option value="A">A 大调</option>
+            <option value="Am">A 小调</option><option value="Dm">D 小调</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎚️ 参数</h2>
+    <div class="gen-row">
+      <div class="gen-col">
+        <label>速度 BPM: <span id="bpmVal">120</span></label>
+        <input type="range" id="bpm" min="60" max="200" value="120" step="5" oninput="document.getElementById('bpmVal').textContent=this.value">
+      </div>
+      <div class="gen-col">
+        <label>复杂度: <span id="compVal">5</span></label>
+        <input type="range" id="complexity" min="1" max="10" value="5" oninput="document.getElementById('compVal').textContent=this.value">
+      </div>
+    </div>
+    <div class="gen-row">
+      <div class="gen-col">
+        <label>时长(秒): <span id="durVal">30</span></label>
+        <input type="range" id="duration" min="10" max="60" value="30" step="5" oninput="document.getElementById('durVal').textContent=this.value">
+      </div>
+      <div class="gen-col">
+        <label>密度: <span id="densVal">中</span></label>
+        <input type="range" id="density" min="1" max="3" value="2" oninput="document.getElementById('densVal').textContent={1:'低',2:'中',3:'高'}[this.value]">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📝 歌曲信息</h2>
+    <div class="form-group">
+      <label>歌曲名</label>
+      <input type="text" id="songTitle" placeholder="给你的作品起个名字...">
+    </div>
+    <div class="form-group">
+      <label>简介（可选）</label>
+      <textarea id="songDesc" placeholder="说说这首歌的故事..."></textarea>
+    </div>
+    <div class="form-group">
+      <label style="display:flex;align-items:center;gap:8px">
+        <input type="checkbox" id="songPublic" checked style="width:auto"> 公开发布到广场
+      </label>
+    </div>
+  </div>
+
+  <div class="visualizer" id="visualizer"></div>
+
+  <div style="display:flex;gap:12px;flex-wrap:wrap">
+    <button class="btn btn-primary" onclick="generateMusic()" id="btnGen">🎹 生成音乐</button>
+    <button class="btn btn-outline" onclick="stopMusic()">⏹ 停止</button>
+    <button class="btn btn-green" onclick="publishSong()" id="btnPublish" disabled>🚀 发布到广场</button>
+  </div>
+  <div style="text-align:center;padding:12px;font-size:0.9em;color:var(--muted);min-height:36px" id="status">点击「生成音乐」开始创作 🎵</div>
+</div>
+
+<!-- Page: Me -->
+<div class="page" id="page-me">
+  <!-- Login -->
+  <div class="card" id="loginCard">
+    <h2>👤 登录 / 注册</h2>
+    <div class="form-group">
+      <label>邮箱</label>
+      <input type="email" id="email" placeholder="you@example.com">
+    </div>
+    <div class="form-group">
+      <label>密码</label>
+      <input type="password" id="password" placeholder="至少6位">
+    </div>
+    <div style="display:flex;gap:12px">
+      <button class="btn btn-primary btn-block" onclick="signIn()">登录</button>
+      <button class="btn btn-outline btn-block" onclick="signUp()">注册</button>
+    </div>
+    <div style="margin-top:12px;font-size:0.8em;color:var(--muted);text-align:center">
+      注册即表示同意服务条款。密码加密存储，邮箱仅用于登录。
+    </div>
+  </div>
+
+  <!-- Logged in -->
+  <div class="card" id="userCard" style="display:none">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--green));display:flex;align-items:center;justify-content:center;font-size:1.5em">🎵</div>
+      <div style="flex:1">
+        <div style="font-weight:700" id="userEmail"></div>
+        <div style="font-size:0.8em;color:var(--muted)">
+          <span id="userSongs">0</span> 首歌 · 
+          <span id="userBalance">0</span> 虾币
+        </div>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="signOut()">退出</button>
+    </div>
+  </div>
+
+  <!-- My Songs -->
+  <div class="card" id="mySongsCard" style="display:none">
+    <h2>🎵 我的作品</h2>
+    <div id="mySongsList">
+      <div class="empty-state"><p>还没有作品，去创作页面开始吧</p></div>
+    </div>
+  </div>
+
+  <!-- Recharge -->
+  <div class="card" id="rechargeCard" style="display:none">
+    <h2>💰 充值虾币</h2>
+    <p style="font-size:0.85em;color:var(--muted);margin-bottom:16px">虾币用于解锁高级功能：下载无水印音乐、优先展示等</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+      <button class="btn btn-outline" onclick="recharge(10)">10 虾币<br><small>¥1</small></button>
+      <button class="btn btn-outline" onclick="recharge(60)">60 虾币<br><small>¥5</small></button>
+      <button class="btn btn-outline" onclick="recharge(150)">150 虾币<br><small>¥10</small></button>
+    </div>
+    <div style="margin-top:12px;font-size:0.75em;color:var(--muted);text-align:center">
+      付款后截图联系客服确认，或等待自动到账（通常1分钟内）
+    </div>
+  </div>
+</div>
+
+<!-- Player Bar -->
+<div class="player-bar" id="playerBar">
+  <div class="player-inner">
+    <div class="player-info">
+      <div class="player-title" id="playerTitle">未选择歌曲</div>
+      <div class="player-artist" id="playerArtist"></div>
+    </div>
+    <div class="player-controls">
+      <button class="player-btn play-btn" id="playerPlayBtn" onclick="togglePlayer()">▶️</button>
+    </div>
+  </div>
+</div>
+
+<!-- Payment Modal -->
+<div class="modal-overlay" id="paymentModal" style="display:none" onclick="if(event.target===this)closePayment()">
+  <div class="modal">
+    <h3>💳 扫码支付</h3>
+    <p style="color:var(--muted);margin-bottom:8px" id="payAmount"></p>
+    <div class="qr-placeholder">🦞</div>
+    <p style="font-size:0.8em;color:var(--muted);margin:12px 0">请用微信/支付宝扫码支付<br>支付完成后联系客服确认</p>
+    <button class="btn btn-primary btn-block" onclick="confirmPayment()">✅ 我已完成支付</button>
+    <button class="btn btn-outline btn-block" style="margin-top:8px" onclick="closePayment()">取消</button>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ============================================================
+// SUPABASE CONFIG — 替换为你的 Supabase 项目信息
+// ============================================================
+const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
+const SUPABASE_KEY = 'YOUR_ANON_KEY';
+
+let supabase = null;
+
+// ============================================================
+// STATE
+// ============================================================
+let allSongs = [];
+let currentUser = null;
+let isPlaying = false;
+let currentSongParams = null; // {style,key,bpm,complexity,duration,density}
+let recordedAudio = null; // Blob of last generated audio
+
+// Tone.js synths
+let melody, chordSynth, drumSynth, bassSynth;
+let melodyPart, chordPart, drumPart, bassPart;
+let mediaRecorder, recordedChunks;
+let visInterval;
+
+// ============================================================
+// INIT
+// ============================================================
+function initSupabase() {
+  if (!SUPABASE_URL.includes('YOUR_PROJECT')) {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    checkAuth();
+    loadSongs();
+  } else {
+    console.log('Supabase not configured — running in demo mode');
+    // Demo mode: localStorage
+    loadSongsLocal();
+  }
+}
+
+function checkAuth() {
+  supabase.auth.getSession().then(({data:{session}}) => {
+    currentUser = session?.user || null;
+    updateUI();
+  });
+  supabase.auth.onAuthStateChange((event, session) => {
+    currentUser = session?.user || null;
+    updateUI();
+  });
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+document.querySelectorAll('.nav-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('page-' + tab.dataset.page).classList.add('active');
+    if (tab.dataset.page === 'plaza') loadSongs();
+    if (tab.dataset.page === 'me') loadMySongs();
+  });
+});
+
+// ============================================================
+// TOAST
+// ============================================================
+function toast(msg, type='') {
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.textContent = msg;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(() => { el.style.opacity='0'; setTimeout(() => el.remove(), 300); }, 3000);
+}
+
+// ============================================================
+// AUTH
+// ============================================================
+async function signUp() {
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  if (!email || !password) return toast('请填写邮箱和密码', 'error');
+  if (password.length < 6) return toast('密码至少6位', 'error');
+
+  if (!supabase) return toast('请先配置 Supabase', 'error');
+  const {error} = await supabase.auth.signUp({email,password});
+  if (error) return toast(error.message, 'error');
+  toast('注册成功！请查看邮箱确认（或直接登录）', 'success');
+}
+
+async function signIn() {
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  if (!email || !password) return toast('请填写邮箱和密码', 'error');
+
+  if (!supabase) return toast('请先配置 Supabase', 'error');
+  const {error} = await supabase.auth.signInWithPassword({email,password});
+  if (error) return toast(error.message, 'error');
+  toast('登录成功！', 'success');
+  loadMySongs();
+}
+
+async function signOut() {
+  if (!supabase) return;
+  await supabase.auth.signOut();
+  currentUser = null;
+  updateUI();
+  toast('已退出登录');
+}
+
+// ============================================================
+// SONGS — Supabase
+// ============================================================
+async function loadSongs() {
+  if (!supabase) { loadSongsLocal(); return; }
+
+  const {data,error} = await supabase
+    .from('songs')
+    .select('*')
+    .eq('is_public', true)
+    .order('created_at', {ascending: false})
+    .limit(50);
+
+  if (error) { console.error(error); return; }
+  allSongs = data || [];
+  renderSongs(allSongs);
+}
+
+// localStorage fallback
+function loadSongsLocal() {
+  try { allSongs = JSON.parse(localStorage.getItem('miuse_songs') || '[]'); }
+  catch(e) { allSongs = []; }
+  renderSongs(allSongs);
+}
+
+function saveSongsLocal() {
+  localStorage.setItem('miuse_songs', JSON.stringify(allSongs));
+}
+
+function renderSongs(songs) {
+  const grid = document.getElementById('songGrid');
+  if (songs.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><div class="icon">🎶</div><p>还没有歌曲<br>去「创作」页面生成你的第一首歌吧！</p></div>';
+    return;
+  }
+  grid.innerHTML = songs.map(s => `
+    <div class="song-card" onclick="playSong('${s.id}')">
+      <div class="song-title">${escHtml(s.title)}</div>
+      <div class="song-meta">
+        <span>▶ ${s.plays || 0}</span>
+        <span>❤️ ${s.likes || 0}</span>
+        <span>${timeAgo(s.created_at)}</span>
+      </div>
+      <div class="song-tags">
+        <span class="tag">${escHtml(s.style)}</span>
+        <span class="tag">${escHtml(s.key)}</span>
+        <span class="tag">${s.bpm} BPM</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterSongs() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = allSongs.filter(s =>
+    s.title.toLowerCase().includes(q) ||
+    s.style.toLowerCase().includes(q) ||
+    s.key.toLowerCase().includes(q)
+  );
+  renderSongs(filtered);
+}
+
+// ============================================================
+// PLAY SONG (regenerate from params)
+// ============================================================
+async function playSong(songId) {
+  let song = allSongs.find(s => s.id === songId);
+  if (!song) return;
+
+  // If audio_url exists, play it. Otherwise regenerate.
+  if (song.audio_url) {
+    playAudioUrl(song);
+    return;
+  }
+
+  // Regenerate from stored params
+  stopMusic();
+  await regenerateFromParams(song);
+  document.getElementById('playerTitle').textContent = song.title;
+  document.getElementById('playerArtist').textContent = (song.author_name || '匿名') + ' · ' + song.style;
+  document.getElementById('playerBar').classList.add('show');
+}
+
+function playAudioUrl(song) {
+  // Simple audio element playback
+  stopMusic();
+  const audio = new Audio(song.audio_url);
+  audio.play();
+  document.getElementById('playerTitle').textContent = song.title;
+  document.getElementById('playerArtist').textContent = (song.author_name || '匿名');
+  document.getElementById('playerBar').classList.add('show');
+  document.getElementById('playerPlayBtn').textContent = '⏸️';
+
+  audio.onended = () => {
+    document.getElementById('playerPlayBtn').textContent = '▶️';
+  };
+
+  window._currentAudio = audio;
+}
+
+function togglePlayer() {
+  if (window._currentAudio) {
+    if (window._currentAudio.paused) {
+      window._currentAudio.play();
+      document.getElementById('playerPlayBtn').textContent = '⏸️';
+    } else {
+      window._currentAudio.pause();
+      document.getElementById('playerPlayBtn').textContent = '▶️';
+    }
+  }
+}
+
+async function regenerateFromParams(song) {
+  // Set UI
+  document.getElementById('style').value = song.style;
+  document.getElementById('key').value = song.key;
+  document.getElementById('bpm').value = song.bpm;
+  document.getElementById('complexity').value = song.complexity;
+  document.getElementById('duration').value = song.duration;
+  document.getElementById('density').value = song.density || 2;
+  document.getElementById('bpmVal').textContent = song.bpm;
+  document.getElementById('compVal').textContent = song.complexity;
+  document.getElementById('durVal').textContent = song.duration;
+  document.getElementById('densVal').textContent = {1:'低',2:'中',3:'高'}[song.density||2];
+
+  await generateMusic(true);
+  document.getElementById('playerBar').classList.add('show');
+}
+
+// ============================================================
+// MUSIC GENERATOR (based on original)
+// ============================================================
+const scales = {
+  happy:{major:[0,2,4,5,7,9,11]}, sad:{major:[0,2,3,5,7,8,10]},
+  epic:{major:[0,2,4,5,7,9,10]}, chill:{major:[0,2,4,5,7,9,11]},
+  funky:{major:[0,3,5,7,10]}, oriental:{major:[0,2,5,7,8,10]},
+  lofi:{major:[0,2,4,5,7,9,11]}
+};
+const keyRoots = {C:0,D:2,E:4,F:5,G:7,A:9,Am:9,Dm:2};
+const chordTemplates = {
+  happy:[[0,4,7],[5,9,12],[7,11,14],[0,4,7]],
+  sad:[[0,3,7],[5,8,12],[7,10,14],[0,3,7]],
+  epic:[[0,5,7],[5,10,12],[7,12,14],[0,5,7]],
+  chill:[[0,4,7,11],[5,9,12,16],[0,4,7,11],[7,11,14,18]],
+  funky:[[0,5,10],[7,12,17],[0,5,10],[5,10,15]],
+  oriental:[[0,5,7],[5,10,12],[0,5,7],[2,7,11]],
+  lofi:[[0,4,7,11],[5,9,12,16],[0,4,7,11],[7,11,14,18]]
+};
+const drumPatterns = {
+  happy:['kick','hat','snare','hat','kick','hat','snare','hat'],
+  sad:['kick','-','snare','-','kick','hat','snare','-'],
+  epic:['kick','-','kick','-','snare','-','kick','kick'],
+  chill:['kick','hat','-','hat','snare','hat','kick','hat'],
+  funky:['kick','hat','snare','hat','kick','kick','snare','hat'],
+  oriental:['kick','-','kick','-','snare','hat','kick','-'],
+  lofi:['kick','-','snare','hat','kick','-','snare','hat']
+};
+
+function getScaleNotes() {
+  const style = document.getElementById('style').value;
+  const key = document.getElementById('key').value;
+  const root = keyRoots[key];
+  return scales[style].major.map(n => n + root);
+}
+
+function generateMelody(scaleNotes, complexity, density, duration, root) {
+  const notes = [];
+  const bpm = parseInt(document.getElementById('bpm').value);
+  const stepTime = 60 / bpm;
+  const densFactor = density === 1 ? 4 : density === 2 ? 2 : 1;
+  const scale = scaleNotes;
+  let prevNote = scale[Math.floor(scale.length / 2)];
+  const totalSteps = Math.floor(duration);
+
+  for (let i = 0; i < totalSteps * densFactor; i++) {
+    if (Math.random() > complexity / 10 * 0.8) {
+      notes.push({time:i*stepTime/densFactor, note:-1, dur:stepTime/densFactor});
+      continue;
+    }
+    let idx = scale.indexOf(prevNote % 12);
+    if (idx === -1) idx = Math.floor(Math.random() * scale.length);
+    const move = Math.random();
+    if (move < 0.5) idx = Math.max(0, idx + (Math.random()>0.5?1:-1));
+    else if (move < 0.7) idx = Math.max(0, idx + (Math.random()>0.5?2:-2));
+    else idx = Math.floor(Math.random() * scale.length);
+    idx = Math.max(0, Math.min(scale.length-1, idx));
+    let nv = scale[idx];
+    const oct = Math.random()>0.7? (root+24) : Math.random()<0.2? (root+12) : (root+12);
+    nv = nv + oct - root;
+    notes.push({time:i*stepTime/densFactor, note:nv, dur:stepTime/densFactor*(0.8+Math.random()*0.4)});
+    prevNote = nv % 12;
+  }
+  return notes;
+}
+
+function generateChords(style, root, duration) {
+  const templates = chordTemplates[style];
+  const chords = [];
+  const barTime = (60 / parseInt(document.getElementById('bpm').value)) * 4;
+  const numBars = Math.ceil(duration / barTime);
+  for (let i=0;i<numBars;i++) {
+    chords.push({time:i*barTime, notes:templates[i%templates.length].map(n=>n+root+36), dur:barTime});
+  }
+  return chords;
+}
+
+function generateBass(scaleNotes, root, duration) {
+  const bass = [];
+  const barTime = (60 / parseInt(document.getElementById('bpm').value)) * 4;
+  const numBars = Math.ceil(duration / barTime);
+  for (let i=0;i<numBars*4;i++) {
+    bass.push({time:i*barTime/4, note:scaleNotes[i%scaleNotes.length]+root+24, dur:barTime/4*0.9});
+  }
+  return bass;
+}
+
+function generateDrums(style, duration) {
+  const pattern = drumPatterns[style];
+  const drums = [];
+  const stepTime = (60 / parseInt(document.getElementById('bpm').value)) / 2;
+  for (let i=0;i<Math.ceil(duration/stepTime);i++) {
+    if (pattern[i%pattern.length] !== '-') drums.push({time:i*stepTime, type:pattern[i%pattern.length]});
+  }
+  return drums;
+}
+
+async function generateMusic(autoPlay = false) {
+  stopMusic();
+
+  const style = document.getElementById('style').value;
+  const key = document.getElementById('key').value;
+  const bpm = parseInt(document.getElementById('bpm').value);
+  const complexity = parseInt(document.getElementById('complexity').value);
+  const duration = parseInt(document.getElementById('duration').value);
+  const density = parseInt(document.getElementById('density').value);
+  const root = keyRoots[key];
+  const scaleNotes = getScaleNotes();
+
+  // Save params for publishing
+  currentSongParams = {style,key,bpm,complexity,duration,density};
+
+  Tone.Transport.bpm.value = bpm;
+  Tone.Transport.stop();
+  Tone.Transport.cancel();
+
+  melody = new Tone.PolySynth(Tone.Synth, {
+    oscillator:{type:style==='lofi'?'triangle4':'sine8'},
+    envelope:{attack:0.02,decay:0.3,sustain:0.3,release:0.8}
+  }).toDestination();
+  melody.volume.value = -8;
+
+  chordSynth = new Tone.PolySynth(Tone.Synth, {
+    oscillator:{type:'sine4'},
+    envelope:{attack:0.1,decay:0.5,sustain:0.5,release:1.5}
+  }).toDestination();
+  chordSynth.volume.value = -14;
+
+  bassSynth = new Tone.MonoSynth({
+    oscillator:{type:style==='funky'?'sawtooth4':'triangle'},
+    envelope:{attack:0.01,decay:0.2,sustain:0.4,release:0.3},
+    filterEnvelope:{attack:0.01,decay:0.1,sustain:0.4,release:0.3}
+  }).toDestination();
+  bassSynth.volume.value = -12;
+
+  drumSynth = new Tone.MembraneSynth({pitchDecay:0.05,octaves:4}).toDestination();
+  drumSynth.volume.value = -6;
+  const hatSynth = new Tone.NoiseSynth({envelope:{attack:0.001,decay:0.05,sustain:0,release:0}}).toDestination();
+  hatSynth.volume.value = -18;
+  const snareSynth = new Tone.NoiseSynth({
+    noise:{type:'white'}, envelope:{attack:0.001,decay:0.15,sustain:0,release:0}
+  }).toDestination();
+  snareSynth.volume.value = -12;
+
+  const melNotes = generateMelody(scaleNotes, complexity, density, duration, root);
+  const chNotes = generateChords(style, root, duration);
+  const bsNotes = generateBass(scaleNotes, root, duration);
+  const drNotes = generateDrums(style, duration);
+
+  melodyPart = new Tone.Part((time,note) => {
+    if (note.note>=0) melody.triggerAttackRelease(Tone.Frequency(note.note,'midi').toFrequency(),note.dur,time);
+  }, melNotes).start(0);
+
+  chordPart = new Tone.Part((time,chord) => {
+    chordSynth.triggerAttackRelease(chord.notes.map(n=>Tone.Frequency(n,'midi').toFrequency()),chord.dur,time);
+  }, chNotes).start(0);
+
+  bassPart = new Tone.Part((time,note) => {
+    bassSynth.triggerAttackRelease(Tone.Frequency(note.note,'midi').toFrequency(),note.dur,time);
+  }, bsNotes).start(0);
+
+  drumPart = new Tone.Part((time,drum) => {
+    if (drum.type==='kick') drumSynth.triggerAttackRelease('C2','16n',time);
+    else if (drum.type==='snare') snareSynth.triggerAttackRelease('16n',time);
+    else if (drum.type==='hat') hatSynth.triggerAttackRelease('32n',time);
+  }, drNotes).start(0);
+
+  // Start recording
+  recordedChunks = [];
+  try {
+    const dest = Tone.getContext().rawContext.createMediaStreamDestination();
+    Tone.getDestination().connect(dest);
+    mediaRecorder = new MediaRecorder(dest.stream, {mimeType:'audio/webm'});
+    mediaRecorder.ondataavailable = e => { if(e.data.size>0) recordedChunks.push(e.data); };
+    mediaRecorder.onstop = () => {
+      recordedAudio = new Blob(recordedChunks, {type:'audio/webm'});
+      document.getElementById('btnPublish').disabled = false;
+    };
+    mediaRecorder.start();
+  } catch(e) { console.log('Recording disabled:', e); }
+
+  Tone.Transport.start();
+  isPlaying = true;
+  startVisualizer();
+
+  document.getElementById('status').textContent = '🔊 正在演奏...';
+  document.getElementById('btnPublish').disabled = true;
+
+  setTimeout(() => {
+    if (isPlaying) stopMusic();
+  }, duration * 1000 + 500);
+}
+
+function stopMusic() {
+  Tone.Transport.stop();
+  Tone.Transport.cancel();
+  if (melody) melody.dispose();
+  if (chordSynth) chordSynth.dispose();
+  if (drumSynth) drumSynth.dispose();
+  if (bassSynth) bassSynth.dispose();
+  if (melodyPart) melodyPart.dispose();
+  if (chordPart) chordPart.dispose();
+  if (drumPart) drumPart.dispose();
+  if (bassPart) bassPart.dispose();
+  if (mediaRecorder && mediaRecorder.state === 'recording') mediaRecorder.stop();
+  isPlaying = false;
+  stopVisualizer();
+  document.getElementById('status').textContent = '⏹ 已停止 | 点击「生成音乐」重新创作';
+}
+
+// ============================================================
+// PUBLISH SONG
+// ============================================================
+async function publishSong() {
+  const title = document.getElementById('songTitle').value.trim();
+  const desc = document.getElementById('songDesc').value.trim();
+  const isPublic = document.getElementById('songPublic').checked;
+
+  if (!title) return toast('请给你的歌曲起个名字', 'error');
+  if (!currentSongParams) return toast('请先生成音乐', 'error');
+  if (!recordedAudio) return toast('录制未完成，请重新生成', 'error');
+
+  document.getElementById('btnPublish').disabled = true;
+  document.getElementById('btnPublish').textContent = '⏳ 发布中...';
+
+  const songData = {
+    title,
+    description: desc,
+    style: currentSongParams.style,
+    key: currentSongParams.key,
+    bpm: currentSongParams.bpm,
+    complexity: currentSongParams.complexity,
+    duration: currentSongParams.duration,
+    density: currentSongParams.density,
+    is_public: isPublic,
+    plays: 0,
+    likes: 0,
+    author_name: currentUser?.email?.split('@')[0] || '匿名',
+    created_at: new Date().toISOString()
+  };
+
+  if (supabase && currentUser) {
+    // Upload audio to Supabase Storage
+    const fileName = `${currentUser.id}/${Date.now()}.webm`;
+    const {error:uploadErr} = await supabase.storage.from('songs').upload(fileName, recordedAudio, {
+      contentType:'audio/webm', upsert:false
+    });
+    if (uploadErr) { toast('上传失败: '+uploadErr.message, 'error'); resetPublishBtn(); return; }
+
+    const {data:urlData} = supabase.storage.from('songs').getPublicUrl(fileName);
+
+    // Insert into songs table
+    const {data,error} = await supabase.from('songs').insert({
+      user_id: currentUser.id,
+      title,
+      description: desc,
+      style: currentSongParams.style,
+      key: currentSongParams.key,
+      bpm: currentSongParams.bpm,
+      complexity: currentSongParams.complexity,
+      duration: currentSongParams.duration,
+      density: currentSongParams.density,
+      audio_url: urlData.publicUrl,
+      is_public: isPublic,
+      plays: 0,
+      likes: 0
+    }).select();
+
+    if (error) { toast('发布失败: '+error.message, 'error'); resetPublishBtn(); return; }
+    toast('🎉 发布成功！', 'success');
+  } else {
+    // Local mode: save to localStorage
+    songData.id = 'local_' + Date.now();
+    songData.audio_url = URL.createObjectURL(recordedAudio);
+    allSongs.unshift(songData);
+    saveSongsLocal();
+    toast('🎉 发布成功！（本地模式）', 'success');
+  }
+
+  document.getElementById('songTitle').value = '';
+  document.getElementById('songDesc').value = '';
+  document.getElementById('btnPublish').textContent = '🚀 发布到广场';
+  document.getElementById('status').textContent = '✅ 发布成功！去广场查看你的作品吧';
+
+  // Refresh
+  loadSongs();
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const plazaTab = document.querySelector('[data-page="plaza"]');
+  plazaTab.classList.add('active');
+  document.getElementById('page-plaza').classList.add('active');
+}
+
+function resetPublishBtn() {
+  document.getElementById('btnPublish').disabled = false;
+  document.getElementById('btnPublish').textContent = '🚀 发布到广场';
+}
+
+// ============================================================
+// MY SONGS
+// ============================================================
+async function loadMySongs() {
+  const container = document.getElementById('mySongsList');
+  if (!currentUser) return;
+  if (!supabase) { loadMySongsLocal(); return; }
+
+  const {data,error} = await supabase
+    .from('songs')
+    .select('*')
+    .eq('user_id', currentUser.id)
+    .order('created_at', {ascending: false});
+
+  if (error) { console.error(error); return; }
+  const songs = data || [];
+  document.getElementById('userSongs').textContent = songs.length;
+
+  if (songs.length === 0) {
+    container.innerHTML = '<div class="empty-state"><p>还没有作品，去创作页面开始吧</p></div>';
+    return;
+  }
+  container.innerHTML = songs.map(s => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+      <div>
+        <div style="font-weight:600">${escHtml(s.title)}</div>
+        <div style="font-size:0.8em;color:var(--muted)">${escHtml(s.style)} · ${s.bpm} BPM · ${s.is_public?'公开':'私密'}</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline btn-sm" onclick="playSong('${s.id}')">▶️</button>
+        <button class="btn btn-outline btn-sm" onclick="deleteSong('${s.id}')" style="color:var(--red)">🗑</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function loadMySongsLocal() {
+  const mine = allSongs.filter(s => s.author_name === (currentUser?.email?.split('@')[0] || '匿名'));
+  const container = document.getElementById('mySongsList');
+  document.getElementById('userSongs').textContent = mine.length;
+  if (mine.length === 0) {
+    container.innerHTML = '<div class="empty-state"><p>还没有作品</p></div>';
+    return;
+  }
+  container.innerHTML = mine.map(s => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+      <div>
+        <div style="font-weight:600">${escHtml(s.title)}</div>
+        <div style="font-size:0.8em;color:var(--muted)">${escHtml(s.style)} · ${s.bpm} BPM</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline btn-sm" onclick="playSong('${s.id}')">▶️</button>
+        <button class="btn btn-outline btn-sm" onclick="deleteSongLocal('${s.id}')" style="color:var(--red)">🗑</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function deleteSong(id) {
+  if (!confirm('确定删除这首歌？')) return;
+  if (supabase) {
+    await supabase.from('songs').delete().eq('id', id);
+  }
+  allSongs = allSongs.filter(s => s.id !== id);
+  saveSongsLocal();
+  toast('已删除');
+  loadMySongs();
+  loadSongs();
+}
+
+function deleteSongLocal(id) {
+  allSongs = allSongs.filter(s => s.id !== id);
+  saveSongsLocal();
+  toast('已删除');
+  loadMySongsLocal();
+  loadSongs();
+}
+
+// ============================================================
+// RECHARGE
+// ============================================================
+let pendingAmount = 0;
+function recharge(amount) {
+  pendingAmount = amount;
+  document.getElementById('payAmount').textContent = `支付金额：¥${amount/10}`;
+  document.getElementById('paymentModal').style.display = 'flex';
+}
+
+function closePayment() {
+  document.getElementById('paymentModal').style.display = 'none';
+  pendingAmount = 0;
+}
+
+function confirmPayment() {
+  toast('订单已提交，客服确认后到账。感谢支持！💰', 'success');
+  closePayment();
+}
+
+// ============================================================
+// VISUALIZER
+// ============================================================
+function initVisualizer() {
+  const vis = document.getElementById('visualizer');
+  vis.innerHTML = '';
+  for (let i=0;i<32;i++) {
+    const bar = document.createElement('div');
+    bar.className = 'vis-bar';
+    bar.style.height = '10px';
+    vis.appendChild(bar);
+  }
+}
+
+function startVisualizer() {
+  stopVisualizer();
+  const bars = document.querySelectorAll('.vis-bar');
+  visInterval = setInterval(() => {
+    bars.forEach(b => b.style.height = (Math.random()*60+8)+'px');
+  }, 100);
+}
+
+function stopVisualizer() {
+  if (visInterval) { clearInterval(visInterval); visInterval = null; }
+  document.querySelectorAll('.vis-bar').forEach(b => b.style.height = '10px');
+}
+
+// ============================================================
+// UI HELPERS
+// ============================================================
+function updateUI() {
+  const loginCard = document.getElementById('loginCard');
+  const userCard = document.getElementById('userCard');
+  const mySongsCard = document.getElementById('mySongsCard');
+  const rechargeCard = document.getElementById('rechargeCard');
+
+  if (currentUser) {
+    loginCard.style.display = 'none';
+    userCard.style.display = 'block';
+    mySongsCard.style.display = 'block';
+    rechargeCard.style.display = 'block';
+    document.getElementById('userEmail').textContent = currentUser.email;
+    document.getElementById('userBalance').textContent = '0'; // TODO: load from DB
+    loadMySongs();
+  } else {
+    loginCard.style.display = 'block';
+    userCard.style.display = 'none';
+    mySongsCard.style.display = 'none';
+    rechargeCard.style.display = 'none';
+  }
+}
+
+function escHtml(s) {
+  if (!s) return '';
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function timeAgo(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  const now = new Date();
+  const diff = (now - d) / 1000;
+  if (diff < 60) return '刚刚';
+  if (diff < 3600) return Math.floor(diff/60) + '分钟前';
+  if (diff < 86400) return Math.floor(diff/3600) + '小时前';
+  return Math.floor(diff/86400) + '天前';
+}
+
+// ============================================================
+// INIT
+// ============================================================
+initVisualizer();
+initSupabase();
+
+// Try to resume audio context on first interaction
+document.addEventListener('click', async () => {
+  if (Tone.context.state !== 'running') await Tone.start();
+}, {once:true});
+</script>
+</body>
+</html>
