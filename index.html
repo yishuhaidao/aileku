@@ -558,6 +558,8 @@ body {
 .opt-chip:active, .opt-chip.selected {
   background: var(--accent); color: #000; border-color: var(--accent); font-weight: 700;
 }
+.mv-style-chip { cursor: pointer; border-radius: 16px; border: 1px solid var(--border); color: var(--text); background: var(--card); font-size: 13px; font-weight: 500; }
+.mv-style-chip.selected { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 700; }
 
 /* Selected tags display */
 .sel-tag {
@@ -1186,11 +1188,6 @@ body {
           <div class="create-card-label">原创保护</div>
           <div class="create-card-desc">保护你的音乐版权</div>
         </div>
-        <div class="create-card" onclick="openCreateForm(true)">
-          <div class="create-card-icon">✍️</div>
-          <div class="create-card-label">自主歌词写歌</div>
-          <div class="create-card-desc">输入歌词创作歌曲</div>
-        </div>
       </div>
     </div>
 
@@ -1305,22 +1302,20 @@ body {
     </div>
 
     <!-- ========= 自主歌词写歌 MODE ========= -->
+    <!-- ========= 生成MV MODE ========= -->
     <div id="formFull" class="form-mode-panel">
       <div class="form-body-fixed">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:14px;font-weight:600;color:var(--text)">🎬 选择MV风格</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div class="mv-style-chip" style="text-align:center;padding:14px" onclick="pickMVStyle(this,'fresh')">🌿 唯美清新</div>
+            <div class="mv-style-chip" style="text-align:center;padding:14px" onclick="pickMVStyle(this,'cyber')">🤖 赛博朋克</div>
+            <div class="mv-style-chip" style="text-align:center;padding:14px" onclick="pickMVStyle(this,'retro')">📽️ 复古胶片</div>
+            <div class="mv-style-chip" style="text-align:center;padding:14px" onclick="pickMVStyle(this,'anime')">🎨 手绘动画</div>
+          </div>
+        </div>
         <div class="lyrics-area">
-          <div class="lyrics-modes" id="lyricsModes">
-            <span class="lyrics-mode-tab active" onclick="switchLyricsMode('interact',this)">🎤 互动成歌</span>
-            <span class="lyrics-mode-tab" onclick="switchLyricsMode('inspire',this)">💡 灵感成歌</span>
-            <span class="lyrics-mode-tab" onclick="switchLyricsMode('image',this)">🖼️ 图片成歌</span>
-          </div>
-          <div id="lyricsContent">
-            <textarea class="lyrics-giant" id="formLyrics" placeholder="输入你的灵感，AI为你谱曲...&#10;&#10;第一行自动作为歌名"></textarea>
-          </div>
-          <div class="lyrics-actions">
-            <span class="lyrics-act-btn" onclick="randomSound()">🎲 随机音乐</span>
-            <span class="lyrics-act-btn" onclick="suggestLyrics()">💭 建议</span>
-            <span class="lyrics-act-btn ai" onclick="aiOptimizeLyrics()">✨ 优化歌词</span>
-          </div>
+          <textarea class="lyrics-giant" id="formLyrics" placeholder="输入歌词，AI为你生成MV...&#10;&#10;也可粘贴已有歌词"></textarea>
         </div>
 
         <div class="opt-bar" id="optBar"></div>
@@ -1328,7 +1323,7 @@ body {
 
         <div class="form-bottom">
           <span id="selCounter">已选 6/20</span>
-          <button class="btn-generate" id="btnGenerate" onclick="doGenerate()">🎵 生成歌曲</button>
+          <button class="btn-generate" id="btnGenerate" onclick="doGenerate()">🎬 生成MV</button>
         </div>
       </div>
     </div>
@@ -1442,7 +1437,7 @@ body {
   </div>
 
   <!-- ===== PAYMENT MODAL ===== -->
-  <div class="panel-overlay" id="paymentModal" style="z-index:250">
+  <div class="panel-overlay" id="paymentModal" style="z-index:350">
     <div style="padding:24px 20px;display:flex;flex-direction:column;align-items:center;gap:16px">
       <div style="font-size:40px">💳</div>
       <div style="font-size:18px;font-weight:800" id="payTitle">选择支付方式</div>
@@ -1838,7 +1833,7 @@ function restoreState(state) {
     if (el) el.style.display = 'none';
   });
   if (state === 'home' || state === 'square' || state === 'create' || state === 'messages' || state === 'profile') {
-    ['createFormOverlay','detailOverlay','rechargeModal','bottomSheetOverlay','settingsOverlay','panelOverlay','beanExchangeOverlay','paymentModal'].forEach(function(id){
+    ['createFormOverlay','detailOverlay','rechargeModal','bottomSheetOverlay','settingsOverlay','panelOverlay','beanExchangeOverlay','paymentModal','vipUpgradePrompt','vipPopup'].forEach(function(id){
       var el = document.getElementById(id); if (el) el.classList.remove('show');
     });
     switchTab(state);
@@ -1875,8 +1870,8 @@ function restoreState(state) {
       closeSettings();
     }
   } else if (state === 'recharge') {
-    closeRecharge();
-    closePanel(); closeSheet();
+    closePayment();
+    document.getElementById('rechargeModal').classList.add('show');
   } else if (state === 'sheet') {
     closeSheet();
     closePanel();
@@ -1886,6 +1881,8 @@ function restoreState(state) {
     closeVipPopup();
   } else if (state === 'vipPrompt') {
     closeVipPrompt();
+  } else if (state === 'payment') {
+    closePayment();
   } else if (state === 'mvPanel' || state === 'latestPanel' || state === 'roomPanel') {
     // panel already closed above, just ensure home tab
     switchTab('home');
@@ -1951,6 +1948,34 @@ function handleExitBack() {
     history.back();
     return;
   }
+  // Check if bean exchange is open
+  const beanEx = document.getElementById('beanExchangeOverlay');
+  if (beanEx && beanEx.classList.contains('show')) {
+    closeBeanExchange();
+    history.back();
+    return;
+  }
+  // Check if payment modal is open
+  const payMod = document.getElementById('paymentModal');
+  if (payMod && payMod.classList.contains('show')) {
+    closePayment();
+    history.back();
+    return;
+  }
+  // Check if VIP prompt is open
+  const vipPrEl = document.getElementById('vipUpgradePrompt');
+  if (vipPrEl && vipPrEl.classList.contains('show')) {
+    closeVipPrompt();
+    history.back();
+    return;
+  }
+  // Check if VIP popup is open
+  const vipPop = document.getElementById('vipPopup');
+  if (vipPop && vipPop.classList.contains('show')) {
+    closeVipPopup();
+    history.back();
+    return;
+  }
   // On home page: show exit hint, push barrier state
   if (!exitTimer) {
     showToast('再按一次退出程序');
@@ -1977,19 +2002,13 @@ function closeDetail() {
 function openCreateForm(withLyrics) {
   hasLyrics = withLyrics;
   pushNav('form');
-  document.getElementById('formTitle').textContent = withLyrics ? '自主歌词写歌' : '一键写歌';
+  document.getElementById('formTitle').textContent = withLyrics ? '生成MV' : '一键写歌';
 
   var oneClick = document.getElementById('formOneClick');
   var full = document.getElementById('formFull');
   if (withLyrics) {
     oneClick.classList.remove('active');
     full.classList.add('active');
-    var modeEls = document.querySelectorAll('#formFull .lyrics-mode-tab');
-    if (modeEls.length > 0) {
-      modeEls.forEach(function(t){ t.classList.remove('active'); });
-      modeEls[0].classList.add('active');
-    }
-    document.getElementById('lyricsContent').innerHTML = '<textarea class="lyrics-giant" id="formLyrics" placeholder="输入你的灵感，AI为你谱曲...&#10;&#10;第一行自动作为歌名"></textarea>';
     buildOptsPanel();
   } else {
     oneClick.classList.add('active');
@@ -2294,6 +2313,13 @@ function aiOptimizeLyrics() {
   var result = enhanced.join('\n');
   document.getElementById('formLyrics').value = result;
   showToast('✨ AI优化完成！已润色押韵+添加结构建议');
+}
+
+function pickMVStyle(el, type) {
+  var names = {fresh:'唯美清新',cyber:'赛博朋克',retro:'复古胶片',anime:'手绘动画'};
+  document.querySelectorAll('#formFull .mv-style-chip').forEach(function(c){c.classList.remove('selected');});
+  el.classList.add('selected');
+  showToast('已选择：'+names[type]);
 }
 
 function doGenerate() {
@@ -3264,6 +3290,7 @@ function recharge(coins, price) {
   document.getElementById('payWechat').style.border = '1px solid var(--border)';
   document.getElementById('payAlipay').style.border = '1px solid var(--border)';
   document.getElementById('paymentModal').classList.add('show');
+  pushNav('payment');
 }
 
 function confirmRechargePayment() {
@@ -3300,6 +3327,7 @@ function openPayment(tier) {
   document.getElementById('payWechat').style.border = '1px solid var(--border)';
   document.getElementById('payAlipay').style.border = '1px solid var(--border)';
   document.getElementById('paymentModal').classList.add('show');
+  pushNav('payment');
 }
 
 function selectPayMethod(method) {
