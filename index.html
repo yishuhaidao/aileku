@@ -1823,13 +1823,6 @@ function init() {
   // Register musician center click
   var bmc = document.getElementById('btnMusicianCenter');
   if (bmc) bmc.onclick = openMusicianCenter;
-  // Phone verification on first visit
-  if (!localStorage.getItem('regPhone')) {
-    setTimeout(function(){
-      var m = document.getElementById('phoneVerifyModal');
-      if (m) m.style.display = 'flex';
-    }, 500);
-  }
   updateCheckinUI();
   updateBeanDisplay();
   try {
@@ -3319,6 +3312,7 @@ function updateCheckinUI() {
 }
 
 function openRecharge() {
+  if (!requirePhone(function(){ openRecharge(); })) return;
   pushNav('recharge');
   document.getElementById('rechargeModal').classList.add('show');
   updateBalance();
@@ -3368,6 +3362,7 @@ var payTier = 'monthly';
 var payMethod = '';
 
 function openPayment(tier) {
+  if (!requirePhone(function(){ openPayment(tier); })) return;
   pendingRecharge = 0;
   payTier = tier;
   payMethod = '';
@@ -3488,6 +3483,7 @@ window.addEventListener('beforeunload', () => {
 
 // ==================== GENERIC PANEL ====================
 function openMusicianCenter() {
+  if (!requirePhone(function(){ openMusicianCenter(); })) return;
   openPanel('🎵 音乐人中心',
     '<div class=settings-about-text style=font-size:13px>'+
     '<p><b>认证音乐人</b></p>'+
@@ -3651,7 +3647,19 @@ function verifyRegPhone() {
   if (!code) { showToast('请输入验证码'); return; }
   try { localStorage.setItem('regPhone', phone); } catch(e) {}
   document.getElementById('phoneVerifyModal').style.display = 'none';
-  showToast('✅ 验证成功！欢迎使用Ai乐酷');
+  showToast('✅ 验证成功！');
+  // Resume pending action
+  if (phoneVerifyCallback) { var cb = phoneVerifyCallback; phoneVerifyCallback = null; cb(); }
+}
+
+var phoneVerifyCallback = null;
+function requirePhone(callback) {
+  if (localStorage.getItem('regPhone')) {
+    return true;
+  }
+  phoneVerifyCallback = callback || null;
+  document.getElementById('phoneVerifyModal').style.display = 'flex';
+  return false;
 }
 function toggleFaq(el) { el.classList.toggle('open'); }
 function previewAvatar(e) {
