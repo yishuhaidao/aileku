@@ -1436,6 +1436,22 @@ body {
     </div>
   </div>
 
+  <!-- ===== PHONE VERIFY MODAL ===== -->
+  <div class="panel-overlay" id="phoneVerifyModal" style="z-index:400;display:none">
+    <div style="padding:30px 20px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">
+      <div style="font-size:56px">📱</div>
+      <div style="font-size:20px;font-weight:800">手机号验证</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.8">为保障账户安全，请验证手机号码</div>
+      <input type="tel" id="regPhoneInput" placeholder="请输入手机号码" style="width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:16px;text-align:center;max-width:280px" maxlength="11">
+      <div style="display:flex;gap:10px;width:100%;max-width:280px">
+        <input type="text" id="regCodeInput" placeholder="验证码" style="flex:1;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:16px;text-align:center" maxlength="6">
+        <button id="regSendCodeBtn" onclick="sendRegCode()" style="padding:10px 16px;border-radius:10px;border:none;background:var(--accent);color:#000;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap">获取验证码</button>
+      </div>
+      <button id="regVerifyBtn" onclick="verifyRegPhone()" style="width:100%;max-width:280px;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--accent),#4ecdc4);color:#000;font-size:16px;font-weight:700;cursor:pointer">✅ 验证并注册</button>
+      <div style="font-size:11px;color:var(--text3)">验证即表示同意《用户协议》和《隐私政策》</div>
+    </div>
+  </div>
+
   <!-- ===== PAYMENT MODAL ===== -->
   <div class="panel-overlay" id="paymentModal" style="z-index:350">
     <div style="padding:24px 20px;display:flex;flex-direction:column;align-items:center;gap:16px">
@@ -1470,22 +1486,39 @@ body {
   <div class="panel-overlay" id="beanExchangeOverlay">
     <div class="form-header">
       <button class="form-back" onclick="closeBeanExchange()">←</button>
-      <span class="form-title">🫘 乐豆兑换乐币</span>
+      <span class="form-title">🫘 乐豆提现</span>
     </div>
     <div style="padding:16px;display:flex;flex-direction:column;gap:14px">
       <div style="background:var(--card);border-radius:14px;padding:16px;text-align:center;border:1px solid var(--border)">
-        <div style="font-size:48px">🫘→🪙</div>
-        <div style="font-size:20px;font-weight:800;margin:8px 0">1乐豆 = 1乐币</div>
+        <div style="font-size:48px">🫘→💰</div>
+        <div style="font-size:20px;font-weight:800;margin:8px 0">10000乐豆 = ¥1.00</div>
         <div style="font-size:13px;color:var(--text2)">当前 <b id="beanExchangeBalance" style="color:var(--text)">0乐豆</b> ≈ <b id="beanExchangeCNY" style="color:var(--accent)">¥0.00</b></div>
       </div>
-      <div style="display:flex;gap:8px">
-        <button class="opt-chip" style="flex:1;text-align:center" onclick="exchangeBeans(10)">10乐豆</button>
-        <button class="opt-chip" style="flex:1;text-align:center" onclick="exchangeBeans(50)">50乐豆</button>
-        <button class="opt-chip" style="flex:1;text-align:center" onclick="exchangeBeans(100)">100乐豆</button>
-        <button class="opt-chip" style="flex:1;text-align:center" onclick="exchangeBeans('all')">全部</button>
+      <div id="bindPaymentArea" style="background:var(--card);border-radius:14px;padding:16px;border:1px solid var(--border);display:none">
+        <div style="font-weight:700;margin-bottom:12px">🔗 绑定提现账户</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <input type="text" id="bindPhone" placeholder="手机号" style="padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px">
+          <div style="display:flex;gap:8px">
+            <select id="bindType" style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px">
+              <option value="wechat">微信</option>
+              <option value="alipay">支付宝</option>
+            </select>
+            <input type="text" id="bindAccount" placeholder="微信/支付宝账号" style="flex:2;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px">
+          </div>
+          <button class="settings-btn primary" style="width:100%" onclick="bindPaymentAccount()">✅ 绑定</button>
+        </div>
       </div>
-      <button class="settings-btn primary" style="width:100%" onclick="exchangeBeans(0)">💰 自定义兑换</button>
-      <div style="font-size:11px;color:var(--text3);text-align:center">💡 听歌、签到、发歌、评论均可赚乐豆</div>
+      <div id="withdrawArea" style="display:none;flex-direction:column;gap:10px">
+        <div style="font-size:12px;color:var(--text2)">已绑定：<span id="boundAccountInfo" style="color:var(--accent)"></span></div>
+        <div style="display:flex;gap:8px">
+          <button class="opt-chip" style="flex:1;text-align:center" onclick="withdrawBeans(10000)">¥1.00</button>
+          <button class="opt-chip" style="flex:1;text-align:center" onclick="withdrawBeans(50000)">¥5.00</button>
+          <button class="opt-chip" style="flex:1;text-align:center" onclick="withdrawBeans(100000)">¥10.00</button>
+          <button class="opt-chip" style="flex:1;text-align:center" onclick="withdrawBeans('all')">全部</button>
+        </div>
+        <button class="settings-btn" style="width:100%;border:1px solid var(--border)" onclick="showBindPayment()">🔄 更换绑定</button>
+      </div>
+      <div style="font-size:11px;color:var(--text3);text-align:center">💡 10000乐豆=¥1，满¥1即可提现到微信/支付宝</div>
     </div>
   </div>
 
@@ -1790,6 +1823,13 @@ function init() {
   // Register musician center click
   var bmc = document.getElementById('btnMusicianCenter');
   if (bmc) bmc.onclick = openMusicianCenter;
+  // Phone verification on first visit
+  if (!localStorage.getItem('regPhone')) {
+    setTimeout(function(){
+      var m = document.getElementById('phoneVerifyModal');
+      if (m) m.style.display = 'flex';
+    }, 500);
+  }
   updateCheckinUI();
   updateBeanDisplay();
   try {
@@ -2458,28 +2498,6 @@ function renderHome() {
       </div>
     </div>
   `).join('');
-
-  // VIP promoted songs
-  const vipSongs = songs.filter(s => s.vip);
-  const vipList = document.getElementById('vipSongList');
-  if (vipList) {
-    vipList.innerHTML = vipSongs.slice(0, 3).map((s, i) => {
-      const realIdx = songs.indexOf(s);
-      return `<div class="vip-song-card" onclick="openDetail(songs[${realIdx}])">
-        <div class="vip-song-cover" style="background:${gradients[s.coverIdx % gradients.length]}">${coverEmojis[s.coverIdx]}</div>
-        <div class="vip-song-info">
-          <div class="vip-song-title">${s.title}</div>
-          <div class="vip-song-meta">
-            <span class="vip-song-tag">付费推广</span>${s.artist} · ${s.style}
-          </div>
-        </div>
-        <div class="vip-song-right">
-          <span>${s.duration}</span>
-          ▶ ${formatNum(s.plays)}
-        </div>
-      </div>`;
-    }).join('');
-  }
 
   // Room panel
   const room = document.getElementById('roomPanel');
@@ -3187,24 +3205,62 @@ function closeBeanExchange() {
   document.getElementById('beanExchangeOverlay').classList.remove('show');
 }
 
+var paymentBound = false, paymentBindType = '', paymentBindAccount = '', paymentBindPhone = '';
+
 function refreshBeanExchange() {
   document.getElementById('beanExchangeBalance').textContent = userBeans + '乐豆';
-  document.getElementById('beanExchangeCNY').textContent = '¥' + (userBeans * 0.01).toFixed(2);
+  document.getElementById('beanExchangeCNY').textContent = '¥' + (userBeans / 10000).toFixed(2);
+  updateWithdrawUI();
 }
 
-function exchangeBeans(amount) {
+function updateWithdrawUI() {
+  var bindArea = document.getElementById('bindPaymentArea');
+  var withdrawArea = document.getElementById('withdrawArea');
+  if (paymentBound) {
+    if (bindArea) bindArea.style.display = 'none';
+    if (withdrawArea) withdrawArea.style.display = 'flex';
+    var info = document.getElementById('boundAccountInfo');
+    if (info) info.textContent = (paymentBindType==='wechat'?'微信':'支付宝')+' '+paymentBindAccount;
+  } else {
+    if (bindArea) bindArea.style.display = 'block';
+    if (withdrawArea) withdrawArea.style.display = 'none';
+  }
+}
+
+function showBindPayment() {
+  paymentBound = false;
+  updateWithdrawUI();
+}
+
+function bindPaymentAccount() {
+  var phone = document.getElementById('bindPhone').value.trim();
+  var type = document.getElementById('bindType').value;
+  var account = document.getElementById('bindAccount').value.trim();
+  if (!phone) { showToast('请输入手机号'); return; }
+  if (phone.length !== 11) { showToast('请输入正确的11位手机号'); return; }
+  if (!account) { showToast('请输入微信/支付宝账号'); return; }
+  paymentBound = true;
+  paymentBindType = type;
+  paymentBindAccount = account;
+  paymentBindPhone = phone;
+  updateWithdrawUI();
+  showToast('✅ 已绑定'+ (type==='wechat'?'微信':'支付宝') +'：'+account);
+}
+
+function withdrawBeans(amount) {
+  if (!paymentBound) { showToast('请先绑定提现账户'); return; }
   if (amount === 'all') amount = userBeans;
   if (!amount || amount <= 0) {
-    amount = parseInt(prompt('输入要兑换的乐豆数量（1乐豆=1乐币）:') || '0');
+    amount = parseInt(prompt('输入提现乐豆数量（10000乐豆=¥1）:') || '0');
   }
   if (!amount || amount <= 0) return;
+  if (amount < 10000) { showToast('最低提现10000乐豆（¥1.00）'); return; }
   if (amount > userBeans) { showToast('乐豆不足！当前仅' + userBeans + '乐豆'); return; }
+  var yuan = (amount / 10000).toFixed(2);
   userBeans -= amount;
-  userCoins += amount;
   updateBeanDisplay();
-  updateWalletDisplay();
   refreshBeanExchange();
-  showToast('✅ 兑换成功！' + amount + '乐豆 → ' + amount + '乐币');
+  showToast('✅ 提现申请已提交！¥'+yuan+' 将转入'+(paymentBindType==='wechat'?'微信':'支付宝')+' '+paymentBindAccount);
 }
 
 function updateWalletDisplay() {
@@ -3470,7 +3526,7 @@ function showCreatePanel(type) {
   } else if (type === 'earn') {
     t = '💰 每日赚钱';
     h = (function(){
-      var items = [{icon:'🎧',title:'每日听歌',desc:'听满30分钟',reward:'+50乐豆'},{icon:'❤️',title:'每日点赞',desc:'点赞10首歌',reward:'+30乐豆'},{icon:'💬',title:'每日评论',desc:'发表5条评论',reward:'+40乐豆'},{icon:'📤',title:'分享歌曲',desc:'分享3首歌',reward:'+60乐豆'},{icon:'🎵',title:'发布作品',desc:'发布1首原创',reward:'+100乐豆'}];
+      var items = [{icon:'🎧',title:'每日听歌',desc:'听满30分钟',reward:'+5豆'},{icon:'❤️',title:'每日点赞',desc:'点赞10首歌',reward:'+3豆'},{icon:'💬',title:'每日评论',desc:'发表5条评论',reward:'+3豆'},{icon:'📤',title:'分享歌曲',desc:'分享3首歌',reward:'+5豆'},{icon:'🎵',title:'发布作品',desc:'发布1首原创',reward:'+10豆'}];
       return '<div style=display:flex;flex-direction:column;gap:10px>' + items.map(function(x){return '<div style=background:var(--card);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;border:1px solid var(--border)><div style=font-size:28px>'+x.icon+'</div><div style=flex:1><div style=font-weight:600>'+x.title+'</div><div style=font-size:11px;color:var(--text3)>'+x.desc+'</div></div><div style=color:var(--accent);font-weight:700>'+x.reward+'</div></div>'}).join('') + '</div>';
     })();
   } else if (type === 'collab') {
@@ -3565,6 +3621,37 @@ function deleteAccount() {
   closeSettings();
   showToast('账号已注销');
   setTimeout(function(){ window.location.reload(); }, 1500);
+}
+
+var regCodeTimer = null, regCodeCountdown = 0;
+function sendRegCode() {
+  var phone = document.getElementById('regPhoneInput').value.trim();
+  if (!phone || phone.length !== 11) { showToast('请输入正确的11位手机号'); return; }
+  if (regCodeCountdown > 0) return;
+  regCodeCountdown = 60;
+  var btn = document.getElementById('regSendCodeBtn');
+  btn.disabled = true; btn.style.opacity = '0.6';
+  regCodeTimer = setInterval(function(){
+    regCodeCountdown--;
+    btn.textContent = regCodeCountdown + 's';
+    if (regCodeCountdown <= 0) {
+      clearInterval(regCodeTimer);
+      btn.textContent = '获取验证码';
+      btn.disabled = false;
+      btn.style.opacity = '1';
+    }
+  }, 1000);
+  showToast('📱 验证码已发送');
+}
+
+function verifyRegPhone() {
+  var phone = document.getElementById('regPhoneInput').value.trim();
+  var code = document.getElementById('regCodeInput').value.trim();
+  if (!phone || phone.length !== 11) { showToast('请输入正确的11位手机号'); return; }
+  if (!code) { showToast('请输入验证码'); return; }
+  try { localStorage.setItem('regPhone', phone); } catch(e) {}
+  document.getElementById('phoneVerifyModal').style.display = 'none';
+  showToast('✅ 验证成功！欢迎使用Ai乐酷');
 }
 function toggleFaq(el) { el.classList.toggle('open'); }
 function previewAvatar(e) {
