@@ -1239,7 +1239,7 @@ body {
       <div class="profile-menu">
         <div class="menu-section">
           <div class="menu-item" onclick="openRecharge()"><span class="menu-item-icon">👑</span><span class="menu-item-label">会员中心</span><span class="menu-item-arrow">›</span></div>
-          <div class="menu-item" onclick="openPanel('🎵 音乐人中心','<div class=settings-about-text style=font-size:13px><p><b>认证音乐人</b></p><p>🏆 创作达人 · 累计发布 0 首原创</p><p>🎧 总播放量 0 · 获赞 0</p><p>📀 收入 0 乐币</p><p style=margin-top:8px;color:var(--accent)>发布作品即可解锁更多数据</p></div><button class=settings-btn primary onclick=\"showToast(\'申请已提交\')\" style=width:100%>申请认证</button>')"><span class="menu-item-icon">🎵</span><span class="menu-item-label">音乐人中心</span><span class="menu-item-arrow">›</span></div>
+          <div class="menu-item" id="btnMusicianCenter"><span class="menu-item-icon">🎵</span><span class="menu-item-label">音乐人中心</span><span class="menu-item-arrow">›</span></div>
         </div>
         <div class="menu-section">
           <div class="menu-item" onclick="showProfilePanel('works')"><span class="menu-item-icon">📀</span><span class="menu-item-label">作品</span><span class="menu-item-value">0首</span><span class="menu-item-arrow">›</span></div>
@@ -1787,6 +1787,9 @@ function init() {
   renderMessages();
   initTabs();
   initBackHandler();
+  // Register musician center click
+  var bmc = document.getElementById('btnMusicianCenter');
+  if (bmc) bmc.onclick = openMusicianCenter;
   updateCheckinUI();
   updateBeanDisplay();
   try {
@@ -3428,6 +3431,23 @@ window.addEventListener('beforeunload', () => {
 });
 
 // ==================== GENERIC PANEL ====================
+function openMusicianCenter() {
+  openPanel('🎵 音乐人中心',
+    '<div class=settings-about-text style=font-size:13px>'+
+    '<p><b>认证音乐人</b></p>'+
+    '<p>🏆 创作达人 · 累计发布 0 首原创</p>'+
+    '<p>🎧 总播放量 0 · 获赞 0</p>'+
+    '<p>📀 收入 0 乐币</p>'+
+    '<p style=margin-top:8px;color:var(--accent)>发布作品即可解锁更多数据</p>'+
+    '</div>'+
+    '<button class=settings-btn primary id=btnApplyVerify style=width:100%>申请认证</button>'
+  );
+  setTimeout(function(){
+    var b = document.getElementById('btnApplyVerify');
+    if (b) b.onclick = function(){ showToast('申请已提交'); };
+  }, 50);
+}
+
 function openPanel(title, html) {
   document.getElementById('panelTitle').textContent = title;
   document.getElementById('panelBody').innerHTML = html;
