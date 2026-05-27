@@ -2478,6 +2478,21 @@ function renderHome() {
     }).join('');
   }
 
+  // Room panel
+  const room = document.getElementById('roomPanel');
+  if (room) {
+    room.innerHTML = `
+      <div style="text-align:center;padding:40px 20px">
+        <div style="font-size:60px;margin-bottom:16px">🎤</div>
+        <div style="font-size:18px;font-weight:700;margin-bottom:8px">听歌房</div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:20px">和朋友们一起听歌，实时互动</div>
+        <div style="display:flex;gap:10px;justify-content:center">
+          <button onclick="showToast('🎤 创建房间功能即将上线')" style="padding:10px 24px;border-radius:20px;border:none;background:var(--accent);color:#000;font-size:14px;font-weight:700;cursor:pointer">🎤 创建房间</button>
+          <button onclick="showToast('🔍 加入房间功能即将上线')" style="padding:10px 24px;border-radius:20px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-size:14px;font-weight:600;cursor:pointer">🔍 加入房间</button>
+        </div>
+      </div>`;
+  }
+
   // Regular song list
   const list = document.getElementById('songList');
   if (!list) return;
@@ -2508,21 +2523,6 @@ function renderHome() {
       </div>
     </div>
   `).join('');
-
-  // Room panel
-  const room = document.getElementById('roomPanel');
-  if (room) {
-    room.innerHTML = `
-      <div style="text-align:center;padding:40px 20px">
-        <div style="font-size:60px;margin-bottom:16px">🎤</div>
-        <div style="font-size:18px;font-weight:700;margin-bottom:8px">听歌房</div>
-        <div style="font-size:13px;color:var(--text2);margin-bottom:20px">和朋友们一起听歌，实时互动</div>
-        <div style="display:flex;gap:10px;justify-content:center">
-          <button onclick="showToast('🎤 创建房间功能即将上线')" style="padding:10px 24px;border-radius:20px;border:none;background:var(--accent);color:#000;font-size:14px;font-weight:700;cursor:pointer">🎤 创建房间</button>
-          <button onclick="showToast('🔍 加入房间功能即将上线')" style="padding:10px 24px;border-radius:20px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-size:14px;font-weight:600;cursor:pointer">🔍 加入房间</button>
-        </div>
-      </div>`;
-  }
 }
 function updateHero() {
   const s = songs[0];
