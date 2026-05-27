@@ -938,6 +938,21 @@ body {
   color: #000; font-size: 13px; font-weight: 700; cursor: pointer;
 }
 
+/* VIP comparison table */
+.vip-compare { width:100%; border-collapse:collapse; font-size:12px; margin-top:6px }
+.vip-compare th { padding:10px 6px; text-align:center; border-bottom:2px solid var(--border); font-weight:700 }
+.vip-compare th:first-child { text-align:left; padding-left:14px; width:36% }
+.vip-compare td { padding:8px 6px; text-align:center; border-bottom:1px solid var(--border); color:var(--text) }
+.vip-compare td:first-child { text-align:left; padding-left:14px; font-size:12px }
+.vip-compare .vip-yes { color:#2ecc71; font-weight:700; font-size:14px }
+.vip-compare .vip-no { color:var(--text3); font-size:14px }
+.vip-compare .vip-limited { color:#f39c12; font-size:11px; font-weight:700 }
+.vip-compare tr:last-child td { border-bottom:none }
+.vip-col-header { font-size:14px; font-weight:800 }
+.vip-col-price { font-size:18px; font-weight:800; color:var(--accent) }
+.vip-col-sub { font-size:10px; color:var(--text3) }
+.vip-row-title { font-weight:600 }
+
 /* ===== SETTINGS OVERLAY ===== */
 .settings-overlay {
   position: absolute; top: 0; left: 0; right: 0; bottom: 64px;
@@ -1531,25 +1546,29 @@ body {
     </div>
     <div class="form-body">
       <!-- ===== VIP TIERS ===== -->
-      <div class="section-header"><span class="section-title">👑 VIP会员 <span style="font-size:11px;color:var(--text3)">包月免费创作 · 不限乐币</span></span></div>
-      <div style="padding:0 16px;display:flex;flex-direction:column;gap:10px">
-        <div style="background:var(--card);border-radius:14px;padding:16px;border:1px solid var(--border);display:flex;align-items:center;gap:12px">
-          <div style="font-size:14px;font-weight:700;color:var(--gold)">月卡</div>
-          <div style="flex:1"><div style="font-weight:700">30首免费创作</div><div style="font-size:11px;color:var(--text3)">超出¥2/首 · 全部VIP权益</div></div>
-          <div style="text-align:right"><div style="font-size:20px;font-weight:800;color:var(--accent)">¥29</div><div style="font-size:10px;color:var(--text3)">/月</div></div>
-          <button class="vip-btn" onclick="openPayment('monthly')" id="vipBtnMonthly" style="padding:8px 16px;font-size:12px">开通</button>
-        </div>
-        <div style="background:var(--card);border-radius:14px;padding:16px;border:1px solid var(--border);display:flex;align-items:center;gap:12px">
-          <div style="font-size:14px;font-weight:700;color:var(--gold)">季卡</div>
-          <div style="flex:1"><div style="font-weight:700">100首免费创作</div><div style="font-size:11px;color:var(--text3)">超出¥1.5/首 · 省16%</div></div>
-          <div style="text-align:right"><div style="font-size:20px;font-weight:800;color:var(--accent)">¥49.9</div><div style="font-size:10px;color:var(--text3)">/季</div></div>
-          <button class="vip-btn" onclick="openPayment('quarterly')" id="vipBtnQuarterly" style="padding:8px 16px;font-size:12px">开通</button>
-        </div>
-        <div style="background:var(--card);border-radius:14px;padding:16px;border:1px solid var(--border);display:flex;align-items:center;gap:12px">
-          <div style="font-size:14px;font-weight:700;color:var(--gold)">年卡</div>
-          <div style="flex:1"><div style="font-weight:700">500首免费创作</div><div style="font-size:11px;color:var(--text3)">超出¥1/首 · 省41%</div></div>
-          <div style="text-align:right"><div style="font-size:20px;font-weight:800;color:var(--accent)">¥168</div><div style="font-size:10px;color:var(--text3)">/年</div></div>
-          <button class="vip-btn" onclick="openPayment('annual')" id="vipBtnAnnual" style="padding:8px 16px;font-size:12px">开通</button>
+      <div class="section-header"><span class="section-title">👑 VIP会员 <span style="font-size:11px;color:var(--text3)">权益对比</span></span></div>
+      <div style="padding:0 12px">
+        <table class="vip-compare">
+          <tr>
+            <th>权益</th>
+            <th><div class="vip-col-header">月卡</div><div class="vip-col-price">¥29</div><div class="vip-col-sub">/月</div></th>
+            <th><div class="vip-col-header">季卡</div><div class="vip-col-price">¥49.9</div><div class="vip-col-sub">/季·省16%</div></th>
+            <th><div class="vip-col-header">年卡</div><div class="vip-col-price">¥168</div><div class="vip-col-sub">/年·省41%</div></th>
+          </tr>
+          <tr><td class="vip-row-title">AI智能创作</td><td class="vip-limited">30首/月</td><td class="vip-limited">100首/季</td><td class="vip-limited">500首/年</td></tr>
+          <tr><td class="vip-row-title">生成MV</td><td class="vip-no">✕</td><td class="vip-limited">3次/季</td><td class="vip-yes">✓ 不限</td></tr>
+          <tr><td class="vip-row-title">全网发行</td><td class="vip-no">✕</td><td class="vip-limited">1首/季</td><td class="vip-yes">✓ 不限</td></tr>
+          <tr><td class="vip-row-title">原创保护</td><td class="vip-no">✕</td><td class="vip-no">✕</td><td class="vip-yes">✓</td></tr>
+          <tr><td class="vip-row-title">高清音质</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td></tr>
+          <tr><td class="vip-row-title">去广告</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td></tr>
+          <tr><td class="vip-row-title">VIP专属标识</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td></tr>
+          <tr><td class="vip-row-title">优先客服</td><td class="vip-no">✕</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td></tr>
+          <tr><td class="vip-row-title">离线下载</td><td class="vip-no">✕</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td></tr>
+        </table>
+        <div style="display:flex;gap:8px;padding:12px 2px">
+          <button class="vip-btn" onclick="openPayment('monthly')" style="flex:1;font-size:11px;padding:10px">月卡 ¥29</button>
+          <button class="vip-btn" onclick="openPayment('quarterly')" style="flex:1;font-size:11px;padding:10px;background:linear-gradient(135deg,#a29bfe,#6c5ce7);color:#fff">季卡 ¥49.9</button>
+          <button class="vip-btn" onclick="openPayment('annual')" style="flex:1;font-size:11px;padding:10px;background:linear-gradient(135deg,#fd79a8,#e84393);color:#fff">年卡 ¥168</button>
         </div>
       </div>
       <div id="vipResetArea" style="display:none;text-align:center;padding:8px 0">
