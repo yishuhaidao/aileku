@@ -3312,7 +3312,6 @@ function updateCheckinUI() {
 }
 
 function openRecharge() {
-  if (!requirePhone(function(){ openRecharge(); })) return;
   pushNav('recharge');
   document.getElementById('rechargeModal').classList.add('show');
   updateBalance();
@@ -3362,7 +3361,6 @@ var payTier = 'monthly';
 var payMethod = '';
 
 function openPayment(tier) {
-  if (!requirePhone(function(){ openPayment(tier); })) return;
   pendingRecharge = 0;
   payTier = tier;
   payMethod = '';
@@ -3483,7 +3481,6 @@ window.addEventListener('beforeunload', () => {
 
 // ==================== GENERIC PANEL ====================
 function openMusicianCenter() {
-  if (!requirePhone(function(){ openMusicianCenter(); })) return;
   openPanel('🎵 音乐人中心',
     '<div class=settings-about-text style=font-size:13px>'+
     '<p><b>认证音乐人</b></p>'+
@@ -3603,6 +3600,11 @@ function saveProfile() {
   showToast('✅ 资料已保存');
 }
 function submitVerify() {
+  if (!localStorage.getItem('regPhone')) {
+    phoneVerifyCallback = function(){ submitVerify(); };
+    document.getElementById('phoneVerifyModal').style.display = 'flex';
+    return;
+  }
   const name = document.getElementById('verifyName').value;
   const id = document.getElementById('verifyId').value;
   const phone = document.getElementById('verifyPhone').value;
