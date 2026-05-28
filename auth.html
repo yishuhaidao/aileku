@@ -404,9 +404,9 @@ function tg(id,b){
 
 function goMain(){
   var d=document.querySelector('.c');
-  d.innerHTML='<h1 style=color:#4ade80;font-size:48px>&#10003;</h1><p style=color:#fff;font-size:18px;margin:16px 0>登录成功！</p><p style=color:#aaa;font-size:14px>正在进入主页…</p><a href=https://yishuhaidao.github.io/aileku/ style=display:block;padding:14px;border-radius:12px;background:linear-gradient(135deg,#a855f7,#6366f1);color:#fff;text-decoration:none;font-weight:600;margin-bottom:10px>&#9654; 进入 Ai乐酷 主页</a><p style=color:#888;font-size:12px;margin-top:20px>打不开？复制此网址在浏览器打开：<br><span style=color:#818cf8;word-break:break-all>yishuhaidao.github.io/aileku/</span></p>';
-  // Auto redirect
-  setTimeout(function(){window.location.href='https://yishuhaidao.github.io/aileku/';},800);
+  var url='https://cdn.jsdelivr.net/gh/yishuhaidao/aileku@master/index.html';
+  d.innerHTML='<h1 style=color:#4ade80;font-size:48px>&#10003;</h1><p style=color:#fff;font-size:18px;margin:16px 0>登录成功！</p><p style=color:#aaa;font-size:14px>正在进入主页…</p><a href='+url+' style=display:block;padding:14px;border-radius:12px;background:linear-gradient(135deg,#a855f7,#6366f1);color:#fff;text-decoration:none;font-weight:600;margin-bottom:10px>&#9654; 进入 Ai乐酷 主页</a>';
+  setTimeout(function(){window.location.href=url;},800);
 }
 
 function C(id,ok){E(id).className=ok?'g':'r'}
