@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
@@ -243,8 +243,15 @@ function go(){
       body:JSON.stringify({email:e,password:p})
     }).then(function(r){return r.json()}).then(function(r){
       if(r.error||r.msg){er.textContent=r.error||r.msg;B('注册');return}
-      er.textContent=r.session?'注册成功！🎉':'注册成功！查看邮箱验证后登录';
-      B('注册');
+      if(r.session){
+        er.textContent='注册成功！跳转中…';
+        localStorage.setItem('sb_token',r.session.access_token);
+        localStorage.setItem('sb_user',JSON.stringify(r.user||{email:e}));
+        setTimeout(function(){location.href='index.html'},500);
+      }else{
+        er.textContent='注册成功！查看邮箱验证后登录';
+        B('注册');
+      }
     });
   }else{
     if(p.length<6){er.textContent='密码至少6位';return}
@@ -255,8 +262,10 @@ function go(){
       body:JSON.stringify({email:e,password:p})
     }).then(function(r){return r.json()}).then(function(r){
       if(r.error){er.textContent=r.error_description||r.error;B('登录');return}
-      er.textContent='登录成功！🎉';
-      B('登录');
+      er.textContent='登录成功！跳转中…';
+      localStorage.setItem('sb_token',r.access_token);
+      localStorage.setItem('sb_user',JSON.stringify(r.user||{email:e}));
+      setTimeout(function(){location.href='index.html'},500);
     });
   }
 }
