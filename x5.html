@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>Ai乐酷</title><style>
+*{margin:0;padding:0;box-sizing:border-box}body{background:#0a0a1a;color:#fff;font-family:system-ui;display:flex;align-items:center;justify-content:center;min-height:100vh;min-height:-webkit-fill-available}.c{background:#12122a;border-radius:20px;padding:32px 24px;width:90%;max-width:360px;text-align:center}h1{font-size:22px;margin-bottom:4px;background:linear-gradient(135deg,#a855f7,#6366f1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}d{font-size:12px;color:#888;margin-bottom:20px}i{width:100%;padding:12px;border-radius:12px;border:1px solid #333;background:#1a1a3a;color:#fff;font-size:14px;margin-bottom:10px;outline:none}i:focus{border-color:#a855f7}.pw{position:relative;margin-bottom:10px}.pw i{padding-right:44px;margin-bottom:0}.pw b{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;color:#888;padding:0;border-radius:8px;font-size:18px}.pw b:active{background:#2a2a4a}.hi{font-size:11px;color:#666;text-align:left;margin:-6px 0 8px 4px;display:none}.hi s{padding:1px 6px;border-radius:4px;margin:1px;text-decoration:none;display:inline-block}.hi s.g{color:#4ade80;background:rgba(74,222,128,.1)}.hi s.r{color:#666}btn{width:100%;padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,#a855f7,#6366f1);color:#fff;font-size:15px;font-weight:700;cursor:pointer;margin-top:6px;display:block}btn:active{opacity:.8}.sw{font-size:12px;color:#888;margin-top:14px}.sw a{color:#a855f7;text-decoration:none}.sk{font-size:12px;color:#666;margin-top:10px;display:block;text-decoration:none}.er{color:#f87171;font-size:12px;margin-top:8px;min-height:18px}</style></head><body>
+<div class="c"><h1 id="t">登录 Ai乐酷</h1><d id="d">同步你的作品和数据到云端</d>
+<i type="email" id="em" placeholder="邮箱" autocomplete="email">
+<div class="pw"><i type="password" id="p1" placeholder="密码" autocomplete="current-password" oninput="ck()"><b onclick="tg('p1',this)">👁</b></div>
+<div class="pw" id="w2" style="display:none"><i type="password" id="p2" placeholder="确认密码" autocomplete="new-password"><b onclick="tg('p2',this)">👁</b></div>
+<div class="hi" id="hi">密码要求：<s id="l" class="r">≥8位</s><s id="u" class="r">大写</s><s id="lo" class="r">小写</s><s id="dg" class="r">数字</s></div>
+<btn id="btn" onclick="go()">登录</btn>
+<div class="sw"><span id="st">没有账号？</span> <a href="#" onclick="sw();return false" id="sl">注册</a></div>
+<a href="#" class="sk" onclick="sk();return false">跳过</a>
+<div class="er" id="er"></div></div>
+<script>
+var m='login',A='https://vrfadiaqfissptfxwtex.supabase.co',K='sb_publishable_YpotEpinEWsC2dI7FIKI';
+function sw(){m=m==='login'?'register':'login';T('t',m==='login'?'登录 Ai乐酷':'注册 Ai乐酷');T('btn',m==='login'?'登录':'注册');T('st',m==='login'?'没有账号？':'已有账号？');T('sl',m==='login'?'注册':'登录');T('er','');S('w2',m==='register'?'block':'none');S('hi','none');E('p1').type='password';E('p2').value='';E('p1').value=''}
+function ck(){if(m!=='register'){S('hi','none');return}var p=E('p1').value;if(!p){S('hi','none');return}S('hi','block');C('l',p.length>=8);C('u',/[A-Z]/.test(p));C('lo',/[a-z]/.test(p));C('dg',/[0-9]/.test(p))}
+function C(id,ok){E(id).className=ok?'g':'r'}
+function tg(id,b){var i=E(id);var s=i.type==='password';i.type=s?'text':'password';b.textContent=s?'🙈':'👁'}
+function go(){var e=E('em').value.trim(),p=E('p1').value,er=E('er');if(!e||!p){er.textContent='请填写邮箱和密码';return}
+if(m==='register'){var p2=E('p2').value;if(p.length<8){er.textContent='密码至少8位';return}if(!/[a-zA-Z]/.test(p)){er.textContent='密码需包含字母';return}if(!/[0-9]/.test(p)){er.textContent='密码需包含数字';return}if(p!==p2){er.textContent='两次密码不一致';return}B('注册中...');fetch(A+'/auth/v1/signup',{method:'POST',headers:{'Content-Type':'application/json',apikey:K},body:JSON.stringify({email:e,password:p})}).then(r=>r.json()).then(r=>{if(r.error||r.msg){er.textContent=r.error||r.msg;B('注册');return}er.textContent=r.session?'注册成功！':'注册成功！查看邮箱验证后登录';B('注册')})}
+else{if(p.length<6){er.textContent='密码至少6位';return}B('登录中...');fetch(A+'/auth/v1/token?grant_type=password',{method:'POST',headers:{'Content-Type':'application/json',apikey:K},body:JSON.stringify({email:e,password:p})}).then(r=>r.json()).then(r=>{if(r.error){er.textContent=r.error_description||r.error;B('登录');return}er.textContent='登录成功！🎉';B('登录')})}}
+function B(t){E('btn').textContent=t;E('btn').disabled=t!=='登录'&&t!=='注册'}
+function E(id){return document.getElementById(id)}
+function S(id,v){E(id).style.display=v}
+function T(id,v){E(id).textContent=v}
+function sk(){document.querySelector('.c').innerHTML='<h1>🎵</h1><p style="color:#888;margin-top:16px">离线模式</p>'}
+</script></body></html>
