@@ -3015,7 +3015,22 @@ var authMode = 'login';
 var currentUser = null;
 // Show auth after splash
 setTimeout(function(){
+  // 1. Check custom session in localStorage
   var custom=localStorage.getItem('sb-vrfadiaqfissptfxwtex-auth-token');
+  if(!custom){
+    // 2. Fallback: read from URL hash (passed by auth.html)
+    var h=window.location.hash.substring(1);
+    if(h.indexOf('uid=')>=0){
+      var params={};h.split('&').forEach(function(p){var kv=p.split('=');params[kv[0]]=decodeURIComponent(kv[1]||'')});
+      if(params.uid&&params.em){
+        custom=JSON.stringify({id:params.uid,email:params.em});
+        localStorage.setItem('sb-vrfadiaqfissptfxwtex-auth-token',custom);
+        if(!localStorage.getItem('profile_'+params.uid)){
+          localStorage.setItem('profile_'+params.uid,JSON.stringify({name:params.em.split('@')[0],phone:'',bio:'',avatar:''}));
+        }
+      }
+    }
+  }
   if(custom){try{var u=JSON.parse(custom);if(u.id&&u.email){currentUser={id:u.id,email:u.email};try{checkProfile()}catch(e){}return}}catch(e){}}
   supabase.auth.getSession().then(function(res){
     if (res.data.session) {
