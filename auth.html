@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
@@ -20,7 +20,7 @@ body{
 .c{
   background:#12122a;
   border-radius:16px;
-  padding:40px 20px 32px;
+  padding:32px 20px 28px;
   width:100%;
   max-width:340px;
   text-align:center;
@@ -36,8 +36,29 @@ h1{
 .ds{
   font-size:13px;
   color:#999;
-  margin-bottom:28px;
+  margin-bottom:20px;
   line-height:1.5;
+}
+.tabs{
+  display:flex;
+  margin-bottom:18px;
+  background:#1a1a30;
+  border-radius:10px;
+  padding:3px;
+}
+.tabs span{
+  flex:1;
+  padding:10px 0;
+  border-radius:8px;
+  font-size:14px;
+  cursor:pointer;
+  color:#888;
+  transition:.2s;
+}
+.tabs span.on{
+  background:linear-gradient(135deg,#a855f7,#6366f1);
+  color:#fff;
+  font-weight:600;
 }
 input{
   display:block;
@@ -52,12 +73,8 @@ input{
   outline:none;
   -webkit-appearance:none;
 }
-input:focus{
-  border-color:#a855f7;
-}
-input::placeholder{
-  color:#555;
-}
+input:focus{border-color:#a855f7}
+input::placeholder{color:#555}
 .pw{
   position:relative;
   margin-bottom:0;
@@ -83,9 +100,7 @@ input::placeholder{
   border-radius:8px;
   -webkit-tap-highlight-color:transparent;
 }
-.pw .eye:active{
-  background:rgba(255,255,255,0.08);
-}
+.pw .eye:active{background:rgba(255,255,255,.08)}
 .hi{
   font-size:12px;
   color:#888;
@@ -100,13 +115,32 @@ input::placeholder{
   border-radius:4px;
   margin:2px 3px;
 }
-.hi span.g{
-  color:#4ade80;
-  background:rgba(74,222,128,0.12);
+.hi span.g{color:#4ade80;background:rgba(74,222,128,.12)}
+.hi span.r{color:#666}
+.code-row{
+  display:flex;
+  gap:8px;
+  margin-bottom:12px;
 }
-.hi span.r{
-  color:#666;
+.code-row input{
+  flex:1;
+  margin-bottom:0;
 }
+.code-row .send-btn{
+  white-space:nowrap;
+  padding:14px 12px;
+  border-radius:12px;
+  border:none;
+  background:#2a2a40;
+  color:#a855f7;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  min-width:90px;
+  -webkit-tap-highlight-color:transparent;
+}
+.code-row .send-btn:active{opacity:.8}
+.code-row .send-btn:disabled{color:#555;opacity:.6}
 .btn{
   display:block;
   width:100%;
@@ -121,12 +155,8 @@ input::placeholder{
   margin-top:8px;
   -webkit-tap-highlight-color:transparent;
 }
-.btn:active{
-  opacity:0.85;
-}
-.btn:disabled{
-  opacity:0.6;
-}
+.btn:active{opacity:.85}
+.btn:disabled{opacity:.6}
 .sw{
   font-size:13px;
   color:#999;
@@ -151,56 +181,93 @@ input::placeholder{
   min-height:20px;
   line-height:1.4;
 }
+.er.ok{color:#4ade80}
+#phonePanel,#emailPanel{display:none}
+#phonePanel.on,#emailPanel.on{display:block}
 </style>
 </head>
 <body>
-
 <div class="c">
   <h1 id="t">登录 Ai乐酷</h1>
   <div class="ds" id="d">同步你的作品和数据到云端</div>
 
-  <input type="email" id="em" placeholder="邮箱" autocomplete="email">
-
-  <div class="pw">
-    <input type="password" id="p1" placeholder="密码" autocomplete="current-password" oninput="ck()">
-    <button class="eye" onclick="tg('p1',this)" type="button">👁</button>
+  <!-- Tabs -->
+  <div class="tabs">
+    <span id="tabPhone" class="on" onclick="setTab('phone')">📱 手机登录</span>
+    <span id="tabEmail" onclick="setTab('email')">📧 邮箱登录</span>
   </div>
 
-  <div class="pw" id="w2" style="display:none">
-    <input type="password" id="p2" placeholder="确认密码" autocomplete="new-password">
-    <button class="eye" onclick="tg('p2',this)" type="button">👁</button>
+  <!-- Phone panel -->
+  <div id="phonePanel" class="on">
+    <input type="tel" id="ph" placeholder="手机号" autocomplete="tel">
+    <div class="code-row">
+      <input type="text" id="phCode" placeholder="验证码" autocomplete="one-time-code" inputmode="numeric">
+      <button class="send-btn" id="sendBtn" onclick="sendCode()">获取验证码</button>
+    </div>
+    <button class="btn" id="btnPhone" onclick="goPhone()">登录 / 注册</button>
+    <div class="er" id="erPhone"></div>
   </div>
 
-  <div class="hi" id="hi">
-    密码要求：
-    <span id="l" class="r">≥8位</span>
-    <span id="u" class="r">大写</span>
-    <span id="lo" class="r">小写</span>
-    <span id="dg" class="r">数字</span>
-  </div>
-
-  <button class="btn" id="btn" onclick="go()">登录</button>
-
-  <div class="sw">
-    <span id="st">没有账号？</span>
-    <a href="#" onclick="sw();return false" id="sl">注册</a>
+  <!-- Email panel -->
+  <div id="emailPanel">
+    <input type="email" id="em" placeholder="邮箱" autocomplete="email">
+    <div class="pw">
+      <input type="password" id="p1" placeholder="密码" autocomplete="current-password" oninput="ck()">
+      <button class="eye" onclick="tg('p1',this)" type="button">👁</button>
+    </div>
+    <div class="pw" id="w2" style="display:none">
+      <input type="password" id="p2" placeholder="确认密码" autocomplete="new-password">
+      <button class="eye" onclick="tg('p2',this)" type="button">👁</button>
+    </div>
+    <div class="hi" id="hi">
+      <span id="l" class="r">≥8位</span>
+      <span id="u" class="r">大写</span>
+      <span id="lo" class="r">小写</span>
+      <span id="dg" class="r">数字</span>
+    </div>
+    <button class="btn" id="btnEmail" onclick="goEmail()">登录</button>
+    <div class="sw">
+      <span id="st">没有账号？</span>
+      <a href="#" onclick="sw();return false" id="sl">注册</a>
+    </div>
+    <div class="er" id="erEmail"></div>
   </div>
 
   <a href="#" class="sk" onclick="sk();return false">跳过</a>
-  <div class="er" id="er"></div>
 </div>
 
 <script>
-var m='login',A='https://vrfadiaqfissptfxwtex.supabase.co',K='sb_publishable_YpotEpinEWsC2dI7FIKI';
+var mode='email',          // email or phone
+    emailMode='login',     // login or register (email only)
+    A='https://vrfadiaqfissptfxwtex.supabase.co',
+    K='sb_publishable_YpotEpinEWsC2dI7FIKI',
+    SB='sb-vrfadiaqfissptfxwtex-auth-token',
+    countdown=0, cdTimer=null;
 
+function setTab(t){
+  mode=t;
+  E('tabPhone').className=t==='phone'?'on':'';
+  E('tabEmail').className=t==='email'?'on':'';
+  E('phonePanel').className=t==='phone'?'on':'';
+  E('emailPanel').className=t==='email'?'on':'';
+  if(t==='phone'){
+    T('t','手机登录');
+    T('d','输入手机号获取验证码');
+  }else{
+    T('t',emailMode==='login'?'登录 Ai乐酷':'注册 Ai乐酷');
+    T('d','同步你的作品和数据到云端');
+  }
+}
+
+// ---- Email flow ----
 function sw(){
-  m=m==='login'?'register':'login';
-  T('t',m==='login'?'登录 Ai乐酷':'注册 Ai乐酷');
-  T('btn',m==='login'?'登录':'注册');
-  T('st',m==='login'?'没有账号？':'已有账号？');
-  T('sl',m==='login'?'注册':'登录');
-  T('er','');
-  S('w2',m==='register'?'block':'none');
+  emailMode=emailMode==='login'?'register':'login';
+  T('t','注册 Ai乐酷');
+  T('btnEmail',emailMode==='login'?'登录':'注册');
+  T('st',emailMode==='login'?'没有账号？':'已有账号？');
+  T('sl',emailMode==='login'?'注册':'登录');
+  T('erEmail','');
+  S('w2',emailMode==='register'?'block':'none');
   S('hi','none');
   E('p1').type='password';
   E('p1').value='';
@@ -208,7 +275,7 @@ function sw(){
 }
 
 function ck(){
-  if(m!=='register'){S('hi','none');return}
+  if(emailMode!=='register'){S('hi','none');return}
   var p=E('p1').value;
   if(!p){S('hi','none');return}
   S('hi','block');
@@ -218,8 +285,122 @@ function ck(){
   C('dg',/[0-9]/.test(p));
 }
 
-function C(id,ok){E(id).className=ok?'g':'r'}
+function goEmail(){
+  var e=E('em').value.trim(),p=E('p1').value,er=E('erEmail');
+  if(!e||!p){er.textContent='请填写邮箱和密码';return}
+  if(emailMode==='register'){
+    var p2=E('p2').value;
+    if(p.length<8){er.textContent='密码至少8位';return}
+    if(!/[a-zA-Z]/.test(p)){er.textContent='密码需包含字母';return}
+    if(!/[0-9]/.test(p)){er.textContent='密码需包含数字';return}
+    if(p!==p2){er.textContent='两次密码不一致';return}
+    B('btnEmail','注册中...');
+    fetch(A+'/auth/v1/signup',{
+      method:'POST',
+      headers:{'Content-Type':'application/json',apikey:K},
+      body:JSON.stringify({email:e,password:p})
+    }).then(function(r){return r.json()}).then(function(r){
+      if(r.error||r.msg){er.textContent=r.error||r.msg;B('btnEmail','注册');return}
+      if(r.session){
+        er.className='er ok';er.textContent='注册成功！跳转中…';
+        localStorage.setItem(SB,JSON.stringify(r.session));
+        goMain();
+      }else{
+        er.className='er ok';er.textContent='注册成功！请查收邮箱验证邮件后登录';
+        B('btnEmail','注册');
+      }
+    });
+  }else{
+    if(p.length<6){er.textContent='密码至少6位';return}
+    B('btnEmail','登录中...');
+    fetch(A+'/auth/v1/token?grant_type=password',{
+      method:'POST',
+      headers:{'Content-Type':'application/json',apikey:K},
+      body:JSON.stringify({email:e,password:p})
+    }).then(function(r){return r.json()}).then(function(r){
+      if(r.error){er.textContent=r.error_description||r.error;B('btnEmail','登录');return}
+      er.className='er ok';er.textContent='登录成功！跳转中…';
+      var sess={access_token:r.access_token,token_type:r.token_type,expires_in:r.expires_in,expires_at:r.expires_at,refresh_token:r.refresh_token,user:r.user};
+      localStorage.setItem(SB,JSON.stringify(sess));
+      goMain();
+    });
+  }
+}
 
+// ---- Phone flow ----
+var phoneSent=false;
+
+function sendCode(){
+  if(countdown>0)return;
+  var ph=E('ph').value.trim();
+  if(!ph){E('erPhone').textContent='请输入手机号';return}
+  if(!/^\+?\d{8,15}$/.test(ph)){E('erPhone').textContent='手机号格式不正确（如 +8613800138000 或 13800138000）';return}
+  // Auto-add +86 if no prefix
+  if(!ph.startsWith('+'))ph='+86'+ph;
+  E('ph').value=ph;
+  E('sendBtn').disabled=true;
+  E('sendBtn').textContent='发送中…';
+  fetch(A+'/auth/v1/otp',{
+    method:'POST',
+    headers:{'Content-Type':'application/json',apikey:K},
+    body:JSON.stringify({phone:ph})
+  }).then(function(r){return r.json()}).then(function(r){
+    if(r.error||r.msg){
+      E('erPhone').textContent=(r.error||r.msg)+'（需在Supabase配置短信服务）';
+      E('sendBtn').disabled=false;
+      E('sendBtn').textContent='获取验证码';
+      return;
+    }
+    phoneSent=true;
+    E('erPhone').className='er ok';
+    E('erPhone').textContent='验证码已发送';
+    countdown=60;
+    tick();
+  }).catch(function(){
+    E('erPhone').textContent='发送失败，请重试';
+    E('sendBtn').disabled=false;
+    E('sendBtn').textContent='获取验证码';
+  });
+}
+
+function tick(){
+  if(countdown<=0){
+    E('sendBtn').disabled=false;
+    E('sendBtn').textContent='获取验证码';
+    return;
+  }
+  E('sendBtn').textContent=countdown+'s';
+  countdown--;
+  setTimeout(tick,1000);
+}
+
+function goPhone(){
+  var ph=E('ph').value.trim();
+  if(!ph.startsWith('+'))ph='+86'+ph;
+  E('ph').value=ph;
+  var code=E('phCode').value.trim(),er=E('erPhone');
+  if(!ph){er.textContent='请输入手机号';return}
+  if(!code){er.textContent='请输入验证码';return}
+  B('btnPhone','验证中...');
+  fetch(A+'/auth/v1/verify',{
+    method:'POST',
+    headers:{'Content-Type':'application/json',apikey:K},
+    body:JSON.stringify({phone:ph,token:code,type:'sms'})
+  }).then(function(r){return r.json()}).then(function(r){
+    if(r.error){er.textContent=r.error||r.error_description||'验证失败';B('btnPhone','登录 / 注册');return}
+    if(r.access_token){
+      er.className='er ok';er.textContent='登录成功！跳转中…';
+      var sess={access_token:r.access_token,token_type:r.token_type,expires_in:r.expires_in,expires_at:r.expires_at,refresh_token:r.refresh_token,user:r.user};
+      localStorage.setItem(SB,JSON.stringify(sess));
+      goMain();
+    }else{
+      er.className='er ok';er.textContent='验证成功！';
+      B('btnPhone','登录 / 注册');
+    }
+  });
+}
+
+// ---- Shared ----
 function tg(id,b){
   var i=E(id);
   var s=i.type==='password';
@@ -227,51 +408,14 @@ function tg(id,b){
   b.textContent=s?'🙈':'👁';
 }
 
-function go(){
-  var e=E('em').value.trim(),p=E('p1').value,er=E('er');
-  if(!e||!p){er.textContent='请填写邮箱和密码';return}
-  if(m==='register'){
-    var p2=E('p2').value;
-    if(p.length<8){er.textContent='密码至少8位';return}
-    if(!/[a-zA-Z]/.test(p)){er.textContent='密码需包含字母';return}
-    if(!/[0-9]/.test(p)){er.textContent='密码需包含数字';return}
-    if(p!==p2){er.textContent='两次密码不一致';return}
-    B('注册中...');
-    fetch(A+'/auth/v1/signup',{
-      method:'POST',
-      headers:{'Content-Type':'application/json',apikey:K},
-      body:JSON.stringify({email:e,password:p})
-    }).then(function(r){return r.json()}).then(function(r){
-      if(r.error||r.msg){er.textContent=r.error||r.msg;B('注册');return}
-      if(r.session){
-        er.textContent='注册成功！跳转中…';
-        var sbKey='sb-vrfadiaqfissptfxwtex-auth-token';
-        localStorage.setItem(sbKey,JSON.stringify(r.session));
-        setTimeout(function(){window.location.href='https://yishuhaidao.github.io/aileku/index.html?t='+Date.now()},300);
-      }else{
-        er.textContent='注册成功！查看邮箱验证后登录';
-        B('注册');
-      }
-    });
-  }else{
-    if(p.length<6){er.textContent='密码至少6位';return}
-    B('登录中...');
-    fetch(A+'/auth/v1/token?grant_type=password',{
-      method:'POST',
-      headers:{'Content-Type':'application/json',apikey:K},
-      body:JSON.stringify({email:e,password:p})
-    }).then(function(r){return r.json()}).then(function(r){
-      if(r.error){er.textContent=r.error_description||r.error;B('登录');return}
-      er.textContent='登录成功！跳转中…';
-      var sbKey='sb-vrfadiaqfissptfxwtex-auth-token';
-      var sess={access_token:r.access_token,token_type:r.token_type,expires_in:r.expires_in,expires_at:r.expires_at,refresh_token:r.refresh_token,user:r.user};
-      localStorage.setItem(sbKey,JSON.stringify(sess));
-      setTimeout(function(){window.location.href='https://yishuhaidao.github.io/aileku/index.html?t='+Date.now()},300);
-    });
-  }
+function goMain(){
+  setTimeout(function(){
+    window.location.href='https://yishuhaidao.github.io/aileku/index.html?t='+Date.now();
+  },500);
 }
 
-function B(t){E('btn').textContent=t;E('btn').disabled=t!=='登录'&&t!=='注册'}
+function C(id,ok){E(id).className=ok?'g':'r'}
+function B(id,t){E(id).textContent=t;E(id).disabled=t!=='登录'&&t!=='注册'&&t!=='登录 / 注册'}
 function E(id){return document.getElementById(id)}
 function S(id,v){E(id).style.display=v}
 function T(id,v){E(id).textContent=v}
