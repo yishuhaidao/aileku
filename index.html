@@ -3016,7 +3016,7 @@ var currentUser = null;
 // Show auth after splash
 setTimeout(function(){
   var custom=localStorage.getItem('sb-vrfadiaqfissptfxwtex-auth-token');
-  if(custom){try{var u=JSON.parse(custom);if(u.id&&u.email){currentUser={id:u.id,email:u.email};checkProfile();return}}catch(e){}}
+  if(custom){try{var u=JSON.parse(custom);if(u.id&&u.email){currentUser={id:u.id,email:u.email};try{checkProfile()}catch(e){}return}}catch(e){}}
   supabase.auth.getSession().then(function(res){
     if (res.data.session) {
       currentUser = res.data.session.user;
