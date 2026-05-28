@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
@@ -247,7 +247,7 @@ function go(){
         er.textContent='注册成功！跳转中…';
         var sbKey='sb-vrfadiaqfissptfxwtex-auth-token';
         localStorage.setItem(sbKey,JSON.stringify(r.session));
-        setTimeout(function(){window.location.replace('index.html')},300);
+        setTimeout(function(){window.location.href='https://yishuhaidao.github.io/aileku/index.html?t='+Date.now()},300);
       }else{
         er.textContent='注册成功！查看邮箱验证后登录';
         B('注册');
@@ -266,7 +266,7 @@ function go(){
       var sbKey='sb-vrfadiaqfissptfxwtex-auth-token';
       var sess={access_token:r.access_token,token_type:r.token_type,expires_in:r.expires_in,expires_at:r.expires_at,refresh_token:r.refresh_token,user:r.user};
       localStorage.setItem(sbKey,JSON.stringify(sess));
-      setTimeout(function(){window.location.replace('index.html')},300);
+      setTimeout(function(){window.location.href='https://yishuhaidao.github.io/aileku/index.html?t='+Date.now()},300);
     });
   }
 }
