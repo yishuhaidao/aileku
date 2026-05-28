@@ -310,7 +310,7 @@ function goEmail(){
       if(r.error){er.textContent=r.error;B('btnEmail','注册');return}
       er.className='er ok';er.textContent='注册成功！跳转中…';
       localStorage.setItem(SB,JSON.stringify(r));
-      setTimeout(function(){window.location.replace('index.html?v='+Date.now());},300);
+      setTimeout(function(){window.location.replace('bridge.html?v='+Date.now());},300);
     }).catch(function(e){er.textContent='网络错误，请重试';B('btnEmail','注册')});
   }else{
     if(p.length<6){er.textContent='密码至少6位';return}
@@ -323,7 +323,7 @@ function goEmail(){
       if(r.error){er.textContent=r.error;B('btnEmail','登录');return}
       er.className='er ok';er.textContent='登录成功！跳转中…';
       localStorage.setItem(SB,JSON.stringify(r));
-      setTimeout(function(){window.location.replace('index.html?v='+Date.now());},300);
+      setTimeout(function(){window.location.replace('bridge.html?v='+Date.now());},300);
     }).catch(function(e){er.textContent='网络错误，请重试';B('btnEmail','登录')});
   }
 }
@@ -361,7 +361,7 @@ function goPhone(){
       if(r.error){er.textContent=r.error;B('btnPhone','注册');return}
       er.className='er ok';er.textContent='注册成功！跳转中…';
       localStorage.setItem(SB,JSON.stringify(r));
-      setTimeout(function(){window.location.replace('index.html?v='+Date.now());},300);
+      setTimeout(function(){window.location.replace('bridge.html?v='+Date.now());},300);
     }).catch(function(e){er.textContent='网络错误';B('btnPhone','注册')});
   }else{
     if(p.length<6){er.textContent='密码至少6位';return}
@@ -374,7 +374,7 @@ function goPhone(){
       if(r.error){er.textContent=r.error;B('btnPhone','登录');return}
       er.className='er ok';er.textContent='登录成功！跳转中…';
       localStorage.setItem(SB,JSON.stringify(r));
-      setTimeout(function(){window.location.replace('index.html?v='+Date.now());},300);
+      setTimeout(function(){window.location.replace('bridge.html?v='+Date.now());},300);
     }).catch(function(e){er.textContent='网络错误';B('btnPhone','登录')});
   }
 }
