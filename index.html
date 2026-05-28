@@ -3008,7 +3008,7 @@ function previewAvatar(e) {
 // Load saved avatar on startup
 (function(){ try { var a=localStorage.getItem('avatar'); if(a) document.getElementById('avatarPreview').innerHTML='<img src="'+a+'" style="width:100%;height:100%;object-fit:cover">'; }catch(e){} })();
 // ==================== SUPABASE BACKEND ====================
-var SUPABASE_URL = 'https://vrfadiaqfissptfxwtex.supabase.co';
+var SUPABASE_URL = '';
 var SUPABASE_KEY = 'sb_publishable_8IOOiPXMEvg64PYVjKIfuQ_XO-OL06y';
 var supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 var authMode = 'login';
