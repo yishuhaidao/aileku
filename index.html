@@ -1925,6 +1925,7 @@ function init() {
 // ==================== BACK BUTTON HANDLING ====================
 let navStack = ['home'];
 let exitTimer = null;
+let backBarrier = false; // prevents cascading back
 
 function pushNav(state) {
   navStack.push(state);
@@ -1934,6 +1935,7 @@ function pushNav(state) {
 function initBackHandler() {
   history.replaceState({nav: 'home'}, '', '#!home');
   window.addEventListener('popstate', function(e) {
+    if (backBarrier) { backBarrier = false; return; }
     if (e.state && e.state.nav) {
       restoreState(e.state.nav);
     } else {
@@ -1946,159 +1948,125 @@ function restoreState(state) {
   if (navStack.length > 1) navStack.pop();
   // Close toggle panels
   ['mvSection','latestSection','roomSection'].forEach(function(id) {
-    const el = document.getElementById(id);
-    if (el) el.style.display = 'none';
+    if (el=document.getElementById(id)) el.style.display = 'none';
   });
-  if (state === 'home' || state === 'square' || state === 'create' || state === 'messages' || state === 'profile') {
-    ['createFormOverlay','detailOverlay','rechargeModal','bottomSheetOverlay','settingsOverlay','panelOverlay','beanExchangeOverlay','paymentModal','vipUpgradePrompt','vipPopup'].forEach(function(id){
-      var el = document.getElementById(id); if (el) el.classList.remove('show');
-    });
-    switchTab(state);
-  } else if (state === 'detail') {
+  if (state === 'detail') {
     closeDetail();
+  } else if (state === 'panel') {
+    closePanel();
   } else if (state === 'form') {
-    // Show the create form overlay, hide optSub
     document.getElementById('optSubPage').classList.remove('show');
     document.getElementById('createFormOverlay').classList.add('show');
     ensureFormMode();
   } else if (state === 'optSub') {
-    // Back from optSub → show create form
     document.getElementById('optSubPage').classList.remove('show');
     document.getElementById('createFormOverlay').classList.add('show');
     ensureFormMode();
-  } else if (state === 'exitBarrier' || state === 'settingsBarrier') {
-    // Back navigation barrier - let browser go back
-    if (exitTimer) { clearTimeout(exitTimer); exitTimer = null; }
-    return;
-  } else if (state === 'panel') {
-    closePanel();
-    ['rechargeModal','bottomSheetOverlay'].forEach(function(id){ var e = document.getElementById(id); if(e) e.classList.remove('show'); });
-  } else if (state === 'settings') {
-    // Close other overlays, but keep settings open
-    closePanel(); closeRecharge(); closeSheet();
-    ['createFormOverlay','detailOverlay'].forEach(function(id){ var e = document.getElementById(id); if(e) e.classList.remove('show'); });
-    // Settings sub-panel → back to main, or close if already main
-    const sm = document.getElementById('settingsMain');
-    if (sm && !sm.classList.contains('show')) {
-      var so = document.getElementById('settingsOverlay'); if(so) so.classList.add('show');
-      showSettingsPanel('main');
-      history.pushState({nav:'settingsBarrier'}, '', '#!settings');
-    } else {
-      closeSettings();
-    }
-  } else if (state === 'recharge') {
-    closePayment();
-    document.getElementById('rechargeModal').classList.add('show');
-  } else if (state === 'sheet') {
-    closeSheet();
-    closePanel();
-  } else if (state === 'beanExchange') {
-    closeBeanExchange();
   } else if (state === 'vipPopup') {
     closeVipPopup();
   } else if (state === 'vipPrompt') {
     closeVipPrompt();
   } else if (state === 'payment') {
     closePayment();
-  } else if (state === 'mvPanel' || state === 'latestPanel' || state === 'roomPanel') {
-    // panel already closed above, just ensure home tab
-    switchTab('home');
+  } else if (state === 'recharge') {
+    closePayment();
+    var rm=document.getElementById('rechargeModal'); if(rm) rm.classList.add('show');
+  } else if (state === 'beanExchange') {
+    closeBeanExchange();
+  } else if (state === 'sheet') {
+    closeSheet(); closePanel();
+  } else if (state === 'settings') {
+    closePanel(); closeRecharge(); closeSheet();
+    ['createFormOverlay','detailOverlay'].forEach(function(id){ var e=document.getElementById(id); if(e)e.classList.remove('show'); });
+    var sm = document.getElementById('settingsMain');
+    if (sm && !sm.classList.contains('show')) {
+      var so=document.getElementById('settingsOverlay'); if(so)so.classList.add('show');
+      showSettingsPanel('main');
+      history.pushState({nav:'settingsBarrier'}, '', '#!settings');
+    } else {
+      closeSettings();
+    }
+  } else if (state === 'settingsBarrier' || state === 'backBarrier') {
+    // pass
+  } else if (state === 'exitBarrier') {
+    if (exitTimer) { clearTimeout(exitTimer); exitTimer = null; }
+    // let browser exit naturally
+  } else {
+    // tab state (home, square, create, messages, profile) - close overlays but DON'T switch tab
+    ['createFormOverlay','detailOverlay','rechargeModal','bottomSheetOverlay','settingsOverlay','panelOverlay','beanExchangeOverlay','paymentModal','vipUpgradePrompt','vipPopup'].forEach(function(id){
+      var el = document.getElementById(id); if (el) el.classList.remove('show');
+    });
   }
 }
 
 function handleExitBack() {
-  // Check generic panel overlay
-  const panelOverlay = document.getElementById('panelOverlay');
-  if (panelOverlay && panelOverlay.classList.contains('show')) {
-    closePanel();
-    history.back();
-    return;
+  // Close overlays tier by tier — no history.back() calls, just push barrier
+  var closed = false;
+
+  // Payment modal
+  var pay = document.getElementById('paymentModal');
+  if (pay && pay.classList.contains('show')) { closePayment(); closed = true; }
+  // Bean exchange
+  var be = document.getElementById('beanExchangeOverlay');
+  if (!closed && be && be.classList.contains('show')) { closeBeanExchange(); closed = true; }
+  // VIP popup/prompt
+  var vp = document.getElementById('vipPopup');
+  if (!closed && vp && vp.classList.contains('show')) { closeVipPopup(); closed = true; }
+  var vpr = document.getElementById('vipUpgradePrompt');
+  if (!closed && vpr && vpr.classList.contains('show')) { closeVipPrompt(); closed = true; }
+  // Recharge
+  var rm = document.getElementById('rechargeModal');
+  if (!closed && rm && rm.classList.contains('show')) { closeRecharge(); closed = true; }
+  // Bottom sheet
+  var bs = document.getElementById('bottomSheetOverlay');
+  if (!closed && bs && bs.classList.contains('show')) { closeSheet(); closed = true; }
+  // Panel (chat etc)
+  var po = document.getElementById('panelOverlay');
+  if (!closed && po && po.classList.contains('show')) { closePanel(); closed = true; }
+  // Detail
+  var d = document.getElementById('detailOverlay');
+  if (!closed && d && d.classList.contains('show')) { closeDetail(); closed = true; }
+  // Create form
+  var cf = document.getElementById('createFormOverlay');
+  if (!closed && cf && cf.classList.contains('show')) { closeCreateForm(); closed = true; }
+  // optSub back to form
+  var os = document.getElementById('optSubPage');
+  if (!closed && os && os.classList.contains('show')) {
+    os.classList.remove('show');
+    document.getElementById('createFormOverlay').classList.add('show');
+    ensureFormMode(); closed = true;
   }
-  // Check settings sub-panel → back to main
-  const settingsOverlay = document.getElementById('settingsOverlay');
-  if (settingsOverlay && settingsOverlay.classList.contains('show')) {
-    const main = document.getElementById('settingsMain');
-    if (main && !main.classList.contains('show')) {
-      showSettingsPanel('main');
-      history.pushState({nav:'settingsBarrier'}, '', '#!settings');
-      return;
+  // Settings
+  var so = document.getElementById('settingsOverlay');
+  if (!closed && so && so.classList.contains('show')) {
+    var sm = document.getElementById('settingsMain');
+    if (sm && !sm.classList.contains('show')) {
+      showSettingsPanel('main'); closed = true;
+    } else {
+      closeSettings(); closed = true;
     }
-    closeSettings();
-    history.back();
+  }
+  // Toggle sections (home page)
+  ['mvSection','latestSection','roomSection'].forEach(function(id){
+    if (closed) return;
+    var el = document.getElementById(id);
+    if (el && el.style.display !== 'none') { el.style.display = 'none'; closed = true; }
+  });
+
+  if (closed) {
+    backBarrier = true;
+    history.pushState({nav:'backBarrier'}, '', '#!back');
     return;
   }
-  // Check recharge modal
-  const rechargeModal = document.getElementById('rechargeModal');
-  if (rechargeModal && rechargeModal.classList.contains('show')) {
-    closeRecharge();
-    history.back();
-    return;
-  }
-  // Check bottom sheet
-  const bottomSheet = document.getElementById('bottomSheetOverlay');
-  if (bottomSheet && bottomSheet.classList.contains('show')) {
-    closeSheet();
-    history.back();
-    return;
-  }
-  // Check if any panel is open - close it first
-  const panels = ['mvSection','latestSection','roomSection'];
-  for (let i = 0; i < panels.length; i++) {
-    const el = document.getElementById(panels[i]);
-    if (el && el.style.display !== 'none') {
-      el.style.display = 'none';
-      history.back();
-      return;
-    }
-  }
-  // Check if detail modal is open
-  const detailOverlay = document.getElementById('detailOverlay');
-  if (detailOverlay && detailOverlay.classList.contains('show')) {
-    closeDetail();
-    history.back();
-    return;
-  }
-  // Check if create form is open
-  const formOverlay = document.getElementById('createFormOverlay');
-  if (formOverlay && formOverlay.classList.contains('show')) {
-    closeCreateForm();
-    history.back();
-    return;
-  }
-  // Check if bean exchange is open
-  const beanEx = document.getElementById('beanExchangeOverlay');
-  if (beanEx && beanEx.classList.contains('show')) {
-    closeBeanExchange();
-    history.back();
-    return;
-  }
-  // Check if payment modal is open
-  const payMod = document.getElementById('paymentModal');
-  if (payMod && payMod.classList.contains('show')) {
-    closePayment();
-    history.back();
-    return;
-  }
-  // Check if VIP prompt is open
-  const vipPrEl = document.getElementById('vipUpgradePrompt');
-  if (vipPrEl && vipPrEl.classList.contains('show')) {
-    closeVipPrompt();
-    history.back();
-    return;
-  }
-  // Check if VIP popup is open
-  const vipPop = document.getElementById('vipPopup');
-  if (vipPop && vipPop.classList.contains('show')) {
-    closeVipPopup();
-    history.back();
-    return;
-  }
-  // On home page: show exit hint, push barrier state
+
+  // No overlay open — exit via double-press
   if (!exitTimer) {
     showToast('再按一次退出程序');
-    exitTimer = setTimeout(function(){exitTimer=null;},1500);
+    exitTimer = setTimeout(function(){ exitTimer = null; }, 1500);
+    backBarrier = true;
     history.pushState({nav:'exitBarrier'}, '', '#!exit');
   }
+  // If exitTimer active, let browser close naturally (don't push state)
 }
 
 let detailSongCache = null;
@@ -2515,7 +2483,7 @@ function initTabs() {
       const optSub = document.getElementById('optSubPage');
       if (optSub) optSub.classList.remove('show');
       if (currentTab !== tabName) {
-        pushNav(tabName);
+        currentTab = tabName;
       }
       switchTab(tabName);
     });
