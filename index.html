@@ -1232,6 +1232,15 @@ body {
 .auth-switch a { color: var(--accent); text-decoration: none; }
 .auth-skip { display: block; font-size: 12px; color: var(--text3); margin-top: 10px; text-decoration: none; }
 .auth-error { color: var(--red); font-size: 12px; margin-top: 8px; min-height: 18px; }
+.pwd-wrapper { position: relative; margin-bottom: 10px; }
+.pwd-wrapper .auth-input { margin-bottom: 0; padding-right: 44px; }
+.pwd-eye { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; background: none; color: var(--text3); padding: 0; border-radius: 8px; }
+.pwd-eye:active { background: var(--card); }
+.pwd-eye svg { width: 20px; height: 20px; }
+.pwd-hint { font-size: 11px; color: var(--text3); text-align: left; margin: -6px 0 8px 4px; line-height: 1.5; }
+.pwd-hint span { display: inline-block; padding: 1px 6px; border-radius: 4px; margin: 1px; background: rgba(255,255,255,0.05); }
+.pwd-hint span.ok { color: #4ade80; background: rgba(74,222,128,0.1); }
+.pwd-hint span.warn { color: var(--text3); }
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1260,7 +1269,21 @@ body {
     <div class="auth-title" id="authTitle">登录 Ai乐酷</div>
     <div class="auth-desc" id="authDesc">同步你的作品和数据到云端</div>
     <input type="email" id="authEmail" class="auth-input" placeholder="邮箱">
-    <input type="password" id="authPassword" class="auth-input" placeholder="密码">
+    <div class="pwd-wrapper">
+      <input type="password" id="authPassword" class="auth-input" placeholder="密码" oninput="checkPwdStrength()">
+      <button class="pwd-eye" onclick="event.preventDefault();togglePwd('authPassword',this)" tabindex="-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+    <div class="pwd-wrapper" id="pwdConfirmWrap" style="display:none">
+      <input type="password" id="authPassword2" class="auth-input" placeholder="确认密码">
+      <button class="pwd-eye" onclick="event.preventDefault();togglePwd('authPassword2',this)" tabindex="-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+    <div class="pwd-hint" id="pwdHint" style="display:none">
+      密码需包含：<span id="hpLen">≥8位</span><span id="hpUpper">大写字母</span><span id="hpLower">小写字母</span><span id="hpDigit">数字</span>
+    </div>
     <button class="auth-btn" id="authSubmitBtn" onclick="handleAuth()">登录</button>
     <div class="auth-switch">
       <span id="authSwitchText">没有账号？</span>
@@ -2032,7 +2055,7 @@ let playerProgress = 0;
 let generatedCount = songs.length;
 
 // ==================== INIT ====================
-var APP_VERSION = 5;
+var APP_VERSION = 6;
 function init() {
   // Force reload if cached version is old
   var cachedVer = localStorage.getItem('appVersion');
@@ -4059,10 +4082,19 @@ setTimeout(function(){
 
 function handleAuth() {
   var email = document.getElementById('authEmail').value.trim();
-  var password = document.getElementById('authPassword').value.trim();
+  var password = document.getElementById('authPassword').value;
   var errEl = document.getElementById('authError');
   if (!email || !password) { errEl.textContent = '请填写邮箱和密码'; return; }
-  if (password.length < 6) { errEl.textContent = '密码至少6位'; return; }
+
+  if (authMode === 'register') {
+    var password2 = document.getElementById('authPassword2').value;
+    if (password.length < 8) { errEl.textContent = '密码至少8位'; return; }
+    if (!/[A-Z]/.test(password) && !/[a-z]/.test(password)) { errEl.textContent = '密码需包含至少一个字母'; return; }
+    if (!/[0-9]/.test(password)) { errEl.textContent = '密码需包含至少一个数字'; return; }
+    if (password !== password2) { errEl.textContent = '两次密码不一致'; return; }
+  } else {
+    if (password.length < 6) { errEl.textContent = '密码至少6位'; return; }
+  }
   var btn = document.getElementById('authSubmitBtn');
   btn.textContent = '请稍候...'; btn.disabled = true; errEl.textContent = '';
 
@@ -4171,6 +4203,27 @@ function handleAvatarUpload(input) {
   reader.readAsDataURL(file);
 }
 
+function checkPwdStrength() {
+  var pw = document.getElementById('authPassword').value;
+  var hint = document.getElementById('pwdHint');
+  if (authMode !== 'register' || !pw) { hint.style.display = 'none'; return; }
+  hint.style.display = 'block';
+  var len = pw.length >= 8, up = /[A-Z]/.test(pw), lo = /[a-z]/.test(pw), dg = /[0-9]/.test(pw);
+  document.getElementById('hpLen').className = len ? 'ok' : 'warn';
+  document.getElementById('hpUpper').className = up ? 'ok' : 'warn';
+  document.getElementById('hpLower').className = lo ? 'ok' : 'warn';
+  document.getElementById('hpDigit').className = dg ? 'ok' : 'warn';
+}
+
+function togglePwd(id, btn) {
+  var inp = document.getElementById(id);
+  var show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  btn.innerHTML = show
+    ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19M1 1l22 22M9.88 9.88a3 3 0 104.24 4.24"/></svg>'
+    : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+}
+
 function toggleAuthMode() {
   authMode = authMode === 'login' ? 'register' : 'login';
   document.getElementById('authTitle').textContent = authMode === 'login' ? '登录 Ai乐酷' : '注册 Ai乐酷';
@@ -4178,6 +4231,18 @@ function toggleAuthMode() {
   document.getElementById('authSwitchText').textContent = authMode === 'login' ? '没有账号？' : '已有账号？';
   document.getElementById('authSwitchLink').textContent = authMode === 'login' ? '注册' : '登录';
   document.getElementById('authError').textContent = '';
+  var cfm = document.getElementById('pwdConfirmWrap');
+  var hint = document.getElementById('pwdHint');
+  if (authMode === 'register') {
+    cfm.style.display = 'block';
+    hint.style.display = 'none';
+  } else {
+    cfm.style.display = 'none';
+    hint.style.display = 'none';
+    document.getElementById('authPassword').type = 'password';
+  }
+  document.getElementById('authPassword2').value = '';
+  document.getElementById('authPassword').value = '';
 }
 
 function skipAuth() {
