@@ -3022,7 +3022,7 @@ setTimeout(function(){
       currentUser = res.data.session.user;
       checkProfile();
     } else {
-      document.getElementById('authOverlay').style.display = 'flex';
+      window.location.replace('auth.html?v='+Date.now());
     }
   });
 }, 5500);
