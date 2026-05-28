@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Ai乐酷 - 登录</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh}
+.card{background:#12122a;border-radius:20px;padding:32px 24px;width:90%;max-width:360px;text-align:center}
+h1{font-size:22px;margin-bottom:4px;background:linear-gradient(135deg,#a855f7,#6366f1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.desc{font-size:12px;color:#888;margin-bottom:20px}
+input{width:100%;padding:12px;border-radius:12px;border:1px solid #333;background:#1a1a3a;color:#fff;font-size:14px;margin-bottom:10px;outline:none}
+input:focus{border-color:#a855f7}
+.pwd{position:relative;margin-bottom:10px}
+.pwd input{padding-right:44px;margin-bottom:0}
+.pwd button{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;color:#888;padding:0;border-radius:8px}
+.pwd button:active{background:#2a2a4a}
+.hint{font-size:11px;color:#666;text-align:left;margin:-6px 0 8px 4px;display:none}
+.hint span{padding:1px 6px;border-radius:4px;margin:1px;display:inline-block}
+.hint .ok{color:#4ade80;background:rgba(74,222,128,.1)}
+.hint .bad{color:#666}
+.btn{width:100%;padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,#a855f7,#6366f1);color:#fff;font-size:15px;font-weight:700;cursor:pointer;margin-top:6px}
+.btn:active{opacity:.8}
+.switch{font-size:12px;color:#888;margin-top:14px}
+.switch a{color:#a855f7;text-decoration:none}
+.skip{font-size:12px;color:#666;margin-top:10px;display:block;text-decoration:none}
+.err{color:#f87171;font-size:12px;margin-top:8px;min-height:18px}
+</style>
+</head>
+<body>
+
+<div class="card" id="card">
+  <h1 id="title">登录 Ai乐酷</h1>
+  <div class="desc" id="desc">同步你的作品和数据到云端</div>
+  <input type="email" id="email" placeholder="邮箱">
+  <div class="pwd">
+    <input type="password" id="pwd1" placeholder="密码" oninput="check()">
+    <button onclick="toggle('pwd1',this)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+  </div>
+  <div class="pwd" id="pw2wrap" style="display:none">
+    <input type="password" id="pwd2" placeholder="确认密码">
+    <button onclick="toggle('pwd2',this)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+  </div>
+  <div class="hint" id="hint">
+    密码要求：<span id="sLen" class="bad">≥8位</span>
+    <span id="sUp" class="bad">大写</span>
+    <span id="sLo" class="bad">小写</span>
+    <span id="sDig" class="bad">数字</span>
+  </div>
+  <button class="btn" id="btn" onclick="go()">登录</button>
+  <div class="switch">
+    <span id="swText">没有账号？</span>
+    <a href="#" onclick="sw();return false" id="swLink">注册</a>
+  </div>
+  <a href="#" class="skip" onclick="skip();return false">跳过，离线使用</a>
+  <div class="err" id="err"></div>
+</div>
+
+<script>
+var mode='login';
+var supabase = supabase.createClient('https://vrfadiaqfissptfxwtex.supabase.co','sb_publishable_YpotEpinEWsC2dI7FIKI');
+
+function sw(){
+  mode=mode==='login'?'register':'login';
+  document.getElementById('title').textContent=mode==='login'?'登录 Ai乐酷':'注册 Ai乐酷';
+  document.getElementById('btn').textContent=mode==='login'?'登录':'注册';
+  document.getElementById('swText').textContent=mode==='login'?'没有账号？':'已有账号？';
+  document.getElementById('swLink').textContent=mode==='login'?'注册':'登录';
+  document.getElementById('err').textContent='';
+  document.getElementById('pw2wrap').style.display=mode==='register'?'block':'none';
+  document.getElementById('hint').style.display='none';
+  document.getElementById('pwd1').type='password';
+  document.getElementById('pwd2').value='';
+  document.getElementById('pwd1').value='';
+}
+
+function check(){
+  if(mode!=='register'){document.getElementById('hint').style.display='none';return;}
+  var pw=document.getElementById('pwd1').value;
+  if(!pw){document.getElementById('hint').style.display='none';return;}
+  document.getElementById('hint').style.display='block';
+  document.getElementById('sLen').className=pw.length>=8?'ok':'bad';
+  document.getElementById('sUp').className=/[A-Z]/.test(pw)?'ok':'bad';
+  document.getElementById('sLo').className=/[a-z]/.test(pw)?'ok':'bad';
+  document.getElementById('sDig').className=/[0-9]/.test(pw)?'ok':'bad';
+}
+
+function toggle(id,btn){
+  var i=document.getElementById(id);
+  var s=i.type==='password';
+  i.type=s?'text':'password';
+  btn.innerHTML=s
+    ?'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19M1 1l22 22M9.88 9.88a3 3 0 104.24 4.24"/></svg>'
+    :'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+}
+
+function go(){
+  var e=document.getElementById('email').value.trim();
+  var p=document.getElementById('pwd1').value;
+  var er=document.getElementById('err');
+  if(!e||!p){er.textContent='请填写邮箱和密码';return;}
+
+  if(mode==='register'){
+    var p2=document.getElementById('pwd2').value;
+    if(p.length<8){er.textContent='密码至少8位';return;}
+    if(!/[a-zA-Z]/.test(p)){er.textContent='密码需包含字母';return;}
+    if(!/[0-9]/.test(p)){er.textContent='密码需包含数字';return;}
+    if(p!==p2){er.textContent='两次密码不一致';return;}
+    var b=document.getElementById('btn');b.textContent='注册中...';b.disabled=true;
+    supabase.auth.signUp({email:e,password:p}).then(function(r){
+      if(r.error){er.textContent=r.error.message;b.textContent='注册';b.disabled=false;}
+      else if(r.data.session){er.textContent='注册成功！';b.textContent='注册';b.disabled=false;}
+      else{er.textContent='注册成功！查看邮箱验证后登录';b.textContent='注册';b.disabled=false;}
+    });
+  }else{
+    if(p.length<6){er.textContent='密码至少6位';return;}
+    var b=document.getElementById('btn');b.textContent='登录中...';b.disabled=true;
+    supabase.auth.signInWithPassword({email:e,password:p}).then(function(r){
+      if(r.error){er.textContent=r.error.message;b.textContent='登录';b.disabled=false;}
+      else{er.textContent='登录成功！';b.textContent='登录';b.disabled=false;}
+    });
+  }
+}
+
+function skip(){document.getElementById('card').innerHTML='<h1>🎵</h1><p style="color:#888;margin-top:16px">离线模式</p>';}
+</script>
+</body>
+</html>
