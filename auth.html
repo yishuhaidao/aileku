@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Ai涔愰叿</title>
+<title>Ai乐酷</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
@@ -156,36 +156,37 @@ input::placeholder{
 <body>
 
 <div class="c">
-  <h1 id="t">鐧诲綍 Ai涔愰叿</h1>
-  <div class="ds" id="d">鍚屾浣犵殑浣滃搧鍜屾暟鎹埌浜戠</div>
+  <h1 id="t">登录 Ai乐酷</h1>
+  <div class="ds" id="d">同步你的作品和数据到云端</div>
 
-  <input type="email" id="em" placeholder="閭" autocomplete="email">
+  <input type="email" id="em" placeholder="邮箱" autocomplete="email">
 
   <div class="pw">
-    <input type="password" id="p1" placeholder="瀵嗙爜" autocomplete="current-password" oninput="ck()">
-    <button class="eye" onclick="tg('p1',this)" type="button">馃憗</button>
+    <input type="password" id="p1" placeholder="密码" autocomplete="current-password" oninput="ck()">
+    <button class="eye" onclick="tg('p1',this)" type="button">👁</button>
   </div>
 
   <div class="pw" id="w2" style="display:none">
-    <input type="password" id="p2" placeholder="纭瀵嗙爜" autocomplete="new-password">
-    <button class="eye" onclick="tg('p2',this)" type="button">馃憗</button>
+    <input type="password" id="p2" placeholder="确认密码" autocomplete="new-password">
+    <button class="eye" onclick="tg('p2',this)" type="button">👁</button>
   </div>
 
   <div class="hi" id="hi">
-    瀵嗙爜瑕佹眰锛?    <span id="l" class="r">鈮?浣?/span>
-    <span id="u" class="r">澶у啓</span>
-    <span id="lo" class="r">灏忓啓</span>
-    <span id="dg" class="r">鏁板瓧</span>
+    密码要求：
+    <span id="l" class="r">≥8位</span>
+    <span id="u" class="r">大写</span>
+    <span id="lo" class="r">小写</span>
+    <span id="dg" class="r">数字</span>
   </div>
 
-  <button class="btn" id="btn" onclick="go()">鐧诲綍</button>
+  <button class="btn" id="btn" onclick="go()">登录</button>
 
   <div class="sw">
-    <span id="st">娌℃湁璐﹀彿锛?/span>
-    <a href="#" onclick="sw();return false" id="sl">娉ㄥ唽</a>
+    <span id="st">没有账号？</span>
+    <a href="#" onclick="sw();return false" id="sl">注册</a>
   </div>
 
-  <a href="#" class="sk" onclick="sk();return false">璺宠繃</a>
+  <a href="#" class="sk" onclick="sk();return false">跳过</a>
   <div class="er" id="er"></div>
 </div>
 
@@ -194,10 +195,10 @@ var m='login',A='https://vrfadiaqfissptfxwtex.supabase.co',K='sb_publishable_Ypo
 
 function sw(){
   m=m==='login'?'register':'login';
-  T('t',m==='login'?'鐧诲綍 Ai涔愰叿':'娉ㄥ唽 Ai涔愰叿');
-  T('btn',m==='login'?'鐧诲綍':'娉ㄥ唽');
-  T('st',m==='login'?'娌℃湁璐﹀彿锛?:'宸叉湁璐﹀彿锛?);
-  T('sl',m==='login'?'娉ㄥ唽':'鐧诲綍');
+  T('t',m==='login'?'登录 Ai乐酷':'注册 Ai乐酷');
+  T('btn',m==='login'?'登录':'注册');
+  T('st',m==='login'?'没有账号？':'已有账号？');
+  T('sl',m==='login'?'注册':'登录');
   T('er','');
   S('w2',m==='register'?'block':'none');
   S('hi','none');
@@ -223,48 +224,48 @@ function tg(id,b){
   var i=E(id);
   var s=i.type==='password';
   i.type=s?'text':'password';
-  b.textContent=s?'馃檲':'馃憗';
+  b.textContent=s?'🙈':'👁';
 }
 
 function go(){
   var e=E('em').value.trim(),p=E('p1').value,er=E('er');
-  if(!e||!p){er.textContent='璇峰～鍐欓偖绠卞拰瀵嗙爜';return}
+  if(!e||!p){er.textContent='请填写邮箱和密码';return}
   if(m==='register'){
     var p2=E('p2').value;
-    if(p.length<8){er.textContent='瀵嗙爜鑷冲皯8浣?;return}
-    if(!/[a-zA-Z]/.test(p)){er.textContent='瀵嗙爜闇€鍖呭惈瀛楁瘝';return}
-    if(!/[0-9]/.test(p)){er.textContent='瀵嗙爜闇€鍖呭惈鏁板瓧';return}
-    if(p!==p2){er.textContent='涓ゆ瀵嗙爜涓嶄竴鑷?;return}
-    B('娉ㄥ唽涓?..');
+    if(p.length<8){er.textContent='密码至少8位';return}
+    if(!/[a-zA-Z]/.test(p)){er.textContent='密码需包含字母';return}
+    if(!/[0-9]/.test(p)){er.textContent='密码需包含数字';return}
+    if(p!==p2){er.textContent='两次密码不一致';return}
+    B('注册中...');
     fetch(A+'/auth/v1/signup',{
       method:'POST',
       headers:{'Content-Type':'application/json',apikey:K},
       body:JSON.stringify({email:e,password:p})
     }).then(function(r){return r.json()}).then(function(r){
-      if(r.error||r.msg){er.textContent=r.error||r.msg;B('娉ㄥ唽');return}
-      er.textContent=r.session?'娉ㄥ唽鎴愬姛锛侌煄?:'娉ㄥ唽鎴愬姛锛佹煡鐪嬮偖绠遍獙璇佸悗鐧诲綍';
-      B('娉ㄥ唽');
+      if(r.error||r.msg){er.textContent=r.error||r.msg;B('注册');return}
+      er.textContent=r.session?'注册成功！🎉':'注册成功！查看邮箱验证后登录';
+      B('注册');
     });
   }else{
-    if(p.length<6){er.textContent='瀵嗙爜鑷冲皯6浣?;return}
-    B('鐧诲綍涓?..');
+    if(p.length<6){er.textContent='密码至少6位';return}
+    B('登录中...');
     fetch(A+'/auth/v1/token?grant_type=password',{
       method:'POST',
       headers:{'Content-Type':'application/json',apikey:K},
       body:JSON.stringify({email:e,password:p})
     }).then(function(r){return r.json()}).then(function(r){
-      if(r.error){er.textContent=r.error_description||r.error;B('鐧诲綍');return}
-      er.textContent='鐧诲綍鎴愬姛锛侌煄?;
-      B('鐧诲綍');
+      if(r.error){er.textContent=r.error_description||r.error;B('登录');return}
+      er.textContent='登录成功！🎉';
+      B('登录');
     });
   }
 }
 
-function B(t){E('btn').textContent=t;E('btn').disabled=t!=='鐧诲綍'&&t!=='娉ㄥ唽'}
+function B(t){E('btn').textContent=t;E('btn').disabled=t!=='登录'&&t!=='注册'}
 function E(id){return document.getElementById(id)}
 function S(id,v){E(id).style.display=v}
 function T(id,v){E(id).textContent=v}
-function sk(){document.querySelector('.c').innerHTML='<h1>馃幍</h1><p style="color:#888;margin-top:16px">绂荤嚎妯″紡</p>'}
+function sk(){document.querySelector('.c').innerHTML='<h1>🎵</h1><p style="color:#888;margin-top:16px">离线模式</p>'}
 </script>
 </body>
 </html>
