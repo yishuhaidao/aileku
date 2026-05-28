@@ -200,11 +200,19 @@ input::placeholder{color:#555}
   <!-- Phone panel -->
   <div id="phonePanel">
     <input type="tel" id="ph" placeholder="手机号" autocomplete="tel">
-    <div class="code-row">
-      <input type="text" id="phCode" placeholder="验证码" autocomplete="one-time-code" inputmode="numeric">
-      <button class="send-btn" id="sendBtn" onclick="sendCode()">获取验证码</button>
+    <div class="pw">
+      <input type="password" id="pp" placeholder="密码" autocomplete="current-password">
+      <button class="eye" onclick="tg('pp',this)" type="button">👁</button>
     </div>
-    <button class="btn" id="btnPhone" onclick="goPhone()">登录 / 注册</button>
+    <div class="pw" id="pw2" style="display:none">
+      <input type="password" id="pp2" placeholder="确认密码" autocomplete="new-password">
+      <button class="eye" onclick="tg('pp2',this)" type="button">👁</button>
+    </div>
+    <button class="btn" id="btnPhone" onclick="goPhone()">登录</button>
+    <div class="sw">
+      <span id="stp">没有账号？</span>
+      <a href="#" onclick="swp();return false" id="slp">注册</a>
+    </div>
     <div class="er" id="erPhone"></div>
   </div>
 
@@ -241,8 +249,7 @@ var mode='email',          // email or phone
     emailMode='login',     // login or register (email only)
     A='https://vrfadiaqfissptfxwtex.supabase.co',
     K='sb_publishable_8IOOiPXMEvg64PYVjKIfuQ_XO-OL06y',
-    SB='sb-vrfadiaqfissptfxwtex-auth-token',
-    countdown=0, cdTimer=null;
+    SB='sb-vrfadiaqfissptfxwtex-auth-token';
 
 function setTab(t){
   mode=t;
@@ -322,77 +329,56 @@ function goEmail(){
 }
 
 // ---- Phone flow ----
-var phoneSent=false;
+var phoneMode='login';
 
-function sendCode(){
-  if(countdown>0)return;
-  var ph=E('ph').value.trim();
-  if(!ph){E('erPhone').textContent='请输入手机号';return}
-  if(!/^\+?\d{8,15}$/.test(ph)){E('erPhone').textContent='手机号格式不正确（如 +8613800138000 或 13800138000）';return}
-  // Auto-add +86 if no prefix
-  if(!ph.startsWith('+'))ph='+86'+ph;
-  E('ph').value=ph;
-  E('sendBtn').disabled=true;
-  E('sendBtn').textContent='发送中…';
-  fetch(A+'/auth/v1/otp',{
-    method:'POST',
-    headers:{'Content-Type':'application/json',apikey:K},
-    body:JSON.stringify({phone:ph})
-  }).then(function(r){return r.json()}).then(function(r){
-    if(r.error||r.msg){
-      E('erPhone').textContent=(r.error||r.msg)+'（需在Supabase配置短信服务）';
-      E('sendBtn').disabled=false;
-      E('sendBtn').textContent='获取验证码';
-      return;
-    }
-    phoneSent=true;
-    E('erPhone').className='er ok';
-    E('erPhone').textContent='验证码已发送';
-    countdown=60;
-    tick();
-  }).catch(function(){
-    E('erPhone').textContent='发送失败，请重试';
-    E('sendBtn').disabled=false;
-    E('sendBtn').textContent='获取验证码';
-  });
-}
-
-function tick(){
-  if(countdown<=0){
-    E('sendBtn').disabled=false;
-    E('sendBtn').textContent='获取验证码';
-    return;
-  }
-  E('sendBtn').textContent=countdown+'s';
-  countdown--;
-  setTimeout(tick,1000);
+function swp(){
+  phoneMode=phoneMode==='login'?'register':'login';
+  E('btnPhone').textContent=phoneMode==='login'?'登录':'注册';
+  E('stp').textContent=phoneMode==='login'?'没有账号？':'已有账号？';
+  E('slp').textContent=phoneMode==='login'?'注册':'登录';
+  E('erPhone').textContent='';
+  E('pw2').style.display=phoneMode==='register'?'block':'none';
 }
 
 function goPhone(){
-  var ph=E('ph').value.trim();
-  if(!ph.startsWith('+'))ph='+86'+ph;
-  E('ph').value=ph;
-  var code=E('phCode').value.trim(),er=E('erPhone');
+  var ph=E('ph').value.trim(),p=E('pp').value,er=E('erPhone');
   if(!ph){er.textContent='请输入手机号';return}
-  if(!code){er.textContent='请输入验证码';return}
-  B('btnPhone','验证中...');
-  fetch(A+'/auth/v1/verify',{
-    method:'POST',
-    headers:{'Content-Type':'application/json',apikey:K},
-    body:JSON.stringify({phone:ph,token:code,type:'sms'})
-  }).then(function(r){return r.json()}).then(function(r){
-    if(r.error){er.textContent=r.error||r.error_description||'验证失败';B('btnPhone','登录 / 注册');return}
-    if(r.access_token){
-      er.className='er ok';er.textContent='登录成功！跳转中…';
-      var sess={access_token:r.access_token,token_type:r.token_type,expires_in:r.expires_in,expires_at:r.expires_at,refresh_token:r.refresh_token,user:r.user};
-      localStorage.setItem(SB,JSON.stringify(sess));
+  if(!/^\+?\d{8,15}$/.test(ph)){er.textContent='手机号格式不正确';return}
+  if(!ph.startsWith('+'))ph='+86'+ph;
+  if(!p){er.textContent='请输入密码';return}
+  if(phoneMode==='register'){
+    var p2=E('pp2').value;
+    if(p.length<8){er.textContent='密码至少8位';return}
+    if(!/[a-zA-Z]/.test(p)){er.textContent='密码需包含字母';return}
+    if(!/[0-9]/.test(p)){er.textContent='密码需包含数字';return}
+    if(p!==p2){er.textContent='两次密码不一致';return}
+    B('btnPhone','注册中...');
+    fetch(A+'/rest/v1/rpc/signup_user',{
+      method:'POST',
+      headers:{'Content-Type':'application/json',apikey:K},
+      body:JSON.stringify({p_phone:ph,p_password:p})
+    }).then(function(r){return r.json()}).then(function(r){
+      if(r.error){er.textContent=r.error;B('btnPhone','注册');return}
+      er.className='er ok';er.textContent='注册成功！跳转中…';
+      localStorage.setItem(SB,JSON.stringify(r));
       goMain();
-    }else{
-      er.className='er ok';er.textContent='验证成功！';
-      B('btnPhone','登录 / 注册');
-    }
-  });
+    });
+  }else{
+    if(p.length<6){er.textContent='密码至少6位';return}
+    B('btnPhone','登录中...');
+    fetch(A+'/rest/v1/rpc/login_user',{
+      method:'POST',
+      headers:{'Content-Type':'application/json',apikey:K},
+      body:JSON.stringify({p_phone:ph,p_password:p})
+    }).then(function(r){return r.json()}).then(function(r){
+      if(r.error){er.textContent=r.error;B('btnPhone','登录');return}
+      er.className='er ok';er.textContent='登录成功！跳转中…';
+      localStorage.setItem(SB,JSON.stringify(r));
+      goMain();
+    });
+  }
 }
+
 
 // ---- Shared ----
 function tg(id,b){
