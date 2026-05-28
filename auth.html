@@ -306,8 +306,25 @@ function goEmail(){
         localStorage.setItem(SB,JSON.stringify(r.session));
         goMain();
       }else{
-        er.className='er ok';er.textContent='注册成功！请查收邮箱验证邮件后登录';
-        B('btnEmail','注册');
+        // Try auto-login (works if mailer_autoconfirm is true)
+        fetch(A+'/auth/v1/token?grant_type=password',{
+          method:'POST',
+          headers:{'Content-Type':'application/json',apikey:K},
+          body:JSON.stringify({email:e,password:p})
+        }).then(function(r2){return r2.json()}).then(function(r2){
+          if(r2.access_token){
+            er.className='er ok';er.textContent='注册成功！跳转中…';
+            localStorage.setItem(SB,JSON.stringify({
+              access_token:r2.access_token,token_type:r2.token_type,
+              expires_in:r2.expires_in,expires_at:r2.expires_at,
+              refresh_token:r2.refresh_token,user:r2.user
+            }));
+            goMain();
+          }else{
+            er.className='er ok';er.textContent='注册成功！请查收邮箱验证邮件后登录';
+            B('btnEmail','注册');
+          }
+        });
       }
     });
   }else{
