@@ -193,12 +193,12 @@ input::placeholder{color:#555}
 
   <!-- Tabs -->
   <div class="tabs">
-    <span id="tabPhone" class="on" onclick="setTab('phone')">📱 手机登录</span>
-    <span id="tabEmail" onclick="setTab('email')">📧 邮箱登录</span>
+    <span id="tabPhone" onclick="setTab('phone')">📱 手机登录</span>
+    <span id="tabEmail" class="on" onclick="setTab('email')">📧 邮箱登录</span>
   </div>
 
   <!-- Phone panel -->
-  <div id="phonePanel" class="on">
+  <div id="phonePanel">
     <input type="tel" id="ph" placeholder="手机号" autocomplete="tel">
     <div class="code-row">
       <input type="text" id="phCode" placeholder="验证码" autocomplete="one-time-code" inputmode="numeric">
@@ -209,7 +209,7 @@ input::placeholder{color:#555}
   </div>
 
   <!-- Email panel -->
-  <div id="emailPanel">
+  <div id="emailPanel" class="on">
     <input type="email" id="em" placeholder="邮箱" autocomplete="email">
     <div class="pw">
       <input type="password" id="p1" placeholder="密码" autocomplete="current-password" oninput="ck()">
