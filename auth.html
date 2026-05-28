@@ -247,7 +247,7 @@ input::placeholder{color:#555}
 <script>
 var mode='email',          // email or phone
     emailMode='login',     // login or register (email only)
-    A='https://vrfadiaqfissptfxwtex.supabase.co',
+    A='',
     K='sb_publishable_8IOOiPXMEvg64PYVjKIfuQ_XO-OL06y',
     SB='sb-vrfadiaqfissptfxwtex-auth-token';
 
@@ -302,28 +302,26 @@ function goEmail(){
     if(!/[0-9]/.test(p)){er.textContent='密码需包含数字';return}
     if(p!==p2){er.textContent='两次密码不一致';return}
     B('btnEmail','注册中...');
-    fetch(A+'/rest/v1/rpc/signup_user',{
+    fetch('/api/rest/v1/rpc/signup_user',{
       method:'POST',
       headers:{'Content-Type':'application/json',apikey:K},
       body:JSON.stringify({p_email:e,p_password:p})
     }).then(function(r){return r.json()}).then(function(r){
       if(r.error){er.textContent=r.error;B('btnEmail','注册');return}
       er.className='er ok';er.textContent='注册成功！跳转中…';
-      localStorage.setItem(SB,JSON.stringify(r));
-      setTimeout(function(){window.location.replace('bridge.html?v='+Date.now());},300);
+      var q='uid='+encodeURIComponent(r.id)+'&em='+encodeURIComponent(r.email);window.location.replace('index.html?v='+Date.now()+'#'+q);},300);
     }).catch(function(e){er.textContent='网络错误，请重试';B('btnEmail','注册')});
   }else{
     if(p.length<6){er.textContent='密码至少6位';return}
     B('btnEmail','登录中...');
-    fetch(A+'/rest/v1/rpc/login_user',{
+    fetch('/api/rest/v1/rpc/login_user',{
       method:'POST',
       headers:{'Content-Type':'application/json',apikey:K},
       body:JSON.stringify({p_email:e,p_password:p})
     }).then(function(r){return r.json()}).then(function(r){
       if(r.error){er.textContent=r.error;B('btnEmail','登录');return}
       er.className='er ok';er.textContent='登录成功！跳转中…';
-      localStorage.setItem(SB,JSON.stringify(r));
-      setTimeout(function(){window.location.replace('bridge.html?v='+Date.now());},300);
+      var q='uid='+encodeURIComponent(r.id)+'&em='+encodeURIComponent(r.email);window.location.replace('index.html?v='+Date.now()+'#'+q);},300);
     }).catch(function(e){er.textContent='网络错误，请重试';B('btnEmail','登录')});
   }
 }
@@ -353,28 +351,26 @@ function goPhone(){
     if(!/[0-9]/.test(p)){er.textContent='密码需包含数字';return}
     if(p!==p2){er.textContent='两次密码不一致';return}
     B('btnPhone','注册中...');
-    fetch(A+'/rest/v1/rpc/signup_user',{
+    fetch('/api/rest/v1/rpc/signup_user',{
       method:'POST',
       headers:{'Content-Type':'application/json',apikey:K},
       body:JSON.stringify({p_phone:ph,p_password:p})
     }).then(function(r){return r.json()}).then(function(r){
       if(r.error){er.textContent=r.error;B('btnPhone','注册');return}
       er.className='er ok';er.textContent='注册成功！跳转中…';
-      localStorage.setItem(SB,JSON.stringify(r));
-      setTimeout(function(){window.location.replace('bridge.html?v='+Date.now());},300);
+      var q='uid='+encodeURIComponent(r.id)+'&em='+encodeURIComponent(r.email);window.location.replace('index.html?v='+Date.now()+'#'+q);},300);
     }).catch(function(e){er.textContent='网络错误';B('btnPhone','注册')});
   }else{
     if(p.length<6){er.textContent='密码至少6位';return}
     B('btnPhone','登录中...');
-    fetch(A+'/rest/v1/rpc/login_user',{
+    fetch('/api/rest/v1/rpc/login_user',{
       method:'POST',
       headers:{'Content-Type':'application/json',apikey:K},
       body:JSON.stringify({p_phone:ph,p_password:p})
     }).then(function(r){return r.json()}).then(function(r){
       if(r.error){er.textContent=r.error;B('btnPhone','登录');return}
       er.className='er ok';er.textContent='登录成功！跳转中…';
-      localStorage.setItem(SB,JSON.stringify(r));
-      setTimeout(function(){window.location.replace('bridge.html?v='+Date.now());},300);
+      var q='uid='+encodeURIComponent(r.id)+'&em='+encodeURIComponent(r.email);window.location.replace('index.html?v='+Date.now()+'#'+q);},300);
     }).catch(function(e){er.textContent='网络错误';B('btnPhone','登录')});
   }
 }
