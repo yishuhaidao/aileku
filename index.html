@@ -31,6 +31,7 @@
   --grad8: linear-gradient(135deg, #0093e9 0%, #80d0c7 100%);
 }
 html, body { height: 100%; overflow: hidden; }
+:root { --app-height: 100vh; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   background: var(--bg);
@@ -43,7 +44,7 @@ body {
 .app-container {
   width: 100%;
   max-width: 430px;
-  height: 100vh;
+  height: var(--app-height);
   max-height: 932px;
   background: var(--bg);
   position: relative;
@@ -1895,6 +1896,14 @@ let generatedCount = songs.length;
 
 // ==================== INIT ====================
 function init() {
+  // Fix mobile viewport height (WeChat/phone browser address bar issue)
+  function setAppHeight() {
+    var h = window.innerHeight;
+    document.documentElement.style.setProperty('--app-height', h + 'px');
+  }
+  setAppHeight();
+  window.addEventListener('resize', setAppHeight);
+  window.addEventListener('orientationchange', function(){ setTimeout(setAppHeight, 100); });
   buildOptsPanel();
   renderHome();
   renderSquare();
