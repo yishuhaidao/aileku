@@ -1271,6 +1271,28 @@ body {
   </div>
 </div>
 
+<!-- ===== PROFILE SETUP OVERLAY ===== -->
+<div class="auth-overlay" id="profileOverlay" style="display:none">
+  <div class="auth-card" style="max-width:380px">
+    <div style="font-size:36px;margin-bottom:8px">👤</div>
+    <div class="auth-title">完善个人资料</div>
+    <div class="auth-desc">让你的音乐主页更精彩</div>
+    <div style="margin-bottom:12px;text-align:center" id="profileAvatarArea">
+      <div id="avatarPreview" style="width:72px;height:72px;border-radius:50%;background:var(--card);margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:32px;position:relative;overflow:hidden;cursor:pointer" onclick="document.getElementById('profAvatarInput').click()">
+        🎵
+        <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.6);font-size:10px;padding:2px;text-align:center">📷</div>
+      </div>
+      <input type="file" id="profAvatarInput" accept="image/*" style="display:none" onchange="handleAvatarUpload(this)">
+    </div>
+    <input type="text" id="profName" class="auth-input" placeholder="昵称（必填）" maxlength="20">
+    <input type="tel" id="profPhone" class="auth-input" placeholder="手机号（必填）" maxlength="11">
+    <input type="text" id="profBio" class="auth-input" placeholder="个人介绍（选填）" maxlength="100">
+    <button class="auth-btn" id="profSaveBtn" onclick="saveProfile()">保存，进入Ai乐酷</button>
+    <a href="#" class="auth-skip" onclick="event.preventDefault();skipProfile()" style="margin-top:12px">稍后完善</a>
+    <div class="auth-error" id="profError"></div>
+  </div>
+</div>
+
 <div class="app-container" id="app">
 
   <!-- ===== TOP PLAYER BAR ===== -->
@@ -2010,7 +2032,7 @@ let playerProgress = 0;
 let generatedCount = songs.length;
 
 // ==================== INIT ====================
-var APP_VERSION = 4;
+var APP_VERSION = 5;
 function init() {
   // Force reload if cached version is old
   var cachedVer = localStorage.getItem('appVersion');
@@ -4028,6 +4050,7 @@ setTimeout(function(){
   supabase.auth.getSession().then(function(res){
     if (res.data.session) {
       currentUser = res.data.session.user;
+      checkProfile();
     } else {
       document.getElementById('authOverlay').style.display = 'flex';
     }
@@ -4041,26 +4064,111 @@ function handleAuth() {
   if (!email || !password) { errEl.textContent = '请填写邮箱和密码'; return; }
   if (password.length < 6) { errEl.textContent = '密码至少6位'; return; }
   var btn = document.getElementById('authSubmitBtn');
-  btn.textContent = '处理中...'; btn.disabled = true;
-  var fn = authMode === 'register' ? supabase.auth.signUp : supabase.auth.signInWithPassword;
-  fn({email: email, password: password}).then(function(res){
-    if (res.error) {
-      errEl.textContent = res.error.message;
-      btn.textContent = authMode === 'register' ? '注册' : '登录';
-      btn.disabled = false;
-    } else if (authMode === 'register') {
-      errEl.textContent = '';
-      showToast('注册成功！请查看邮箱验证');
-      toggleAuthMode();
-      btn.textContent = '登录';
-      btn.disabled = false;
-    } else {
-      currentUser = res.data.user;
-      document.getElementById('authOverlay').style.display = 'none';
-      showToast('登录成功！');
-      syncUserData();
+  btn.textContent = '请稍候...'; btn.disabled = true; errEl.textContent = '';
+
+  if (authMode === 'register') {
+    supabase.auth.signUp({email: email, password: password}).then(function(res){
+      if (res.error) {
+        errEl.textContent = res.error.message;
+        btn.textContent = '注册'; btn.disabled = false;
+      } else if (res.data.session) {
+        // Email verification disabled - logged in immediately
+        currentUser = res.data.user;
+        document.getElementById('authOverlay').style.display = 'none';
+        showProfileSetup();
+      } else {
+        // Email verification required
+        errEl.textContent = '注册成功！请查看邮箱，点击验证链接后返回登录';
+        btn.textContent = '注册'; btn.disabled = false;
+      }
+    });
+  } else {
+    supabase.auth.signInWithPassword({email: email, password: password}).then(function(res){
+      if (res.error) {
+        errEl.textContent = res.error.message;
+        btn.textContent = '登录'; btn.disabled = false;
+      } else {
+        currentUser = res.data.user;
+        document.getElementById('authOverlay').style.display = 'none';
+        checkProfile();
+      }
+    });
+  }
+}
+
+function checkProfile() {
+  if (!currentUser) return;
+  var prof = localStorage.getItem('profile_' + currentUser.id);
+  if (prof) {
+    try {
+      var p = JSON.parse(prof);
+      showToast('欢迎回来，'+p.name+'！');
+    } catch(e) { showToast('欢迎回来！'); }
+    syncUserData();
+  } else {
+    showProfileSetup();
+  }
+}
+
+function showProfileSetup() {
+  document.getElementById('profileOverlay').style.display = 'flex';
+}
+
+function saveProfile() {
+  var name = document.getElementById('profName').value.trim();
+  var phone = document.getElementById('profPhone').value.trim();
+  var bio = document.getElementById('profBio').value.trim();
+  var errEl = document.getElementById('profError');
+  if (!name) { errEl.textContent = '请输入昵称'; return; }
+  if (!phone || phone.length < 11) { errEl.textContent = '请输入正确的手机号'; return; }
+  errEl.textContent = '';
+
+  var avatar = document.getElementById('avatarPreview').querySelector('img');
+  var avatarUrl = avatar ? avatar.src : localStorage.getItem('avatar') || '';
+
+  var profile = {
+    name: name,
+    phone: phone,
+    bio: bio || '',
+    avatar: avatarUrl,
+    email: currentUser.email,
+    updatedAt: new Date().toISOString()
+  };
+  localStorage.setItem('profile_' + currentUser.id, JSON.stringify(profile));
+  // Also set phone globally
+  localStorage.setItem('regPhone', phone);
+  document.getElementById('profileOverlay').style.display = 'none';
+  showToast('资料已保存！欢迎，' + name + ' 🎉');
+  syncUserData();
+}
+
+function skipProfile() {
+  document.getElementById('profileOverlay').style.display = 'none';
+  showToast('可随时在 我的→编辑资料 中完善');
+  syncUserData();
+}
+
+function handleAvatarUpload(input) {
+  var file = input.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var preview = document.getElementById('avatarPreview');
+    preview.innerHTML = '<img src="'+e.target.result+'" style="width:100%;height:100%;object-fit:cover">';
+    // Save to localStorage
+    localStorage.setItem('avatar', e.target.result);
+    // Upload to Supabase storage if logged in
+    if (currentUser && supabase) {
+      var ext = file.name.split('.').pop();
+      supabase.storage.from('avatars').upload(currentUser.id+'/avatar.'+ext, file, {upsert:true}).then(function(res){
+        if (!res.error) {
+          var url = supabase.storage.from('avatars').getPublicUrl(currentUser.id+'/avatar.'+ext);
+          localStorage.setItem('avatarUrl', url.data.publicUrl);
+        }
+      });
     }
-  });
+  };
+  reader.readAsDataURL(file);
 }
 
 function toggleAuthMode() {
@@ -4082,12 +4190,10 @@ function syncUserData() {
   supabase.from('user_coins').select('beans').eq('user_id', currentUser.id).single().then(function(res){
     if (res.data && res.data.beans) {
       var local = parseInt(localStorage.getItem('beans') || '0');
-      if (res.data.beans > local) {
-        localStorage.setItem('beans', res.data.beans);
-        updateBeanDisplay();
-      }
+      if (res.data.beans > local) { localStorage.setItem('beans', res.data.beans); updateBeanDisplay(); }
     }
   });
+  loadSongsFromCloud();
 }
 
 function saveSongToCloud(song) {
