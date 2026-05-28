@@ -309,7 +309,7 @@ function goEmail(){
     }).then(function(r){return r.json()}).then(function(r){
       if(r.error){er.textContent=r.error;B('btnEmail','注册');return}
       er.className='er ok';er.textContent='注册成功！跳转中…';
-      var q='uid='+encodeURIComponent(r.id)+'&em='+encodeURIComponent(r.email);window.location.replace('index.html?v='+Date.now()+'#'+q);},300);
+      window.location.replace('index.html?uid='+encodeURIComponent(r.id)+'&em='+encodeURIComponent(r.email)+'&v='+Date.now());},300);
     }).catch(function(e){er.textContent='网络错误，请重试';B('btnEmail','注册')});
   }else{
     if(p.length<6){er.textContent='密码至少6位';return}
@@ -321,7 +321,7 @@ function goEmail(){
     }).then(function(r){return r.json()}).then(function(r){
       if(r.error){er.textContent=r.error;B('btnEmail','登录');return}
       er.className='er ok';er.textContent='登录成功！跳转中…';
-      var q='uid='+encodeURIComponent(r.id)+'&em='+encodeURIComponent(r.email);window.location.replace('index.html?v='+Date.now()+'#'+q);},300);
+      window.location.replace('index.html?uid='+encodeURIComponent(r.id)+'&em='+encodeURIComponent(r.email)+'&v='+Date.now());},300);
     }).catch(function(e){er.textContent='网络错误，请重试';B('btnEmail','登录')});
   }
 }
@@ -358,7 +358,7 @@ function goPhone(){
     }).then(function(r){return r.json()}).then(function(r){
       if(r.error){er.textContent=r.error;B('btnPhone','注册');return}
       er.className='er ok';er.textContent='注册成功！跳转中…';
-      var q='uid='+encodeURIComponent(r.id)+'&em='+encodeURIComponent(r.email);window.location.replace('index.html?v='+Date.now()+'#'+q);},300);
+      window.location.replace('index.html?uid='+encodeURIComponent(r.id)+'&em='+encodeURIComponent(r.email)+'&v='+Date.now());},300);
     }).catch(function(e){er.textContent='网络错误';B('btnPhone','注册')});
   }else{
     if(p.length<6){er.textContent='密码至少6位';return}
@@ -370,7 +370,7 @@ function goPhone(){
     }).then(function(r){return r.json()}).then(function(r){
       if(r.error){er.textContent=r.error;B('btnPhone','登录');return}
       er.className='er ok';er.textContent='登录成功！跳转中…';
-      var q='uid='+encodeURIComponent(r.id)+'&em='+encodeURIComponent(r.email);window.location.replace('index.html?v='+Date.now()+'#'+q);},300);
+      window.location.replace('index.html?uid='+encodeURIComponent(r.id)+'&em='+encodeURIComponent(r.email)+'&v='+Date.now());},300);
     }).catch(function(e){er.textContent='网络错误';B('btnPhone','登录')});
   }
 }
