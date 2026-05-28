@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Ai乐酷</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;min-height:-webkit-fill-available;padding:16px}
+.c{background:#12122a;border-radius:16px;padding:32px 20px 28px;width:100%;max-width:340px;text-align:center}
+h1{font-size:24px;margin-bottom:8px}
+p.sub{color:#888;font-size:14px;margin-bottom:24px}
+input{width:100%;padding:14px;border-radius:10px;border:1px solid #2a2a4a;background:#1a1a3a;color:#fff;font-size:16px;margin-bottom:12px;outline:none}
+input:focus{border-color:#6366f1}
+.btn{width:100%;padding:14px;border-radius:10px;border:none;background:linear-gradient(135deg,#a855f7,#6366f1);color:#fff;font-size:16px;font-weight:600;cursor:pointer;margin-top:4px}
+.btn:disabled{opacity:.5}
+.er{color:#ef4444;font-size:13px;margin-top:8px;min-height:20px}
+.er.ok{color:#4ade80}
+.pw{position:relative}
+.pw input{padding-right:44px}
+.eye{position:absolute;right:4px;top:4px;bottom:4px;width:40px;border:none;background:none;font-size:18px;cursor:pointer;color:#888}
+.hi{text-align:left;margin:-4px 0 12px;display:none}
+.hi span{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;margin:2px 4px 2px 0;background:#1a1a3a;color:#666}
+.hi span.g{color:#4ade80;background:#0a2a1a}
+.sw{margin-top:16px;font-size:13px;color:#888}
+.sw a{color:#818cf8;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="c">
+<h1>🎵 Ai乐酷</h1>
+<p class="sub" id="d">登录你的账号</p>
+<div id="loginForm">
+<input type="email" id="em" placeholder="邮箱" autocomplete="email">
+<div class="pw">
+<input type="password" id="p1" placeholder="密码" autocomplete="current-password" oninput="ck()">
+<button class="eye" onclick="tg('p1',this)" type="button">👁</button>
+</div>
+<div class="pw" id="w2" style="display:none">
+<input type="password" id="p2" placeholder="确认密码" autocomplete="new-password">
+<button class="eye" onclick="tg('p2',this)" type="button">👁</button>
+</div>
+<div class="hi" id="hi"><span id="l">≥8位</span><span id="u">大写</span><span id="lo">小写</span><span id="dg">数字</span></div>
+<button class="btn" id="btn" onclick="go()">登录</button>
+<div class="sw"><span id="st">没有账号？</span> <a href="#" onclick="sw();return false" id="sl">注册</a></div>
+<div class="er" id="er"></div>
+</div>
+</div>
+<script>
+var mode='login';
+var USERS=JSON.parse(localStorage.getItem('aileku_users')||'{}');
+
+function sw(){
+mode=mode==='login'?'register':'login';
+document.getElementById('btn').textContent=mode==='login'?'登录':'注册';
+document.getElementById('st').textContent=mode==='login'?'没有账号？':'已有账号？';
+document.getElementById('sl').textContent=mode==='login'?'注册':'登录';
+document.getElementById('d').textContent=mode==='login'?'登录你的账号':'创建新账号';
+document.getElementById('w2').style.display=mode==='register'?'block':'none';
+document.getElementById('hi').style.display='none';
+document.getElementById('er').textContent='';
+document.getElementById('p1').value='';
+document.getElementById('p2')&&(document.getElementById('p2').value='');
+}
+
+function ck(){
+if(mode!=='register'){document.getElementById('hi').style.display='none';return}
+var p=document.getElementById('p1').value;
+if(!p){document.getElementById('hi').style.display='none';return}
+document.getElementById('hi').style.display='block';
+document.getElementById('l').className=p.length>=8?'g':'';
+document.getElementById('u').className=/[A-Z]/.test(p)?'g':'';
+document.getElementById('lo').className=/[a-z]/.test(p)?'g':'';
+document.getElementById('dg').className=/[0-9]/.test(p)?'g':'';
+}
+
+async function go(){
+var e=document.getElementById('em').value.trim();
+var p=document.getElementById('p1').value;
+var er=document.getElementById('er');
+if(!e||!p){er.textContent='请填写邮箱和密码';return}
+var btn=document.getElementById('btn');
+
+if(mode==='register'){
+var p2=document.getElementById('p2').value;
+if(p.length<8){er.textContent='密码至少8位';return}
+if(!/[a-zA-Z]/.test(p)){er.textContent='密码需包含字母';return}
+if(!/[0-9]/.test(p)){er.textContent='密码需包含数字';return}
+if(p!==p2){er.textContent='两次密码不一致';return}
+if(USERS[e]){er.textContent='该邮箱已注册';return}
+// Hash password (simple, not cryptographically secure but good enough)
+var hash=await sha256(e+':'+p);
+USERS[e]=hash;
+localStorage.setItem('aileku_users',JSON.stringify(USERS));
+localStorage.setItem('aileku_user',e);
+er.className='er ok';er.textContent='注册成功！跳转中…';
+btn.disabled=true;
+setTimeout(function(){window.location.href='index.html';},800);
+}else{
+if(!USERS[e]){er.textContent='账号不存在';return}
+var hash=await sha256(e+':'+p);
+if(USERS[e]!==hash){er.textContent='密码错误';return}
+localStorage.setItem('aileku_user',e);
+er.className='er ok';er.textContent='登录成功！跳转中…';
+btn.disabled=true;
+setTimeout(function(){window.location.href='index.html';},800);
+}
+}
+
+async function sha256(s){
+var buf=new TextEncoder().encode(s);
+var h=await crypto.subtle.digest('SHA-256',buf);
+return Array.from(new Uint8Array(h)).map(function(b){return b.toString(16).padStart(2,'0')}).join('');
+}
+
+function tg(id,btn){
+var i=document.getElementById(id);
+var s=i.type==='password';
+i.type=s?'text':'password';
+btn.textContent=s?'🙈':'👁';
+}
+</script>
+</body>
+</html>
