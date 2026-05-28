@@ -245,8 +245,8 @@ function go(){
       if(r.error||r.msg){er.textContent=r.error||r.msg;B('注册');return}
       if(r.session){
         er.textContent='注册成功！跳转中…';
-        localStorage.setItem('sb_token',r.session.access_token);
-        localStorage.setItem('sb_user',JSON.stringify(r.user||{email:e}));
+        var sbKey='sb-vrfadiaqfissptfxwtex-auth-token';
+        localStorage.setItem(sbKey,JSON.stringify(r.session));
         setTimeout(function(){window.location.replace('index.html')},300);
       }else{
         er.textContent='注册成功！查看邮箱验证后登录';
@@ -263,8 +263,9 @@ function go(){
     }).then(function(r){return r.json()}).then(function(r){
       if(r.error){er.textContent=r.error_description||r.error;B('登录');return}
       er.textContent='登录成功！跳转中…';
-      localStorage.setItem('sb_token',r.access_token);
-      localStorage.setItem('sb_user',JSON.stringify(r.user||{email:e}));
+      var sbKey='sb-vrfadiaqfissptfxwtex-auth-token';
+      var sess={access_token:r.access_token,token_type:r.token_type,expires_in:r.expires_in,expires_at:r.expires_at,refresh_token:r.refresh_token,user:r.user};
+      localStorage.setItem(sbKey,JSON.stringify(sess));
       setTimeout(function(){window.location.replace('index.html')},300);
     });
   }
