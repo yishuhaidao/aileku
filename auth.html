@@ -1,26 +1,270 @@
-<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>Ai乐酷</title><style>
-*{margin:0;padding:0;box-sizing:border-box}body{background:#0a0a1a;color:#fff;font-family:system-ui;display:flex;align-items:center;justify-content:center;min-height:100vh;min-height:-webkit-fill-available}.c{background:#12122a;border-radius:20px;padding:32px 24px;width:90%;max-width:360px;text-align:center}h1{font-size:22px;margin-bottom:4px;background:linear-gradient(135deg,#a855f7,#6366f1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}d{font-size:12px;color:#888;margin-bottom:20px}i{width:100%;padding:12px;border-radius:12px;border:1px solid #333;background:#1a1a3a;color:#fff;font-size:14px;margin-bottom:10px;outline:none}i:focus{border-color:#a855f7}.pw{position:relative;margin-bottom:10px}.pw i{padding-right:44px;margin-bottom:0}.pw b{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;background:none;color:#888;padding:0;border-radius:8px;font-size:18px}.pw b:active{background:#2a2a4a}.hi{font-size:11px;color:#666;text-align:left;margin:-6px 0 8px 4px;display:none}.hi s{padding:1px 6px;border-radius:4px;margin:1px;text-decoration:none;display:inline-block}.hi s.g{color:#4ade80;background:rgba(74,222,128,.1)}.hi s.r{color:#666}btn{width:100%;padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,#a855f7,#6366f1);color:#fff;font-size:15px;font-weight:700;cursor:pointer;margin-top:6px;display:block}btn:active{opacity:.8}.sw{font-size:12px;color:#888;margin-top:14px}.sw a{color:#a855f7;text-decoration:none}.sk{font-size:12px;color:#666;margin-top:10px;display:block;text-decoration:none}.er{color:#f87171;font-size:12px;margin-top:8px;min-height:18px}</style></head><body>
-<div class="c"><h1 id="t">登录 Ai乐酷</h1><d id="d">同步你的作品和数据到云端</d>
-<i type="email" id="em" placeholder="邮箱" autocomplete="email">
-<div class="pw"><i type="password" id="p1" placeholder="密码" autocomplete="current-password" oninput="ck()"><b onclick="tg('p1',this)">👁</b></div>
-<div class="pw" id="w2" style="display:none"><i type="password" id="p2" placeholder="确认密码" autocomplete="new-password"><b onclick="tg('p2',this)">👁</b></div>
-<div class="hi" id="hi">密码要求：<s id="l" class="r">≥8位</s><s id="u" class="r">大写</s><s id="lo" class="r">小写</s><s id="dg" class="r">数字</s></div>
-<btn id="btn" onclick="go()">登录</btn>
-<div class="sw"><span id="st">没有账号？</span> <a href="#" onclick="sw();return false" id="sl">注册</a></div>
-<a href="#" class="sk" onclick="sk();return false">跳过</a>
-<div class="er" id="er"></div></div>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Ai涔愰叿</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:#0a0a1a;
+  color:#fff;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  min-height:-webkit-fill-available;
+  padding:16px;
+}
+.c{
+  background:#12122a;
+  border-radius:16px;
+  padding:40px 20px 32px;
+  width:100%;
+  max-width:340px;
+  text-align:center;
+}
+h1{
+  font-size:24px;
+  margin-bottom:8px;
+  background:linear-gradient(135deg,#a855f7,#6366f1);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.ds{
+  font-size:13px;
+  color:#999;
+  margin-bottom:28px;
+  line-height:1.5;
+}
+input{
+  display:block;
+  width:100%;
+  padding:14px 16px;
+  border-radius:12px;
+  border:1px solid #2a2a3a;
+  background:#1a1a30;
+  color:#fff;
+  font-size:15px;
+  margin-bottom:12px;
+  outline:none;
+  -webkit-appearance:none;
+}
+input:focus{
+  border-color:#a855f7;
+}
+input::placeholder{
+  color:#555;
+}
+.pw{
+  position:relative;
+  margin-bottom:0;
+}
+.pw input{
+  padding-right:48px;
+  margin-bottom:12px;
+}
+.pw .eye{
+  position:absolute;
+  right:4px;
+  top:14px;
+  width:40px;
+  height:40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  border:none;
+  background:none;
+  color:#888;
+  font-size:20px;
+  border-radius:8px;
+  -webkit-tap-highlight-color:transparent;
+}
+.pw .eye:active{
+  background:rgba(255,255,255,0.08);
+}
+.hi{
+  font-size:12px;
+  color:#888;
+  text-align:left;
+  margin:-4px 0 12px 4px;
+  display:none;
+  line-height:1.8;
+}
+.hi span{
+  display:inline-block;
+  padding:2px 8px;
+  border-radius:4px;
+  margin:2px 3px;
+}
+.hi span.g{
+  color:#4ade80;
+  background:rgba(74,222,128,0.12);
+}
+.hi span.r{
+  color:#666;
+}
+.btn{
+  display:block;
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:none;
+  background:linear-gradient(135deg,#a855f7,#6366f1);
+  color:#fff;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+  margin-top:8px;
+  -webkit-tap-highlight-color:transparent;
+}
+.btn:active{
+  opacity:0.85;
+}
+.btn:disabled{
+  opacity:0.6;
+}
+.sw{
+  font-size:13px;
+  color:#999;
+  margin-top:18px;
+}
+.sw a{
+  color:#a855f7;
+  text-decoration:none;
+  font-weight:500;
+}
+.sk{
+  display:block;
+  font-size:13px;
+  color:#666;
+  margin-top:12px;
+  text-decoration:none;
+}
+.er{
+  color:#f87171;
+  font-size:13px;
+  margin-top:10px;
+  min-height:20px;
+  line-height:1.4;
+}
+</style>
+</head>
+<body>
+
+<div class="c">
+  <h1 id="t">鐧诲綍 Ai涔愰叿</h1>
+  <div class="ds" id="d">鍚屾浣犵殑浣滃搧鍜屾暟鎹埌浜戠</div>
+
+  <input type="email" id="em" placeholder="閭" autocomplete="email">
+
+  <div class="pw">
+    <input type="password" id="p1" placeholder="瀵嗙爜" autocomplete="current-password" oninput="ck()">
+    <button class="eye" onclick="tg('p1',this)" type="button">馃憗</button>
+  </div>
+
+  <div class="pw" id="w2" style="display:none">
+    <input type="password" id="p2" placeholder="纭瀵嗙爜" autocomplete="new-password">
+    <button class="eye" onclick="tg('p2',this)" type="button">馃憗</button>
+  </div>
+
+  <div class="hi" id="hi">
+    瀵嗙爜瑕佹眰锛?    <span id="l" class="r">鈮?浣?/span>
+    <span id="u" class="r">澶у啓</span>
+    <span id="lo" class="r">灏忓啓</span>
+    <span id="dg" class="r">鏁板瓧</span>
+  </div>
+
+  <button class="btn" id="btn" onclick="go()">鐧诲綍</button>
+
+  <div class="sw">
+    <span id="st">娌℃湁璐﹀彿锛?/span>
+    <a href="#" onclick="sw();return false" id="sl">娉ㄥ唽</a>
+  </div>
+
+  <a href="#" class="sk" onclick="sk();return false">璺宠繃</a>
+  <div class="er" id="er"></div>
+</div>
+
 <script>
 var m='login',A='https://vrfadiaqfissptfxwtex.supabase.co',K='sb_publishable_YpotEpinEWsC2dI7FIKI';
-function sw(){m=m==='login'?'register':'login';T('t',m==='login'?'登录 Ai乐酷':'注册 Ai乐酷');T('btn',m==='login'?'登录':'注册');T('st',m==='login'?'没有账号？':'已有账号？');T('sl',m==='login'?'注册':'登录');T('er','');S('w2',m==='register'?'block':'none');S('hi','none');E('p1').type='password';E('p2').value='';E('p1').value=''}
-function ck(){if(m!=='register'){S('hi','none');return}var p=E('p1').value;if(!p){S('hi','none');return}S('hi','block');C('l',p.length>=8);C('u',/[A-Z]/.test(p));C('lo',/[a-z]/.test(p));C('dg',/[0-9]/.test(p))}
+
+function sw(){
+  m=m==='login'?'register':'login';
+  T('t',m==='login'?'鐧诲綍 Ai涔愰叿':'娉ㄥ唽 Ai涔愰叿');
+  T('btn',m==='login'?'鐧诲綍':'娉ㄥ唽');
+  T('st',m==='login'?'娌℃湁璐﹀彿锛?:'宸叉湁璐﹀彿锛?);
+  T('sl',m==='login'?'娉ㄥ唽':'鐧诲綍');
+  T('er','');
+  S('w2',m==='register'?'block':'none');
+  S('hi','none');
+  E('p1').type='password';
+  E('p1').value='';
+  E('p2').value='';
+}
+
+function ck(){
+  if(m!=='register'){S('hi','none');return}
+  var p=E('p1').value;
+  if(!p){S('hi','none');return}
+  S('hi','block');
+  C('l',p.length>=8);
+  C('u',/[A-Z]/.test(p));
+  C('lo',/[a-z]/.test(p));
+  C('dg',/[0-9]/.test(p));
+}
+
 function C(id,ok){E(id).className=ok?'g':'r'}
-function tg(id,b){var i=E(id);var s=i.type==='password';i.type=s?'text':'password';b.textContent=s?'🙈':'👁'}
-function go(){var e=E('em').value.trim(),p=E('p1').value,er=E('er');if(!e||!p){er.textContent='请填写邮箱和密码';return}
-if(m==='register'){var p2=E('p2').value;if(p.length<8){er.textContent='密码至少8位';return}if(!/[a-zA-Z]/.test(p)){er.textContent='密码需包含字母';return}if(!/[0-9]/.test(p)){er.textContent='密码需包含数字';return}if(p!==p2){er.textContent='两次密码不一致';return}B('注册中...');fetch(A+'/auth/v1/signup',{method:'POST',headers:{'Content-Type':'application/json',apikey:K},body:JSON.stringify({email:e,password:p})}).then(r=>r.json()).then(r=>{if(r.error||r.msg){er.textContent=r.error||r.msg;B('注册');return}er.textContent=r.session?'注册成功！':'注册成功！查看邮箱验证后登录';B('注册')})}
-else{if(p.length<6){er.textContent='密码至少6位';return}B('登录中...');fetch(A+'/auth/v1/token?grant_type=password',{method:'POST',headers:{'Content-Type':'application/json',apikey:K},body:JSON.stringify({email:e,password:p})}).then(r=>r.json()).then(r=>{if(r.error){er.textContent=r.error_description||r.error;B('登录');return}er.textContent='登录成功！🎉';B('登录')})}}
-function B(t){E('btn').textContent=t;E('btn').disabled=t!=='登录'&&t!=='注册'}
+
+function tg(id,b){
+  var i=E(id);
+  var s=i.type==='password';
+  i.type=s?'text':'password';
+  b.textContent=s?'馃檲':'馃憗';
+}
+
+function go(){
+  var e=E('em').value.trim(),p=E('p1').value,er=E('er');
+  if(!e||!p){er.textContent='璇峰～鍐欓偖绠卞拰瀵嗙爜';return}
+  if(m==='register'){
+    var p2=E('p2').value;
+    if(p.length<8){er.textContent='瀵嗙爜鑷冲皯8浣?;return}
+    if(!/[a-zA-Z]/.test(p)){er.textContent='瀵嗙爜闇€鍖呭惈瀛楁瘝';return}
+    if(!/[0-9]/.test(p)){er.textContent='瀵嗙爜闇€鍖呭惈鏁板瓧';return}
+    if(p!==p2){er.textContent='涓ゆ瀵嗙爜涓嶄竴鑷?;return}
+    B('娉ㄥ唽涓?..');
+    fetch(A+'/auth/v1/signup',{
+      method:'POST',
+      headers:{'Content-Type':'application/json',apikey:K},
+      body:JSON.stringify({email:e,password:p})
+    }).then(function(r){return r.json()}).then(function(r){
+      if(r.error||r.msg){er.textContent=r.error||r.msg;B('娉ㄥ唽');return}
+      er.textContent=r.session?'娉ㄥ唽鎴愬姛锛侌煄?:'娉ㄥ唽鎴愬姛锛佹煡鐪嬮偖绠遍獙璇佸悗鐧诲綍';
+      B('娉ㄥ唽');
+    });
+  }else{
+    if(p.length<6){er.textContent='瀵嗙爜鑷冲皯6浣?;return}
+    B('鐧诲綍涓?..');
+    fetch(A+'/auth/v1/token?grant_type=password',{
+      method:'POST',
+      headers:{'Content-Type':'application/json',apikey:K},
+      body:JSON.stringify({email:e,password:p})
+    }).then(function(r){return r.json()}).then(function(r){
+      if(r.error){er.textContent=r.error_description||r.error;B('鐧诲綍');return}
+      er.textContent='鐧诲綍鎴愬姛锛侌煄?;
+      B('鐧诲綍');
+    });
+  }
+}
+
+function B(t){E('btn').textContent=t;E('btn').disabled=t!=='鐧诲綍'&&t!=='娉ㄥ唽'}
 function E(id){return document.getElementById(id)}
 function S(id,v){E(id).style.display=v}
 function T(id,v){E(id).textContent=v}
-function sk(){document.querySelector('.c').innerHTML='<h1>🎵</h1><p style="color:#888;margin-top:16px">离线模式</p>'}
-</script></body></html>
+function sk(){document.querySelector('.c').innerHTML='<h1>馃幍</h1><p style="color:#888;margin-top:16px">绂荤嚎妯″紡</p>'}
+</script>
+</body>
+</html>
