@@ -3014,33 +3014,25 @@ var supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 var authMode = 'login';
 var currentUser = null;
 // Show auth after splash
-setTimeout(function(){
-  // 1. Check custom session in localStorage
+(function initSession(){
+  // Read from query string FIRST (auth.html passes session this way)
+  var qs={};location.search.substring(1).split('&').forEach(function(p){var kv=p.split('=');if(kv[0])qs[kv[0]]=decodeURIComponent(kv[1]||'')});
   var custom=localStorage.getItem('sb-vrfadiaqfissptfxwtex-auth-token');
-  if(!custom){
-    // 2. Fallback: read from URL hash (passed by auth.html)
-    var h=window.location.hash.substring(1);
-    if(h.indexOf('uid=')>=0){
-      var params={};h.split('&').forEach(function(p){var kv=p.split('=');params[kv[0]]=decodeURIComponent(kv[1]||'')});
-      if(params.uid&&params.em){
-        custom=JSON.stringify({id:params.uid,email:params.em});
-        localStorage.setItem('sb-vrfadiaqfissptfxwtex-auth-token',custom);
-        if(!localStorage.getItem('profile_'+params.uid)){
-          localStorage.setItem('profile_'+params.uid,JSON.stringify({name:params.em.split('@')[0],phone:'',bio:'',avatar:''}));
-        }
-      }
+  if(!custom && qs.uid && qs.em){
+    custom=JSON.stringify({id:qs.uid,email:qs.em});
+    localStorage.setItem('sb-vrfadiaqfissptfxwtex-auth-token',custom);
+    if(!localStorage.getItem('profile_'+qs.uid)){
+      localStorage.setItem('profile_'+qs.uid,JSON.stringify({name:qs.em.split('@')[0],phone:'',bio:'',avatar:''}));
     }
   }
   if(custom){try{var u=JSON.parse(custom);if(u.id&&u.email){currentUser={id:u.id,email:u.email};try{checkProfile()}catch(e){}return}}catch(e){}}
-  supabase.auth.getSession().then(function(res){
-    if (res.data.session) {
-      currentUser = res.data.session.user;
-      checkProfile();
-    } else {
-      window.location.replace('auth.html?v='+Date.now());
-    }
-  });
-}, 5500);
+  setTimeout(function(){
+    supabase.auth.getSession().then(function(res){
+      if(res.data.session){currentUser=res.data.session.user;checkProfile()}
+      else{window.location.replace('auth.html?v='+Date.now())}
+    });
+  },5500);
+})();
 function handleAuth() {
   var email = document.getElementById('authEmail').value.trim();
   var password = document.getElementById('authPassword').value;
