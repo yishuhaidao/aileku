@@ -1,4 +1,16 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><title>Ai乐酷 - AI 音乐创作平台</title><style>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Ai乐酷 - AI 音乐创作平台</title>
+<style>
+
+
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
   --bg: #0d0d14;
@@ -44,6 +56,7 @@ body {
   flex-direction: column;
   box-shadow: 0 0 60px rgba(107,203,119,0.08);
 }
+
 /* ===== RESPONSIVE ===== */
 @media (min-width: 600px) {
   .app-container {
@@ -58,6 +71,7 @@ body {
   .form-select { font-size: 16px; }
   .form-input { font-size: 16px; }
 }
+
 /* Top Player Bar */
 .player-bar {
   position: sticky; top: 0; z-index: 100;
@@ -97,6 +111,7 @@ body {
 }
 .player-bar-btn:active { transform: scale(0.9); }
 .player-bar-btn.inactive { background: var(--border); color: var(--text2); }
+
 /* Main Content */
 .main-content {
   flex: 1; overflow-y: auto; overflow-x: hidden;
@@ -104,9 +119,11 @@ body {
   margin-bottom: 64px;
 }
 .main-content::-webkit-scrollbar { width: 0; }
+
 /* Tab Pages */
 .tab-page { display: none; padding: 0; }
 .tab-page.active { display: block; }
+
 /* Bottom Tab Bar */
 .tab-bar {
   position: absolute; bottom: 0; left: 0; right: 0; height: 64px;
@@ -134,6 +151,7 @@ body {
   display: flex; align-items: center; justify-content: center;
   font-weight: 600;
 }
+
 /* ===== HOME PAGE ===== */
 .hero-card {
   margin: 12px 16px;
@@ -182,6 +200,7 @@ body {
   cursor: pointer; transition: transform 0.15s;
 }
 .hero-gift-btn:active { transform: scale(0.96); }
+
 /* VIP Banner */
 .vip-banner {
   margin: 8px 16px; padding: 10px 16px;
@@ -220,6 +239,7 @@ body {
 }
 .section-title { font-size: 16px; font-weight: 700; }
 .section-more { font-size: 12px; color: var(--text3); cursor: pointer; }
+
 /* Section Toggle Buttons */
 .section-toggle {
   display: flex; align-items: center; gap: 12px;
@@ -247,6 +267,7 @@ body {
   from { opacity: 0; max-height: 0; }
   to { opacity: 1; max-height: 2000px; }
 }
+
 /* Quick Action Row */
 .quick-row {
   display: flex; gap: 8px; padding: 6px 12px;
@@ -263,6 +284,7 @@ body {
 .quick-btn-icon { font-size: 20px; }
 .quick-btn-label { white-space: nowrap; font-size: 12px; }
 .quick-btn-sub { font-size: 10px; color: var(--text3); }
+
 /* Home Page - flex layout, MV 1/4 + music circle 3/4 */
 #page-home.active { display: flex; flex-direction: column; min-height: 100%; }
 #page-home.active .mv-hero-card { flex: 0 0 auto; height: 160px; margin-bottom: 6px; }
@@ -270,6 +292,7 @@ body {
 #page-home.active .toggle-content { flex-shrink: 0; }
 #page-home.active .music-circle { flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 #page-home.active #artistSection { display: flex; }
+
 /* Song Card List */
 .song-list { padding: 0 16px; display: flex; flex-direction: column; gap: 10px; }
 .song-card {
@@ -298,6 +321,7 @@ body {
 .song-card-action:active { transform: scale(1.2); }
 .song-card-action.liked { color: var(--red); }
 .song-card-action.favorited { color: var(--gold); }
+
 /* ===== MUSIC CIRCLE ===== */
 .music-circle { padding: 0; display: none; flex-direction: column; }
 #page-home.active .music-circle { display: flex; }
@@ -413,6 +437,7 @@ body {
 }
 .h-scroll-name { font-size: 13px; font-weight: 600; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .h-scroll-sub { font-size: 11px; color: var(--text3); }
+
 /* Group Cards */
 .group-list { padding: 0 16px; display: flex; flex-direction: column; gap: 8px; }
 .group-card {
@@ -434,6 +459,7 @@ body {
   cursor: pointer; transition: all 0.2s;
 }
 .group-join-btn:active { background: var(--accent); color: #000; }
+
 /* ===== CREATE PAGE ===== */
 .create-grid {
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
@@ -449,6 +475,7 @@ body {
 .create-card-icon { font-size: 28px; }
 .create-card-label { font-size: 13px; font-weight: 700; }
 .create-card-desc { font-size: 10px; color: var(--text3); line-height: 1.3; }
+
 /* Form Overlay */
 .form-overlay {
   position: absolute; top: 0; left: 0; right: 0; bottom: 64px;
@@ -469,6 +496,7 @@ body {
   font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center;
 }
 .form-title { font-size: 20px; font-weight: 700; }
+
 /* New Chip Selector Form */
 .form-body-new { padding: 16px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 120px; }
 .chip-section { display: flex; flex-direction: column; gap: 6px; }
@@ -486,6 +514,7 @@ body {
   background: var(--accent); color: #000; border-color: var(--accent);
   font-weight: 600;
 }
+
 /* Massive Lyrics */
 .lyrics-massive-section { flex: 1; display: flex; flex-direction: column; gap: 8px; min-height: 0; }
 .lyrics-massive-label { font-size: 14px; font-weight: 700; color: var(--text); }
@@ -498,6 +527,7 @@ body {
 }
 .lyrics-massive:focus { border-color: var(--accent); }
 .lyrics-massive::placeholder { color: var(--text3); line-height: 1.8; }
+
 /* BPM Row */
 .bpm-row {
   display: flex; align-items: center; gap: 10px;
@@ -511,10 +541,12 @@ body {
   -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%;
   background: var(--accent); cursor: pointer;
 }
+
 /* Keep old styles for backward compat */
 .form-body { padding: 24px 20px; display: flex; flex-direction: column; gap: 24px; padding-bottom: 140px; }
 .form-group { display: flex; flex-direction: column; gap: 10px; }
 .form-label { font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: 0.5px; }
+
 /* ===== COMPACT CREATE FORM ===== */
 .form-body-fixed {
   display: flex; flex-direction: column; gap: 6px;
@@ -530,13 +562,16 @@ body {
 }
 .lyrics-giant:focus { border-color: var(--accent); }
 .lyrics-giant::placeholder { color: var(--text3); font-size: 14px; line-height: 1.8; }
+
 /* Lyrics area (flex:1 fills space) */
 .lyrics-area { flex: 1; display: flex; flex-direction: column; min-height: 0; }
 #lyricsContent { flex: 1; display: flex; min-height: 0; }
+
 /* One-click: lyrics fills all space above bottom bar */
 #formOneClick .lyrics-area { flex: 1; }
 #formOneClick .lyrics-giant { flex: 1; }
 #formOneClick .lyrics-modes { display: none; }
+
 /* Mode tabs row */
 .lyrics-modes {
   display: flex; gap: 6px; padding: 2px 0 6px; overflow-x: auto; flex-shrink: 0;
@@ -549,6 +584,7 @@ body {
   cursor: pointer; white-space: nowrap;
 }
 .lyrics-mode-tab.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 700; }
+
 /* Action buttons row */
 .lyrics-actions {
   display: flex; gap: 6px; padding: 6px 0 2px; flex-shrink: 0; overflow-x: auto;
@@ -561,6 +597,7 @@ body {
   cursor: pointer; white-space: nowrap;
 }
 .lyrics-act-btn.ai { border-color: var(--accent); color: var(--accent); background: rgba(0,200,150,0.08); }
+
 /* Category filter area */
 .opt-bar {
   display: flex; gap: 0; align-items: center; flex-wrap: nowrap; overflow-x: auto;
@@ -576,10 +613,12 @@ body {
 .opt-tab.active { color: var(--accent); font-weight: 700; }
 .opt-tab.active::after { content:''; position: absolute; bottom: 0; left: 2px; right: 2px; height: 2px; background: var(--accent); border-radius: 1px; }
 .opt-tab:active { color: var(--accent); }
+
 /* Form bottom bar */
 .form-bottom { display: flex; align-items: center; gap: 10px; padding: 8px 0 0; flex-shrink: 0; }
 .form-bottom .btn-generate { flex: 1; margin: 0; }
 .form-bottom #selCounter { font-size: 11px; color: var(--text3); white-space: nowrap; }
+
 /* Flat option grid */
 .opt-grid { display: none; flex-shrink: 0; overflow-y: auto; max-height: 140px; }
 .opt-grid::-webkit-scrollbar { display: none; }
@@ -595,6 +634,7 @@ body {
 }
 .mv-style-chip { cursor: pointer; border-radius: 16px; border: 1px solid var(--border); color: var(--text); background: var(--card); font-size: 13px; font-weight: 500; }
 .mv-style-chip.selected { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 700; }
+
 /* Selected tags display */
 .sel-tag {
   display: inline-flex; align-items: center; gap: 4px;
@@ -603,12 +643,14 @@ body {
   cursor: pointer; white-space: nowrap;
 }
 .sel-tag:hover { background: rgba(200,50,50,0.15); color: #e74c3c; border-color: rgba(200,50,50,0.4); }
+
 .opt-slider {
   flex: 1; min-width: 80px; -webkit-appearance: none; height: 4px;
   border-radius: 2px; background: var(--border); outline: none;
 }
 .opt-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); cursor: pointer; }
 .opt-val { font-size: 14px; font-weight: 700; color: var(--accent); min-width: 30px; text-align: center; }
+
 .btn-generate {
   padding: 14px 24px; border-radius: 24px; border: none;
   margin: 12px 0; width: 100%;
@@ -619,6 +661,7 @@ body {
   transition: transform 0.15s;
 }
 .btn-generate:active { transform: scale(0.96); }
+
 /* One-click mode bottom */
 .oneclick-bottom { display: flex; align-items: center; gap: 10px; flex-shrink: 0; padding: 8px 0 0; }
 .oneclick-bottom .oc-style-btn {
@@ -628,10 +671,12 @@ body {
 }
 .oneclick-bottom .oc-style-btn .oc-arrow { font-size: 18px; color: var(--text3); }
 .oneclick-bottom .btn-generate { flex: 1; margin: 0; width: auto; }
+
 /* Form mode panels */
 .form-mode-panel { display: none; flex: 1; flex-direction: column; min-height: 0; }
 .form-mode-panel.active { display: flex; }
 #formOneClick.active, #formFull.active { display: flex !important; }
+
 /* ===== OPTION SUB-PAGE ===== */
 .oc-save-btn {
   padding: 8px 18px; border-radius: 20px; border: none;
@@ -641,16 +686,20 @@ body {
 }
 #optSubPage { overflow: hidden; }
 #optSubBody { overflow: hidden; }
+
 /* Top 50%: combo */
 .opt-sub-top { flex: 1; display: flex; flex-direction: column; min-height: 0; padding: 10px 14px; background: var(--card); margin: 8px 8px 0 8px; border-radius: 14px 14px 0 0; border: 1px solid var(--border); border-bottom: none; }
 .opt-sub-top-inner { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+
 /* Bottom 50%: tabs + grid */
 .opt-sub-bottom { flex: 1; display: flex; flex-direction: column; min-height: 0; margin: 0 8px 8px 8px; background: var(--card); border: 1px solid var(--border); border-radius: 0 0 14px 14px; overflow: hidden; }
+
 /* Horizontal scrolling tabs */
 .opt-sub-tabs { display: flex; gap: 2px; padding: 6px 8px; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; border-bottom: 1px solid var(--border); flex-shrink: 0; }
 .opt-sub-tabs::-webkit-scrollbar { display: none; }
 .opt-sub-tab { flex-shrink: 0; padding: 8px 16px; font-size: 13px; color: var(--text2); cursor: pointer; white-space: nowrap; border-radius: 16px; background: var(--bg); border: 1px solid var(--border); font-weight: 500; transition: all 0.15s; }
 .opt-sub-tab.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 700; }
+
 /* Option chips in sub-page */
 .opt-sub-grid { flex: 1; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 6px; padding: 10px 8px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 .opt-sub-grid::-webkit-scrollbar { display: none; }
@@ -718,6 +767,7 @@ body {
 }
 .form-submit:active { transform: scale(0.96); }
 .form-submit:disabled { opacity: 0.5; pointer-events: none; }
+
 /* ===== MESSAGES PAGE ===== */
 .msg-categories {
   display: flex; gap: 8px; overflow-x: auto; padding: 12px 16px;
@@ -748,6 +798,7 @@ body {
 .msg-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
 .msg-time { font-size: 10px; color: var(--text3); }
 .msg-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); }
+
 /* ===== PROFILE PAGE ===== */
 .profile-header {
   padding: 20px 16px 16px; display: flex; flex-direction: column; align-items: center; gap: 10px;
@@ -798,6 +849,7 @@ body {
 .menu-item-label { flex: 1; font-size: 14px; font-weight: 500; }
 .menu-item-value { font-size: 13px; color: var(--text3); }
 .menu-item-arrow { color: var(--text3); font-size: 14px; }
+
 /* ===== SONG DETAIL MODAL ===== */
 .detail-modal {
   position: absolute; top: 0; left: 0; right: 0; bottom: 64px;
@@ -853,6 +905,7 @@ body {
   transition: transform 0.15s;
 }
 .detail-play-btn:active { transform: scale(0.96); }
+
 /* ===== BOTTOM SHEET ===== */
 .bottom-sheet-overlay {
   position: absolute; top: 0; left: 0; right: 0; bottom: 0;
@@ -878,6 +931,7 @@ body {
 .sheet-item:last-child { border-bottom: none; }
 .sheet-item.cancel { color: var(--text3); margin-top: 4px; }
 .sheet-item.danger { color: var(--red); }
+
 /* ===== TOAST ===== */
 .toast {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -887,6 +941,7 @@ body {
   opacity: 0; transition: opacity 0.3s;
 }
 .toast.show { opacity: 1; }
+
 /* ===== GIFT ANIMATION ===== */
 .gift-float {
   position: absolute; font-size: 28px; pointer-events: none;
@@ -896,19 +951,23 @@ body {
   0% { opacity: 1; transform: translateY(0) scale(1); }
   100% { opacity: 0; transform: translateY(-200px) scale(1.5); }
 }
+
 /* Page transition */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .tab-page.active { animation: fadeIn 0.25s ease-out; }
+
 /* Empty placeholder */
 .empty-state { text-align: center; padding: 40px 16px; color: var(--text3); }
 .empty-icon { font-size: 48px; margin-bottom: 12px; }
 .empty-text { font-size: 14px; }
+
 @media (min-width: 431px) {
   .app-container { border-radius: 20px; margin: 10px; }
 }
+
 /* ===== RECHARGE MODAL ===== */
 .recharge-modal {
   position: absolute; top: 0; left: 0; right: 0; bottom: 64px;
@@ -952,6 +1011,7 @@ body {
   background: linear-gradient(135deg, #f9ca24, #f0932b);
   color: #000; font-size: 13px; font-weight: 700; cursor: pointer;
 }
+
 /* VIP comparison table */
 .vip-compare { width:100%; border-collapse:collapse; font-size:12px; margin-top:6px }
 .vip-compare th { padding:10px 6px; text-align:center; border-bottom:2px solid var(--border); font-weight:700 }
@@ -966,6 +1026,7 @@ body {
 .vip-col-price { font-size:18px; font-weight:800; color:var(--accent) }
 .vip-col-sub { font-size:10px; color:var(--text3) }
 .vip-row-title { font-weight:600 }
+
 /* ===== SETTINGS OVERLAY ===== */
 .settings-overlay {
   position: absolute; top: 0; left: 0; right: 0; bottom: 64px;
@@ -1028,6 +1089,7 @@ body {
 .settings-faq-q { font-size: 14px; font-weight: 600; }
 .settings-faq-a { font-size: 12px; color: var(--text2); margin-top: 8px; display: none; line-height: 1.6; }
 .settings-faq-item.open .settings-faq-a { display: block; }
+
 /* MV Hero Card - compact */
 .mv-hero-card {
   margin: 8px 12px 0;
@@ -1059,6 +1121,7 @@ body {
   transition: transform 0.15s;
 }
 .mv-hero-card:active .mv-hero-play { transform: scale(0.9); }
+
 /* MV Showcase Grid */
 .mv-showcase { padding: 0 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .mv-card {
@@ -1081,6 +1144,7 @@ body {
 .mv-card-artist { font-size: 11px; color: var(--text2); margin-top: 2px; }
 .mv-card-meta { font-size: 10px; color: var(--text3); margin-top: 4px; display: flex; gap: 8px; }
 .mv-card-stats { font-size: 10px; color: var(--text3); margin-top: 4px; display: flex; gap: 6px; flex-wrap: wrap; }
+
 /* ===== SPLASH SCREEN ===== */
 .splash {
   position: fixed; inset: 0; z-index: 9999;
@@ -1152,6 +1216,7 @@ body {
   from { opacity: 1; }
   to { opacity: 0; pointer-events: none; }
 }
+
 /* ===== AUTH ===== */
 .auth-overlay { position: fixed; inset: 0; z-index: 9990; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; }
 .auth-overlay.hidden { display: none; }
@@ -1176,17 +1241,741 @@ body {
 .pwd-hint span { display: inline-block; padding: 1px 6px; border-radius: 4px; margin: 1px; background: rgba(255,255,255,0.05); }
 .pwd-hint span.ok { color: #4ade80; background: rgba(74,222,128,0.1); }
 .pwd-hint span.warn { color: var(--text3); }
-</style><script src="supabase.min.js"></script></head><body><div class="splash" id="splashScreen"><div class="splash-orb splash-orb-1"></div><div class="splash-orb splash-orb-2"></div><div class="splash-orb splash-orb-3"></div><div class="splash-logo">🎵</div><div class="splash-title">Ai乐酷</div><div class="splash-subtitle">你的 AI 音乐创作伙伴</div><div class="splash-dots"><div class="splash-dot"></div><div class="splash-dot"></div><div class="splash-dot"></div></div></div><div class="auth-overlay" id="authOverlay" style="display:none"><div class="auth-card"><div class="auth-logo">🎵</div><div class="auth-title" id="authTitle">登录 Ai乐酷</div><div class="auth-desc" id="authDesc">同步你的作品和数据到云端</div><input type="email" id="authEmail" class="auth-input" placeholder="邮箱"><div class="pwd-wrapper"><input type="password" id="authPassword" class="auth-input" placeholder="密码" oninput="checkPwdStrength()"><button class="pwd-eye" onclick="event.preventDefault();togglePwd('authPassword',this)" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div><div class="pwd-wrapper" id="pwdConfirmWrap" style="display:none"><input type="password" id="authPassword2" class="auth-input" placeholder="确认密码"><button class="pwd-eye" onclick="event.preventDefault();togglePwd('authPassword2',this)" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div><div class="pwd-hint" id="pwdHint" style="display:none">
-      密码需包含：<span id="hpLen">≥8位</span><span id="hpUpper">大写字母</span><span id="hpLower">小写字母</span><span id="hpDigit">数字</span></div><button class="auth-btn" id="authSubmitBtn" onclick="handleAuth()">登录</button><div class="auth-switch"><span id="authSwitchText">没有账号？</span><a href="#" onclick="event.preventDefault();toggleAuthMode()" id="authSwitchLink">注册</a></div><a href="#" class="auth-skip" onclick="event.preventDefault();skipAuth()">跳过，离线使用</a><div class="auth-error" id="authError"></div></div></div><div class="auth-overlay" id="profileOverlay" style="display:none"><div class="auth-card" style="max-width:380px"><div style="font-size:36px;margin-bottom:8px">👤</div><div class="auth-title">完善个人资料</div><div class="auth-desc">让你的音乐主页更精彩</div><div style="margin-bottom:12px;text-align:center" id="profileAvatarArea"><div id="avatarPreview" style="width:72px;height:72px;border-radius:50%;background:var(--card);margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:32px;position:relative;overflow:hidden;cursor:pointer" onclick="document.getElementById('profAvatarInput').click()">
+
+</style>
+<script src="supabase.min.js"></script>
+</head>
+<body>
+
+<!-- ===== SPLASH SCREEN ===== -->
+<div class="splash" id="splashScreen">
+  <div class="splash-orb splash-orb-1"></div>
+  <div class="splash-orb splash-orb-2"></div>
+  <div class="splash-orb splash-orb-3"></div>
+  <div class="splash-logo">🎵</div>
+  <div class="splash-title">Ai乐酷</div>
+  <div class="splash-subtitle">你的 AI 音乐创作伙伴</div>
+  <div class="splash-dots">
+    <div class="splash-dot"></div>
+    <div class="splash-dot"></div>
+    <div class="splash-dot"></div>
+  </div>
+</div>
+
+<!-- ===== AUTH OVERLAY ===== -->
+<div class="auth-overlay" id="authOverlay" style="display:none">
+  <div class="auth-card">
+    <div class="auth-logo">🎵</div>
+    <div class="auth-title" id="authTitle">登录 Ai乐酷</div>
+    <div class="auth-desc" id="authDesc">同步你的作品和数据到云端</div>
+    <input type="email" id="authEmail" class="auth-input" placeholder="邮箱">
+    <div class="pwd-wrapper">
+      <input type="password" id="authPassword" class="auth-input" placeholder="密码" oninput="checkPwdStrength()">
+      <button class="pwd-eye" onclick="event.preventDefault();togglePwd('authPassword',this)" tabindex="-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+    <div class="pwd-wrapper" id="pwdConfirmWrap" style="display:none">
+      <input type="password" id="authPassword2" class="auth-input" placeholder="确认密码">
+      <button class="pwd-eye" onclick="event.preventDefault();togglePwd('authPassword2',this)" tabindex="-1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
+    </div>
+    <div class="pwd-hint" id="pwdHint" style="display:none">
+      密码需包含：<span id="hpLen">≥8位</span><span id="hpUpper">大写字母</span><span id="hpLower">小写字母</span><span id="hpDigit">数字</span>
+    </div>
+    <button class="auth-btn" id="authSubmitBtn" onclick="handleAuth()">登录</button>
+    <div class="auth-switch">
+      <span id="authSwitchText">没有账号？</span>
+      <a href="#" onclick="event.preventDefault();toggleAuthMode()" id="authSwitchLink">注册</a>
+    </div>
+    <a href="#" class="auth-skip" onclick="event.preventDefault();skipAuth()">跳过，离线使用</a>
+    <div class="auth-error" id="authError"></div>
+  </div>
+</div>
+
+<!-- ===== PROFILE SETUP OVERLAY ===== -->
+<div class="auth-overlay" id="profileOverlay" style="display:none">
+  <div class="auth-card" style="max-width:380px">
+    <div style="font-size:36px;margin-bottom:8px">👤</div>
+    <div class="auth-title">完善个人资料</div>
+    <div class="auth-desc">让你的音乐主页更精彩</div>
+    <div style="margin-bottom:12px;text-align:center" id="profileAvatarArea">
+      <div id="avatarPreview" style="width:72px;height:72px;border-radius:50%;background:var(--card);margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:32px;position:relative;overflow:hidden;cursor:pointer" onclick="document.getElementById('profAvatarInput').click()">
         🎵
-        <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.6);font-size:10px;padding:2px;text-align:center">📷</div></div><input type="file" id="profAvatarInput" accept="image/*" style="display:none" onchange="handleAvatarUpload(this)"></div><input type="text" id="profName" class="auth-input" placeholder="昵称（必填）" maxlength="20"><input type="tel" id="profPhone" class="auth-input" placeholder="手机号（必填）" maxlength="11"><input type="text" id="profBio" class="auth-input" placeholder="个人介绍（选填）" maxlength="100"><button class="auth-btn" id="profSaveBtn" onclick="saveProfile()">保存，进入Ai乐酷</button><a href="#" class="auth-skip" onclick="event.preventDefault();skipProfile()" style="margin-top:12px">稍后完善</a><div class="auth-error" id="profError"></div></div></div><div class="app-container" id="app"><div class="player-bar" id="playerBar" style="display:none" onclick="openDetail(playerBarSong)"><div class="player-bar-cover" id="playerBarCover">🎵</div><div class="player-bar-info"><div class="player-bar-title" id="playerBarTitle">选择一首歌播放</div><div class="player-bar-artist" id="playerBarArtist"></div><div class="player-bar-progress" id="playerBarProgress"></div></div><div class="player-bar-controls"><button class="player-bar-btn" id="playerBarPlayBtn" onclick="event.stopPropagation();togglePlay()">▶</button><button class="player-bar-btn inactive" onclick="event.stopPropagation();nextSong()">⏭</button></div></div><div class="main-content" id="mainContent"><div class="tab-page active" id="page-home"><div class="mv-hero-card" id="mvHeroCard" onclick="playFeaturedMV()"><div class="mv-hero-overlay"></div><div class="mv-hero-badge">🔥 热门MV</div><div class="mv-hero-content"><div class="mv-hero-title" id="mvHeroTitle">春日晚风</div><div class="mv-hero-artist" id="mvHeroArtist">花开半夏 · 原创MV</div><div class="mv-hero-stats"><span>▶ 12.8万</span><span>❤ 2.4k</span><span>💬 856</span><span>🎁 520</span><span>⭐ 1.8k</span></div></div><div class="mv-hero-play">▶</div></div><div class="quick-row"><button class="quick-btn" onclick="toggleSection('mvSection')"><span class="quick-btn-icon">👑</span><span class="quick-btn-label">VIP会员</span><span class="quick-btn-sub">MV精选</span></button><button class="quick-btn" onclick="toggleSection('latestSection')"><span class="quick-btn-icon">🔥</span><span class="quick-btn-label">最新创作</span><span class="quick-btn-sub">热门歌曲</span></button><button class="quick-btn" onclick="toggleSection('roomSection')"><span class="quick-btn-icon">🎤</span><span class="quick-btn-label">听歌房</span><span class="quick-btn-sub">一起听歌</span></button></div><div class="toggle-content" id="mvSection" style="display:none"><div class="section-header"><span class="section-title">👑 VIP会员 · MV精选</span></div><div class="mv-showcase" id="mvShowcase"></div></div><div class="toggle-content" id="latestSection" style="display:none"><div class="section-header"><span class="section-title">🔥 最新创作</span></div><div class="song-list" id="songList"></div></div><div class="toggle-content" id="roomSection" style="display:none"><div class="room-panel" id="roomPanel"></div></div><div class="music-circle" id="artistSection"><div class="circle-header"><span class="circle-header-title">👑 音乐人</span></div><div class="circle-feed" id="artistList"></div></div></div><div class="tab-page" id="page-square"><div class="square-tabs"><button class="square-tab active" onclick="switchSquareTab('circle',this)">🎵 音乐圈</button><button class="square-tab" onclick="switchSquareTab('hot',this)">🔥 热歌推荐</button><button class="square-tab" onclick="switchSquareTab('new',this)">🆕 新歌速递</button><button class="square-tab" onclick="switchSquareTab('group',this)">👥 音乐群</button></div><div class="square-content" id="squareCircle"></div><div class="square-content" id="squareHot" style="display:none"></div><div class="square-content" id="squareNew" style="display:none"></div><div class="square-content" id="squareGroup" style="display:none"></div></div><div class="tab-page" id="page-create"><div class="create-grid"><div class="create-card" onclick="openCreateForm(false)"><div class="create-card-icon">🎵</div><div class="create-card-label">一键写歌</div><div class="create-card-desc">AI自动生成完整歌曲</div></div><div class="create-card" onclick="showCreatePanel('mv')"><div class="create-card-icon">🎬</div><div class="create-card-label">生成MV</div><div class="create-card-desc">为你的歌曲配上画面</div></div><div class="create-card" onclick="showCreatePanel('earn')"><div class="create-card-icon">💰</div><div class="create-card-label">每日赚钱</div><div class="create-card-desc">听歌赚取音乐豆</div></div><div class="create-card" onclick="showCreatePanel('collab')"><div class="create-card-icon">💬</div><div class="create-card-label">互动成歌</div><div class="create-card-desc">和朋友一起创作</div></div><div class="create-card" onclick="showCreatePanel('pic2song')"><div class="create-card-icon">🖼</div><div class="create-card-label">图片成歌</div><div class="create-card-desc">上传图片生成音乐</div></div><div class="create-card" onclick="showCreatePanel('publish')"><div class="create-card-icon">🌐</div><div class="create-card-label">全网发行</div><div class="create-card-desc">一键发布到各大平台</div></div><div class="create-card" onclick="showCreatePanel('copyright')"><div class="create-card-icon">🛡️</div><div class="create-card-label">原创保护</div><div class="create-card-desc">保护你的音乐版权</div></div></div></div><div class="tab-page" id="page-messages"><div class="msg-categories" id="msgCategories"></div><div class="msg-list" id="msgList"></div></div><div class="tab-page" id="page-profile"><div class="profile-header"><div class="profile-avatar">🦞</div><div class="profile-name">一只叔片</div><div class="profile-handle">@yizhishupian</div><div class="profile-badges"><span class="profile-badge">🎵 新晋用户</span></div></div><div class="profile-wallet"><div class="wallet-card" id="walletCard" style="cursor:pointer" onclick="handleWalletTap(event)"><span class="wallet-card-label">🪙 乐币 <span style="font-size:10px;color:var(--text3)">100乐币=¥1</span></span><span class="wallet-card-value" style="color:var(--accent)" id="walletCoins">0</span></div><div class="wallet-card" id="beanCard" style="cursor:pointer" onclick="openBeanExchange()"><span class="wallet-card-label">🫘 乐豆 <span style="font-size:10px;color:var(--text3)">1乐豆=1乐币</span></span><span class="wallet-card-value" id="walletBeans">0</span></div><div class="wallet-card" onclick="showProfilePanel('works')"><span class="wallet-card-label">🎵 作品</span><span class="wallet-card-value" id="walletWorks">0</span></div></div><div class="profile-stats"><div class="stat-item"><span class="stat-num">0</span><span class="stat-label">关注</span></div><div class="stat-item"><span class="stat-num">0</span><span class="stat-label">粉丝</span></div><div class="stat-item"><span class="stat-num">0</span><span class="stat-label">获赞</span></div><div class="stat-item"><span class="stat-num">0</span><span class="stat-label">收听</span></div></div><div style="padding:0 16px;margin-bottom:12px"><div id="checkinBtn" style="background:linear-gradient(135deg,var(--accent),#fa8c16);border-radius:14px;padding:14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="dailyCheckin()"><div><div style="font-weight:700;color:#fff;font-size:15px">📅 每日签到</div><div style="font-size:11px;color:rgba(255,255,255,.75);margin-top:2px" id="checkinStatus">签到赚乐豆，连续7天额外奖励</div></div><span style="font-size:24px">✅</span></div></div><div class="profile-menu"><div class="menu-section"><div class="menu-item" onclick="openRecharge()"><span class="menu-item-icon">👑</span><span class="menu-item-label">会员中心</span><span class="menu-item-arrow">›</span></div><div class="menu-item" id="btnMusicianCenter"><span class="menu-item-icon">🎵</span><span class="menu-item-label">音乐人中心</span><span class="menu-item-arrow">›</span></div></div><div class="menu-section"><div class="menu-item" onclick="showProfilePanel('works')"><span class="menu-item-icon">📀</span><span class="menu-item-label">作品</span><span class="menu-item-value">0首</span><span class="menu-item-arrow">›</span></div><div class="menu-item" onclick="showProfilePanel('drafts')"><span class="menu-item-icon">📝</span><span class="menu-item-label">草稿</span><span class="menu-item-value">0</span><span class="menu-item-arrow">›</span></div><div class="menu-item" onclick="showProfilePanel('albums')"><span class="menu-item-icon">💿</span><span class="menu-item-label">专辑</span><span class="menu-item-value">0</span><span class="menu-item-arrow">›</span></div><div class="menu-item" onclick="showProfilePanel('likes')"><span class="menu-item-icon">❤️</span><span class="menu-item-label">喜欢</span><span class="menu-item-value">0首</span><span class="menu-item-arrow">›</span></div></div><div class="menu-section"><div class="menu-item" onclick="openSettings()"><span class="menu-item-icon">⚙️</span><span class="menu-item-label">设置</span><span class="menu-item-arrow">›</span></div></div><div style="height:20px"></div></div></div></div><div class="tab-bar"><button class="tab-item active" data-tab="home"><span class="tab-item-icon">🏠</span><span>首页</span></button><button class="tab-item" data-tab="square"><span class="tab-item-icon">🏛️</span><span>广场</span></button><button class="tab-item" data-tab="create"><span class="tab-item-icon">🎵</span><span>写歌</span></button><button class="tab-item" data-tab="messages"><span class="tab-item-icon">💬</span><span>消息</span></button><button class="tab-item" data-tab="profile"><span class="tab-item-icon">👤</span><span>我的</span></button></div><div class="form-overlay" id="createFormOverlay"><div class="form-header"><button class="form-back" onclick="closeCreateForm()">←</button><span class="form-title" id="formTitle">一键写歌</span></div><div id="formOneClick" class="form-mode-panel" style="flex:1 1 0%;min-height:0;display:flex;flex-direction:column"><div id="ocBody" style="flex:1;display:flex;flex-direction:column;min-height:0;padding:8px 12px 0"><div class="lyrics-area"><textarea class="lyrics-giant" id="formLyricsOC" placeholder="输入歌词，或描述你想要的歌...&#10;&#10;第一行自动作为歌名"></textarea><div class="lyrics-actions"><span class="lyrics-act-btn" onclick="randomSound()">🎲 随机音乐</span><span class="lyrics-act-btn" onclick="suggestLyrics()">💭 建议</span><span class="lyrics-act-btn ai" onclick="aiOptimizeLyrics()">✨ 优化歌词</span></div></div><div class="oneclick-bottom"><button class="oc-style-btn" onclick="openOptSubPage()">音乐风格 <span class="oc-arrow">›</span></button><button class="btn-generate" id="btnGenerate" onclick="doGenerate()">🎵 生成歌曲</button></div></div></div><div id="formFull" class="form-mode-panel"><div class="form-body-fixed"><div style="display:flex;flex-direction:column;gap:8px"><div style="font-size:14px;font-weight:600;color:var(--text)">🎬 选择MV风格</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div class="mv-style-chip" style="text-align:center;padding:14px" onclick="pickMVStyle(this,'fresh')">🌿 唯美清新</div><div class="mv-style-chip" style="text-align:center;padding:14px" onclick="pickMVStyle(this,'cyber')">🤖 赛博朋克</div><div class="mv-style-chip" style="text-align:center;padding:14px" onclick="pickMVStyle(this,'retro')">📽️ 复古胶片</div><div class="mv-style-chip" style="text-align:center;padding:14px" onclick="pickMVStyle(this,'anime')">🎨 手绘动画</div></div></div><div class="lyrics-area"><textarea class="lyrics-giant" id="formLyrics" placeholder="输入歌词，AI为你生成MV...&#10;&#10;也可粘贴已有歌词"></textarea></div><div class="opt-bar" id="optBar"></div><div class="opt-grid show" id="optGrid"></div><div class="form-bottom"><span id="selCounter">已选 6/20</span><button class="btn-generate" id="btnGenerate" onclick="doGenerate()">🎬 生成MV</button></div></div></div></div><div class="form-overlay" id="optSubPage"><div class="form-header"><button class="form-back" onclick="closeOptSubPage()">←</button><span class="form-title" id="optSubTitle">选择音乐风格</span><button class="oc-save-btn" onclick="saveOptSubAndReturn()">保存</button></div><div id="optSubBody" style="flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden"><div class="opt-sub-top"><div class="opt-sub-top-inner"><div id="optSubComboText" style="flex:1;font-size:13px;color:var(--accent);line-height:2.2;overflow-y:auto;padding:4px 0"></div><div id="optSubPlaceholder" style="flex:1;font-size:13px;color:var(--text3);line-height:2;opacity:0.5;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px">从下方选择您想要的音乐风格<br>最多可选20个<br>也可添加自定义风格<br>自定义风格内容支持500字</div></div><div style="display:flex;align-items:center;justify-content:space-between;padding-top:8px"><span id="optSubCustomBtn" style="font-size:12px;color:var(--accent);cursor:pointer;padding:6px 12px;border-radius:14px;border:1px dashed var(--accent)" onclick="showCustomAdd()">+ 自定义</span><span id="optSubCounter" style="font-size:12px;color:var(--text3)">已选 0/20</span></div></div><div class="opt-sub-bottom"><div class="opt-sub-tabs" id="optSubBar"><div class="opt-sub-tab" data-key="style" onclick="switchSubCat('style',this)">音乐风格</div><div class="opt-sub-tab" data-key="recipe" onclick="switchSubCat('recipe',this)">音乐配方</div><div class="opt-sub-tab" data-key="vocal" onclick="switchSubCat('vocal',this)">人声</div><div class="opt-sub-tab" data-key="mood" onclick="switchSubCat('mood',this)">情绪</div><div class="opt-sub-tab" data-key="instrument" onclick="switchSubCat('instrument',this)">乐器</div><div class="opt-sub-tab" data-key="fx" onclick="switchSubCat('fx',this)">特效</div></div><div class="opt-sub-grid" id="optSubGrid"></div></div></div></div><div class="detail-modal" id="detailModal"><div class="detail-header"><button class="detail-back" onclick="closeDetail()">←</button><span style="font-size:16px;font-weight:700;">歌曲详情</span><button class="detail-menu-btn" onclick="event.stopPropagation();openSheet()">⋯</button></div><div class="detail-body"><div class="detail-cover" id="detailCover">🎹</div><div class="detail-title" id="detailTitle"></div><div class="detail-artist" id="detailArtist"></div><div class="detail-tags" id="detailTags"></div><div style="display:flex;gap:12px;font-size:12px;color:var(--text3)"><span id="detailPlays">▶ 0</span><span id="detailDuration">⏱ 03:24</span></div><div class="detail-actions"><button class="detail-action" id="detailGift" onclick="sendGift(event, detailSong)">🎁<span class="detail-action-label">送礼</span></button><button class="detail-action" id="detailShare" onclick="showToast('🔗 链接已复制')">📤<span class="detail-action-label">分享</span></button><button class="detail-action" id="detailComment" onclick="showToast('💬 评论')">💬<span class="detail-action-label">评论</span></button><button class="detail-action" id="detailLike" onclick="toggleLikeDetail()">🤍<span class="detail-action-label liked-count">0</span></button><button class="detail-action" id="detailFav" onclick="toggleFavDetail()">☆<span class="detail-action-label">收藏</span></button></div><button class="detail-play-btn" id="detailPlayBtn" onclick="playSong(detailSong)">▶ 播放</button></div></div><div class="bottom-sheet-overlay" id="bottomSheetOverlay" onclick="closeSheet()"><div class="bottom-sheet" onclick="event.stopPropagation()"><div class="sheet-item" id="sheetLike" onclick="toggleLikeSheet()">❤️ 喜欢</div><div class="sheet-item" onclick="showToast('已标记不感兴趣')">👎 不感兴趣</div><div class="sheet-item danger" onclick="showToast('已提交举报')">🚩 举报</div><div class="sheet-item" onclick="showToast('🔗 链接已复制')">🔗 复制链接</div><div class="sheet-item" onclick="showToast('📥 下载中...')">📥 下载</div><div class="sheet-item" onclick="showToast('📤 分享')">📤 分享</div><div class="sheet-item cancel" onclick="closeSheet()">取消</div></div></div><div class="toast" id="toast"></div><div class="panel-overlay" id="vipPopup"><div style="padding:24px 20px;display:flex;flex-direction:column;align-items:center;gap:14px"><div style="font-size:56px">👑</div><div style="font-size:20px;font-weight:800">VIP 音乐人会员</div><div style="font-size:12px;color:var(--text2);line-height:1.7;text-align:center">
+        <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.6);font-size:10px;padding:2px;text-align:center">📷</div>
+      </div>
+      <input type="file" id="profAvatarInput" accept="image/*" style="display:none" onchange="handleAvatarUpload(this)">
+    </div>
+    <input type="text" id="profName" class="auth-input" placeholder="昵称（必填）" maxlength="20">
+    <input type="tel" id="profPhone" class="auth-input" placeholder="手机号（必填）" maxlength="11">
+    <input type="text" id="profBio" class="auth-input" placeholder="个人介绍（选填）" maxlength="100">
+    <button class="auth-btn" id="profSaveBtn" onclick="saveProfile()">保存，进入Ai乐酷</button>
+    <a href="#" class="auth-skip" onclick="event.preventDefault();skipProfile()" style="margin-top:12px">稍后完善</a>
+    <div class="auth-error" id="profError"></div>
+  </div>
+</div>
+
+<div class="app-container" id="app">
+
+  <!-- ===== TOP PLAYER BAR ===== -->
+  <div class="player-bar" id="playerBar" style="display:none" onclick="openDetail(playerBarSong)">
+    <div class="player-bar-cover" id="playerBarCover">🎵</div>
+    <div class="player-bar-info">
+      <div class="player-bar-title" id="playerBarTitle">选择一首歌播放</div>
+      <div class="player-bar-artist" id="playerBarArtist"></div>
+      <div class="player-bar-progress" id="playerBarProgress"></div>
+    </div>
+    <div class="player-bar-controls">
+      <button class="player-bar-btn" id="playerBarPlayBtn" onclick="event.stopPropagation();togglePlay()">▶</button>
+      <button class="player-bar-btn inactive" onclick="event.stopPropagation();nextSong()">⏭</button>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTENT AREA ===== -->
+  <div class="main-content" id="mainContent">
+
+    <!-- HOME PAGE -->
+    <div class="tab-page active" id="page-home">
+      <!-- Featured MV Hero -->
+      <div class="mv-hero-card" id="mvHeroCard" onclick="playFeaturedMV()">
+        <div class="mv-hero-overlay"></div>
+        <div class="mv-hero-badge">🔥 热门MV</div>
+        <div class="mv-hero-content">
+          <div class="mv-hero-title" id="mvHeroTitle">春日晚风</div>
+          <div class="mv-hero-artist" id="mvHeroArtist">花开半夏 · 原创MV</div>
+          <div class="mv-hero-stats">
+          <span>▶ 12.8万</span><span>❤ 2.4k</span><span>💬 856</span><span>🎁 520</span><span>⭐ 1.8k</span>
+        </div>
+        </div>
+        <div class="mv-hero-play">▶</div>
+      </div>
+      <!-- Quick Action Row -->
+      <div class="quick-row">
+        <button class="quick-btn" onclick="toggleSection('mvSection')">
+          <span class="quick-btn-icon">👑</span>
+          <span class="quick-btn-label">VIP会员</span>
+          <span class="quick-btn-sub">MV精选</span>
+        </button>
+        <button class="quick-btn" onclick="toggleSection('latestSection')">
+          <span class="quick-btn-icon">🔥</span>
+          <span class="quick-btn-label">最新创作</span>
+          <span class="quick-btn-sub">热门歌曲</span>
+        </button>
+        <button class="quick-btn" onclick="toggleSection('roomSection')">
+          <span class="quick-btn-icon">🎤</span>
+          <span class="quick-btn-label">听歌房</span>
+          <span class="quick-btn-sub">一起听歌</span>
+        </button>
+      </div>
+      <!-- Expandable Content Panels -->
+      <div class="toggle-content" id="mvSection" style="display:none">
+        <div class="section-header"><span class="section-title">👑 VIP会员 · MV精选</span></div>
+        <div class="mv-showcase" id="mvShowcase"></div>
+      </div>
+      <div class="toggle-content" id="latestSection" style="display:none">
+        <div class="section-header"><span class="section-title">🔥 最新创作</span></div>
+        <div class="song-list" id="songList"></div>
+      </div>
+      <div class="toggle-content" id="roomSection" style="display:none">
+        <div class="room-panel" id="roomPanel"></div>
+      </div>
+      <!-- 音乐人 -->
+      <div class="music-circle" id="artistSection">
+        <div class="circle-header">
+          <span class="circle-header-title">👑 音乐人</span>
+        </div>
+        <div class="circle-feed" id="artistList"></div>
+      </div>
+    </div>
+
+    <!-- SQUARE PAGE -->
+    <div class="tab-page" id="page-square">
+      <div class="square-tabs">
+        <button class="square-tab active" onclick="switchSquareTab('circle',this)">🎵 音乐圈</button>
+        <button class="square-tab" onclick="switchSquareTab('hot',this)">🔥 热歌推荐</button>
+        <button class="square-tab" onclick="switchSquareTab('new',this)">🆕 新歌速递</button>
+        <button class="square-tab" onclick="switchSquareTab('group',this)">👥 音乐群</button>
+      </div>
+      <div class="square-content" id="squareCircle"></div>
+      <div class="square-content" id="squareHot" style="display:none"></div>
+      <div class="square-content" id="squareNew" style="display:none"></div>
+      <div class="square-content" id="squareGroup" style="display:none"></div>
+    </div>
+
+    <!-- CREATE PAGE -->
+    <div class="tab-page" id="page-create">
+      <div class="create-grid">
+        <div class="create-card" onclick="openCreateForm(false)">
+          <div class="create-card-icon">🎵</div>
+          <div class="create-card-label">一键写歌</div>
+          <div class="create-card-desc">AI自动生成完整歌曲</div>
+        </div>
+        <div class="create-card" onclick="showCreatePanel('mv')">
+          <div class="create-card-icon">🎬</div>
+          <div class="create-card-label">生成MV</div>
+          <div class="create-card-desc">为你的歌曲配上画面</div>
+        </div>
+        <div class="create-card" onclick="showCreatePanel('earn')">
+          <div class="create-card-icon">💰</div>
+          <div class="create-card-label">每日赚钱</div>
+          <div class="create-card-desc">听歌赚取音乐豆</div>
+        </div>
+        <div class="create-card" onclick="showCreatePanel('collab')">
+          <div class="create-card-icon">💬</div>
+          <div class="create-card-label">互动成歌</div>
+          <div class="create-card-desc">和朋友一起创作</div>
+        </div>
+        <div class="create-card" onclick="showCreatePanel('pic2song')">
+          <div class="create-card-icon">🖼</div>
+          <div class="create-card-label">图片成歌</div>
+          <div class="create-card-desc">上传图片生成音乐</div>
+        </div>
+        <div class="create-card" onclick="showCreatePanel('publish')">
+          <div class="create-card-icon">🌐</div>
+          <div class="create-card-label">全网发行</div>
+          <div class="create-card-desc">一键发布到各大平台</div>
+        </div>
+        <div class="create-card" onclick="showCreatePanel('copyright')">
+          <div class="create-card-icon">🛡️</div>
+          <div class="create-card-label">原创保护</div>
+          <div class="create-card-desc">保护你的音乐版权</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MESSAGES PAGE -->
+    <div class="tab-page" id="page-messages">
+      <div class="msg-categories" id="msgCategories"></div>
+      <div class="msg-list" id="msgList"></div>
+    </div>
+
+    <!-- PROFILE PAGE -->
+    <div class="tab-page" id="page-profile">
+      <div class="profile-header">
+        <div class="profile-avatar">🦞</div>
+        <div class="profile-name">一只叔片</div>
+        <div class="profile-handle">@yizhishupian</div>
+        <div class="profile-badges">
+          <span class="profile-badge">🎵 新晋用户</span>
+        </div>
+      </div>
+      <div class="profile-wallet">
+        <div class="wallet-card" id="walletCard" style="cursor:pointer" onclick="handleWalletTap(event)">
+          <span class="wallet-card-label">🪙 乐币 <span style="font-size:10px;color:var(--text3)">100乐币=¥1</span></span>
+          <span class="wallet-card-value" style="color:var(--accent)" id="walletCoins">0</span>
+        </div>
+        <div class="wallet-card" id="beanCard" style="cursor:pointer" onclick="openBeanExchange()">
+          <span class="wallet-card-label">🫘 乐豆 <span style="font-size:10px;color:var(--text3)">1乐豆=1乐币</span></span>
+          <span class="wallet-card-value" id="walletBeans">0</span>
+        </div>
+        <div class="wallet-card" onclick="showProfilePanel('works')">
+          <span class="wallet-card-label">🎵 作品</span>
+          <span class="wallet-card-value" id="walletWorks">0</span>
+        </div>
+      </div>
+      <div class="profile-stats">
+        <div class="stat-item"><span class="stat-num">0</span><span class="stat-label">关注</span></div>
+        <div class="stat-item"><span class="stat-num">0</span><span class="stat-label">粉丝</span></div>
+        <div class="stat-item"><span class="stat-num">0</span><span class="stat-label">获赞</span></div>
+        <div class="stat-item"><span class="stat-num">0</span><span class="stat-label">收听</span></div>
+      </div>
+      <div style="padding:0 16px;margin-bottom:12px">
+        <div id="checkinBtn" style="background:linear-gradient(135deg,var(--accent),#fa8c16);border-radius:14px;padding:14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="dailyCheckin()">
+          <div>
+            <div style="font-weight:700;color:#fff;font-size:15px">📅 每日签到</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.75);margin-top:2px" id="checkinStatus">签到赚乐豆，连续7天额外奖励</div>
+          </div>
+          <span style="font-size:24px">✅</span>
+        </div>
+      </div>
+      <div class="profile-menu">
+        <div class="menu-section">
+          <div class="menu-item" onclick="openRecharge()"><span class="menu-item-icon">👑</span><span class="menu-item-label">会员中心</span><span class="menu-item-arrow">›</span></div>
+          <div class="menu-item" id="btnMusicianCenter"><span class="menu-item-icon">🎵</span><span class="menu-item-label">音乐人中心</span><span class="menu-item-arrow">›</span></div>
+        </div>
+        <div class="menu-section">
+          <div class="menu-item" onclick="showProfilePanel('works')"><span class="menu-item-icon">📀</span><span class="menu-item-label">作品</span><span class="menu-item-value">0首</span><span class="menu-item-arrow">›</span></div>
+          <div class="menu-item" onclick="showProfilePanel('drafts')"><span class="menu-item-icon">📝</span><span class="menu-item-label">草稿</span><span class="menu-item-value">0</span><span class="menu-item-arrow">›</span></div>
+          <div class="menu-item" onclick="showProfilePanel('albums')"><span class="menu-item-icon">💿</span><span class="menu-item-label">专辑</span><span class="menu-item-value">0</span><span class="menu-item-arrow">›</span></div>
+          <div class="menu-item" onclick="showProfilePanel('likes')"><span class="menu-item-icon">❤️</span><span class="menu-item-label">喜欢</span><span class="menu-item-value">0首</span><span class="menu-item-arrow">›</span></div>
+        </div>
+        <div class="menu-section">
+          <div class="menu-item" onclick="openSettings()"><span class="menu-item-icon">⚙️</span><span class="menu-item-label">设置</span><span class="menu-item-arrow">›</span></div>
+        </div>
+        <div style="height:20px"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== BOTTOM TAB BAR ===== -->
+  <div class="tab-bar">
+    <button class="tab-item active" data-tab="home">
+      <span class="tab-item-icon">🏠</span><span>首页</span>
+    </button>
+    <button class="tab-item" data-tab="square">
+      <span class="tab-item-icon">🏛️</span><span>广场</span>
+    </button>
+    <button class="tab-item" data-tab="create">
+      <span class="tab-item-icon">🎵</span><span>写歌</span>
+    </button>
+    <button class="tab-item" data-tab="messages">
+      <span class="tab-item-icon">💬</span><span>消息</span>
+    </button>
+    <button class="tab-item" data-tab="profile">
+      <span class="tab-item-icon">👤</span><span>我的</span>
+    </button>
+  </div>
+
+  <!-- ===== CREATE FORM OVERLAY ===== -->
+  <div class="form-overlay" id="createFormOverlay">
+    <div class="form-header">
+      <button class="form-back" onclick="closeCreateForm()">←</button>
+      <span class="form-title" id="formTitle">一键写歌</span>
+    </div>
+
+    <!-- ========= 一键写歌 MODE ========= -->
+    <div id="formOneClick" class="form-mode-panel" style="flex:1 1 0%;min-height:0;display:flex;flex-direction:column">
+      <div id="ocBody" style="flex:1;display:flex;flex-direction:column;min-height:0;padding:8px 12px 0">
+        <div class="lyrics-area">
+          <textarea class="lyrics-giant" id="formLyricsOC" placeholder="输入歌词，或描述你想要的歌...&#10;&#10;第一行自动作为歌名"></textarea>
+          <!-- inside lyrics box bottom: 3 action buttons -->
+          <div class="lyrics-actions">
+            <span class="lyrics-act-btn" onclick="randomSound()">🎲 随机音乐</span>
+            <span class="lyrics-act-btn" onclick="suggestLyrics()">💭 建议</span>
+            <span class="lyrics-act-btn ai" onclick="aiOptimizeLyrics()">✨ 优化歌词</span>
+          </div>
+        </div>
+        <div class="oneclick-bottom">
+          <button class="oc-style-btn" onclick="openOptSubPage()">音乐风格 <span class="oc-arrow">›</span></button>
+          <button class="btn-generate" id="btnGenerate" onclick="doGenerate()">🎵 生成歌曲</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========= 自主歌词写歌 MODE ========= -->
+    <!-- ========= 生成MV MODE ========= -->
+    <div id="formFull" class="form-mode-panel">
+      <div class="form-body-fixed">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:14px;font-weight:600;color:var(--text)">🎬 选择MV风格</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div class="mv-style-chip" style="text-align:center;padding:14px" onclick="pickMVStyle(this,'fresh')">🌿 唯美清新</div>
+            <div class="mv-style-chip" style="text-align:center;padding:14px" onclick="pickMVStyle(this,'cyber')">🤖 赛博朋克</div>
+            <div class="mv-style-chip" style="text-align:center;padding:14px" onclick="pickMVStyle(this,'retro')">📽️ 复古胶片</div>
+            <div class="mv-style-chip" style="text-align:center;padding:14px" onclick="pickMVStyle(this,'anime')">🎨 手绘动画</div>
+          </div>
+        </div>
+        <div class="lyrics-area">
+          <textarea class="lyrics-giant" id="formLyrics" placeholder="输入歌词，AI为你生成MV...&#10;&#10;也可粘贴已有歌词"></textarea>
+        </div>
+
+        <div class="opt-bar" id="optBar"></div>
+        <div class="opt-grid show" id="optGrid"></div>
+
+        <div class="form-bottom">
+          <span id="selCounter">已选 6/20</span>
+          <button class="btn-generate" id="btnGenerate" onclick="doGenerate()">🎬 生成MV</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== OPTION SUB-PAGE ===== -->
+  <div class="form-overlay" id="optSubPage">
+    <div class="form-header">
+      <button class="form-back" onclick="closeOptSubPage()">←</button>
+      <span class="form-title" id="optSubTitle">选择音乐风格</span>
+      <button class="oc-save-btn" onclick="saveOptSubAndReturn()">保存</button>
+    </div>
+    <div id="optSubBody" style="flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden">
+      <!-- TOP 50%: COMBO DISPLAY -->
+      <div class="opt-sub-top">
+        <div class="opt-sub-top-inner">
+          <div id="optSubComboText" style="flex:1;font-size:13px;color:var(--accent);line-height:2.2;overflow-y:auto;padding:4px 0"></div>
+          <div id="optSubPlaceholder" style="flex:1;font-size:13px;color:var(--text3);line-height:2;opacity:0.5;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px">从下方选择您想要的音乐风格<br>最多可选20个<br>也可添加自定义风格<br>自定义风格内容支持500字</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding-top:8px">
+          <span id="optSubCustomBtn" style="font-size:12px;color:var(--accent);cursor:pointer;padding:6px 12px;border-radius:14px;border:1px dashed var(--accent)" onclick="showCustomAdd()">+ 自定义</span>
+          <span id="optSubCounter" style="font-size:12px;color:var(--text3)">已选 0/20</span>
+        </div>
+      </div>
+
+      <!-- BOTTOM 50%: CATEGORY TABS + OPTION GRID -->
+      <div class="opt-sub-bottom">
+        <!-- Category tab bar (horizontal scroll) -->
+        <div class="opt-sub-tabs" id="optSubBar">
+          <div class="opt-sub-tab" data-key="style" onclick="switchSubCat('style',this)">音乐风格</div>
+          <div class="opt-sub-tab" data-key="recipe" onclick="switchSubCat('recipe',this)">音乐配方</div>
+          <div class="opt-sub-tab" data-key="vocal" onclick="switchSubCat('vocal',this)">人声</div>
+          <div class="opt-sub-tab" data-key="mood" onclick="switchSubCat('mood',this)">情绪</div>
+          <div class="opt-sub-tab" data-key="instrument" onclick="switchSubCat('instrument',this)">乐器</div>
+          <div class="opt-sub-tab" data-key="fx" onclick="switchSubCat('fx',this)">特效</div>
+        </div>
+        <!-- Option chips grid -->
+        <div class="opt-sub-grid" id="optSubGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SONG DETAIL MODAL ===== -->
+  <div class="detail-modal" id="detailModal">
+    <div class="detail-header">
+      <button class="detail-back" onclick="closeDetail()">←</button>
+      <span style="font-size:16px;font-weight:700;">歌曲详情</span>
+      <button class="detail-menu-btn" onclick="event.stopPropagation();openSheet()">⋯</button>
+    </div>
+    <div class="detail-body">
+      <div class="detail-cover" id="detailCover">🎹</div>
+      <div class="detail-title" id="detailTitle"></div>
+      <div class="detail-artist" id="detailArtist"></div>
+      <div class="detail-tags" id="detailTags"></div>
+      <div style="display:flex;gap:12px;font-size:12px;color:var(--text3)">
+        <span id="detailPlays">▶ 0</span><span id="detailDuration">⏱ 03:24</span>
+      </div>
+      <div class="detail-actions">
+        <button class="detail-action" id="detailGift" onclick="sendGift(event, detailSong)">🎁<span class="detail-action-label">送礼</span></button>
+        <button class="detail-action" id="detailShare" onclick="showToast('🔗 链接已复制')">📤<span class="detail-action-label">分享</span></button>
+        <button class="detail-action" id="detailComment" onclick="showToast('💬 评论')">💬<span class="detail-action-label">评论</span></button>
+        <button class="detail-action" id="detailLike" onclick="toggleLikeDetail()">🤍<span class="detail-action-label liked-count">0</span></button>
+        <button class="detail-action" id="detailFav" onclick="toggleFavDetail()">☆<span class="detail-action-label">收藏</span></button>
+      </div>
+      <button class="detail-play-btn" id="detailPlayBtn" onclick="playSong(detailSong)">▶ 播放</button>
+    </div>
+  </div>
+
+  <!-- ===== BOTTOM SHEET ===== -->
+  <div class="bottom-sheet-overlay" id="bottomSheetOverlay" onclick="closeSheet()">
+    <div class="bottom-sheet" onclick="event.stopPropagation()">
+      <div class="sheet-item" id="sheetLike" onclick="toggleLikeSheet()">❤️ 喜欢</div>
+      <div class="sheet-item" onclick="showToast('已标记不感兴趣')">👎 不感兴趣</div>
+      <div class="sheet-item danger" onclick="showToast('已提交举报')">🚩 举报</div>
+      <div class="sheet-item" onclick="showToast('🔗 链接已复制')">🔗 复制链接</div>
+      <div class="sheet-item" onclick="showToast('📥 下载中...')">📥 下载</div>
+      <div class="sheet-item" onclick="showToast('📤 分享')">📤 分享</div>
+      <div class="sheet-item cancel" onclick="closeSheet()">取消</div>
+    </div>
+  </div>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ===== VIP BENEFITS POPUP (FIRST VISIT) ===== -->
+  <div class="panel-overlay" id="vipPopup">
+    <div style="padding:24px 20px;display:flex;flex-direction:column;align-items:center;gap:14px">
+      <div style="font-size:56px">👑</div>
+      <div style="font-size:20px;font-weight:800">VIP 音乐人会员</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.7;text-align:center">
         🎵 免乐币创作 · 🎙️ 专属音色 · ⬆️ 首页推荐<br>💎 高清音质 · 🌐 全网发行 · 🛡️ 原创保护 · ❌ 去水印
-      </div><div style="width:100%;display:flex;flex-direction:column;gap:8px"><div onclick="openPayment('monthly')" style="background:var(--card);border-radius:12px;padding:12px;border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:space-between"><div><div style="font-weight:700;font-size:13px">月卡 · 30首</div><div style="font-size:10px;color:var(--text3)">¥19.9/月</div></div><div style="font-size:18px;font-weight:800;color:var(--accent)">¥19.9</div></div><div onclick="openPayment('quarterly')" style="background:var(--card);border-radius:12px;padding:12px;border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:space-between"><div><div style="font-weight:700;font-size:13px">季卡 · 100首</div><div style="font-size:10px;color:var(--text3)">¥16.6/月</div></div><div style="font-size:18px;font-weight:800;color:var(--accent)">¥49.9</div></div><div onclick="openPayment('annual')" style="background:var(--card);border-radius:12px;padding:12px;border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:space-between"><div><div style="font-weight:700;font-size:13px">年卡 · 500首</div><div style="font-size:10px;color:var(--text3)">¥14/月 · 最划算</div></div><div style="font-size:18px;font-weight:800;color:var(--accent)">¥168</div></div></div><button onclick="closeVipPopup()" style="background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer">先看看，再说</button></div></div><div class="panel-overlay" id="vipUpgradePrompt"><div style="padding:30px 20px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center"><div style="font-size:56px">🔒</div><div style="font-size:20px;font-weight:800" id="vipPromptTitle">需要乐币</div><div style="font-size:13px;color:var(--text2);line-height:1.8" id="vipPromptDesc">请先充值乐币再使用此功能</div><button class="settings-btn primary" style="width:100%;padding:14px;font-size:16px" onclick="closeVipPrompt();openRecharge()">🪙 去充值</button><button onclick="closeVipPrompt()" style="background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer">暂不</button></div></div><div class="panel-overlay" id="phoneVerifyModal" style="z-index:400;display:none"><div style="padding:30px 20px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center"><div style="font-size:56px">📱</div><div style="font-size:20px;font-weight:800">手机号验证</div><div style="font-size:13px;color:var(--text2);line-height:1.8">为保障账户安全，请验证手机号码</div><input type="tel" id="regPhoneInput" placeholder="请输入手机号码" style="width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:16px;text-align:center;max-width:280px" maxlength="11"><div style="display:flex;gap:10px;width:100%;max-width:280px"><input type="text" id="regCodeInput" placeholder="验证码" style="flex:1;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:16px;text-align:center" maxlength="6"><button id="regSendCodeBtn" onclick="sendRegCode()" style="padding:10px 16px;border-radius:10px;border:none;background:var(--accent);color:#000;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap">获取验证码</button></div><button id="regVerifyBtn" onclick="verifyRegPhone()" style="width:100%;max-width:280px;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--accent),#4ecdc4);color:#000;font-size:16px;font-weight:700;cursor:pointer">✅ 验证并注册</button><div style="font-size:11px;color:var(--text3)">验证即表示同意《用户协议》和《隐私政策》</div></div></div><div class="panel-overlay" id="paymentModal" style="z-index:350"><div style="padding:24px 20px;display:flex;flex-direction:column;align-items:center;gap:16px"><div style="font-size:40px">💳</div><div style="font-size:18px;font-weight:800" id="payTitle">选择支付方式</div><div style="font-size:28px;font-weight:800;color:var(--accent)" id="payPrice">¥19.9</div><div style="font-size:11px;color:var(--text3)" id="payDesc">月卡 · 30首免费创作</div><div style="width:100%;display:flex;flex-direction:column;gap:10px" id="payMethods"><div onclick="selectPayMethod('wechat')" style="background:var(--card);border-radius:12px;padding:14px;border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:12px" id="payWechat"><div style="width:40px;height:40px;background:#07c160;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px">💬</div><div><div style="font-weight:700;font-size:14px">微信支付</div><div style="font-size:10px;color:var(--text3)">推荐使用</div></div><div style="margin-left:auto;width:20px;height:20px;border-radius:50%;border:2px solid var(--border)" id="payCheckWechat"></div></div><div onclick="selectPayMethod('alipay')" style="background:var(--card);border-radius:12px;padding:14px;border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:12px" id="payAlipay"><div style="width:40px;height:40px;background:#1677ff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px">🔵</div><div><div style="font-weight:700;font-size:14px">支付宝</div><div style="font-size:10px;color:var(--text3)">安全支付</div></div><div style="margin-left:auto;width:20px;height:20px;border-radius:50%;border:2px solid var(--border)" id="payCheckAlipay"></div></div></div><div style="display:none;flex-direction:column;align-items:center;gap:10px;width:100%" id="payQR"><div style="width:200px;height:200px;background:var(--card);border-radius:16px;border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:12px;text-align:center;padding:20px;line-height:1.8"><span id="payQRAmount"></span><br>请联系客服获取<br>微信/支付宝收款码<br><br>支付后联系客服<br>手动处理
-        </div><button id="payAdminBtn" onclick="confirmRechargePayment()" style="display:none;width:100%;padding:14px;font-size:15px;font-weight:700;border-radius:12px;background:linear-gradient(135deg,var(--accent),#4ecdc4);color:#000;border:none;cursor:pointer;margin-top:8px">✅ 确认已支付（客服）</button><button onclick="closePayment()" style="background:none;border:1px solid var(--border);color:var(--text2);border-radius:20px;padding:10px 24px;font-size:13px;cursor:pointer">关闭</button></div><button onclick="closePayment()" style="background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer" id="payCancel">暂不购买</button></div></div><div class="panel-overlay" id="beanExchangeOverlay"><div class="form-header"><button class="form-back" onclick="closeBeanExchange()">←</button><span class="form-title">🫘 乐豆提现</span></div><div style="padding:16px;display:flex;flex-direction:column;gap:14px"><div style="background:var(--card);border-radius:14px;padding:16px;text-align:center;border:1px solid var(--border)"><div style="font-size:48px">🫘→💰</div><div style="font-size:20px;font-weight:800;margin:8px 0">10000乐豆 = ¥1.00</div><div style="font-size:13px;color:var(--text2)">当前 <b id="beanExchangeBalance" style="color:var(--text)">0乐豆</b> ≈ <b id="beanExchangeCNY" style="color:var(--accent)">¥0.00</b></div></div><div id="bindPaymentArea" style="background:var(--card);border-radius:14px;padding:16px;border:1px solid var(--border);display:none"><div style="font-weight:700;margin-bottom:12px">🔗 绑定提现账户</div><div style="display:flex;flex-direction:column;gap:8px"><input type="text" id="bindPhone" placeholder="手机号" style="padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px"><div style="display:flex;gap:8px"><select id="bindType" style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px"><option value="wechat">微信</option><option value="alipay">支付宝</option></select><input type="text" id="bindAccount" placeholder="微信/支付宝账号" style="flex:2;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px"></div><button class="settings-btn primary" style="width:100%" onclick="bindPaymentAccount()">✅ 绑定</button></div></div><div id="withdrawArea" style="display:none;flex-direction:column;gap:10px"><div style="font-size:12px;color:var(--text2)">已绑定：<span id="boundAccountInfo" style="color:var(--accent)"></span></div><div style="display:flex;gap:8px"><button class="opt-chip" style="flex:1;text-align:center" onclick="withdrawBeans(10000)">¥1.00</button><button class="opt-chip" style="flex:1;text-align:center" onclick="withdrawBeans(50000)">¥5.00</button><button class="opt-chip" style="flex:1;text-align:center" onclick="withdrawBeans(100000)">¥10.00</button><button class="opt-chip" style="flex:1;text-align:center" onclick="withdrawBeans('all')">全部</button></div><button class="settings-btn" style="width:100%;border:1px solid var(--border)" onclick="showBindPayment()">🔄 更换绑定</button></div><div style="font-size:11px;color:var(--text3);text-align:center">💡 10000乐豆=¥1，满¥1即可提现到微信/支付宝</div></div></div><div class="recharge-modal" id="rechargeModal"><div class="form-header"><button class="form-back" onclick="closeRecharge()">←</button><span class="form-title">💰 充值中心</span><span style="font-size:13px;color:var(--accent);margin-left:auto">余额: <b id="rechargeBalance">🪙 0乐币</b><span style="font-size:10px;color:var(--text3)">(≈¥<b id="rechargeBalanceCNY">0.00</b>)</span></span></div><div class="form-body"><div class="section-header"><span class="section-title">👑 VIP会员 <span style="font-size:11px;color:var(--text3)">权益对比</span></span></div><div style="padding:0 12px"><table class="vip-compare"><tr><th>权益</th><th><div class="vip-col-header">月卡</div><div class="vip-col-price">¥29</div><div class="vip-col-sub">/月</div></th><th><div class="vip-col-header">季卡</div><div class="vip-col-price">¥49.9</div><div class="vip-col-sub">/季·省16%</div></th><th><div class="vip-col-header">年卡</div><div class="vip-col-price">¥168</div><div class="vip-col-sub">/年·省41%</div></th></tr><tr><td class="vip-row-title">AI智能创作</td><td class="vip-limited">30首/月</td><td class="vip-limited">100首/季</td><td class="vip-limited">500首/年</td></tr><tr><td class="vip-row-title">生成MV</td><td class="vip-no">✕</td><td class="vip-limited">3次/季</td><td class="vip-yes">✓ 不限</td></tr><tr><td class="vip-row-title">全网发行</td><td class="vip-no">✕</td><td class="vip-limited">1首/季</td><td class="vip-yes">✓ 不限</td></tr><tr><td class="vip-row-title">原创保护</td><td class="vip-no">✕</td><td class="vip-no">✕</td><td class="vip-yes">✓</td></tr><tr><td class="vip-row-title">高清音质</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td></tr><tr><td class="vip-row-title">去广告</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td></tr><tr><td class="vip-row-title">VIP专属标识</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td></tr><tr><td class="vip-row-title">优先客服</td><td class="vip-no">✕</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td></tr><tr><td class="vip-row-title">离线下载</td><td class="vip-no">✕</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td></tr></table><div style="display:flex;gap:8px;padding:12px 2px"><button class="vip-btn" onclick="openPayment('monthly')" style="flex:1;font-size:11px;padding:10px">月卡 ¥29</button><button class="vip-btn" onclick="openPayment('quarterly')" style="flex:1;font-size:11px;padding:10px;background:linear-gradient(135deg,#a29bfe,#6c5ce7);color:#fff">季卡 ¥49.9</button><button class="vip-btn" onclick="openPayment('annual')" style="flex:1;font-size:11px;padding:10px;background:linear-gradient(135deg,#fd79a8,#e84393);color:#fff">年卡 ¥168</button></div></div><div id="vipResetArea" style="display:none;text-align:center;padding:8px 0"><span style="font-size:11px;color:var(--text3);cursor:pointer" onclick="if(confirm('确定退出VIP会员？'))resetVip()">退出VIP · 重置状态</span></div><div class="section-header"><span class="section-title">🪙 乐币充值 <span style="font-size:11px;color:var(--text3)">100乐币=¥1 · 非会员¥3/首</span></span></div><div class="recharge-pkg-grid"><div class="recharge-pkg" onclick="recharge(3000,30)"><div class="recharge-coin">🪙</div><div class="recharge-amount">3000乐币</div><div class="recharge-price">¥30.00</div></div><div class="recharge-pkg" onclick="recharge(6000,60)"><div class="recharge-coin">💎</div><div class="recharge-amount">6000乐币</div><div class="recharge-price">¥60.00</div></div><div class="recharge-pkg" onclick="recharge(9000,90)"><div class="recharge-coin">👑</div><div class="recharge-amount">9000乐币</div><div class="recharge-price">¥90.00</div></div></div><div id="withdrawSection" style="display:none"><div class="section-header" style="margin-top:16px"><span class="section-title">💸 余额提现</span></div><div style="background:var(--card);border-radius:14px;padding:16px;border:1px solid var(--border)"><div id="cardBindingArea" style="display:none"><div style="font-size:13px;color:var(--text2);margin-bottom:10px">🔒 请先绑定提现银行卡</div><input type="text" id="cardBankName" placeholder="银行名称（如：中国工商银行）" style="width:100%;box-sizing:border-box;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--input);color:var(--text);font-size:14px;margin-bottom:8px"><input type="text" id="cardNumber" placeholder="银行卡号" maxlength="19" oninput="this.value=this.value.replace(/\D/g,'')" style="width:100%;box-sizing:border-box;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--input);color:var(--text);font-size:14px;margin-bottom:8px"><input type="text" id="cardHolder" placeholder="持卡人姓名" style="width:100%;box-sizing:border-box;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--input);color:var(--text);font-size:14px;margin-bottom:10px"><button class="settings-btn primary" style="width:100%" onclick="bindCard()">✅ 绑定银行卡</button></div><div id="cardDisplayArea" style="display:none"><div style="display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--border);margin-bottom:12px"><span style="font-size:28px">🏦</span><div style="flex:1"><div style="font-weight:600;font-size:14px" id="cardDisplayBank">--</div><div style="font-size:12px;color:var(--text3)" id="cardDisplayNumber">****</div><div style="font-size:11px;color:var(--text3)" id="cardDisplayHolder">--</div></div><button onclick="unbindCard()" style="background:none;border:1px solid var(--red);color:var(--red);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer">解绑</button></div></div><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px"><span style="font-size:13px;color:var(--text2)">可提现余额</span><div style="text-align:right"><div style="font-size:22px;font-weight:800;color:var(--accent)" id="withdrawBalance">🪙 0乐币</div><div style="font-size:11px;color:var(--text3)">≈ ¥<span id="withdrawBalanceCNY">0.00</span>（100乐币=¥1）</div></div></div><div style="display:flex;gap:8px;margin-bottom:10px"><button class="opt-chip" style="flex:1;text-align:center" onclick="setWithdrawAmount(100)">¥100</button><button class="opt-chip" style="flex:1;text-align:center" onclick="setWithdrawAmount(500)">¥500</button><button class="opt-chip" style="flex:1;text-align:center" onclick="setWithdrawAmount(1000)">¥1000</button><button class="opt-chip" style="flex:1;text-align:center" onclick="setWithdrawAmount('all')">全部</button></div><div style="display:flex;gap:8px"><input type="number" id="withdrawAmountInput" placeholder="输入提现金额(元)" style="flex:1;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--input);color:var(--text);font-size:14px" oninput="document.getElementById('withdrawAmountInput').dataset.custom='1'"><button class="settings-btn primary" style="width:auto;white-space:nowrap" onclick="withdraw()">确认提现</button></div><div style="margin-top:8px;font-size:11px;color:var(--text3)">💡 提现到已绑定银行卡，预计2小时内到账</div></div></div><div style="padding:8px 16px;font-size:11px;color:var(--text3);text-align:center">
+      </div>
+      <div style="width:100%;display:flex;flex-direction:column;gap:8px">
+        <div onclick="openPayment('monthly')" style="background:var(--card);border-radius:12px;padding:12px;border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:space-between"><div><div style="font-weight:700;font-size:13px">月卡 · 30首</div><div style="font-size:10px;color:var(--text3)">¥19.9/月</div></div><div style="font-size:18px;font-weight:800;color:var(--accent)">¥19.9</div></div>
+        <div onclick="openPayment('quarterly')" style="background:var(--card);border-radius:12px;padding:12px;border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:space-between"><div><div style="font-weight:700;font-size:13px">季卡 · 100首</div><div style="font-size:10px;color:var(--text3)">¥16.6/月</div></div><div style="font-size:18px;font-weight:800;color:var(--accent)">¥49.9</div></div>
+        <div onclick="openPayment('annual')" style="background:var(--card);border-radius:12px;padding:12px;border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:space-between"><div><div style="font-weight:700;font-size:13px">年卡 · 500首</div><div style="font-size:10px;color:var(--text3)">¥14/月 · 最划算</div></div><div style="font-size:18px;font-weight:800;color:var(--accent)">¥168</div></div>
+      </div>
+      <button onclick="closeVipPopup()" style="background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer">先看看，再说</button>
+    </div>
+  </div>
+
+  <!-- ===== UPGRADE PROMPT ===== -->
+  <div class="panel-overlay" id="vipUpgradePrompt">
+    <div style="padding:30px 20px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">
+      <div style="font-size:56px">🔒</div>
+      <div style="font-size:20px;font-weight:800" id="vipPromptTitle">需要乐币</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.8" id="vipPromptDesc">请先充值乐币再使用此功能</div>
+      <button class="settings-btn primary" style="width:100%;padding:14px;font-size:16px" onclick="closeVipPrompt();openRecharge()">🪙 去充值</button>
+      <button onclick="closeVipPrompt()" style="background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer">暂不</button>
+    </div>
+  </div>
+
+  <!-- ===== PHONE VERIFY MODAL ===== -->
+  <div class="panel-overlay" id="phoneVerifyModal" style="z-index:400;display:none">
+    <div style="padding:30px 20px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">
+      <div style="font-size:56px">📱</div>
+      <div style="font-size:20px;font-weight:800">手机号验证</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.8">为保障账户安全，请验证手机号码</div>
+      <input type="tel" id="regPhoneInput" placeholder="请输入手机号码" style="width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:16px;text-align:center;max-width:280px" maxlength="11">
+      <div style="display:flex;gap:10px;width:100%;max-width:280px">
+        <input type="text" id="regCodeInput" placeholder="验证码" style="flex:1;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:16px;text-align:center" maxlength="6">
+        <button id="regSendCodeBtn" onclick="sendRegCode()" style="padding:10px 16px;border-radius:10px;border:none;background:var(--accent);color:#000;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap">获取验证码</button>
+      </div>
+      <button id="regVerifyBtn" onclick="verifyRegPhone()" style="width:100%;max-width:280px;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--accent),#4ecdc4);color:#000;font-size:16px;font-weight:700;cursor:pointer">✅ 验证并注册</button>
+      <div style="font-size:11px;color:var(--text3)">验证即表示同意《用户协议》和《隐私政策》</div>
+    </div>
+  </div>
+
+  <!-- ===== PAYMENT MODAL ===== -->
+  <div class="panel-overlay" id="paymentModal" style="z-index:350">
+    <div style="padding:24px 20px;display:flex;flex-direction:column;align-items:center;gap:16px">
+      <div style="font-size:40px">💳</div>
+      <div style="font-size:18px;font-weight:800" id="payTitle">选择支付方式</div>
+      <div style="font-size:28px;font-weight:800;color:var(--accent)" id="payPrice">¥19.9</div>
+      <div style="font-size:11px;color:var(--text3)" id="payDesc">月卡 · 30首免费创作</div>
+      <div style="width:100%;display:flex;flex-direction:column;gap:10px" id="payMethods">
+        <div onclick="selectPayMethod('wechat')" style="background:var(--card);border-radius:12px;padding:14px;border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:12px" id="payWechat">
+          <div style="width:40px;height:40px;background:#07c160;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px">💬</div>
+          <div><div style="font-weight:700;font-size:14px">微信支付</div><div style="font-size:10px;color:var(--text3)">推荐使用</div></div>
+          <div style="margin-left:auto;width:20px;height:20px;border-radius:50%;border:2px solid var(--border)" id="payCheckWechat"></div>
+        </div>
+        <div onclick="selectPayMethod('alipay')" style="background:var(--card);border-radius:12px;padding:14px;border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:12px" id="payAlipay">
+          <div style="width:40px;height:40px;background:#1677ff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px">🔵</div>
+          <div><div style="font-weight:700;font-size:14px">支付宝</div><div style="font-size:10px;color:var(--text3)">安全支付</div></div>
+          <div style="margin-left:auto;width:20px;height:20px;border-radius:50%;border:2px solid var(--border)" id="payCheckAlipay"></div>
+        </div>
+      </div>
+      <div style="display:none;flex-direction:column;align-items:center;gap:10px;width:100%" id="payQR">
+        <div style="width:200px;height:200px;background:var(--card);border-radius:16px;border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:12px;text-align:center;padding:20px;line-height:1.8">
+          <span id="payQRAmount"></span><br>请联系客服获取<br>微信/支付宝收款码<br><br>支付后联系客服<br>手动处理
+        </div>
+        <button id="payAdminBtn" onclick="confirmRechargePayment()" style="display:none;width:100%;padding:14px;font-size:15px;font-weight:700;border-radius:12px;background:linear-gradient(135deg,var(--accent),#4ecdc4);color:#000;border:none;cursor:pointer;margin-top:8px">✅ 确认已支付（客服）</button>
+        <button onclick="closePayment()" style="background:none;border:1px solid var(--border);color:var(--text2);border-radius:20px;padding:10px 24px;font-size:13px;cursor:pointer">关闭</button>
+      </div>
+      <button onclick="closePayment()" style="background:none;border:none;color:var(--text3);font-size:13px;cursor:pointer" id="payCancel">暂不购买</button>
+    </div>
+  </div>
+
+  <!-- ===== BEAN EXCHANGE PANEL ===== -->
+  <div class="panel-overlay" id="beanExchangeOverlay">
+    <div class="form-header">
+      <button class="form-back" onclick="closeBeanExchange()">←</button>
+      <span class="form-title">🫘 乐豆提现</span>
+    </div>
+    <div style="padding:16px;display:flex;flex-direction:column;gap:14px">
+      <div style="background:var(--card);border-radius:14px;padding:16px;text-align:center;border:1px solid var(--border)">
+        <div style="font-size:48px">🫘→💰</div>
+        <div style="font-size:20px;font-weight:800;margin:8px 0">10000乐豆 = ¥1.00</div>
+        <div style="font-size:13px;color:var(--text2)">当前 <b id="beanExchangeBalance" style="color:var(--text)">0乐豆</b> ≈ <b id="beanExchangeCNY" style="color:var(--accent)">¥0.00</b></div>
+      </div>
+      <div id="bindPaymentArea" style="background:var(--card);border-radius:14px;padding:16px;border:1px solid var(--border);display:none">
+        <div style="font-weight:700;margin-bottom:12px">🔗 绑定提现账户</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <input type="text" id="bindPhone" placeholder="手机号" style="padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px">
+          <div style="display:flex;gap:8px">
+            <select id="bindType" style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px">
+              <option value="wechat">微信</option>
+              <option value="alipay">支付宝</option>
+            </select>
+            <input type="text" id="bindAccount" placeholder="微信/支付宝账号" style="flex:2;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:14px">
+          </div>
+          <button class="settings-btn primary" style="width:100%" onclick="bindPaymentAccount()">✅ 绑定</button>
+        </div>
+      </div>
+      <div id="withdrawArea" style="display:none;flex-direction:column;gap:10px">
+        <div style="font-size:12px;color:var(--text2)">已绑定：<span id="boundAccountInfo" style="color:var(--accent)"></span></div>
+        <div style="display:flex;gap:8px">
+          <button class="opt-chip" style="flex:1;text-align:center" onclick="withdrawBeans(10000)">¥1.00</button>
+          <button class="opt-chip" style="flex:1;text-align:center" onclick="withdrawBeans(50000)">¥5.00</button>
+          <button class="opt-chip" style="flex:1;text-align:center" onclick="withdrawBeans(100000)">¥10.00</button>
+          <button class="opt-chip" style="flex:1;text-align:center" onclick="withdrawBeans('all')">全部</button>
+        </div>
+        <button class="settings-btn" style="width:100%;border:1px solid var(--border)" onclick="showBindPayment()">🔄 更换绑定</button>
+      </div>
+      <div style="font-size:11px;color:var(--text3);text-align:center">💡 10000乐豆=¥1，满¥1即可提现到微信/支付宝</div>
+    </div>
+  </div>
+
+  <!-- ===== RECHARGE MODAL ===== -->
+  <div class="recharge-modal" id="rechargeModal">
+    <div class="form-header">
+      <button class="form-back" onclick="closeRecharge()">←</button>
+      <span class="form-title">💰 充值中心</span>
+      <span style="font-size:13px;color:var(--accent);margin-left:auto">余额: <b id="rechargeBalance">🪙 0乐币</b> <span style="font-size:10px;color:var(--text3)">(≈¥<b id="rechargeBalanceCNY">0.00</b>)</span></span>
+    </div>
+    <div class="form-body">
+      <!-- ===== VIP TIERS ===== -->
+      <div class="section-header"><span class="section-title">👑 VIP会员 <span style="font-size:11px;color:var(--text3)">权益对比</span></span></div>
+      <div style="padding:0 12px">
+        <table class="vip-compare">
+          <tr>
+            <th>权益</th>
+            <th><div class="vip-col-header">月卡</div><div class="vip-col-price">¥29</div><div class="vip-col-sub">/月</div></th>
+            <th><div class="vip-col-header">季卡</div><div class="vip-col-price">¥49.9</div><div class="vip-col-sub">/季·省16%</div></th>
+            <th><div class="vip-col-header">年卡</div><div class="vip-col-price">¥168</div><div class="vip-col-sub">/年·省41%</div></th>
+          </tr>
+          <tr><td class="vip-row-title">AI智能创作</td><td class="vip-limited">30首/月</td><td class="vip-limited">100首/季</td><td class="vip-limited">500首/年</td></tr>
+          <tr><td class="vip-row-title">生成MV</td><td class="vip-no">✕</td><td class="vip-limited">3次/季</td><td class="vip-yes">✓ 不限</td></tr>
+          <tr><td class="vip-row-title">全网发行</td><td class="vip-no">✕</td><td class="vip-limited">1首/季</td><td class="vip-yes">✓ 不限</td></tr>
+          <tr><td class="vip-row-title">原创保护</td><td class="vip-no">✕</td><td class="vip-no">✕</td><td class="vip-yes">✓</td></tr>
+          <tr><td class="vip-row-title">高清音质</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td></tr>
+          <tr><td class="vip-row-title">去广告</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td></tr>
+          <tr><td class="vip-row-title">VIP专属标识</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td></tr>
+          <tr><td class="vip-row-title">优先客服</td><td class="vip-no">✕</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td></tr>
+          <tr><td class="vip-row-title">离线下载</td><td class="vip-no">✕</td><td class="vip-yes">✓</td><td class="vip-yes">✓</td></tr>
+        </table>
+        <div style="display:flex;gap:8px;padding:12px 2px">
+          <button class="vip-btn" onclick="openPayment('monthly')" style="flex:1;font-size:11px;padding:10px">月卡 ¥29</button>
+          <button class="vip-btn" onclick="openPayment('quarterly')" style="flex:1;font-size:11px;padding:10px;background:linear-gradient(135deg,#a29bfe,#6c5ce7);color:#fff">季卡 ¥49.9</button>
+          <button class="vip-btn" onclick="openPayment('annual')" style="flex:1;font-size:11px;padding:10px;background:linear-gradient(135deg,#fd79a8,#e84393);color:#fff">年卡 ¥168</button>
+        </div>
+      </div>
+      <div id="vipResetArea" style="display:none;text-align:center;padding:8px 0">
+        <span style="font-size:11px;color:var(--text3);cursor:pointer" onclick="if(confirm('确定退出VIP会员？'))resetVip()">退出VIP · 重置状态</span>
+      </div>
+      <div class="section-header"><span class="section-title">🪙 乐币充值 <span style="font-size:11px;color:var(--text3)">100乐币=¥1 · 非会员¥3/首</span></span></div>
+      <div class="recharge-pkg-grid">
+        <div class="recharge-pkg" onclick="recharge(3000,30)">
+          <div class="recharge-coin">🪙</div>
+          <div class="recharge-amount">3000乐币</div>
+          <div class="recharge-price">¥30.00</div>
+        </div>
+        <div class="recharge-pkg" onclick="recharge(6000,60)">
+          <div class="recharge-coin">💎</div>
+          <div class="recharge-amount">6000乐币</div>
+          <div class="recharge-price">¥60.00</div>
+        </div>
+        <div class="recharge-pkg" onclick="recharge(9000,90)">
+          <div class="recharge-coin">👑</div>
+          <div class="recharge-amount">9000乐币</div>
+          <div class="recharge-price">¥90.00</div>
+        </div>
+      </div>
+      <!-- ===== WITHDRAWAL SECTION (OWNER ONLY) ===== -->
+      <div id="withdrawSection" style="display:none">
+        <div class="section-header" style="margin-top:16px"><span class="section-title">💸 余额提现</span></div>
+        <div style="background:var(--card);border-radius:14px;padding:16px;border:1px solid var(--border)">
+          <!-- Card binding area -->
+          <div id="cardBindingArea" style="display:none">
+            <div style="font-size:13px;color:var(--text2);margin-bottom:10px">🔒 请先绑定提现银行卡</div>
+            <input type="text" id="cardBankName" placeholder="银行名称（如：中国工商银行）" style="width:100%;box-sizing:border-box;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--input);color:var(--text);font-size:14px;margin-bottom:8px">
+            <input type="text" id="cardNumber" placeholder="银行卡号" maxlength="19" oninput="this.value=this.value.replace(/\D/g,'')" style="width:100%;box-sizing:border-box;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--input);color:var(--text);font-size:14px;margin-bottom:8px">
+            <input type="text" id="cardHolder" placeholder="持卡人姓名" style="width:100%;box-sizing:border-box;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--input);color:var(--text);font-size:14px;margin-bottom:10px">
+            <button class="settings-btn primary" style="width:100%" onclick="bindCard()">✅ 绑定银行卡</button>
+          </div>
+          <!-- Bound card display -->
+          <div id="cardDisplayArea" style="display:none">
+            <div style="display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--border);margin-bottom:12px">
+              <span style="font-size:28px">🏦</span>
+              <div style="flex:1">
+                <div style="font-weight:600;font-size:14px" id="cardDisplayBank">--</div>
+                <div style="font-size:12px;color:var(--text3)" id="cardDisplayNumber">****</div>
+                <div style="font-size:11px;color:var(--text3)" id="cardDisplayHolder">--</div>
+              </div>
+              <button onclick="unbindCard()" style="background:none;border:1px solid var(--red);color:var(--red);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer">解绑</button>
+            </div>
+          </div>
+          <!-- Withdrawal amount -->
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <span style="font-size:13px;color:var(--text2)">可提现余额</span>
+            <div style="text-align:right">
+              <div style="font-size:22px;font-weight:800;color:var(--accent)" id="withdrawBalance">🪙 0乐币</div>
+              <div style="font-size:11px;color:var(--text3)">≈ ¥<span id="withdrawBalanceCNY">0.00</span>（100乐币=¥1）</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-bottom:10px">
+            <button class="opt-chip" style="flex:1;text-align:center" onclick="setWithdrawAmount(100)">¥100</button>
+            <button class="opt-chip" style="flex:1;text-align:center" onclick="setWithdrawAmount(500)">¥500</button>
+            <button class="opt-chip" style="flex:1;text-align:center" onclick="setWithdrawAmount(1000)">¥1000</button>
+            <button class="opt-chip" style="flex:1;text-align:center" onclick="setWithdrawAmount('all')">全部</button>
+          </div>
+          <div style="display:flex;gap:8px">
+            <input type="number" id="withdrawAmountInput" placeholder="输入提现金额(元)" style="flex:1;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--input);color:var(--text);font-size:14px" oninput="document.getElementById('withdrawAmountInput').dataset.custom='1'">
+            <button class="settings-btn primary" style="width:auto;white-space:nowrap" onclick="withdraw()">确认提现</button>
+          </div>
+          <div style="margin-top:8px;font-size:11px;color:var(--text3)">💡 提现到已绑定银行卡，预计2小时内到账</div>
+        </div>
+      </div>
+      <div style="padding:8px 16px;font-size:11px;color:var(--text3);text-align:center">
         ⚠️ 乐币仅用于本平台消费，不支持退款 · 充值即表示同意用户协议
-      </div></div></div><div class="settings-overlay" id="settingsOverlay"><div class="form-header"><button class="form-back" onclick="settingsBack()">←</button><span class="form-title" id="settingsTitle">设置</span></div><div class="settings-panel show" id="settingsMain"><div class="menu-section"><div class="menu-item" onclick="showSettingsPanel('profile')"><span class="menu-item-icon">👤</span><span class="menu-item-label">个人资料</span><span class="menu-item-arrow">›</span></div><div class="menu-item" onclick="showSettingsPanel('verify')"><span class="menu-item-icon">✅</span><span class="menu-item-label">实名认证</span><span class="menu-item-value" id="verifyStatus">未认证</span><span class="menu-item-arrow">›</span></div><div class="menu-item" onclick="openRecharge();closeSettings()"><span class="menu-item-icon">👑</span><span class="menu-item-label">会员中心</span><span class="menu-item-arrow">›</span></div></div><div class="menu-section"><div class="menu-item" onclick="showSettingsPanel('personalize')"><span class="menu-item-icon">🎚️</span><span class="menu-item-label">个性化服务</span><span class="menu-item-arrow">›</span></div><div class="menu-item" onclick="clearCache()"><span class="menu-item-icon">🗑️</span><span class="menu-item-label">清除缓存</span><span class="menu-item-value" id="cacheSize">计算中...</span><span class="menu-item-arrow">›</span></div><div class="menu-item" onclick="showSettingsPanel('about')"><span class="menu-item-icon">ℹ️</span><span class="menu-item-label">关于我们</span><span class="menu-item-arrow">›</span></div><div class="menu-item" onclick="showSettingsPanel('help')"><span class="menu-item-icon">❓</span><span class="menu-item-label">帮助与服务</span><span class="menu-item-arrow">›</span></div></div><div class="menu-section"><div class="menu-item" onclick="showSettingsPanel('deleteAccount')"><span class="menu-item-icon">⚠️</span><span class="menu-item-label" style="color:#ff6b6b">注销账号</span><span class="menu-item-arrow">›</span></div></div></div><div class="settings-panel" id="settingsProfile"><div style="display:flex;align-items:center;gap:14px;padding:8px 0 14px"><div style="position:relative;cursor:pointer" onclick="document.getElementById('avatarInput').click()"><div id="avatarPreview" style="width:72px;height:72px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:36px;border:2px dashed var(--border);overflow:hidden">🦞</div><div style="position:absolute;bottom:0;right:0;width:24px;height:24px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:12px;color:#000">📷</div></div><div><div style="font-weight:600;font-size:14px">更换头像</div><div style="font-size:11px;color:var(--text3)">支持 jpg/png，建议 1:1</div></div><input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="previewAvatar(event)"></div><div class="settings-input-group"><label>昵称</label><input class="settings-input" id="setNickname" value="一只叔片" placeholder="输入昵称"></div><div class="settings-input-group"><label>个性签名</label><input class="settings-input" id="setBio" value="" placeholder="写一句话介绍自己"></div><div class="settings-input-group"><label>邮箱</label><input class="settings-input" id="setEmail" value="yishuhaidao@163.com" placeholder="your@email.com"></div><button class="settings-btn primary" onclick="saveProfile()">保存资料</button></div><div class="settings-panel" id="settingsVerify"><div class="settings-input-group"><label>真实姓名</label><input class="settings-input" id="verifyName" placeholder="请输入真实姓名"></div><div class="settings-input-group"><label>身份证号</label><input class="settings-input" id="verifyId" placeholder="请输入身份证号码"></div><div class="settings-input-group"><label>手机号码</label><input class="settings-input" id="verifyPhone" placeholder="请输入手机号码"></div><button class="settings-btn primary" onclick="submitVerify()">提交认证</button></div><div class="settings-panel" id="settingsPersonalize"><div class="settings-toggle-row"><div><div class="settings-toggle-label">个性化推荐</div><div class="settings-toggle-desc">根据听歌偏好推荐内容</div></div><div class="settings-toggle on" id="tglRec" onclick="toggleSwitch('tglRec')"></div></div><div class="settings-toggle-row"><div><div class="settings-toggle-label">夜间模式</div><div class="settings-toggle-desc">使用深色主题界面</div></div><div class="settings-toggle on" id="tglDark" onclick="toggleSwitch('tglDark')"></div></div><div class="settings-toggle-row"><div><div class="settings-toggle-label">自动播放</div><div class="settings-toggle-desc">WiFi下自动播放推荐歌曲</div></div><div class="settings-toggle on" id="tglAuto" onclick="toggleSwitch('tglAuto')"></div></div><div class="settings-toggle-row"><div><div class="settings-toggle-label">消息通知</div><div class="settings-toggle-desc">接收互动消息推送</div></div><div class="settings-toggle on" id="tglNotif" onclick="toggleSwitch('tglNotif')"></div></div><div class="settings-toggle-row"><div><div class="settings-toggle-label">省流模式</div><div class="settings-toggle-desc">降低音质以节省流量</div></div><div class="settings-toggle" id="tglData" onclick="toggleSwitch('tglData')"></div></div></div><div class="settings-panel" id="settingsAbout"><div class="settings-about-text"><p><b>Ai乐酷</b> v1.0.0</p><p>🎵 AI驱动的音乐创作平台</p><p>让每个人都能轻松创作属于自己的音乐。</p><p>无论是专业音乐人还是零基础新手，Ai乐酷都能帮你把灵感变成作品。</p><p>📧 联系邮箱：hello@aileku.com</p><p>🌐 官网：aileku.com</p><p style="margin-top:12px;color:var(--text3);font-size:11px;">© 2026 Ai乐酷 · 保留所有权利</p></div></div><div class="settings-panel" id="settingsHelp"><div class="settings-faq-item" onclick="toggleFaq(this)"><div class="settings-faq-q">❓ 如何创作一首歌？</div><div class="settings-faq-a">点击底部「写歌」→ 选择「一键写歌」→ 输入歌词并选择风格 → 点击生成即可。</div></div><div class="settings-faq-item" onclick="toggleFaq(this)"><div class="settings-faq-q">🎬 如何生成MV？</div><div class="settings-faq-a">创作歌曲后，点击「生成MV」选择画面风格，AI会自动为你的歌曲配上视频画面。</div></div><div class="settings-faq-item" onclick="toggleFaq(this)"><div class="settings-faq-q">💰 乐币和音乐豆的区别？</div><div class="settings-faq-a">乐币为付费虚拟货币，用于购买高级音色和去水印。音乐豆通过听歌免费获取，可兑换基础服务。</div></div><div class="settings-faq-item" onclick="toggleFaq(this)"><div class="settings-faq-q">🛡️ 原创歌曲有版权保护吗？</div><div class="settings-faq-a">是的！通过Ai乐酷创作的作品自动生成版权记录，支持一键全网发行和原创认证。</div></div><div class="settings-faq-item" onclick="toggleFaq(this)"><div class="settings-faq-q">📱 支持哪些平台？</div><div class="settings-faq-a">目前支持手机浏览器和微信小程序访问，PC端可通过浏览器直接使用。</div></div></div><div class="settings-panel" id="settingsDelete"><div style="text-align:center;padding:20px 0"><div style="font-size:48px;margin-bottom:16px">⚠️</div><div style="font-size:16px;font-weight:700;margin-bottom:8px">确认注销账号？</div><div style="font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:20px">
+      </div>
+    </div>
+  </div>
+  <!-- ===== SETTINGS OVERLAY ===== -->
+  <div class="settings-overlay" id="settingsOverlay">
+    <div class="form-header">
+      <button class="form-back" onclick="settingsBack()">←</button>
+      <span class="form-title" id="settingsTitle">设置</span>
+    </div>
+    <!-- Main Menu -->
+    <div class="settings-panel show" id="settingsMain">
+      <div class="menu-section">
+        <div class="menu-item" onclick="showSettingsPanel('profile')"><span class="menu-item-icon">👤</span><span class="menu-item-label">个人资料</span><span class="menu-item-arrow">›</span></div>
+        <div class="menu-item" onclick="showSettingsPanel('verify')"><span class="menu-item-icon">✅</span><span class="menu-item-label">实名认证</span><span class="menu-item-value" id="verifyStatus">未认证</span><span class="menu-item-arrow">›</span></div>
+        <div class="menu-item" onclick="openRecharge();closeSettings()"><span class="menu-item-icon">👑</span><span class="menu-item-label">会员中心</span><span class="menu-item-arrow">›</span></div>
+      </div>
+      <div class="menu-section">
+        <div class="menu-item" onclick="showSettingsPanel('personalize')"><span class="menu-item-icon">🎚️</span><span class="menu-item-label">个性化服务</span><span class="menu-item-arrow">›</span></div>
+        <div class="menu-item" onclick="clearCache()"><span class="menu-item-icon">🗑️</span><span class="menu-item-label">清除缓存</span><span class="menu-item-value" id="cacheSize">计算中...</span><span class="menu-item-arrow">›</span></div>
+        <div class="menu-item" onclick="showSettingsPanel('about')"><span class="menu-item-icon">ℹ️</span><span class="menu-item-label">关于我们</span><span class="menu-item-arrow">›</span></div>
+        <div class="menu-item" onclick="showSettingsPanel('help')"><span class="menu-item-icon">❓</span><span class="menu-item-label">帮助与服务</span><span class="menu-item-arrow">›</span></div>
+      </div>
+      <div class="menu-section">
+        <div class="menu-item" onclick="showSettingsPanel('deleteAccount')"><span class="menu-item-icon">⚠️</span><span class="menu-item-label" style="color:#ff6b6b">注销账号</span><span class="menu-item-arrow">›</span></div>
+      </div>
+    </div>
+    <!-- 个人资料 -->
+    <div class="settings-panel" id="settingsProfile">
+      <div style="display:flex;align-items:center;gap:14px;padding:8px 0 14px">
+        <div style="position:relative;cursor:pointer" onclick="document.getElementById('avatarInput').click()">
+          <div id="avatarPreview" style="width:72px;height:72px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:36px;border:2px dashed var(--border);overflow:hidden">🦞</div>
+          <div style="position:absolute;bottom:0;right:0;width:24px;height:24px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:12px;color:#000">📷</div>
+        </div>
+        <div><div style="font-weight:600;font-size:14px">更换头像</div><div style="font-size:11px;color:var(--text3)">支持 jpg/png，建议 1:1</div></div>
+        <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="previewAvatar(event)">
+      </div>
+      <div class="settings-input-group"><label>昵称</label><input class="settings-input" id="setNickname" value="一只叔片" placeholder="输入昵称"></div>
+      <div class="settings-input-group"><label>个性签名</label><input class="settings-input" id="setBio" value="" placeholder="写一句话介绍自己"></div>
+      <div class="settings-input-group"><label>邮箱</label><input class="settings-input" id="setEmail" value="yishuhaidao@163.com" placeholder="your@email.com"></div>
+      <button class="settings-btn primary" onclick="saveProfile()">保存资料</button>
+    </div>
+    <!-- 实名认证 -->
+    <div class="settings-panel" id="settingsVerify">
+      <div class="settings-input-group"><label>真实姓名</label><input class="settings-input" id="verifyName" placeholder="请输入真实姓名"></div>
+      <div class="settings-input-group"><label>身份证号</label><input class="settings-input" id="verifyId" placeholder="请输入身份证号码"></div>
+      <div class="settings-input-group"><label>手机号码</label><input class="settings-input" id="verifyPhone" placeholder="请输入手机号码"></div>
+      <button class="settings-btn primary" onclick="submitVerify()">提交认证</button>
+    </div>
+    <!-- 个性化服务 -->
+    <div class="settings-panel" id="settingsPersonalize">
+      <div class="settings-toggle-row"><div><div class="settings-toggle-label">个性化推荐</div><div class="settings-toggle-desc">根据听歌偏好推荐内容</div></div><div class="settings-toggle on" id="tglRec" onclick="toggleSwitch('tglRec')"></div></div>
+      <div class="settings-toggle-row"><div><div class="settings-toggle-label">夜间模式</div><div class="settings-toggle-desc">使用深色主题界面</div></div><div class="settings-toggle on" id="tglDark" onclick="toggleSwitch('tglDark')"></div></div>
+      <div class="settings-toggle-row"><div><div class="settings-toggle-label">自动播放</div><div class="settings-toggle-desc">WiFi下自动播放推荐歌曲</div></div><div class="settings-toggle on" id="tglAuto" onclick="toggleSwitch('tglAuto')"></div></div>
+      <div class="settings-toggle-row"><div><div class="settings-toggle-label">消息通知</div><div class="settings-toggle-desc">接收互动消息推送</div></div><div class="settings-toggle on" id="tglNotif" onclick="toggleSwitch('tglNotif')"></div></div>
+      <div class="settings-toggle-row"><div><div class="settings-toggle-label">省流模式</div><div class="settings-toggle-desc">降低音质以节省流量</div></div><div class="settings-toggle" id="tglData" onclick="toggleSwitch('tglData')"></div></div>
+    </div>
+    <!-- 关于我们 -->
+    <div class="settings-panel" id="settingsAbout">
+      <div class="settings-about-text">
+        <p><b>Ai乐酷</b> v1.0.0</p>
+        <p>🎵 AI驱动的音乐创作平台</p>
+        <p>让每个人都能轻松创作属于自己的音乐。</p>
+        <p>无论是专业音乐人还是零基础新手，Ai乐酷都能帮你把灵感变成作品。</p>
+        <p>📧 联系邮箱：hello@aileku.com</p>
+        <p>🌐 官网：aileku.com</p>
+        <p style="margin-top:12px;color:var(--text3);font-size:11px;">© 2026 Ai乐酷 · 保留所有权利</p>
+      </div>
+    </div>
+    <!-- 帮助与服务 -->
+    <div class="settings-panel" id="settingsHelp">
+      <div class="settings-faq-item" onclick="toggleFaq(this)"><div class="settings-faq-q">❓ 如何创作一首歌？</div><div class="settings-faq-a">点击底部「写歌」→ 选择「一键写歌」→ 输入歌词并选择风格 → 点击生成即可。</div></div>
+      <div class="settings-faq-item" onclick="toggleFaq(this)"><div class="settings-faq-q">🎬 如何生成MV？</div><div class="settings-faq-a">创作歌曲后，点击「生成MV」选择画面风格，AI会自动为你的歌曲配上视频画面。</div></div>
+      <div class="settings-faq-item" onclick="toggleFaq(this)"><div class="settings-faq-q">💰 乐币和音乐豆的区别？</div><div class="settings-faq-a">乐币为付费虚拟货币，用于购买高级音色和去水印。音乐豆通过听歌免费获取，可兑换基础服务。</div></div>
+      <div class="settings-faq-item" onclick="toggleFaq(this)"><div class="settings-faq-q">🛡️ 原创歌曲有版权保护吗？</div><div class="settings-faq-a">是的！通过Ai乐酷创作的作品自动生成版权记录，支持一键全网发行和原创认证。</div></div>
+      <div class="settings-faq-item" onclick="toggleFaq(this)"><div class="settings-faq-q">📱 支持哪些平台？</div><div class="settings-faq-a">目前支持手机浏览器和微信小程序访问，PC端可通过浏览器直接使用。</div></div>
+    </div>
+    <!-- 注销账号 -->
+    <div class="settings-panel" id="settingsDelete">
+      <div style="text-align:center;padding:20px 0">
+        <div style="font-size:48px;margin-bottom:16px">⚠️</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:8px">确认注销账号？</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:20px">
           注销后将永久删除所有数据，包括作品、收藏、乐币余额。<br>此操作不可撤销。
-        </div><button class="settings-btn danger" onclick="deleteAccount()" style="width:100%;margin-bottom:10px">确认注销</button><button class="settings-btn" onclick="showSettingsPanel('main')" style="width:100%;background:var(--card);color:var(--text)">我再想想</button></div></div></div><div class="panel-overlay" id="panelOverlay"><div class="form-header"><button class="form-back" onclick="closePanel()">←</button><span class="form-title" id="panelTitle">标题</span></div><div class="panel-body" id="panelBody"></div></div></div><script>
+        </div>
+        <button class="settings-btn danger" onclick="deleteAccount()" style="width:100%;margin-bottom:10px">确认注销</button>
+        <button class="settings-btn" onclick="showSettingsPanel('main')" style="width:100%;background:var(--card);color:var(--text)">我再想想</button>
+      </div>
+    </div>
+  </div>  <!-- ===== GENERIC PANEL OVERLAY ===== -->
+  <div class="panel-overlay" id="panelOverlay">
+    <div class="form-header">
+      <button class="form-back" onclick="closePanel()">←</button>
+      <span class="form-title" id="panelTitle">标题</span>
+    </div>
+    <div class="panel-body" id="panelBody"></div>
+  </div>
+
+</div>
+<script>
 const styleOptions = [
   '流行','摇滚','民谣','电子','说唱','R&B','古风','中国风','嘻哈','节奏布鲁斯',
   '爵士','古典','轻音乐','国风','二次元','治愈','放克','金属','朋克','雷鬼',
@@ -1194,6 +1983,7 @@ const styleOptions = [
   'Trap','Lo-Fi','氛围音乐','后摇','另类摇滚','梦幻流行','合成器流行','Chillwave',
   'Vaporwave','City Pop','巴萨诺瓦','探戈','弗拉门戈'
 ];
+
 const recipeOptions = [
   '经典配方','爆款公式','热门模板','怀旧金曲','实验风格','清新自然',
   '暗黑深邃','史诗宏大','温柔治愈','热血沸腾','迷幻梦境','欢快节奏',
@@ -1201,6 +1991,7 @@ const recipeOptions = [
   '城市夜色','森林漫步','极简主义','繁复华丽','东方韵味','西方风情',
   '夏日狂欢','冬日恋歌','文艺复兴','科幻未来','异域风情','灵魂深处'
 ];
+
 const vocalOptions = [
   '无特效','温柔男声','甜美女声','磁性大叔','少年音','御姐音','萝莉音',
   '电音效果','机器音','电话音','收音机','山谷回声','教堂混响','浴室混响',
@@ -1208,17 +1999,22 @@ const vocalOptions = [
   '变声男','变声女','空灵和声','合唱团','留声机','娃娃音','沧桑老声',
   '和声音效','交响人声','民谣低吟','歌剧高音','轻语低喃'
 ];
+
+
+
 const moodOptions = [
   '治愈','热血','抒情','轻松','迷幻','怀旧','浪漫','孤独','快乐','悲伤',
   '振奋','梦幻','激情','温暖','清新','沉静','忧郁','释然','感动','思念',
   '期待','失落','自信','自由','洒脱','孤傲','兴奋','安宁','甜蜜','空灵'
 ];
+
 const instrumentOptions = [
   '钢琴','吉他','古筝','合成器','贝斯','爵士鼓','小提琴','大提琴','萨克斯',
   '口琴','琵琶','二胡','笛子','箫','古琴','扬琴','马头琴','风琴','竖琴',
   '电子琴','MIDI钢琴','古典吉他','电吉他','木吉他','贝斯吉他','架子鼓',
   '非洲鼓','康加鼓','手碟','卡林巴','八音盒','大键琴','小号','长笛','单簧管'
 ];
+
 const fxOptions = [
   '无特效','混响增强','延迟效果','失真效果','Lo-Fi滤镜','复古磁带',
   '黑胶唱片','8-bit像素','空间环绕','低音增强','高音增强','压缩器',
@@ -1226,6 +2022,7 @@ const fxOptions = [
   '立体声扩展','房间模拟','大厅混响','弹簧混响','录音机质感','广播效果',
   '降噪处理','环绕声场','动态均衡','钢琴共鸣','架子鼓混音','贝斯增强'
 ];
+
 const gradients = [
   'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
   'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
@@ -1236,10 +2033,15 @@ const gradients = [
   'linear-gradient(135deg, #fccb90 0%, #d57eeb 100%)',
   'linear-gradient(135deg, #0093e9 0%, #80d0c7 100%)'
 ];
+
 const coverEmojis = ['🎹','🎸','🎻','🥁','🎺','🎷','🪕','🎵','🎶','🦞','🌟','🔥','💜','🌙','🌈','✨'];
+
 let songs = [];
+
 const messages = [];
+
 const msgCategories = ['全部','点赞和评论','礼物','关注','谁听了我的歌','听歌广场','系统消息','官方通知'];
+
 let currentTab = 'home';
 let detailSong = null;
 let sheetSong = null;
@@ -1251,6 +2053,7 @@ let synth = null;
 let playerInterval = null;
 let playerProgress = 0;
 let generatedCount = songs.length;
+
 // ==================== INIT ====================
 var APP_VERSION = 6;
 function init() {
@@ -1262,6 +2065,7 @@ function init() {
     return;
   }
   localStorage.setItem('appVersion', '' + APP_VERSION);
+
   // Fix mobile viewport height (WeChat/phone browser address bar issue)
   function setAppHeight() {
     var h = window.innerHeight;
@@ -1295,15 +2099,18 @@ function init() {
   } catch(e) {}
   updateVipUI();
 }
+
 // ==================== COMPACT OPTION DROPDOWNS ====================
 // ==================== BACK BUTTON HANDLING ====================
 let navStack = ['home'];
 let exitTimer = null;
 let backBarrier = false; // prevents cascading back
+
 function pushNav(state) {
   navStack.push(state);
   history.pushState({nav: state}, '', '#!'+state);
 }
+
 function initBackHandler() {
   history.replaceState({nav: 'home'}, '', '#!home');
   window.addEventListener('popstate', function(e) {
@@ -1315,6 +2122,7 @@ function initBackHandler() {
     }
   });
 }
+
 function restoreState(state) {
   if (navStack.length > 1) navStack.pop();
   // Close toggle panels
@@ -1369,9 +2177,11 @@ function restoreState(state) {
     });
   }
 }
+
 function handleExitBack() {
   // Close overlays tier by tier — no history.back() calls, just push barrier
   var closed = false;
+
   // Payment modal
   var pay = document.getElementById('paymentModal');
   if (pay && pay.classList.contains('show')) { closePayment(); closed = true; }
@@ -1421,11 +2231,13 @@ function handleExitBack() {
     var el = document.getElementById(id);
     if (el && el.style.display !== 'none') { el.style.display = 'none'; closed = true; }
   });
+
   if (closed) {
     backBarrier = true;
     history.pushState({nav:'backBarrier'}, '', '#!back');
     return;
   }
+
   // No overlay open — exit via double-press
   if (!exitTimer) {
     showToast('再按一次退出程序');
@@ -1435,7 +2247,9 @@ function handleExitBack() {
   }
   // If exitTimer active, let browser close naturally (don't push state)
 }
+
 let detailSongCache = null;
+
 function openDetail(song) {
   if (!song) return;
   detailSongCache = song;
@@ -1443,14 +2257,17 @@ function openDetail(song) {
   document.getElementById('detailOverlay').classList.add('show');
   renderDetail(song);
 }
+
 function closeDetail() {
   document.getElementById('detailOverlay').classList.remove('show');
   stopPlayback();
 }
+
 function openCreateForm(withLyrics) {
   hasLyrics = withLyrics;
   pushNav('form');
   document.getElementById('formTitle').textContent = withLyrics ? '生成MV' : '一键写歌';
+
   var oneClick = document.getElementById('formOneClick');
   var full = document.getElementById('formFull');
   if (withLyrics) {
@@ -1463,10 +2280,12 @@ function openCreateForm(withLyrics) {
   }
   document.getElementById('createFormOverlay').classList.add('show');
 }
+
 function closeCreateForm() {
   document.getElementById('createFormOverlay').classList.remove('show');
   stopPlayback();
 }
+
 function ensureFormMode() {
   var oneClick = document.getElementById('formOneClick');
   var full = document.getElementById('formFull');
@@ -1478,6 +2297,7 @@ function ensureFormMode() {
     full.classList.remove('active');
   }
 }
+
 // ==================== TABS ====================
 const optDefs = [
   {key:'style',label:'风格',opts:styleOptions,def:'流行'},
@@ -1489,6 +2309,7 @@ const optDefs = [
 ];
 const selections = {};
 const MAX_SELECTIONS = 20;
+
 function buildOptsPanel() {
   var bar = document.getElementById('optBar');
   bar.innerHTML = optDefs.map(function(d){
@@ -1499,11 +2320,13 @@ function buildOptsPanel() {
   showGrid('style');
   document.getElementById('tab_style').classList.add('active');
 }
+
 function countSelections() {
   var n = 0;
   optDefs.forEach(function(d){ n += selections[d.key].length; });
   return n;
 }
+
 function updateSelTags() {
   var counter = document.getElementById('selCounter');
   if (counter) counter.textContent = '已选 '+countSelections()+'/20';
@@ -1517,6 +2340,7 @@ function updateSelTags() {
     combo.textContent = lines.join(' | ') || '选好风格情绪，AI为你作曲';
   }
 }
+
 function removeSelTag(key, val) {
   selections[key] = selections[key].filter(function(x){ return x !== val; });
   if (selections[key].length === 0) selections[key] = [optDefs.find(function(d){return d.key===key;}).def];
@@ -1524,11 +2348,13 @@ function removeSelTag(key, val) {
   var activeTab = document.querySelector('.opt-tab.active');
   if (activeTab) showGrid(activeTab.id.replace('tab_',''));
 }
+
 function selectCat(key) {
   document.querySelectorAll('.opt-tab').forEach(function(b){b.classList.remove('active');});
   document.getElementById('tab_'+key).classList.add('active');
   showGrid(key);
 }
+
 function showGrid(key) {
   var grid = document.getElementById('optGrid');
   var d = optDefs.find(function(x){return x.key===key;});
@@ -1541,6 +2367,7 @@ function showGrid(key) {
   '</div>';
   grid.scrollTop = 0;
 }
+
 function pickOpt(key, val) {
   var sel = selections[key];
   var idx = sel.indexOf(val);
@@ -1560,8 +2387,10 @@ function pickOpt(key, val) {
   updateSelTags();
   showGrid(key);
 }
+
 // ==================== OPTION SUB-PAGE ====================
 let currentSubCat = 'style';
+
 function openOptSubPage(key) {
   currentSubCat = key || '';
   // Save defaults & clear for fresh start
@@ -1574,6 +2403,7 @@ function openOptSubPage(key) {
   renderOptSubPage();
   document.getElementById('optSubPage').classList.add('show');
 }
+
 function closeOptSubPage() {
   document.getElementById('optSubPage').classList.remove('show');
   // Restore defaults if not saved
@@ -1584,10 +2414,12 @@ function closeOptSubPage() {
   document.getElementById('createFormOverlay').classList.add('show');
   if (hasLyrics) { selectCat(currentSubCat); updateSelTags(); }
 }
+
 function saveOptSubAndReturn() {
   closeOptSubPage();
   showToast('✅ 风格已保存');
 }
+
 function renderOptSubPage() {
   var count = countSelections();
   document.getElementById('optSubCounter').textContent = '已选 '+count+'/'+MAX_SELECTIONS;
@@ -1605,11 +2437,13 @@ function renderOptSubPage() {
     comboText.style.display = 'block';
     comboText.innerHTML = lines.join('<br>');
   }
+
   // Category tabs
   var bar = document.getElementById('optSubBar');
   bar.innerHTML = optDefs.map(function(d){
     return '<div class="opt-sub-tab'+(d.key===currentSubCat?' active':'')+'" data-key="'+d.key+'" onclick="switchSubCat(\''+d.key+'\',this)">'+d.label+'</div>';
   }).join('');
+
   // Option chips
   var showKey = currentSubCat || 'style';
   var grid = document.getElementById('optSubGrid');
@@ -1620,12 +2454,14 @@ function renderOptSubPage() {
     return '<span class="opt-sub-chip'+(isSel?' selected':'')+'" onclick="pickOptSub(\''+showKey+'\',\''+o+'\')">'+o+'</span>';
   }).join('');
 }
+
 function switchSubCat(key, el) {
   currentSubCat = key;
   document.querySelectorAll('.opt-sub-tab').forEach(function(t){t.classList.remove('active');});
   el.classList.add('active');
   renderOptSubPage();
 }
+
 function pickOptSub(key, val) {
   var sel = selections[key];
   var idx = sel.indexOf(val);
@@ -1638,6 +2474,7 @@ function pickOptSub(key, val) {
   }
   renderOptSubPage();
 }
+
 // ==================== ACTION BUTTONS ====================
 function randomSound() {
   var all = [];
@@ -1649,8 +2486,10 @@ function randomSound() {
   updateSelTags(); showGrid('style');
   showToast('🎲 已随机生成一套声音组合');
 }
+
 // ==================== LYRICS MODES ====================
 let lyricsMode = 'interact';
+
 function switchLyricsMode(mode, el) {
   lyricsMode = mode;
   document.querySelectorAll('.lyrics-mode-tab').forEach(function(t){ t.classList.remove('active'); });
@@ -1672,6 +2511,7 @@ function switchLyricsMode(mode, el) {
     content.innerHTML = '<div style="flex:1;display:flex;align-items:center;justify-content:center;border:2px dashed var(--border);border-radius:14px;margin:4px 0;cursor:pointer;flex-direction:column;gap:8px" onclick="showToast(\'📷 请从相册选择一张图片\')"><span style="font-size:40px">🖼️</span><span style="font-size:13px;color:var(--text3)">点击上传图片，AI识别并生成歌曲</span></div>';
   }
 }
+
 function handleImageUpload(input) {
   if (input.files && input.files[0]) {
     showToast('🖼️ 图片已识别，正在生成歌词...');
@@ -1681,6 +2521,7 @@ function handleImageUpload(input) {
     }, 500);
   }
 }
+
 function suggestLyrics() {
   var prompts = [
     '夜空中的星\n闪烁着你的眼睛\n我在这城市里\n寻找着你的身影\n\n也许明天\n我们会再相遇\n在街角的咖啡店\n在雨后的彩虹里',
@@ -1692,14 +2533,17 @@ function suggestLyrics() {
   document.getElementById('formLyrics').value = pick;
   showToast('💡 已生成灵感歌词，可自行修改');
 }
+
 function showCustomGuide() {
   var guide = '<div style="font-size:13px;line-height:2"><b>创作指南：</b><br>🎵 <b>风格</b> 决定曲风走向<br>🎛️ <b>配方</b> 影响编曲复杂度<br>🎤 <b>人声</b> 改变演唱质感<br>💭 <b>情绪</b> 传递歌曲氛围<br>🎸 <b>乐器</b> 塑造声音层次<br>✨ <b>特效</b> 点缀细节亮点<br><br>💡 <b>小技巧：</b> 多选不同风格/情绪混搭，AI 会融合生成独特风格</div>';
   openPanel('📖 自定义指南', guide);
 }
+
 function showCustomAdd() {
   var html = '<div class="settings-input-group"><label>添加自定义选项</label><input type="text" id="customOptInput" placeholder="输入自定义选项名称" style="width:100%;box-sizing:border-box;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--input);color:var(--text);font-size:14px"></div><button class="settings-btn primary" onclick="addCustomOpt()" style="width:100%">✅ 添加到「'+optDefs.find(function(d){return d.key===currentSubCat;}).label+'」</button>';
   openPanel('+自定义', html);
 }
+
 function addCustomOpt() {
   var val = (document.getElementById('customOptInput')||{}).value;
   if (!val || !val.trim()) { showToast('⚠️ 请输入选项名称'); return; }
@@ -1712,6 +2556,7 @@ function addCustomOpt() {
   renderOptSubPage();
   showToast('✅ 已添加「'+val+'」');
 }
+
 function aiOptimizeLyrics() {
   var raw = document.getElementById('formLyrics').value.trim();
   if (!raw) { showToast('🤖 请先输入歌词后再优化'); return; }
@@ -1733,12 +2578,14 @@ function aiOptimizeLyrics() {
   document.getElementById('formLyrics').value = result;
   showToast('✨ AI优化完成！已润色押韵+添加结构建议');
 }
+
 function pickMVStyle(el, type) {
   var names = {fresh:'唯美清新',cyber:'赛博朋克',retro:'复古胶片',anime:'手绘动画'};
   document.querySelectorAll('#formFull .mv-style-chip').forEach(function(c){c.classList.remove('selected');});
   el.classList.add('selected');
   showToast('已选择：'+names[type]);
 }
+
 function doGenerate() {
   var songCost = 300;
   var isFree = (isVip && freeSongsLeft > 0);
@@ -1760,11 +2607,13 @@ function doGenerate() {
   // Update displays
   updateWalletDisplay();
   earnBeans(1, '发布歌曲');
+
   const raw = document.getElementById('formLyrics').value.trim();
   // First line = song name, rest = lyrics
   const lines = raw.split('\n');
   const name = lines[0] ? lines[0].replace(/^#\s*/,'').trim() : 'AI创作'+Date.now().toString(36);
   if (!name) name = '无标题';
+
   const newSong = {
     id: ++generatedCount,
     title: name,
@@ -1785,6 +2634,7 @@ function doGenerate() {
   showToast('🎉 《'+name+'》创作成功！' + costMsg);
   setTimeout(()=>playSong(newSong),500);
 }
+
 // ==================== TABS ====================
 function initTabs() {
   document.querySelectorAll('.tab-item').forEach(tab => {
@@ -1818,6 +2668,7 @@ function initTabs() {
     });
   });
 }
+
 function switchTab(name) {
   currentTab = name;
   document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
@@ -1827,6 +2678,7 @@ function switchTab(name) {
   if (page) page.classList.add('active');
   document.getElementById('mainContent').scrollTop = 0;
 }
+
 // ==================== HOME PAGE ====================
 const mvData = [
   {id:1,title:'春日晚风',artist:'花开半夏',views:128000,likes:2400,duration:'03:42',cov:0,vip:true,comments:856,gifts:520,favs:1800},
@@ -1834,30 +2686,58 @@ const mvData = [
   {id:3,title:'城市霓虹',artist:'深夜旅人',views:85000,likes:1500,duration:'03:28',cov:3,vip:true,comments:480,gifts:290,favs:950},
   {id:4,title:'雨中曲',artist:'墨染青衣',views:72000,likes:1200,duration:'04:50',cov:5,vip:true,comments:350,gifts:210,favs:800},
 ];
+
 function playFeaturedMV() {
   if (vipRequired('🎬 VIP热门MV', '开通VIP会员即可观看热门MV')) return;
   const s = mvData[0]; showToast('🎬 正在播放: '+s.title+' - '+s.artist);
 }
+
 function renderHome() {
   // MV Hero - featured mv
   const hero = mvData[0];
   document.getElementById('mvHeroTitle').textContent = hero.title;
   document.getElementById('mvHeroArtist').textContent = hero.artist+' · 原创MV';
   document.getElementById('mvHeroCard').onclick = function(){ playFeaturedMV(); };
+
   // MV Showcase
   const showcase = document.getElementById('mvShowcase');
   showcase.innerHTML = mvData.slice(1).map(m => `
-    <div class="mv-card" onclick="${isVip ? "showToast('🎬 '+JSON.stringify(m.title)+' - '+JSON.stringify(m.artist))" : "vipRequired('🎬 VIP MV精选','VIP会员专享MV播放')"}"><div class="mv-card-thumb" style="background:${gradients[m.cov % gradients.length]}">🎬
-        <div class="mv-card-duration">${m.duration}</div></div><div class="mv-card-info"><div class="mv-card-title">${m.title}</div><div class="mv-card-artist">👑 ${m.artist}</div><div class="mv-card-stats"><span>▶ ${formatNum(m.views)}</span><span>❤ ${formatNum(m.likes)}</span><span>💬 ${formatNum(m.comments)}</span><span>🎁 ${formatNum(m.gifts)}</span><span>⭐ ${formatNum(m.favs)}</span></div></div></div>
+    <div class="mv-card" onclick="${isVip ? "showToast('🎬 '+JSON.stringify(m.title)+' - '+JSON.stringify(m.artist))" : "vipRequired('🎬 VIP MV精选','VIP会员专享MV播放')"}">
+      <div class="mv-card-thumb" style="background:${gradients[m.cov % gradients.length]}">🎬
+        <div class="mv-card-duration">${m.duration}</div>
+      </div>
+      <div class="mv-card-info">
+        <div class="mv-card-title">${m.title}</div>
+        <div class="mv-card-artist">👑 ${m.artist}</div>
+        <div class="mv-card-stats">
+          <span>▶ ${formatNum(m.views)}</span>
+          <span>❤ ${formatNum(m.likes)}</span>
+          <span>💬 ${formatNum(m.comments)}</span>
+          <span>🎁 ${formatNum(m.gifts)}</span>
+          <span>⭐ ${formatNum(m.favs)}</span>
+        </div>
+      </div>
+    </div>
   `).join('');
+
   // Room panel
   const room = document.getElementById('roomPanel');
   if (room) {
     room.innerHTML = `
-      <div style="text-align:center;padding:40px 20px"><div style="font-size:60px;margin-bottom:16px">🎤</div><div style="font-size:18px;font-weight:700;margin-bottom:8px">听歌房</div><div style="font-size:13px;color:var(--text2);margin-bottom:20px">和朋友们一起听歌，实时互动</div><div style="display:flex;gap:10px;justify-content:center"><button onclick="showToast('🎤 创建房间功能即将上线')" style="padding:10px 24px;border-radius:20px;border:none;background:var(--accent);color:#000;font-size:14px;font-weight:700;cursor:pointer">🎤 创建房间</button><button onclick="showToast('🔍 加入房间功能即将上线')" style="padding:10px 24px;border-radius:20px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-size:14px;font-weight:600;cursor:pointer">🔍 加入房间</button></div></div>`;
+      <div style="text-align:center;padding:40px 20px">
+        <div style="font-size:60px;margin-bottom:16px">🎤</div>
+        <div style="font-size:18px;font-weight:700;margin-bottom:8px">听歌房</div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:20px">和朋友们一起听歌，实时互动</div>
+        <div style="display:flex;gap:10px;justify-content:center">
+          <button onclick="showToast('🎤 创建房间功能即将上线')" style="padding:10px 24px;border-radius:20px;border:none;background:var(--accent);color:#000;font-size:14px;font-weight:700;cursor:pointer">🎤 创建房间</button>
+          <button onclick="showToast('🔍 加入房间功能即将上线')" style="padding:10px 24px;border-radius:20px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-size:14px;font-weight:600;cursor:pointer">🔍 加入房间</button>
+        </div>
+      </div>`;
   }
+
   // Artist section
   renderArtistSection();
+
   // Regular song list
   const list = document.getElementById('songList');
   if (!list) return;
@@ -1866,12 +2746,31 @@ function renderHome() {
     return;
   }
   list.innerHTML = songs.map((s, i) => `
-    <div class="song-card" onclick="openDetail(songs[${i}])"><div class="song-card-cover" style="background:${gradients[s.coverIdx % gradients.length]}">${coverEmojis[s.coverIdx]}</div><div class="song-card-info"><div class="song-card-title">${s.title}</div><div class="song-card-artist">${s.artist}</div><div class="song-card-meta"><span>⏱ ${s.duration}</span><div class="song-card-tags"><span class="song-card-tag">${s.style}</span>
+    <div class="song-card" onclick="openDetail(songs[${i}])">
+      <div class="song-card-cover" style="background:${gradients[s.coverIdx % gradients.length]}">${coverEmojis[s.coverIdx]}</div>
+      <div class="song-card-info">
+        <div class="song-card-title">${s.title}</div>
+        <div class="song-card-artist">${s.artist}</div>
+        <div class="song-card-meta">
+          <span>⏱ ${s.duration}</span>
+          <div class="song-card-tags">
+            <span class="song-card-tag">${s.style}</span>
             ${s.mood !== s.style ? `<span class="song-card-tag">${s.mood}</span>` : ''}
-          </div></div></div><div class="song-card-actions" onclick="event.stopPropagation()"><button class="song-card-action" onclick="sendGift(event, songs[${i}])">🎁 ${formatNum(s.gifts)}</button><button class="song-card-action" onclick="showToast('📤 分享')">📤</button><button class="song-card-action" onclick="showToast('💬 评论')">💬 ${formatNum(s.comments)}</button><button class="song-card-action ${s.liked ? 'liked' : ''}" id="likeBtn${s.id}" onclick="toggleLike(${s.id})">${s.liked ? '❤️' : '🤍'} ${formatNum(s.likes)}</button><button class="song-card-action ${s.favorited ? 'favorited' : ''}" id="favBtn${s.id}" onclick="toggleFav(${s.id})">${s.favorited ? '★' : '☆'}</button></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="song-card-actions" onclick="event.stopPropagation()">
+        <button class="song-card-action" onclick="sendGift(event, songs[${i}])">🎁 ${formatNum(s.gifts)}</button>
+        <button class="song-card-action" onclick="showToast('📤 分享')">📤</button>
+        <button class="song-card-action" onclick="showToast('💬 评论')">💬 ${formatNum(s.comments)}</button>
+        <button class="song-card-action ${s.liked ? 'liked' : ''}" id="likeBtn${s.id}" onclick="toggleLike(${s.id})">${s.liked ? '❤️' : '🤍'} ${formatNum(s.likes)}</button>
+        <button class="song-card-action ${s.favorited ? 'favorited' : ''}" id="favBtn${s.id}" onclick="toggleFav(${s.id})">${s.favorited ? '★' : '☆'}</button>
+      </div>
+    </div>
   `).join('');
   // Render music circle
 }
+
 // ==================== MUSIC CIRCLE ====================
 var circlePosts = [
   {id:1,user:'花开半夏',avatar:'🌸',level:5,levelName:'创作达人',time:'2分钟前',text:'刚用AI写了首新歌《春日晚风》，大家听听看！🎵',media:[
@@ -1894,6 +2793,7 @@ var circlePosts = [
     {type:'image',bg:'linear-gradient(135deg,#a8edea,#fed6e3)',emoji:'⭐'},
   ],likes:311,comments:62,liked:false},
 ];
+
 function renderMusicCircle() {
   var feed = document.getElementById('circleFeed');
   if (!feed) return;
@@ -1926,6 +2826,7 @@ function renderMusicCircle() {
     '</div>';
   }).join('');
 }
+
 function openCircleDetail(id) {
   var p = circlePosts.find(function(x){return x.id===id;});
   if (!p) return;
@@ -1940,7 +2841,7 @@ function openCircleDetail(id) {
     }).join('') + '</div>';
   }
   var html = '<div style="font-size:13px;line-height:1.8">'+
-    '<p><b>'+p.user+'</b><span class="circle-level lv'+p.level+'" style="display:inline-block">'+p.levelName+'</span></p>'+
+    '<p><b>'+p.user+'</b> <span class="circle-level lv'+p.level+'" style="display:inline-block">'+p.levelName+'</span></p>'+
     '<p style="margin:10px 0;font-size:14px">'+p.text+'</p>'+
     mediaHTML +
     '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;gap:20px;font-size:12px;color:var(--text2)">'+
@@ -1949,6 +2850,7 @@ function openCircleDetail(id) {
   '</div>';
   openPanel(p.user+' 的朋友圈', html);
 }
+
 function likeCirclePost(id) {
   var p = circlePosts.find(function(x){return x.id===id;});
   if (!p) return;
@@ -1960,9 +2862,11 @@ function likeCirclePost(id) {
     btn.innerHTML = (p.liked?'❤️':'🤍') + ' <span>'+p.likes+'</span>';
   }
 }
+
 function postToCircle() {
   showToast('📝 发布功能即将上线，敬请期待！');
 }
+
 function renderMusicCircleToSquare() {
   var el = document.getElementById('squareCircle');
   if (!el) return;
@@ -1997,6 +2901,7 @@ function renderMusicCircleToSquare() {
   }).join('') + '</div>';
   el.innerHTML = feedHTML;
 }
+
 // ==================== ARTIST SECTION (Home Page) ====================
 var artistMusicians = [
   {id:'a1',name:'花开半夏',avatar:'🌸',level:5,levelName:'创作达人',fans:'12.8k',songs:32,bio:'独立音乐人，擅长古风流行',grad:0,online:true},
@@ -2006,6 +2911,7 @@ var artistMusicians = [
   {id:'a5',name:'音乐制作人Leo',avatar:'🎧',level:4,levelName:'资深音乐人',fans:'3.9k',songs:15,bio:'专业录音棚主理人',grad:1,online:false},
   {id:'a6',name:'晴天娃娃',avatar:'☀️',level:2,levelName:'创作新人',fans:'2.1k',songs:8,bio:'阳光系唱作人',grad:3,online:true},
 ];
+
 function renderArtistSection() {
   var list = document.getElementById('artistList');
   if (!list) return;
@@ -2026,6 +2932,8 @@ function renderArtistSection() {
     '</div>';
   }).join('');
 }
+
+
 function updateHero() {
   const s = songs[0];
   document.getElementById('heroCover').textContent = coverEmojis[s.coverIdx];
@@ -2033,9 +2941,12 @@ function updateHero() {
   document.getElementById('heroTitle').textContent = s.title;
   document.getElementById('heroArtist').textContent = s.artist;
   document.getElementById('heroTags').innerHTML = `
-    <span class="hero-tag">${s.style}</span><span class="hero-tag">${s.mood}</span><span class="hero-tag">${s.instrument}</span>
+    <span class="hero-tag">${s.style}</span>
+    <span class="hero-tag">${s.mood}</span>
+    <span class="hero-tag">${s.instrument}</span>
   `;
 }
+
 function updateSongCard(song) {
   const btn = document.getElementById(`likeBtn${song.id}`);
   if (btn) {
@@ -2048,26 +2959,45 @@ function updateSongCard(song) {
     fbtn.innerHTML = `${song.favorited ? '⭐' : '☆'}`;
   }
 }
+
 // ==================== SQUARE ====================
 function renderSquare() {
   // Render default active tab (circle)
   renderMusicCircleToSquare();
+
   // Hot songs
   var hotEl = document.getElementById('squareHot');
   if (songs.length === 0) {
     hotEl.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text3)"><div style="font-size:40px">🔥</div><div style="margin-top:8px;font-size:13px">暂无热门歌曲</div><div style="font-size:11px;margin-top:4px">发布作品后将自动上榜</div></div>';
   } else {
     hotEl.innerHTML = songs.slice(0,6).map(s=>`
-    <div class="song-card" onclick="openDetail(songs.find(x=>x.id===${s.id}))" style="margin:4px 16px"><div class="song-card-cover" style="background:${gradients[s.coverIdx % gradients.length]}">${coverEmojis[s.coverIdx]}</div><div class="song-card-info"><div class="song-card-title">${s.title}</div><div class="song-card-artist">${s.artist} · ${s.style}</div><div class="song-card-meta">🔥 ${formatNum(s.plays)} · ❤️ ${formatNum(s.likes)}</div></div><button class="hero-play-btn" style="padding:6px 14px;font-size:12px;flex:none" onclick="event.stopPropagation();playSong(songs.find(x=>x.id===${s.id}))">▶</button></div>
+    <div class="song-card" onclick="openDetail(songs.find(x=>x.id===${s.id}))" style="margin:4px 16px">
+      <div class="song-card-cover" style="background:${gradients[s.coverIdx % gradients.length]}">${coverEmojis[s.coverIdx]}</div>
+      <div class="song-card-info">
+        <div class="song-card-title">${s.title}</div>
+        <div class="song-card-artist">${s.artist} · ${s.style}</div>
+        <div class="song-card-meta">🔥 ${formatNum(s.plays)} · ❤️ ${formatNum(s.likes)}</div>
+      </div>
+      <button class="hero-play-btn" style="padding:6px 14px;font-size:12px;flex:none" onclick="event.stopPropagation();playSong(songs.find(x=>x.id===${s.id}))">▶</button>
+    </div>
   `).join('');
   }
+
   // New songs
   var newEl = document.getElementById('squareNew');
   if (songs.length === 0) {
     newEl.innerHTML = '';
   } else {
     newEl.innerHTML = [...songs].reverse().slice(0,6).map(s=>`
-    <div class="song-card" onclick="openDetail(songs.find(x=>x.id===${s.id}))" style="margin:4px 16px"><div class="song-card-cover" style="background:${gradients[(s.coverIdx+1) % gradients.length]}">${coverEmojis[(s.coverIdx+1) % coverEmojis.length]}</div><div class="song-card-info"><div class="song-card-title">${s.title}</div><div class="song-card-artist">${s.artist} · ${s.style}</div><div class="song-card-meta">🆕 新发布 · ❤️ ${formatNum(s.likes)}</div></div><button class="hero-play-btn" style="padding:6px 14px;font-size:12px;flex:none" onclick="event.stopPropagation();playSong(songs.find(x=>x.id===${s.id}))">▶</button></div>
+    <div class="song-card" onclick="openDetail(songs.find(x=>x.id===${s.id}))" style="margin:4px 16px">
+      <div class="song-card-cover" style="background:${gradients[(s.coverIdx+1) % gradients.length]}">${coverEmojis[(s.coverIdx+1) % coverEmojis.length]}</div>
+      <div class="song-card-info">
+        <div class="song-card-title">${s.title}</div>
+        <div class="song-card-artist">${s.artist} · ${s.style}</div>
+        <div class="song-card-meta">🆕 新发布 · ❤️ ${formatNum(s.likes)}</div>
+      </div>
+      <button class="hero-play-btn" style="padding:6px 14px;font-size:12px;flex:none" onclick="event.stopPropagation();playSong(songs.find(x=>x.id===${s.id}))">▶</button>
+    </div>
   `).join('');
   }
   // Groups - NOW PROMINENT in its own tab
@@ -2080,9 +3010,17 @@ function renderSquare() {
     {name:'民谣吉他弹唱圈',avatar:'🎸',members:2300,grad:4},
   ];
   document.getElementById('squareGroup').innerHTML = groups.map(g=>`
-    <div class="group-card" style="margin:4px 16px"><div class="group-avatar" style="background:${gradients[g.grad]}">${g.avatar}</div><div class="group-info"><div class="group-name">${g.name}</div><div class="group-meta">${formatNum(g.members)} 成员 · 今日99+新消息</div></div><button class="group-join-btn" onclick="event.stopPropagation();showToast('✅ 已申请加入')">加入</button></div>
+    <div class="group-card" style="margin:4px 16px">
+      <div class="group-avatar" style="background:${gradients[g.grad]}">${g.avatar}</div>
+      <div class="group-info">
+        <div class="group-name">${g.name}</div>
+        <div class="group-meta">${formatNum(g.members)} 成员 · 今日99+新消息</div>
+      </div>
+      <button class="group-join-btn" onclick="event.stopPropagation();showToast('✅ 已申请加入')">加入</button>
+    </div>
   `).join('');
 }
+
 function switchSquareTab(type, btn) {
   document.querySelectorAll('.square-tab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
@@ -2094,21 +3032,34 @@ function switchSquareTab(type, btn) {
   if (el) el.style.display='block';
   if (type === 'circle') renderMusicCircleToSquare();
 }
+
 // ==================== MESSAGES ====================
 function renderMessages(cat) {
   cat = cat || currentMsgCat;
   currentMsgCat = cat;
+
   document.getElementById('msgCategories').innerHTML = msgCategories.map(c => `
     <span class="msg-cat ${c === cat ? 'active' : ''}" onclick="renderMessages('${c}')">${c}</span>
   `).join('');
+
   const filtered = cat === '全部' ? messages : messages.filter(m => m.cat === cat);
   document.getElementById('msgList').innerHTML = filtered.length > 0 ? filtered.map(m => `
-    <div class="msg-item" onclick="showToast('打开对话: ${m.sender}')"><div class="msg-avatar">${m.avatar}</div><div class="msg-content"><div class="msg-sender">${m.sender}</div><div class="msg-preview">${m.preview}</div></div><div class="msg-right"><span class="msg-time">${m.time}</span>
+    <div class="msg-item" onclick="showToast('打开对话: ${m.sender}')">
+      <div class="msg-avatar">${m.avatar}</div>
+      <div class="msg-content">
+        <div class="msg-sender">${m.sender}</div>
+        <div class="msg-preview">${m.preview}</div>
+      </div>
+      <div class="msg-right">
+        <span class="msg-time">${m.time}</span>
         ${m.unread ? '<span class="msg-dot"></span>' : ''}
-      </div></div>
+      </div>
+    </div>
   `).join('') : '<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">暂无此类消息</div></div>';
 }
+
 let hasLyrics = false;
+
 function initBPM() {
   const slider = document.getElementById('formBPM');
   const valEl = document.getElementById('bpmValue');
@@ -2118,6 +3069,7 @@ function initBPM() {
     valEl.textContent = currentBPM;
   });
 }
+
 // ==================== SONG DETAIL ====================
 function renderDetail(song) {
   if (!song) return;
@@ -2127,16 +3079,21 @@ function renderDetail(song) {
   document.getElementById('detailTitle').textContent = song.title;
   document.getElementById('detailArtist').textContent = song.artist;
   document.getElementById('detailTags').innerHTML = `
-    <span class="detail-tag">${song.style}</span><span class="detail-tag">${song.mood}</span><span class="detail-tag">${song.instrument}</span><span class="detail-tag">${song.bpm} BPM</span>
+    <span class="detail-tag">${song.style}</span>
+    <span class="detail-tag">${song.mood}</span>
+    <span class="detail-tag">${song.instrument}</span>
+    <span class="detail-tag">${song.bpm} BPM</span>
   `;
   document.getElementById('detailPlays').textContent = '▶ ' + formatNum(song.plays);
   document.getElementById('detailDuration').textContent = '⏱ ' + song.duration;
   updateDetailActions();
   document.getElementById('detailModal').classList.add('show');
 }
+
 function closeDetail() {
   document.getElementById('detailModal').classList.remove('show');
 }
+
 function updateDetailActions() {
   if (!detailSong) return;
   const likeBtn = document.getElementById('detailLike');
@@ -2146,6 +3103,7 @@ function updateDetailActions() {
   favBtn.innerHTML = `${detailSong.favorited ? '⭐️' : '☆'}<span class="detail-action-label">收藏</span>`;
   favBtn.className = `detail-action ${detailSong.favorited ? 'favorited' : ''}`;
 }
+
 function toggleLike(songId) {
   const s = songs.find(x => x.id === songId);
   if (!s) return;
@@ -2156,6 +3114,7 @@ function toggleLike(songId) {
   if (detailSong && detailSong.id === s.id) { detailSong = s; updateDetailActions(); }
   showToast(s.liked ? '❤️ 已点赞' : '已取消点赞');
 }
+
 function toggleFav(songId) {
   const s = songs.find(x => x.id === songId);
   if (!s) return;
@@ -2164,14 +3123,17 @@ function toggleFav(songId) {
   if (detailSong && detailSong.id === s.id) { detailSong = s; updateDetailActions(); }
   showToast(s.favorited ? '⭐ 已收藏' : '已取消收藏');
 }
+
 function toggleLikeDetail() {
   if (!detailSong) return;
   toggleLike(detailSong.id);
 }
+
 function toggleFavDetail() {
   if (!detailSong) return;
   toggleFav(detailSong.id);
 }
+
 // ==================== BOTTOM SHEET ====================
 function openSheet() {
   sheetSong = detailSong;
@@ -2181,22 +3143,27 @@ function openSheet() {
     document.getElementById('sheetLike').textContent = detailSong.liked ? '❤️ 取消喜欢' : '🤍 喜欢';
   }
 }
+
 function closeSheet() {
   document.getElementById('bottomSheetOverlay').classList.remove('show');
 }
+
 function toggleLikeSheet() {
   if (!sheetSong) return;
   toggleLike(sheetSong.id);
   closeSheet();
 }
+
 // ==================== GIFT ANIMATION ====================
 function sendGift(event, song) {
   if (!song) return;
   song.gifts++;
+
   const rect = event.target.getBoundingClientRect();
   const appRect = document.getElementById('app').getBoundingClientRect();
   const x = rect.left - appRect.left + rect.width/2;
   const y = rect.top - appRect.top;
+
   const gift = document.createElement('div');
   gift.className = 'gift-float';
   const emojis = ['🎁','💝','🌹','💎','🎀','🌟','💖','🎵'];
@@ -2204,20 +3171,25 @@ function sendGift(event, song) {
   gift.style.left = x + 'px';
   gift.style.top = y + 'px';
   document.getElementById('app').appendChild(gift);
+
   setTimeout(() => gift.remove(), 1500);
+
   renderHome();
   if (detailSong && detailSong.id === song.id) {
     detailSong = songs.find(s => s.id === song.id);
   }
   showToast('🎁 礼物已送出');
 }
+
 // ==================== PLAYER ====================
 function playSong(song) {
   if (!song) return;
   var isNewSong = (playerBarSong !== song);
   playerBarSong = song;
+
   // Stop previous
   stopPlayback();
+
   // Show player bar
   const bar = document.getElementById('playerBar');
   bar.style.display = 'flex';
@@ -2225,18 +3197,22 @@ function playSong(song) {
   document.getElementById('playerBarCover').style.background = gradients[song.coverIdx % gradients.length];
   document.getElementById('playerBarTitle').textContent = song.title;
   document.getElementById('playerBarArtist').textContent = song.artist;
+
   // Earn bean for listening (once per song per session)
   if (isNewSong && !song._beanEarned) {
     song._beanEarned = true;
     earnBeans(1, '听歌');
   }
+
   // Start Tone.js playback
   if (window._toneReady || typeof Tone !== 'undefined') {
     startTonePlayback(song);
   }
+
   isPlaying = true;
   document.getElementById('playerBarPlayBtn').textContent = '⏸';
   document.getElementById('detailPlayBtn').textContent = '⏸ 暂停';
+
   playerProgress = 0;
   updatePlayerProgress();
   playerInterval = setInterval(() => {
@@ -2247,6 +3223,7 @@ function playSong(song) {
     updatePlayerProgress();
   }, 300);
 }
+
 function stopPlayback() {
   if (synth) {
     try { synth.dispose(); } catch(e) {}
@@ -2265,6 +3242,7 @@ function stopPlayback() {
   document.getElementById('playerBarTitle').textContent = '';
   document.getElementById('playerBarArtist').textContent = '';
 }
+
 function togglePlay() {
   if (!playerBarSong) return;
   if (isPlaying) {
@@ -2273,6 +3251,7 @@ function togglePlay() {
     resumePlayback();
   }
 }
+
 function pausePlayback() {
   if (synth) {
     try { synth.volume.value = -60; } catch(e) {}
@@ -2281,6 +3260,7 @@ function pausePlayback() {
   document.getElementById('playerBarPlayBtn').textContent = '▶';
   document.getElementById('detailPlayBtn').textContent = '▶ 播放';
 }
+
 function resumePlayback() {
   if (!playerBarSong) return;
   if (synth) {
@@ -2292,22 +3272,27 @@ function resumePlayback() {
   document.getElementById('playerBarPlayBtn').textContent = '⏸';
   document.getElementById('detailPlayBtn').textContent = '⏸ 暂停';
 }
+
 function nextSong() {
   if (!playerBarSong) return;
   const idx = songs.findIndex(s => s.id === playerBarSong.id);
   const next = songs[(idx + 1) % songs.length];
   playSong(next);
 }
+
 function updatePlayerProgress() {
   document.getElementById('playerBarProgress').style.width = playerProgress + '%';
 }
+
 function startTonePlayback(song) {
   // Stop previous
   if (synth) { try { synth.dispose(); } catch(e) {} synth = null; }
+
   try {
     // Create synth based on instrument choice
     const bpm = song.bpm || 100;
     const beatDuration = 60 / bpm;
+
     // Simple melody synth
     synth = new Tone.PolySynth(Tone.Synth, {
       oscillator: { type: getOscType(song.instrument) },
@@ -2318,24 +3303,30 @@ function startTonePlayback(song) {
         release: 0.8
       }
     }).toDestination();
+
     // Add reverb for atmosphere
     const reverb = new Tone.Reverb({
       decay: 2.5,
       wet: 0.3
     }).toDestination();
+
     // Also add a delay for some styles
     const delay = new Tone.FeedbackDelay({
       delayTime: '8n',
       feedback: 0.2,
       wet: 0.15
     }).toDestination();
+
     synth.connect(reverb);
     synth.connect(delay);
+
     synth.volume.value = -12;
+
     // Generate melody based on mood
     const notes = getNotesForMood(song.mood);
     const pattern = getRhythmPattern(song.mood);
     let step = 0;
+
     const loop = new Tone.Loop((time) => {
       if (step < pattern.length) {
         const noteIdx = pattern[step];
@@ -2347,15 +3338,18 @@ function startTonePlayback(song) {
         step = 0;
       }
     }, beatDuration * 0.5);
+
     Tone.Transport.bpm.value = bpm;
     loop.start(0);
     Tone.Transport.start();
+
     // Store for cleanup
     synth._loop = loop;
   } catch(e) {
     console.error('Tone.js error:', e);
   }
 }
+
 function getOscType(instrument) {
   const map = {
     '钢琴': 'triangle', '吉他': 'triangle', '古筝': 'sine', '合成器': 'sawtooth',
@@ -2365,6 +3359,7 @@ function getOscType(instrument) {
   };
   return map[instrument] || 'triangle';
 }
+
 function getNotesForMood(mood) {
   const scales = {
     '治愈': ['C4','E4','G4','A4','C5','D5','E5','G5'],
@@ -2386,6 +3381,7 @@ function getNotesForMood(mood) {
   };
   return scales[mood] || ['C4','E4','G4','A4','C5','D5','E5','G5'];
 }
+
 function getRhythmPattern(mood) {
   const patterns = {
     '治愈': [0,2,4,3,5,2,1,0],
@@ -2406,12 +3402,14 @@ function getRhythmPattern(mood) {
   };
   return patterns[mood] || [0,2,4,3,5,2,1,0];
 }
+
 // ==================== UTILS ====================
 function formatNum(n) {
   if (n >= 10000) return (n/10000).toFixed(1) + '万';
   if (n >= 1000) return (n/1000).toFixed(1) + 'k';
   return n.toString();
 }
+
 function toggleSection(id) {
   const el = document.getElementById(id);
   const allPanels = ['mvSection','latestSection','roomSection'];
@@ -2426,6 +3424,7 @@ function toggleSection(id) {
     el.style.display = 'none';
   }
 }
+
 function showToast(msg) {
   const toast = document.getElementById('toast');
   toast.textContent = msg;
@@ -2433,6 +3432,7 @@ function showToast(msg) {
   clearTimeout(toast._timeout);
   toast._timeout = setTimeout(() => toast.classList.remove('show'), 1800);
 }
+
 // ==================== RECHARGE & WITHDRAW ====================
 let userCoins = 0;
 let userBeans = 0;
@@ -2444,12 +3444,14 @@ const VIP_QUOTAS = { monthly: 30, quarterly: 100, annual: 500 };
 const OWNER_OPEN_ID = 'o9cq808lVt294JMW9jdLMu-xNK_A';
 let walletTapCount = 0;
 let walletTapTimer = null;
+
 function isOwner() {
   // Check localStorage flag OR URL param (for manual override)
   if (localStorage.getItem('isOwner') === '1') return true;
   if (window.location.search.indexOf('owner=1') !== -1) { localStorage.setItem('isOwner','1'); return true; }
   return false;
 }
+
 function updateWithdrawUI() {
   var sec = document.getElementById('withdrawSection');
   if (sec) sec.style.display = isOwner() ? 'block' : 'none';
@@ -2460,9 +3462,11 @@ function updateWithdrawUI() {
   // Update card display
   refreshCardDisplay();
 }
+
 function getBoundCard() {
   try { return JSON.parse(localStorage.getItem('boundCard') || 'null'); } catch(e) { return null; }
 }
+
 function refreshCardDisplay() {
   var card = getBoundCard();
   var bindArea = document.getElementById('cardBindingArea');
@@ -2479,6 +3483,7 @@ function refreshCardDisplay() {
     cardArea.style.display = 'none';
   }
 }
+
 function bindCard() {
   var bank = document.getElementById('cardBankName').value.trim();
   var number = document.getElementById('cardNumber').value.trim();
@@ -2495,12 +3500,14 @@ function bindCard() {
   refreshCardDisplay();
   showToast('✅ 银行卡绑定成功');
 }
+
 function unbindCard() {
   if (!confirm('确定解绑银行卡？解绑后无法提现。')) return;
   localStorage.removeItem('boundCard');
   refreshCardDisplay();
   showToast('银行卡已解绑');
 }
+
 function handleWalletTap(e) {
   if (isOwner()) { openRecharge(); return; }
   walletTapCount++;
@@ -2522,6 +3529,7 @@ function handleWalletTap(e) {
     if (walletTapCount === 1) openRecharge();
   }
 }
+
 function setWithdrawAmount(amt) {
   if (!isOwner()) { showToast('🔒 仅管理员可提现'); return; }
   var inp = document.getElementById('withdrawAmountInput');
@@ -2533,6 +3541,7 @@ function setWithdrawAmount(amt) {
     inp.dataset.custom = '1';
   }
 }
+
 function withdraw() {
   if (!isOwner()) { showToast('🔒 仅管理员可提现'); return; }
   var card = getBoundCard();
@@ -2550,30 +3559,37 @@ function withdraw() {
   var cardNum = '**** ' + card.number.slice(-4);
   showToast('✅ 提现 ¥' + amt + ' → ' + card.bank + '(' + cardNum + ') 预计2小时内到账');
 }
+
 // ==================== BEAN SYSTEM ====================
 function earnBeans(amount, reason) {
   userBeans += amount;
   updateBeanDisplay();
   if (reason) showToast('🫘 +' + amount + '乐豆（' + reason + '）');
 }
+
 function updateBeanDisplay() {
   var wb = document.getElementById('walletBeans');
   if (wb) wb.textContent = userBeans.toLocaleString();
 }
+
 function openBeanExchange() {
   document.getElementById('beanExchangeOverlay').classList.add('show');
   pushNav('beanExchange');
   refreshBeanExchange();
 }
+
 function closeBeanExchange() {
   document.getElementById('beanExchangeOverlay').classList.remove('show');
 }
+
 var paymentBound = false, paymentBindType = '', paymentBindAccount = '', paymentBindPhone = '';
+
 function refreshBeanExchange() {
   document.getElementById('beanExchangeBalance').textContent = userBeans + '乐豆';
   document.getElementById('beanExchangeCNY').textContent = '¥' + (userBeans / 10000).toFixed(2);
   updateWithdrawUI();
 }
+
 function updateWithdrawUI() {
   var bindArea = document.getElementById('bindPaymentArea');
   var withdrawArea = document.getElementById('withdrawArea');
@@ -2587,10 +3603,12 @@ function updateWithdrawUI() {
     if (withdrawArea) withdrawArea.style.display = 'none';
   }
 }
+
 function showBindPayment() {
   paymentBound = false;
   updateWithdrawUI();
 }
+
 function bindPaymentAccount() {
   var phone = document.getElementById('bindPhone').value.trim();
   var type = document.getElementById('bindType').value;
@@ -2605,6 +3623,7 @@ function bindPaymentAccount() {
   updateWithdrawUI();
   showToast('✅ 已绑定'+ (type==='wechat'?'微信':'支付宝') +'：'+account);
 }
+
 function withdrawBeans(amount) {
   if (!paymentBound) { showToast('请先绑定提现账户'); return; }
   if (amount === 'all') amount = userBeans;
@@ -2620,43 +3639,53 @@ function withdrawBeans(amount) {
   refreshBeanExchange();
   showToast('✅ 提现申请已提交！¥'+yuan+' 将转入'+(paymentBindType==='wechat'?'微信':'支付宝')+' '+paymentBindAccount);
 }
+
 function updateWalletDisplay() {
   var wc = document.getElementById('walletCoins');
   if (wc) wc.textContent = userCoins.toLocaleString();
   var ww = document.getElementById('walletWorks');
   if (ww) ww.textContent = userWorks;
 }
+
 // ==================== DAILY CHECK-IN ====================
 function dailyCheckin() {
   var today = new Date().toDateString();
   var lastCheckin = localStorage.getItem('lastCheckin');
   var streak = parseInt(localStorage.getItem('checkinStreak') || '0');
+
   if (lastCheckin === today) {
     showToast('✅ 今日已签到，连续' + streak + '天');
     return;
   }
+
   // Check if streak continues
   var yesterday = new Date(Date.now() - 86400000).toDateString();
   if (lastCheckin === yesterday) { streak++; } else { streak = 1; }
+
   localStorage.setItem('lastCheckin', today);
   localStorage.setItem('checkinStreak', streak);
+
   // Calculate reward
   var reward = 1;
   var bonus = 0;
   if (streak === 7) { bonus = 5; reward = 6; }
+
   userBeans += reward;
   updateBeanDisplay();
   updateCheckinUI();
+
   var msg = '✅ 签到成功！+'+reward+'乐豆（连续'+streak+'天）';
   if (bonus) msg += ' 🎉 连续7天额外+5！';
   showToast(msg);
 }
+
 function updateCheckinUI() {
   var today = new Date().toDateString();
   var lastCheckin = localStorage.getItem('lastCheckin');
   var streak = parseInt(localStorage.getItem('checkinStreak') || '0');
   var statusEl = document.getElementById('checkinStatus');
   var btnEl = document.getElementById('checkinBtn');
+
   if (lastCheckin === today) {
     if (statusEl) statusEl.textContent = '今日已签到 · 连续' + streak + '天 🔥';
     if (btnEl) btnEl.style.opacity = '0.65';
@@ -2665,20 +3694,24 @@ function updateCheckinUI() {
     if (btnEl) btnEl.style.opacity = '1';
   }
 }
+
 function openRecharge() {
   pushNav('recharge');
   document.getElementById('rechargeModal').classList.add('show');
   updateBalance();
   updateWithdrawUI();
 }
+
 function closeRecharge() {
   document.getElementById('rechargeModal').classList.remove('show');
 }
+
 function updateBalance() {
   document.getElementById('rechargeBalance').textContent = '🪙 ' + userCoins + '乐币';
   var cnyEl = document.getElementById('rechargeBalanceCNY');
   if (cnyEl) cnyEl.textContent = (userCoins * 0.01).toFixed(2);
 }
+
 var pendingRecharge = 0;
 function recharge(coins, price) {
   pendingRecharge = coins;
@@ -2695,6 +3728,7 @@ function recharge(coins, price) {
   document.getElementById('paymentModal').classList.add('show');
   pushNav('payment');
 }
+
 function confirmRechargePayment() {
   userCoins += pendingRecharge;
   pendingRecharge = 0;
@@ -2705,9 +3739,11 @@ function confirmRechargePayment() {
   if (walletVal) walletVal.textContent = userCoins.toLocaleString();
   closePayment();
 }
+
 // ==================== VIP SYSTEM ====================
 var payTier = 'monthly';
 var payMethod = '';
+
 function openPayment(tier) {
   pendingRecharge = 0;
   payTier = tier;
@@ -2729,6 +3765,7 @@ function openPayment(tier) {
   document.getElementById('paymentModal').classList.add('show');
   pushNav('payment');
 }
+
 function selectPayMethod(method) {
   payMethod = method;
   document.getElementById('payCheckWechat').innerHTML = method==='wechat' ? '<div style="width:10px;height:10px;background:var(--accent);border-radius:50%"></div>' : '';
@@ -2744,16 +3781,20 @@ function selectPayMethod(method) {
   // Show admin confirm button only for recharge, not VIP
   document.getElementById('payAdminBtn').style.display = pendingRecharge > 0 ? 'block' : 'none';
 }
+
 function closePayment() {
   document.getElementById('paymentModal').classList.remove('show');
 }
+
 function buyVip() { openPayment('monthly'); }
+
 // Only for testing/admin: activate VIP directly
 function adminActivateVip(tier) {
   buyVipTier(tier);
   closePayment();
   closeVipPopup();
 }
+
 function buyVipTier(tier) {
   isVip = true; vipTier = tier; freeSongsLeft = VIP_QUOTAS[tier];
   try {
@@ -2765,17 +3806,20 @@ function buyVipTier(tier) {
   var n = {monthly:'月卡',quarterly:'季卡',annual:'年卡'};
   showToast('👑 VIP '+n[tier]+'已开通！'+freeSongsLeft+'首免费创作');
 }
+
 function resetVip() {
   isVip = false; vipTier = 'none'; freeSongsLeft = 0;
   try { localStorage.removeItem('isVip'); localStorage.removeItem('vipTier'); localStorage.removeItem('freeSongsLeft'); } catch(e) {}
   updateVipUI();
   showToast('已退出VIP，恢复为新用户状态');
 }
+
 function showVipPopup() {
   document.getElementById('vipPopup').classList.add('show');
   pushNav('vipPopup');
 }
 function closeVipPopup() { document.getElementById('vipPopup').classList.remove('show'); }
+
 function showVipPrompt(title, desc) {
   if (title) document.getElementById('vipPromptTitle').textContent = title;
   if (desc) document.getElementById('vipPromptDesc').textContent = desc;
@@ -2785,11 +3829,13 @@ function showVipPrompt(title, desc) {
 function closeVipPrompt() {
   document.getElementById('vipUpgradePrompt').classList.remove('show');
 }
+
 function vipRequired(title, desc) {
   if (isVip) return false;
   showVipPrompt(title || 'VIP专属功能', desc || '开通VIP会员即可解锁');
   return true;
 }
+
 function updateVipUI() {
   var costEl = document.getElementById('btnGenCost');
   if (costEl) {
@@ -2811,10 +3857,12 @@ function updateVipUI() {
     else { btn.textContent = isVip ? '升级' : '开通'; btn.style.opacity = '1'; btn.onclick = function(){ openPayment(k); }; }
   });
 }
+
 // Cleanup on unload
 window.addEventListener('beforeunload', () => {
   stopPlayback();
 });
+
 // ==================== GENERIC PANEL ====================
 function openMusicianCenter() {
   openPanel('🎵 音乐人中心',
@@ -2832,6 +3880,7 @@ function openMusicianCenter() {
     if (b) b.onclick = function(){ showToast('申请已提交'); };
   }, 50);
 }
+
 function openPanel(title, html) {
   document.getElementById('panelTitle').textContent = title;
   document.getElementById('panelBody').innerHTML = html;
@@ -2892,6 +3941,7 @@ function showProfilePanel(type) {
   }
   openPanel(t, h);
 }
+
 // ==================== SETTINGS ====================
 function openSettings() {
   pushNav('settings');
@@ -2954,6 +4004,7 @@ function deleteAccount() {
   showToast('账号已注销');
   setTimeout(function(){ window.location.reload(); }, 1500);
 }
+
 var regCodeTimer = null, regCodeCountdown = 0;
 function sendRegCode() {
   var phone = document.getElementById('regPhoneInput').value.trim();
@@ -2974,6 +4025,7 @@ function sendRegCode() {
   }, 1000);
   showToast('📱 验证码已发送');
 }
+
 function verifyRegPhone() {
   var phone = document.getElementById('regPhoneInput').value.trim();
   var code = document.getElementById('regCodeInput').value.trim();
@@ -2985,6 +4037,7 @@ function verifyRegPhone() {
   // Resume pending action
   if (phoneVerifyCallback) { var cb = phoneVerifyCallback; phoneVerifyCallback = null; cb(); }
 }
+
 var phoneVerifyCallback = null;
 function requirePhone(callback) {
   if (localStorage.getItem('regPhone')) {
@@ -3007,37 +4060,37 @@ function previewAvatar(e) {
 }
 // Load saved avatar on startup
 (function(){ try { var a=localStorage.getItem('avatar'); if(a) document.getElementById('avatarPreview').innerHTML='<img src="'+a+'" style="width:100%;height:100%;object-fit:cover">'; }catch(e){} })();
+
 // ==================== SUPABASE BACKEND ====================
 var SUPABASE_URL = '';
 var SUPABASE_KEY = 'sb_publishable_8IOOiPXMEvg64PYVjKIfuQ_XO-OL06y';
 var supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 var authMode = 'login';
 var currentUser = null;
+
 // Show auth after splash
-(function initSession(){
-  // Read from query string FIRST (auth.html passes session this way)
-  var qs={};location.search.substring(1).split('&').forEach(function(p){var kv=p.split('=');if(kv[0])qs[kv[0]]=decodeURIComponent(kv[1]||'')});
-  var custom=localStorage.getItem('sb-vrfadiaqfissptfxwtex-auth-token');
-  if(!custom && qs.uid && qs.em){
-    custom=JSON.stringify({id:qs.uid,email:qs.em});
-    localStorage.setItem('sb-vrfadiaqfissptfxwtex-auth-token',custom);
-    if(!localStorage.getItem('profile_'+qs.uid)){
-      localStorage.setItem('profile_'+qs.uid,JSON.stringify({name:qs.em.split('@')[0],phone:'',bio:'',avatar:''}));
-    }
+setTimeout(function(){
+  if(window._sessionData){
+    currentUser=window._sessionData;
+    checkProfile();
+    return;
   }
-  if(custom){try{var u=JSON.parse(custom);if(u.id&&u.email){currentUser={id:u.id,email:u.email};try{checkProfile()}catch(e){}return}}catch(e){}}
-  setTimeout(function(){
-    supabase.auth.getSession().then(function(res){
-      if(res.data.session){currentUser=res.data.session.user;checkProfile()}
-      else{window.location.replace('auth.html?v='+Date.now())}
-    });
-  },5500);
-})();
+  supabase.auth.getSession().then(function(res){
+    if (res.data.session) {
+      currentUser = res.data.session.user;
+      checkProfile();
+    } else {
+      document.getElementById('authOverlay').style.display = 'flex';
+    }
+  });
+}, 5500);
+
 function handleAuth() {
   var email = document.getElementById('authEmail').value.trim();
   var password = document.getElementById('authPassword').value;
   var errEl = document.getElementById('authError');
   if (!email || !password) { errEl.textContent = '请填写邮箱和密码'; return; }
+
   if (authMode === 'register') {
     var password2 = document.getElementById('authPassword2').value;
     if (password.length < 8) { errEl.textContent = '密码至少8位'; return; }
@@ -3049,6 +4102,7 @@ function handleAuth() {
   }
   var btn = document.getElementById('authSubmitBtn');
   btn.textContent = '请稍候...'; btn.disabled = true; errEl.textContent = '';
+
   if (authMode === 'register') {
     supabase.auth.signUp({email: email, password: password}).then(function(res){
       if (res.error) {
@@ -3078,6 +4132,7 @@ function handleAuth() {
     });
   }
 }
+
 function checkProfile() {
   if (!currentUser) return;
   var prof = localStorage.getItem('profile_' + currentUser.id);
@@ -3091,9 +4146,11 @@ function checkProfile() {
     showProfileSetup();
   }
 }
+
 function showProfileSetup() {
   document.getElementById('profileOverlay').style.display = 'flex';
 }
+
 function saveProfile() {
   var name = document.getElementById('profName').value.trim();
   var phone = document.getElementById('profPhone').value.trim();
@@ -3102,8 +4159,10 @@ function saveProfile() {
   if (!name) { errEl.textContent = '请输入昵称'; return; }
   if (!phone || phone.length < 11) { errEl.textContent = '请输入正确的手机号'; return; }
   errEl.textContent = '';
+
   var avatar = document.getElementById('avatarPreview').querySelector('img');
   var avatarUrl = avatar ? avatar.src : localStorage.getItem('avatar') || '';
+
   var profile = {
     name: name,
     phone: phone,
@@ -3119,11 +4178,13 @@ function saveProfile() {
   showToast('资料已保存！欢迎，' + name + ' 🎉');
   syncUserData();
 }
+
 function skipProfile() {
   document.getElementById('profileOverlay').style.display = 'none';
   showToast('可随时在 我的→编辑资料 中完善');
   syncUserData();
 }
+
 function handleAvatarUpload(input) {
   var file = input.files[0];
   if (!file) return;
@@ -3146,6 +4207,7 @@ function handleAvatarUpload(input) {
   };
   reader.readAsDataURL(file);
 }
+
 function checkPwdStrength() {
   var pw = document.getElementById('authPassword').value;
   var hint = document.getElementById('pwdHint');
@@ -3157,6 +4219,7 @@ function checkPwdStrength() {
   document.getElementById('hpLower').className = lo ? 'ok' : 'warn';
   document.getElementById('hpDigit').className = dg ? 'ok' : 'warn';
 }
+
 function togglePwd(id, btn) {
   var inp = document.getElementById(id);
   var show = inp.type === 'password';
@@ -3165,6 +4228,7 @@ function togglePwd(id, btn) {
     ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19M1 1l22 22M9.88 9.88a3 3 0 104.24 4.24"/></svg>'
     : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
 }
+
 function toggleAuthMode() {
   authMode = authMode === 'login' ? 'register' : 'login';
   document.getElementById('authTitle').textContent = authMode === 'login' ? '登录 Ai乐酷' : '注册 Ai乐酷';
@@ -3185,10 +4249,12 @@ function toggleAuthMode() {
   document.getElementById('authPassword2').value = '';
   document.getElementById('authPassword').value = '';
 }
+
 function skipAuth() {
   document.getElementById('authOverlay').style.display = 'none';
   showToast('离线模式，数据仅保存在本地');
 }
+
 function syncUserData() {
   if (!currentUser) return;
   supabase.from('user_coins').select('beans').eq('user_id', currentUser.id).single().then(function(res){
@@ -3199,6 +4265,7 @@ function syncUserData() {
   });
   loadSongsFromCloud();
 }
+
 function saveSongToCloud(song) {
   if (!currentUser) return;
   supabase.from('songs').upsert({
@@ -3208,6 +4275,7 @@ function saveSongToCloud(song) {
     created_at: new Date().toISOString()
   }).then(function(res){ if(res.error) console.error(res.error); });
 }
+
 function loadSongsFromCloud() {
   if (!currentUser) return;
   supabase.from('songs').select('*').eq('user_id', currentUser.id).order('created_at', {ascending: false}).then(function(res){
@@ -3225,8 +4293,10 @@ function loadSongsFromCloud() {
     }
   });
 }
+
 // ==================== STARTUP ====================
 try { init(); } catch(e) { alert('JS ERROR: ' + e.message + ' at line ' + (e.lineNumber || '?')); console.error(e); }
+
 // Remove splash after animation
 setTimeout(function(){
   var splash = document.getElementById('splashScreen');
@@ -3241,6 +4311,7 @@ artistMusicians.forEach(function(a){
   ];
 });
 var chatPartner = null;
+
 function openArtistChat(aid) {
   var a = artistMusicians.find(function(x){return x.id===aid;});
   if (!a) return;
@@ -3281,6 +4352,7 @@ function openArtistChat(aid) {
     if(mc) mc.scrollTop = mc.scrollHeight;
   },100);
 }
+
 function sendChatMsg() {
   if (!chatPartner) return;
   var input = document.getElementById('chatInput');
@@ -3303,6 +4375,7 @@ function sendChatMsg() {
     }
   }, 800+Math.random()*1500);
 }
+
 function sendChatMedia(type) {
   if (!chatPartner) return;
   var now = new Date();
@@ -3325,4 +4398,6 @@ function sendChatMedia(type) {
     }
   }, 600+Math.random()*1000);
 }
-</script></body></html>
+</script>
+</body>
+</html>
