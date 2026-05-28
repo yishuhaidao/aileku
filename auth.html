@@ -295,50 +295,27 @@ function goEmail(){
     if(!/[0-9]/.test(p)){er.textContent='密码需包含数字';return}
     if(p!==p2){er.textContent='两次密码不一致';return}
     B('btnEmail','注册中...');
-    fetch(A+'/auth/v1/signup',{
+    fetch(A+'/rest/v1/rpc/signup_user',{
       method:'POST',
       headers:{'Content-Type':'application/json',apikey:K},
-      body:JSON.stringify({email:e,password:p})
+      body:JSON.stringify({p_email:e,p_password:p})
     }).then(function(r){return r.json()}).then(function(r){
-      if(r.error||r.msg){er.textContent=r.error||r.msg;B('btnEmail','注册');return}
-      if(r.session){
-        er.className='er ok';er.textContent='注册成功！跳转中…';
-        localStorage.setItem(SB,JSON.stringify(r.session));
-        goMain();
-      }else{
-        // Try auto-login (works if mailer_autoconfirm is true)
-        fetch(A+'/auth/v1/token?grant_type=password',{
-          method:'POST',
-          headers:{'Content-Type':'application/json',apikey:K},
-          body:JSON.stringify({email:e,password:p})
-        }).then(function(r2){return r2.json()}).then(function(r2){
-          if(r2.access_token){
-            er.className='er ok';er.textContent='注册成功！跳转中…';
-            localStorage.setItem(SB,JSON.stringify({
-              access_token:r2.access_token,token_type:r2.token_type,
-              expires_in:r2.expires_in,expires_at:r2.expires_at,
-              refresh_token:r2.refresh_token,user:r2.user
-            }));
-            goMain();
-          }else{
-            er.className='er ok';er.textContent='注册成功！请查收邮箱验证邮件后登录';
-            B('btnEmail','注册');
-          }
-        });
-      }
+      if(r.error){er.textContent=r.error;B('btnEmail','注册');return}
+      er.className='er ok';er.textContent='注册成功！跳转中…';
+      localStorage.setItem(SB,JSON.stringify(r));
+      goMain();
     });
   }else{
     if(p.length<6){er.textContent='密码至少6位';return}
     B('btnEmail','登录中...');
-    fetch(A+'/auth/v1/token?grant_type=password',{
+    fetch(A+'/rest/v1/rpc/login_user',{
       method:'POST',
       headers:{'Content-Type':'application/json',apikey:K},
-      body:JSON.stringify({email:e,password:p})
+      body:JSON.stringify({p_email:e,p_password:p})
     }).then(function(r){return r.json()}).then(function(r){
-      if(r.error){er.textContent=r.error_description||r.error;B('btnEmail','登录');return}
+      if(r.error){er.textContent=r.error;B('btnEmail','登录');return}
       er.className='er ok';er.textContent='登录成功！跳转中…';
-      var sess={access_token:r.access_token,token_type:r.token_type,expires_in:r.expires_in,expires_at:r.expires_at,refresh_token:r.refresh_token,user:r.user};
-      localStorage.setItem(SB,JSON.stringify(sess));
+      localStorage.setItem(SB,JSON.stringify(r));
       goMain();
     });
   }
