@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Ai乐酷</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a1a;color:#fff;font-family:-apple-system,sans-serif;
+  display:flex;align-items:center;justify-content:center;min-height:100vh}
+.l{text-align:center;padding:20px}
+.spinner{width:48px;height:48px;border:4px solid #333;border-top-color:#a855f7;
+  border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 20px}
+@keyframes spin{to{transform:rotate(360deg)}}
+p{color:#aaa;font-size:14px}
+</style>
+</head>
+<body>
+<div class="l">
+  <div class="spinner"></div>
+  <p id="msg">正在进入 Ai乐酷...</p>
+</div>
+<script>
+(function(){
+  var SB='sb-vrfadiaqfissptfxwtex-auth-token';
+  var custom=localStorage.getItem(SB);
+  if(custom){
+    try{
+      var u=JSON.parse(custom);
+      if(u.id&&u.email){
+        // Set currentUser directly in localStorage for index.html
+        var profileKey='profile_'+u.id;
+        // Check if profile exists, if not create a minimal one
+        if(!localStorage.getItem(profileKey)){
+          localStorage.setItem(profileKey, JSON.stringify({
+            name: u.email.split('@')[0],
+            phone: '',
+            bio: '',
+            avatar: ''
+          }));
+        }
+        // Redirect to index.html
+        document.getElementById('msg').textContent='登录成功！进入主页...';
+        setTimeout(function(){
+          window.location.replace('index.html?v='+Date.now());
+        },300);
+      }else{
+        document.getElementById('msg').textContent='会话无效，请重新登录';
+        setTimeout(function(){window.location.href='auth.html';},1500);
+      }
+    }catch(e){
+      document.getElementById('msg').textContent='出错了，正在跳转...';
+      setTimeout(function(){window.location.href='auth.html';},1000);
+    }
+  }else{
+    document.getElementById('msg').textContent='请先登录';
+    setTimeout(function(){window.location.href='auth.html';},800);
+  }
+})();
+</script>
+</body></html>
