@@ -1142,8 +1142,77 @@ body {
 .mv-card-meta { font-size: 10px; color: var(--text3); margin-top: 4px; display: flex; gap: 8px; }
 .mv-card-stats { font-size: 10px; color: var(--text3); margin-top: 4px; display: flex; gap: 6px; flex-wrap: wrap; }
 
-
-
+/* ===== SPLASH SCREEN ===== */
+.splash {
+  position: fixed; inset: 0; z-index: 9999;
+  background: linear-gradient(160deg, #0a0a1a 0%, #1a1040 35%, #0d1b2a 65%, #0a0a1a 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  animation: splashOut 0.6s ease-in 2.2s forwards;
+}
+.splash::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, rgba(107,203,119,0.12) 0%, transparent 60%),
+              radial-gradient(ellipse at 30% 60%, rgba(120,80,220,0.08) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 50%, rgba(60,180,240,0.06) 0%, transparent 50%);
+}
+.splash-logo {
+  position: relative; z-index: 2;
+  font-size: 72px; margin-bottom: 16px;
+  animation: splashPulse 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 30px rgba(107,203,119,0.4));
+}
+.splash-title {
+  position: relative; z-index: 2;
+  font-size: 36px; font-weight: 900; letter-spacing: 6px;
+  background: linear-gradient(135deg, #6bcb77, #4ecdc4, #a18cd1);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px;
+}
+.splash-subtitle {
+  position: relative; z-index: 2;
+  font-size: 15px; color: rgba(255,255,255,0.5);
+  letter-spacing: 4px;
+  margin-bottom: 40px;
+  animation: splashFadeIn 1s ease-out 0.3s both;
+}
+.splash-dots {
+  position: relative; z-index: 2; display: flex; gap: 10px;
+}
+.splash-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+  animation: splashDot 1.4s ease-in-out infinite;
+}
+.splash-dot:nth-child(2) { animation-delay: 0.2s; }
+.splash-dot:nth-child(3) { animation-delay: 0.4s; }
+.splash-orb {
+  position: absolute; border-radius: 50%; z-index: 1;
+  filter: blur(60px); opacity: 0.15;
+}
+.splash-orb-1 { width: 200px; height: 200px; background: #6bcb77; top: 20%; left: 20%; animation: splashOrb 4s ease-in-out infinite; }
+.splash-orb-2 { width: 160px; height: 160px; background: #a18cd1; top: 50%; right: 15%; animation: splashOrb 5s ease-in-out 1s infinite; }
+.splash-orb-3 { width: 120px; height: 120px; background: #4ecdc4; bottom: 25%; left: 30%; animation: splashOrb 3.5s ease-in-out 2s infinite; }
+@keyframes splashPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+@keyframes splashFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes splashDot {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1.2); opacity: 1; }
+}
+@keyframes splashOrb {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(20px, -20px); }
+}
+@keyframes splashOut {
+  from { opacity: 1; }
+  to { opacity: 0; pointer-events: none; }
+}
 
 </style>
 </head>
@@ -1156,6 +1225,22 @@ body {
 <body>
 </head>
 <body>
+
+<!-- ===== SPLASH SCREEN ===== -->
+<div class="splash" id="splashScreen">
+  <div class="splash-orb splash-orb-1"></div>
+  <div class="splash-orb splash-orb-2"></div>
+  <div class="splash-orb splash-orb-3"></div>
+  <div class="splash-logo">🎵</div>
+  <div class="splash-title">Ai乐酷</div>
+  <div class="splash-subtitle">你的 AI 音乐创作伙伴</div>
+  <div class="splash-dots">
+    <div class="splash-dot"></div>
+    <div class="splash-dot"></div>
+    <div class="splash-dot"></div>
+  </div>
+</div>
+
 <div class="app-container" id="app">
 
   <!-- ===== TOP PLAYER BAR ===== -->
@@ -3893,6 +3978,12 @@ function previewAvatar(e) {
 
 // ==================== STARTUP ====================
 try { init(); } catch(e) { alert('JS ERROR: ' + e.message + ' at line ' + (e.lineNumber || '?')); console.error(e); }
+
+// Remove splash after animation
+setTimeout(function(){
+  var splash = document.getElementById('splashScreen');
+  if (splash) splash.remove();
+}, 3000);
 // ==================== CHAT SYSTEM ====================
 var chatData = {};
 artistMusicians.forEach(function(a){
