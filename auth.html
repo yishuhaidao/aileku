@@ -310,8 +310,8 @@ function goEmail(){
       if(r.error){er.textContent=r.error;B('btnEmail','注册');return}
       er.className='er ok';er.textContent='注册成功！跳转中…';
       localStorage.setItem(SB,JSON.stringify(r));
-      goMain();
-    });
+      setTimeout(function(){window.location.href='index.html';},300);
+    }).catch(function(e){er.textContent='网络错误，请重试';B('btnEmail','注册')});
   }else{
     if(p.length<6){er.textContent='密码至少6位';return}
     B('btnEmail','登录中...');
@@ -323,8 +323,8 @@ function goEmail(){
       if(r.error){er.textContent=r.error;B('btnEmail','登录');return}
       er.className='er ok';er.textContent='登录成功！跳转中…';
       localStorage.setItem(SB,JSON.stringify(r));
-      goMain();
-    });
+      setTimeout(function(){window.location.href='index.html';},300);
+    }).catch(function(e){er.textContent='网络错误，请重试';B('btnEmail','登录')});
   }
 }
 
@@ -361,8 +361,8 @@ function goPhone(){
       if(r.error){er.textContent=r.error;B('btnPhone','注册');return}
       er.className='er ok';er.textContent='注册成功！跳转中…';
       localStorage.setItem(SB,JSON.stringify(r));
-      goMain();
-    });
+      setTimeout(function(){window.location.href='index.html';},300);
+    }).catch(function(e){er.textContent='网络错误';B('btnPhone','注册')});
   }else{
     if(p.length<6){er.textContent='密码至少6位';return}
     B('btnPhone','登录中...');
@@ -374,8 +374,8 @@ function goPhone(){
       if(r.error){er.textContent=r.error;B('btnPhone','登录');return}
       er.className='er ok';er.textContent='登录成功！跳转中…';
       localStorage.setItem(SB,JSON.stringify(r));
-      goMain();
-    });
+      setTimeout(function(){window.location.href='index.html';},300);
+    }).catch(function(e){er.textContent='网络错误';B('btnPhone','登录')});
   }
 }
 
@@ -386,13 +386,6 @@ function tg(id,b){
   var s=i.type==='password';
   i.type=s?'text':'password';
   b.textContent=s?'🙈':'👁';
-}
-
-function goMain(){
-  var d=document.querySelector('.c');
-  var url='index.html';
-  d.innerHTML='<h1 style=color:#4ade80;font-size:48px>&#10003;</h1><p style=color:#fff;font-size:18px;margin:16px 0>登录成功！</p><p style=color:#aaa;font-size:14px>正在进入主页…</p><a href='+url+' style=display:block;padding:14px;border-radius:12px;background:linear-gradient(135deg,#a855f7,#6366f1);color:#fff;text-decoration:none;font-weight:600;margin-bottom:10px>&#9654; 进入 Ai乐酷 主页</a>';
-  setTimeout(function(){window.location.href=url;},800);
 }
 
 function C(id,ok){E(id).className=ok?'g':'r'}
