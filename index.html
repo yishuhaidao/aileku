@@ -116,7 +116,7 @@ body {
 .main-content {
   flex: 1; overflow-y: auto; overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  margin-bottom: 64px;
+  padding-bottom: 70px;
 }
 .main-content::-webkit-scrollbar { width: 0; }
 
@@ -126,13 +126,14 @@ body {
 
 /* Bottom Tab Bar */
 .tab-bar {
-  position: absolute; bottom: 0; left: 0; right: 0; height: 64px;
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 430px; height: 64px;
   background: rgba(26,26,46,0.97);
   backdrop-filter: blur(20px);
   display: flex; align-items: center; justify-content: space-around;
   border-top: 1px solid var(--border);
   padding-bottom: env(safe-area-inset-bottom);
-  z-index: 250;
+  z-index: 999;
 }
 .tab-item {
   display: flex; flex-direction: column; align-items: center; gap: 3px;
@@ -1511,19 +1512,19 @@ body {
 
   <!-- ===== BOTTOM TAB BAR ===== -->
   <div class="tab-bar">
-    <button class="tab-item active" data-tab="home">
+    <button class="tab-item active" data-tab="home" onclick="navTo('home')">
       <span class="tab-item-icon">🏠</span><span>首页</span>
     </button>
-    <button class="tab-item" data-tab="square">
+    <button class="tab-item" data-tab="square" onclick="navTo('square')">
       <span class="tab-item-icon">🏛️</span><span>广场</span>
     </button>
-    <button class="tab-item" data-tab="create">
+    <button class="tab-item" data-tab="create" onclick="navTo('create')">
       <span class="tab-item-icon">🎵</span><span>写歌</span>
     </button>
-    <button class="tab-item" data-tab="messages">
+    <button class="tab-item" data-tab="messages" onclick="navTo('messages')">
       <span class="tab-item-icon">💬</span><span>消息</span>
     </button>
-    <button class="tab-item" data-tab="profile">
+    <button class="tab-item" data-tab="profile" onclick="navTo('profile')">
       <span class="tab-item-icon">👤</span><span>我的</span>
     </button>
   </div>
@@ -2054,8 +2055,40 @@ let playerInterval = null;
 let playerProgress = 0;
 let generatedCount = songs.length;
 
+// ==================== NAV TO (independent of init) ====================
+function navTo(tabName) {
+  currentTab = tabName;
+  document.querySelectorAll('.tab-item').forEach(function(t){ t.classList.remove('active'); });
+  var tab = document.querySelector('.tab-item[data-tab="'+tabName+'"]');
+  if (tab) tab.classList.add('active');
+  document.querySelectorAll('.tab-page').forEach(function(p){ p.classList.remove('active'); });
+  var page = document.getElementById('page-'+tabName);
+  if (page) page.classList.add('active');
+  // Close overlays
+  var formOverlay = document.getElementById('createFormOverlay');
+  if (formOverlay) formOverlay.classList.remove('show');
+  var detailOverlay = document.getElementById('detailOverlay');
+  if (detailOverlay) detailOverlay.classList.remove('show');
+  var rechargeModal = document.getElementById('rechargeModal');
+  if (rechargeModal) rechargeModal.classList.remove('show');
+  var bottomSheet = document.getElementById('bottomSheetOverlay');
+  if (bottomSheet) bottomSheet.classList.remove('show');
+  var settingsOverlay = document.getElementById('settingsOverlay');
+  if (settingsOverlay) settingsOverlay.classList.remove('show');
+  var panelOverlay = document.getElementById('panelOverlay');
+  if (panelOverlay) panelOverlay.classList.remove('show');
+  var beanExchange = document.getElementById('beanExchangeOverlay');
+  if (beanExchange) beanExchange.classList.remove('show');
+  var vipPopup = document.getElementById('vipPopup');
+  if (vipPopup) vipPopup.classList.remove('show');
+  var vipPrompt = document.getElementById('vipUpgradePrompt');
+  if (vipPrompt) vipPrompt.classList.remove('show');
+  var optSub = document.getElementById('optSubPage');
+  if (optSub) optSub.classList.remove('show');
+}
+
 // ==================== INIT ====================
-var APP_VERSION = 6;
+var APP_VERSION = 7;
 function init() {
   // Force reload if cached version is old
   var cachedVer = localStorage.getItem('appVersion');
@@ -4062,7 +4095,7 @@ function previewAvatar(e) {
 (function(){ try { var a=localStorage.getItem('avatar'); if(a) document.getElementById('avatarPreview').innerHTML='<img src="'+a+'" style="width:100%;height:100%;object-fit:cover">'; }catch(e){} })();
 
 // ==================== SUPABASE BACKEND ====================
-var SUPABASE_URL = '';
+var SUPABASE_URL = window.location.origin;
 var SUPABASE_KEY = 'sb_publishable_8IOOiPXMEvg64PYVjKIfuQ_XO-OL06y';
 var supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 var authMode = 'login';
@@ -4076,12 +4109,15 @@ setTimeout(function(){
     return;
   }
   supabase.auth.getSession().then(function(res){
-    if (res.data.session) {
+    if (res.data && res.data.session) {
       currentUser = res.data.session.user;
       checkProfile();
     } else {
       document.getElementById('authOverlay').style.display = 'flex';
     }
+  }).catch(function(err){
+    console.log('Supabase offline, show auth overlay');
+    document.getElementById('authOverlay').style.display = 'flex';
   });
 }, 5500);
 
