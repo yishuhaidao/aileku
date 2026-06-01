@@ -2580,7 +2580,7 @@ body {
 
     </div>
 
-    <a href="#" class="auth-skip" onclick="event.preventDefault();skipAuth()">璺宠繃锛岀绾夸娇鐢?/a>
+    <a href="#" class="auth-skip" onclick="event.preventDefault();skipAuth()">跳过，离线使用?/a>
 
     <div class="auth-error" id="authError"></div>
 
@@ -2598,7 +2598,7 @@ body {
 
     <div style="font-size:36px;margin-bottom:8px">🎉</div>
 
-    <div class="auth-title">瀹屽杽涓汉璧勬枡</div>
+    <div class="auth-title">完善个人资料</div>
 
     <div class="auth-desc">让你的音乐主页更精彩</div>
 
@@ -2620,9 +2620,9 @@ body {
 
     <input type="tel" id="profPhone" class="auth-input" placeholder="手机号（选填）：? maxlength="11">
 
-    <input type="text" id="profBio" class="auth-input" placeholder="涓汉浠嬬粛锛堥€夊～锛? maxlength="100">
+    <input type="text" id="profBio" class="auth-input" placeholder="涓汉浠嬬粛锛堥€夊～锛? maxlength="100">
 
-    <button class="auth-btn" id="profSaveBtn" onclick="saveProfile()">保存锛岃繘鍏i涔愰叿</button>
+    <button class="auth-btn" id="profSaveBtn" onclick="saveProfile()">保存，进入Ai乐酷</button>
 
     <a href="#" class="auth-skip" onclick="event.preventDefault();skipProfile()" style="margin-top:12px">稍后完善</a>
 
@@ -2646,7 +2646,7 @@ body {
 
     <div class="player-bar-info">
 
-      <div class="player-bar-title" id="playerBarTitle">閫夋嫨涓€棣栨瓕鎾斁</div>
+      <div class="player-bar-title" id="playerBarTitle">选择一首歌播放</div>
 
       <div class="player-bar-artist" id="playerBarArtist"></div>
 
@@ -2686,13 +2686,13 @@ body {
 
         <div class="mv-hero-content">
 
-          <div class="mv-hero-title" id="mvHeroTitle">春日晚风</div>
+          <div class="mv-hero-title" id="mvHeroTitle">春日晚风</div>
 
-          <div class="mv-hero-artist" id="mvHeroArtist">开启一段 路 复古MV</div>
+          <div class="mv-hero-artist" id="mvHeroArtist">开启一段 · 复古MV</div>
 
           <div class="mv-hero-stats">
 
-          <span>▶?12.8涓</span><span>鉂?2.4k</span><span>💬 856</span><span>⭐ 520</span><span>▶?1.8k</span>
+          <span>▶?12.8万</span><span>❤?2.4k</span><span>💬 856</span><span>⭐ 520</span><span>▶?1.8k</span>
 
         </div>
 
@@ -2712,7 +2712,7 @@ body {
 
           <span class="quick-btn-label">VIP会员</span>
 
-          <span class="quick-btn-sub">MV绮鹃€</span>
+          <span class="quick-btn-sub">MV精选</span>
 
         </button>
 
@@ -2998,7 +2998,7 @@ body {
 
           <div class="menu-item" onclick="showProfilePanel('albums')"><span class="menu-item-icon">馃捒</span><span class="menu-item-label">专辑</span><span class="menu-item-value">0</span><span class="menu-item-arrow">鈥</span></div>
 
-          <div class="menu-item" onclick="showProfilePanel('likes')"><span class="menu-item-icon">鉂わ笍</span><span class="menu-item-label">喜欢</span><span class="menu-item-value">0棣</span><span class="menu-item-arrow">鈥</span></div>
+          <div class="menu-item" onclick="showProfilePanel('likes')"><span class="menu-item-icon">❤わ笍</span><span class="menu-item-label">喜欢</span><span class="menu-item-value">0棣</span><span class="menu-item-arrow">鈥</span></div>
 
         </div>
 
@@ -3110,9 +3110,9 @@ body {
 
 
 
-    <!-- ========= 鑷富歌词鍐欐瓕 MODE ========= -->
+    <!-- ========= 鑷富歌词鍐欐瓕 MODE ========= -->
 
-    <!-- ========= 鐢熸垚MV MODE ========= -->
+    <!-- ========= 生成MV MODE ========= -->
 
     <div id="formFull" class="form-mode-panel">
 
@@ -3120,7 +3120,7 @@ body {
 
         <div style="display:flex;flex-direction:column;gap:8px">
 
-          <div style="font-size:14px;font-weight:600;color:var(--text)">✏️ 閫夋嫨MV风格</div>
+          <div style="font-size:14px;font-weight:600;color:var(--text)">✏️ 选择MV风格</div>
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
 
@@ -3154,7 +3154,7 @@ body {
 
           <span id="selCounter">宸查€?6/20</span>
 
-          <button class="btn-generate" id="btnGenerate" onclick="doGenerate()">✏️ 鐢熸垚MV</button>
+          <button class="btn-generate" id="btnGenerate" onclick="doGenerate()">✏️ 生成MV</button>
 
         </div>
 
@@ -3298,7 +3298,7 @@ body {
 
     <div class="bottom-sheet" onclick="event.stopPropagation()">
 
-      <div class="sheet-item" id="sheetLike" onclick="toggleLikeSheet()">鉂わ笍 喜欢</div>
+      <div class="sheet-item" id="sheetLike" onclick="toggleLikeSheet()">❤わ笍 喜欢</div>
 
       <div class="sheet-item" onclick="showToast('宸叉爣璁颁笉鎰熷叴瓒?)">馃憥 涓嶆劅鍏磋叮</div>
 
@@ -3336,7 +3336,7 @@ body {
 
       <div style="font-size:12px;color:var(--text2);line-height:1.7;text-align:center">
 
-        🎵 鍏嶄箰甯佸垱浣?路 馃帣锔?涓撳睘闊宠壊 路 猬嗭笍 棣栭〉推荐<br>馃拵 楂樻竻闊宠川 路 馃寪 鍏ㄧ綉鍙戣 路 馃洝锔?原创保护 路 鉂?鍘绘按鍗?
+        🎵 鍏嶄箰甯佸垱浣?路 馃帣锔?涓撳睘闊宠壊 路 猬嗭笍 棣栭〉推荐<br>馃拵 楂樻竻闊宠川 路 馃寪 鍏ㄧ綉鍙戣 路 馃洝锔?原创保护 路 ❤?鍘绘按鍗?
 
       </div>
 
@@ -3780,7 +3780,7 @@ body {
 
       <div class="menu-section">
 
-        <div class="menu-item" onclick="showSettingsPanel('profile')"><span class="menu-item-icon">🎉</span><span class="menu-item-label">涓汉璧勬枡</span><span class="menu-item-arrow">鈥</span></div>
+        <div class="menu-item" onclick="showSettingsPanel('profile')"><span class="menu-item-icon">🎉</span><span class="menu-item-label">涓汉璧勬枡</span><span class="menu-item-arrow">鈥</span></div>
 
         <div class="menu-item" onclick="showSettingsPanel('verify')"><span class="menu-item-icon">鉁</span><span class="menu-item-label">瀹炲悕认证</span><span class="menu-item-value" id="verifyStatus">鏈璇</span><span class="menu-item-arrow">鈥</span></div>
 
@@ -3796,7 +3796,7 @@ body {
 
         <div class="menu-item" onclick="showSettingsPanel('about')"><span class="menu-item-icon">鈩癸笍</span><span class="menu-item-label">关于我们</span><span class="menu-item-arrow">鈥</span></div>
 
-        <div class="menu-item" onclick="showSettingsPanel('help')"><span class="menu-item-icon">鉂</span><span class="menu-item-label">甯姪涓庢湇鍔</span><span class="menu-item-arrow">鈥</span></div>
+        <div class="menu-item" onclick="showSettingsPanel('help')"><span class="menu-item-icon">❤</span><span class="menu-item-label">甯姪涓庢湇鍔</span><span class="menu-item-arrow">鈥</span></div>
 
       </div>
 
@@ -3808,7 +3808,7 @@ body {
 
     </div>
 
-    <!-- 涓汉璧勬枡 -->
+    <!-- 涓汉璧勬枡 -->
 
     <div class="settings-panel" id="settingsProfile">
 
@@ -3878,9 +3878,9 @@ body {
 
         <p>🎵 AI椹卞姩鐨勯煶涔愬垱浣滃钩鍙?/p>
 
-        <p>璁╂瘡涓汉閮借兘杞绘澗创作灞炰簬鑷繁鐨勯煶涔愩€?/p>
+        <p>璁╂瘡涓汉閮借兘杞绘澗创作灞炰簬鑷繁鐨勯煶涔愩€?/p>
 
-        <p>鏃犺鏄笓涓氶煶涔愪汉杩樻槸闆跺熀纭€鏂版墜锛孉i涔愰叿閮借兘甯綘鎶婄伒鎰熷彉鎴愪綔鍝併€?/p>
+        <p>鏃犺鏄笓涓氶煶涔愪汉杩樻槸闆跺熀纭€鏂版墜锛孉i乐酷閮借兘甯綘鎶婄伒鎰熷彉鎴愪綔鍝併€?/p>
 
         <p>馃摟 鑱旂郴邮箱锛歨ello@aileku.com</p>
 
@@ -3896,15 +3896,15 @@ body {
 
     <div class="settings-panel" id="settingsHelp">
 
-      <div class="settings-faq-item" onclick="toggleFaq(this)"><div class="settings-faq-q">鉂?濡備綍创作涓€棣栨瓕锛</div><div class="settings-faq-a">鐐瑰嚮搴曢儴銆屽啓姝屻€嶁啋 閫夋嫨銆屼竴閿啓姝屻€嶁啋 输入歌词骞堕€夋嫨风格 鈫?鐐瑰嚮鐢熸垚鍗冲彲銆</div></div>
+      <div class="settings-faq-item" onclick="toggleFaq(this)"><div class="settings-faq-q">❤?濡備綍创作涓€棣栨瓕锛</div><div class="settings-faq-a">鐐瑰嚮搴曢儴銆屽啓姝屻€嶁啋 閫夋嫨銆屼竴閿啓姝屻€嶁啋 输入歌词骞堕€夋嫨风格 鈫?鐐瑰嚮鐢熸垚鍗冲彲銆</div></div>
 
-      <div class="settings-faq-item" onclick="toggleFaq(this)"><div class="settings-faq-q">✏️ 濡備綍鐢熸垚MV锛</div><div class="settings-faq-a">创作歌曲鍚庯紝鐐瑰嚮銆岀敓鎴怣V銆嶉€夋嫨鐢婚潰风格锛孉I浼氳嚜鍔ㄤ负你的歌曲閰嶄笂瑙嗛鐢婚潰銆</div></div>
+      <div class="settings-faq-item" onclick="toggleFaq(this)"><div class="settings-faq-q">✏️ 濡備綍生成MV锛</div><div class="settings-faq-a">创作歌曲鍚庯紝鐐瑰嚮銆岀敓鎴怣V銆嶉€夋嫨鐢婚潰风格锛孉I浼氳嚜鍔ㄤ负你的歌曲閰嶄笂瑙嗛鐢婚潰銆</div></div>
 
       <div class="settings-faq-item" onclick="toggleFaq(this)"><div class="settings-faq-q">🏆 涔愬竵鍜岄煶涔愯眴鐨勫尯鍒紵</div><div class="settings-faq-a">涔愬竵涓轰粯璐硅櫄鎷熻揣甯侊紝鐢ㄤ簬璐拱楂樼骇闊宠壊鍜屽幓姘村嵃銆傞煶涔愯眴閫氳繃鍚瓕鍏嶈垂鑾峰彇锛屽彲鍏戞崲鍩虹鏈嶅姟銆</div></div>
 
-      <div class="settings-faq-item" onclick="toggleFaq(this)"><div class="settings-faq-q">馃洝锔?鍘熷垱歌曲鏈夌増鏉冧繚鎶ゅ悧锛</div><div class="settings-faq-a">鏄殑锛侀€氳繃Ai乐酷创作鐨勪綔鍝佽嚜鍔ㄧ敓鎴愮増鏉冭褰曪紝鏀寔涓€閿叏缃戝彂琛屽拰鍘熷垱认证銆</div></div>
+      <div class="settings-faq-item" onclick="toggleFaq(this)"><div class="settings-faq-q">馃洝锔?鍘熷垱歌曲鏈夌増鏉冧繚鎶ゅ悧锛</div><div class="settings-faq-a">鏄殑锛侀€氳繃Ai乐酷创作鐨勪綔鍝佽嚜鍔ㄧ敓鎴愮増鏉冭褰曪紝鏀寔涓€閿叏缃戝彂琛屽拰鍘熷垱认证銆</div></div>
 
-      <div class="settings-faq-item" onclick="toggleFaq(this)"><div class="settings-faq-q">馃摫 鏀寔鍝簺骞冲彴锛</div><div class="settings-faq-a">鐩墠鏀寔鎵嬫満娴忚鍣ㄥ拰寰俊灏忕▼搴忚闂紝PC绔彲閫氳繃娴忚鍣ㄧ洿鎺ヤ娇鐢ㄣ€</div></div>
+      <div class="settings-faq-item" onclick="toggleFaq(this)"><div class="settings-faq-q">馃摫 鏀寔鍝簺骞冲彴锛</div><div class="settings-faq-a">鐩墠鏀寔鎵嬫満娴忚鍣ㄥ拰寰俊灏忕▼搴忚闂紝PC绔彲閫氳繃娴忚鍣ㄧ洿鎺ヤ娇鐢ㄣ€</div></div>
 
     </div>
 
@@ -4012,7 +4012,7 @@ const moodOptions = [
 
   '鎸','姊﹀够','婵€鎯?,'娓╂殩','娓呮柊','娌夐潤','蹇ч儊','閲婄劧','鎰熷姩','鎬濆康',
 
-  '鏈熷緟','澶辫惤','鑷俊','鑷敱','娲掕劚','瀛ゅ偛','鍏村','瀹夊畞','鐢滆湝','绌虹伒'
+  '鏈熷緟','澶辫惤','鑷俊','鑷敱','娲掕劚','瀛ゅ偛','鍏村','瀹夊畞','鐢滆湝','绌虹伒'
 
 ];
 
@@ -4547,7 +4547,7 @@ function openCreateForm(withLyrics) {
 
   pushNav('form');
 
-  document.getElementById('formTitle').textContent = withLyrics ? '鐢熸垚MV' : '涓€閿啓姝?;
+  document.getElementById('formTitle').textContent = withLyrics ? '生成MV' : '涓€閿啓姝?;
 
 
 
@@ -5377,7 +5377,7 @@ function switchTab(name) {
 
 const mvData = [
 
-  {id:1,title:'春日晚风',artist:'开启一段',views:128000,likes:2400,duration:'03:42',cov:0,vip:true,comments:856,gifts:520,favs:1800},
+  {id:1,title:'春日晚风',artist:'开启一段',views:128000,likes:2400,duration:'03:42',cov:0,vip:true,comments:856,gifts:520,favs:1800},
 
   {id:2,title:'鏄熸捣婕',artist:'涓€鍙彅鐗?,views:96000,likes:1800,duration:'04:15',cov:4,vip:true,comments:620,gifts:380,favs:1200},
 
@@ -5419,7 +5419,7 @@ function renderHome() {
 
   showcase.innerHTML = mvData.slice(1).map(m => `
 
-    <div class="mv-card" onclick="${isVip ? "showToast('✏️ '+JSON.stringify(m.title)+' - '+JSON.stringify(m.artist))" : "vipRequired('✏️ VIP MV绮鹃€?,'VIP浼氬憳涓撲韩MV鎾斁')"}">
+    <div class="mv-card" onclick="${isVip ? "showToast('✏️ '+JSON.stringify(m.title)+' - '+JSON.stringify(m.artist))" : "vipRequired('✏️ VIP MV精选?,'VIP浼氬憳涓撲韩MV鎾斁')"}">
 
       <div class="mv-card-thumb" style="background:${gradients[m.cov % gradients.length]}">✏️
 
@@ -5437,7 +5437,7 @@ function renderHome() {
 
           <span>▶?${formatNum(m.views)}</span>
 
-          <span>鉂?${formatNum(m.likes)}</span>
+          <span>❤?${formatNum(m.likes)}</span>
 
           <span>💬 ${formatNum(m.comments)}</span>
 
@@ -5541,7 +5541,7 @@ function renderHome() {
 
         <button class="song-card-action" onclick="showToast('💬 璇勮')">💬 ${formatNum(s.comments)}</button>
 
-        <button class="song-card-action ${s.liked ? 'liked' : ''}" id="likeBtn${s.id}" onclick="toggleLike(${s.id})">${s.liked ? '鉂わ笍' : '馃'} ${formatNum(s.likes)}</button>
+        <button class="song-card-action ${s.liked ? 'liked' : ''}" id="likeBtn${s.id}" onclick="toggleLike(${s.id})">${s.liked ? '❤わ笍' : '馃'} ${formatNum(s.likes)}</button>
 
         <button class="song-card-action ${s.favorited ? 'favorited' : ''}" id="favBtn${s.id}" onclick="toggleFav(${s.id})">${s.favorited ? '鈽? : '鈽?}</button>
 
@@ -5587,13 +5587,13 @@ var circlePosts = [
 
     {type:'image',bg:'linear-gradient(135deg,#ffecd2,#fcb69f)',emoji:'🎨'},
 
-    {type:'image',bg:'linear-gradient(135deg,#ff9a9e,#fecfef)',emoji:'鉂わ笍'},
+    {type:'image',bg:'linear-gradient(135deg,#ff9a9e,#fecfef)',emoji:'❤わ笍'},
 
   ],likes:432,comments:87,liked:false},
 
   {id:5,user:'闊充箰鍒朵綔浜篖eo',avatar:'馃帶',level:4,levelName:'璧勬繁闊充箰浜?,time:'2灏忔椂鍓?,text:'分享涓€娉㈠綍闊虫鏃ュ父锛氭柊璁惧鍒颁綅锛岄煶璐ㄨ捣椋烇紒涓嬪懆鍙戞柊姝岎煍?,media:[],likes:168,comments:41,liked:false},
 
-  {id:6,user:'鏅村ぉ濞冨▋',avatar:'鈽€锔?,level:2,levelName:'创作鏂颁汉',time:'3灏忔椂鍓?,text:'鐢ˋi涔愰叿鐢熸垚鐨勩€婃槦娴锋极姝ャ€嬭鏈嬪弸澶镐簡锛佽繖AI澶己浜嗗惂 馃く',media:[
+  {id:6,user:'鏅村ぉ濞冨▋',avatar:'鈽€锔?,level:2,levelName:'创作鏂颁汉',time:'3灏忔椂鍓?,text:'鐢ˋi乐酷鐢熸垚鐨勩€婃槦娴锋极姝ャ€嬭鏈嬪弸澶镐簡锛佽繖AI澶己浜嗗惂 馃く',media:[
 
     {type:'image',bg:'linear-gradient(135deg,#a8edea,#fed6e3)',emoji:'▶?},
 
@@ -5653,7 +5653,7 @@ function renderMusicCircle() {
 
       '<div class="circle-post-actions" onclick="event.stopPropagation()">'+
 
-        '<button class="circle-action '+ (p.liked?'liked':'') +'" id="circleLike'+p.id+'" onclick="likeCirclePost('+p.id+')">'+ (p.liked?'鉂わ笍':'馃') +' <span>'+p.likes+'</span></button>'+
+        '<button class="circle-action '+ (p.liked?'liked':'') +'" id="circleLike'+p.id+'" onclick="likeCirclePost('+p.id+')">'+ (p.liked?'❤わ笍':'馃') +' <span>'+p.likes+'</span></button>'+
 
         '<button class="circle-action" onclick="showToast(\'💬 璇勮鍔熻兘鍗冲皢寮€鏀綷')">💬 <span>'+p.comments+'</span></button>'+
 
@@ -5705,7 +5705,7 @@ function openCircleDetail(id) {
 
     '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;gap:20px;font-size:12px;color:var(--text2)">'+
 
-      '<span>鉂?'+p.likes+' 璧</span><span>💬 '+p.comments+' 璇勮</span><span>鈫?分享</span><span style="margin-left:auto;color:var(--text3)">'+p.time+'</span>'+
+      '<span>❤?'+p.likes+' 璧</span><span>💬 '+p.comments+' 璇勮</span><span>鈫?分享</span><span style="margin-left:auto;color:var(--text3)">'+p.time+'</span>'+
 
     '</div>'+
 
@@ -5733,7 +5733,7 @@ function likeCirclePost(id) {
 
     btn.className = 'circle-action ' + (p.liked?'liked':'');
 
-    btn.innerHTML = (p.liked?'鉂わ笍':'馃') + ' <span>'+p.likes+'</span>';
+    btn.innerHTML = (p.liked?'❤わ笍':'馃') + ' <span>'+p.likes+'</span>';
 
   }
 
@@ -5801,7 +5801,7 @@ function renderMusicCircleToSquare() {
 
       '<div class="circle-post-actions" onclick="event.stopPropagation()">'+
 
-        '<button class="circle-action '+ (p.liked?'liked':'') +'" id="circleLike'+p.id+'" onclick="likeCirclePost('+p.id+')">'+ (p.liked?'鉂わ笍':'馃') +' <span>'+p.likes+'</span></button>'+
+        '<button class="circle-action '+ (p.liked?'liked':'') +'" id="circleLike'+p.id+'" onclick="likeCirclePost('+p.id+')">'+ (p.liked?'❤わ笍':'馃') +' <span>'+p.likes+'</span></button>'+
 
         '<button class="circle-action" onclick="showToast(' + "'💬 璇勮鍔熻兘鍗冲皢寮€鏀?" + ')">💬 <span>'+p.comments+'</span></button>'+
 
@@ -5917,7 +5917,7 @@ function updateSongCard(song) {
 
     btn.className = `song-card-action ${song.liked ? 'liked' : ''}`;
 
-    btn.innerHTML = `${song.liked ? '鉂わ笍' : '馃'} ${formatNum(song.likes)}`;
+    btn.innerHTML = `${song.liked ? '❤わ笍' : '馃'} ${formatNum(song.likes)}`;
 
   }
 
@@ -5967,7 +5967,7 @@ function renderSquare() {
 
         <div class="song-card-artist">${s.artist} 路 ${s.style}</div>
 
-        <div class="song-card-meta">🔥 ${formatNum(s.plays)} 路 鉂わ笍 ${formatNum(s.likes)}</div>
+        <div class="song-card-meta">🔥 ${formatNum(s.plays)} 路 ❤わ笍 ${formatNum(s.likes)}</div>
 
       </div>
 
@@ -6003,7 +6003,7 @@ function renderSquare() {
 
         <div class="song-card-artist">${s.artist} 路 ${s.style}</div>
 
-        <div class="song-card-meta">🆕 鏂板彂甯?路 鉂わ笍 ${formatNum(s.likes)}</div>
+        <div class="song-card-meta">🆕 鏂板彂甯?路 ❤わ笍 ${formatNum(s.likes)}</div>
 
       </div>
 
@@ -6211,7 +6211,7 @@ function updateDetailActions() {
 
   const favBtn = document.getElementById('detailFav');
 
-  likeBtn.innerHTML = `${detailSong.liked ? '鉂わ笍' : '馃'}<span class="detail-action-label liked-count">${formatNum(detailSong.likes)}</span>`;
+  likeBtn.innerHTML = `${detailSong.liked ? '❤わ笍' : '馃'}<span class="detail-action-label liked-count">${formatNum(detailSong.likes)}</span>`;
 
   likeBtn.className = `detail-action ${detailSong.liked ? 'liked' : ''}`;
 
@@ -6239,7 +6239,7 @@ function toggleLike(songId) {
 
   if (detailSong && detailSong.id === s.id) { detailSong = s; updateDetailActions(); }
 
-  showToast(s.liked ? '鉂わ笍 宸茬偣璧? : '宸插彇娑堢偣璧?);
+  showToast(s.liked ? '❤わ笍 宸茬偣璧? : '宸插彇娑堢偣璧?);
 
 }
 
@@ -6295,7 +6295,7 @@ function openSheet() {
 
   if (detailSong) {
 
-    document.getElementById('sheetLike').textContent = detailSong.liked ? '鉂わ笍 取消喜欢' : '馃 喜欢';
+    document.getElementById('sheetLike').textContent = detailSong.liked ? '❤わ笍 取消喜欢' : '馃 喜欢';
 
   }
 
@@ -7057,7 +7057,7 @@ function handleWalletTap(e) {
 
     } else {
 
-      showToast('鉂?密码閿欒');
+      showToast('❤?密码閿欒');
 
     }
 
@@ -7797,7 +7797,7 @@ function closePanel() {
 
 function showCreatePanel(type) {
 
-  if (type === 'mv' && vipRequired('✏️ 鐢熸垚MV', 'AI鑷姩涓烘瓕鏇茬敓鎴愮簿缇嶮V鐢婚潰')) return;
+  if (type === 'mv' && vipRequired('✏️ 生成MV', 'AI鑷姩涓烘瓕鏇茬敓鎴愮簿缇嶮V鐢婚潰')) return;
 
   if (type === 'publish' && vipRequired('馃寪 鍏ㄧ綉鍙戣', '涓€閿彂甯冧綔鍝佸埌鍚勫ぇ闊充箰骞冲彴')) return;
 
@@ -7807,7 +7807,7 @@ function showCreatePanel(type) {
 
   if (type === 'mv') {
 
-    t = '✏️ 鐢熸垚MV';
+    t = '✏️ 生成MV';
 
     h = '<div class=settings-input-group><label>閫夋嫨鐢婚潰风格</label><div style=display:grid;grid-template-columns:1fr 1fr;gap:8px>'
 
@@ -7821,7 +7821,7 @@ function showCreatePanel(type) {
 
     h = (function(){
 
-      var items = [{icon:'馃帶',title:'姣忔棩鍚瓕',desc:'鍚弧30鍒嗛挓',reward:'+5璞?},{icon:'鉂わ笍',title:'姣忔棩鐐硅禐',desc:'鐐硅禐10棣栨瓕',reward:'+3璞?},{icon:'💬',title:'姣忔棩璇勮',desc:'鍙戣〃5鏉¤瘎璁?,reward:'+3璞?},{icon:'馃摛',title:'分享歌曲',desc:'分享3棣栨瓕',reward:'+5璞?},{icon:'🎵',title:'鍙戝竷浣滃搧',desc:'鍙戝竷1棣栧師鍒?,reward:'+10璞?}];
+      var items = [{icon:'馃帶',title:'姣忔棩鍚瓕',desc:'鍚弧30鍒嗛挓',reward:'+5璞?},{icon:'❤わ笍',title:'姣忔棩鐐硅禐',desc:'鐐硅禐10棣栨瓕',reward:'+3璞?},{icon:'💬',title:'姣忔棩璇勮',desc:'鍙戣〃5鏉¤瘎璁?,reward:'+3璞?},{icon:'馃摛',title:'分享歌曲',desc:'分享3棣栨瓕',reward:'+5璞?},{icon:'🎵',title:'鍙戝竷浣滃搧',desc:'鍙戝竷1棣栧師鍒?,reward:'+10璞?}];
 
       return '<div style=display:flex;flex-direction:column;gap:10px>' + items.map(function(x){return '<div style=background:var(--card);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;border:1px solid var(--border)><div style=font-size:28px>'+x.icon+'</div><div style=flex:1><div style=font-weight:600>'+x.title+'</div><div style=font-size:11px;color:var(--text3)>'+x.desc+'</div></div><div style=color:var(--accent);font-weight:700>'+x.reward+'</div></div>'}).join('') + '</div>';
 
@@ -7831,7 +7831,7 @@ function showCreatePanel(type) {
 
     t = '💬 互动成歌';
 
-    h = '<div class=settings-about-text style=font-size:13px><p><b>鍜屾湅鍙嬩竴璧峰垱浣?/b></p><p>閭€璇峰ソ鍙嬪姞鍏ュ垱浣滄埧闂达紝鍏卞悓缂栧啓歌词銆侀€夋嫨缂栨洸风格銆傚浜哄崗浣滄ā寮忎笅锛屾瘡涓汉閮藉彲浠ュ疄鏃剁湅鍒颁慨鏀广€?/p><p style=margin-top:8px><b>浣跨敤姝ラ锛?/b></p><p>1. 鐐瑰嚮銆屽垱寤烘埧闂淬€嶇敓鎴愰個璇烽摼鎺?/p><p>2. 分享閾炬帴缁欏ソ鍙?/p><p>3. 涓€璧峰湪绾垮垱浣?/p></div><button class=settings-btn primary onclick="showToast(\'閾炬帴宸插鍒禱')" style=width:100%>鍒涘缓鍗忎綔鎴块棿</button>';
+    h = '<div class=settings-about-text style=font-size:13px><p><b>鍜屾湅鍙嬩竴璧峰垱浣?/b></p><p>閭€璇峰ソ鍙嬪姞鍏ュ垱浣滄埧闂达紝鍏卞悓缂栧啓歌词銆侀€夋嫨缂栨洸风格銆傚浜哄崗浣滄ā寮忎笅锛屾瘡涓汉閮藉彲浠ュ疄鏃剁湅鍒颁慨鏀广€?/p><p style=margin-top:8px><b>浣跨敤姝ラ锛?/b></p><p>1. 鐐瑰嚮銆屽垱寤烘埧闂淬€嶇敓鎴愰個璇烽摼鎺?/p><p>2. 分享閾炬帴缁欏ソ鍙?/p><p>3. 涓€璧峰湪绾垮垱浣?/p></div><button class=settings-btn primary onclick="showToast(\'閾炬帴宸插鍒禱')" style=width:100%>鍒涘缓鍗忎綔鎴块棿</button>';
 
   } else if (type === 'pic2song') {
 
@@ -7881,13 +7881,13 @@ function showProfilePanel(type) {
 
   } else if (type === 'likes') {
 
-    t = '鉂わ笍 鎴戝枩娆㈢殑';
+    t = '❤わ笍 鎴戝枩娆㈢殑';
 
     h = '<div style=display:flex;flex-direction:column;gap:10px>' +
 
-      [{title:'春日晚风',artist:'开启一段',time:'03:42'},{title:'闆ㄤ腑鏇?,artist:'涓€鍙彅鐗?,time:'05:10'},{title:'鏈堝厜婕',artist:'楣垮厛妫?,time:'04:33'}]
+      [{title:'春日晚风',artist:'开启一段',time:'03:42'},{title:'闆ㄤ腑鏇?,artist:'涓€鍙彅鐗?,time:'05:10'},{title:'鏈堝厜婕',artist:'楣垮厛妫?,time:'04:33'}]
 
-      .map(function(s){return '<div style=background:var(--card);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;border:1px solid var(--border)><div style=font-size:24px>鉂わ笍</div><div style=flex:1><div style=font-weight:600>'+s.title+'</div><div style=font-size:11px;color:var(--text3)>'+s.artist+' 路 '+s.time+'</div></div><div style=font-size:20px;cursor:pointer onclick="showToast(\'鎾斁:'+s.title+'\')">▶</div></div>'}).join('') +
+      .map(function(s){return '<div style=background:var(--card);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;border:1px solid var(--border)><div style=font-size:24px>❤わ笍</div><div style=flex:1><div style=font-weight:600>'+s.title+'</div><div style=font-size:11px;color:var(--text3)>'+s.artist+' 路 '+s.time+'</div></div><div style=font-size:20px;cursor:pointer onclick="showToast(\'鎾斁:'+s.title+'\')">▶</div></div>'}).join('') +
 
       '</div>';
 
@@ -7939,7 +7939,7 @@ function showSettingsPanel(name) {
 
   document.getElementById('settingsTitle').textContent = name === 'main' ? '璁剧疆' :
 
-    {profile:'涓汉璧勬枡',verify:'瀹炲悕认证',personalize:'涓€у寲鏈嶅姟',about:'关于我们',help:'甯姪涓庢湇鍔?,deleteAccount:'娉ㄩ攢璐﹀彿'}[name] || '璁剧疆';
+    {profile:'涓汉璧勬枡',verify:'瀹炲悕认证',personalize:'涓€у寲鏈嶅姟',about:'关于我们',help:'甯姪涓庢湇鍔?,deleteAccount:'娉ㄩ攢璐﹀彿'}[name] || '璁剧疆';
 
 }
 
