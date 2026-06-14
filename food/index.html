@@ -1,20 +1,20 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>铏剧悆鏈湴鐢熸椿 鈥?璇曠敤鐗?/title>
+<title>铏剧悆鏈湴鐢熸椿</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f5;max-width:430px;margin:0 auto;min-height:100vh;position:relative;padding-bottom:56px}
 .header{background:#ff6b35;color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .header h1{font-size:16px;font-weight:600;display:flex;align-items:center;gap:6px;cursor:pointer}
-.header .loc{font-size:12px;opacity:0.85}
+.header .loc{font-size:12px;opacity:0.85;cursor:pointer}
 .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;display:flex;justify-content:space-around;padding:6px 0 4px;border-top:1px solid #eee;z-index:100}
-.bottom-nav .nav-item{display:flex;flex-direction:column;align-items:center;font-size:10px;color:#999;cursor:pointer;gap:2px}
-.bottom-nav .nav-item .nav-icon{font-size:20px}
+.bottom-nav .nav-item{display:flex;flex-direction:column;align-items:center;font-size:9px;color:#999;cursor:pointer;gap:1px;min-width:0}
+.bottom-nav .nav-item .nav-icon{font-size:18px}
 .bottom-nav .nav-item.active{color:#ff6b35}
-.home-banner{background:linear-gradient(135deg,#ff6b35,#ff8c5a);color:#fff;padding:16px;margin:0 12px;border-radius:12px;margin-top:10px}
+.home-banner{background:linear-gradient(135deg,#ff6b35,#ff8c5a);color:#fff;padding:16px;margin:10px 12px 0;border-radius:12px}
 .home-banner h2{font-size:18px;margin-bottom:4px}
 .home-banner p{font-size:12px;opacity:0.85}
 .func-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:12px}
@@ -31,6 +31,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .categories span{display:inline-block;padding:5px 14px;border-radius:14px;font-size:12px;background:#fff;cursor:pointer;flex-shrink:0}
 .categories span.active{background:#ff6b35;color:#fff}
 .card-list{padding:0 12px 12px}
+/* food */
 .menu-item{background:#fff;border-radius:12px;padding:10px;margin-bottom:8px;display:flex;gap:10px}
 .menu-item img{width:72px;height:72px;border-radius:8px;object-fit:cover;background:#eee;flex-shrink:0}
 .menu-item .info{flex:1;display:flex;flex-direction:column;justify-content:space-between}
@@ -43,7 +44,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .qty-ctrl{display:flex;align-items:center;gap:6px;flex-shrink:0}
 .qty-ctrl button{width:22px;height:22px;border-radius:50%;border:1px solid #ddd;background:#fff;font-size:13px;cursor:pointer;line-height:1}
 .qty-ctrl span{font-size:13px;min-width:18px;text-align:center}
-/* 搴楅摵鍗＄墖 */
+/* shop */
 .shop-card{background:#fff;border-radius:12px;padding:12px;margin-bottom:8px;display:flex;gap:10px;cursor:pointer}
 .shop-card .sc-logo{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,#ff6b35,#ff8c5a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
 .shop-card .sc-info{flex:1}
@@ -52,16 +53,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .shop-card .sc-tags{display:flex;gap:4px;margin-top:4px}
 .shop-card .sc-tags span{padding:2px 8px;border-radius:8px;font-size:10px;background:#fff8f5;color:#ff6b35}
 .shop-detail-header{background:#fff;padding:14px;margin:8px 12px;border-radius:12px;display:flex;gap:10px}
-.shop-detail-header .sd-logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#ff6b35,#ff8c5a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
-.shop-detail-header .sd-info{flex:1}
-.shop-detail-header .sd-name{font-size:16px;font-weight:600;margin-bottom:2px}
-.shop-detail-header .sd-meta{font-size:11px;color:#999}
-/* 鍥㈣喘鍗?*/
+.sd-logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#ff6b35,#ff8c5a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.sd-info{flex:1}
+.sd-name{font-size:16px;font-weight:600;margin-bottom:2px}
+.sd-meta{font-size:11px;color:#999}
+/* deals */
 .deal-card{background:#fff;border-radius:12px;overflow:hidden;margin-bottom:8px}
 .deal-card .deal-body{padding:10px}
 .deal-card .deal-title{font-size:14px;font-weight:600;margin-bottom:4px}
-.deal-card .deal-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
-.deal-card .deal-tags span{padding:2px 8px;border-radius:8px;font-size:10px}
+.deal-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
+.deal-tags span{padding:2px 8px;border-radius:8px;font-size:10px}
 .tag-red{background:#fff0f0;color:#e53935}
 .tag-orange{background:#fff8f0;color:#ff6b35}
 .deal-card .deal-meta{display:flex;justify-content:space-between;align-items:center}
@@ -69,21 +70,50 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .deal-card .deal-price .now{font-size:18px;font-weight:700}
 .deal-card .deal-price .now::before{content:'楼';font-size:12px}
 .deal-card .deal-price .old{font-size:11px;color:#999;text-decoration:line-through;margin-left:4px}
-.deal-card .deal-sold{font-size:11px;color:#999}
-.deal-card .btn-buy{background:#ff6b35;color:#fff;border:none;padding:6px 16px;border-radius:14px;font-size:12px;cursor:pointer}
-/* 璇剧▼鍗?*/
+.deal-sold{font-size:11px;color:#999}
+.btn-buy{background:#ff6b35;color:#fff;border:none;padding:6px 16px;border-radius:14px;font-size:12px;cursor:pointer}
+/* course */
 .course-card{background:#fff;border-radius:12px;overflow:hidden;margin-bottom:8px;display:flex;cursor:pointer}
-.course-card .course-thumb{width:100px;height:80px;background:linear-gradient(135deg,#333,#666);color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
-.course-card .course-thumb.locked{opacity:0.7}
-.course-card .course-body{flex:1;padding:10px;display:flex;flex-direction:column;justify-content:space-between}
-.course-card .course-title{font-size:13px;font-weight:600}
-.course-card .course-desc{font-size:11px;color:#999;margin:2px 0}
-.course-card .course-price{color:#ff6b35;font-weight:700;font-size:14px}
-.course-card .course-price::before{content:'楼';font-size:11px}
-.course-card .btn-unlock{background:#ff6b35;color:#fff;border:none;padding:4px 12px;border-radius:12px;font-size:11px;cursor:pointer}
-.course-card .price-tag{display:inline-flex;align-items:center;gap:4px}
-.badge-locked{background:#ff6b35;color:#fff;font-size:9px;padding:1px 6px;border-radius:6px;margin-left:4px}
-/* 鎵撹溅 */
+.course-thumb{width:100px;height:80px;background:linear-gradient(135deg,#333,#666);color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0}
+.course-thumb.locked{opacity:0.7}
+.course-body{flex:1;padding:10px;display:flex;flex-direction:column;justify-content:space-between}
+.course-title{font-size:13px;font-weight:600}
+.course-desc{font-size:11px;color:#999;margin:2px 0}
+.course-price{color:#ff6b35;font-weight:700;font-size:14px}
+.course-price::before{content:'楼';font-size:11px}
+.btn-unlock{background:#ff6b35;color:#fff;border:none;padding:4px 12px;border-radius:12px;font-size:11px;cursor:pointer}
+/* circle */
+.post-card{background:#fff;border-radius:12px;padding:12px;margin-bottom:10px}
+.post-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.post-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#ff6b35,#ff8c5a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.post-user{font-size:14px;font-weight:600}
+.post-time{font-size:11px;color:#999}
+.post-text{font-size:14px;line-height:1.6;margin-bottom:8px;white-space:pre-line}
+.post-images{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:8px}
+.post-images img{width:100%;border-radius:8px;object-fit:cover;aspect-ratio:1;background:#eee}
+.post-images .img-placeholder{aspect-ratio:1;border-radius:8px;background:linear-gradient(135deg,#eee,#ddd);display:flex;align-items:center;justify-content:center;font-size:24px;color:#999}
+.post-mood{display:inline-block;font-size:18px;margin-right:8px}
+.post-actions{display:flex;gap:16px;padding-top:8px;border-top:1px solid #f0f0f0}
+.post-actions span{font-size:12px;color:#999;cursor:pointer;display:flex;align-items:center;gap:4px}
+.post-actions span.liked{color:#e53935}
+.post-actions span:hover{color:#ff6b35}
+.post-comments{margin-top:8px;padding-top:8px;border-top:1px solid #f5f5f5}
+.post-comment{display:flex;gap:6px;margin-bottom:4px;font-size:12px}
+.post-comment .cmt-user{color:#ff6b35;font-weight:600;flex-shrink:0}
+.post-comment .cmt-text{color:#333}
+.comment-input{display:flex;gap:6px;margin-top:8px}
+.comment-input input{flex:1;border:none;background:#f5f5f5;border-radius:14px;padding:6px 12px;font-size:12px;outline:none}
+.comment-input button{background:#ff6b35;color:#fff;border:none;padding:4px 14px;border-radius:12px;font-size:11px;cursor:pointer}
+/* post form */
+.post-form{background:#fff;border-radius:12px;padding:12px;margin:8px 12px}
+.post-form textarea{width:100%;border:none;outline:none;font-size:14px;resize:none;height:60px;font-family:inherit}
+.post-form .mood-row{display:flex;gap:4px;padding:4px 0}
+.post-form .mood-row span{font-size:22px;cursor:pointer;padding:2px 4px;border-radius:4px}
+.post-form .mood-row span.sel{background:#fff3e0}
+.post-form .img-row{display:flex;gap:4px;align-items:center}
+.post-form .img-row input{flex:1;border:1px solid #eee;border-radius:8px;padding:4px 8px;font-size:11px;outline:none}
+.post-form .img-row button{background:#f5f5f5;border:1px solid #eee;border-radius:8px;padding:4px 10px;font-size:11px;cursor:pointer}
+/* ride */
 .ride-form{padding:12px}
 .ride-form .addr-item{background:#fff;border-radius:10px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
 .ride-form .addr-item .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
@@ -95,26 +125,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .ride-types .rtype .rt-icon{font-size:24px}
 .ride-types .rtype .rt-name{font-size:12px;margin-top:4px}
 .ride-types .rtype .rt-price{font-size:14px;font-weight:700;color:#ff6b35;margin-top:4px}
-/* 璐墿杞?*/
+/* cart */
 .cart-bar{position:sticky;bottom:56px;background:#333;color:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;z-index:99}
 .cart-bar .cart-info{display:flex;align-items:center;gap:8px;cursor:pointer}
 .cart-bar .cart-icon{background:#ff6b35;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;position:relative}
-.cart-bar .cart-badge{position:absolute;top:-4px;right:-4px;background:red;color:#fff;font-size:9px;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.cart-badge{position:absolute;top:-4px;right:-4px;background:red;color:#fff;font-size:9px;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .cart-bar .total{font-size:16px;font-weight:700}
 .cart-bar .checkout{background:#ff6b35;color:#fff;border:none;padding:8px 20px;border-radius:16px;font-size:13px;font-weight:600;cursor:pointer}
-/* 寮圭獥 */
+/* modal */
 .modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:200;display:flex;align-items:flex-end;justify-content:center}
 .modal-content{background:#fff;width:100%;max-width:430px;border-radius:16px 16px 0 0;padding:20px;max-height:85vh;overflow-y:auto}
 .modal-content h3{font-size:15px;margin-bottom:10px}
-/* 璁㈠崟 */
+/* order */
 .order-item{background:#fff;border-radius:10px;padding:12px;margin-bottom:8px}
 .order-item .order-header{display:flex;justify-content:space-between;margin-bottom:6px;font-size:12px;color:#999}
-.order-item .order-status{padding:2px 8px;border-radius:8px;font-size:10px;font-weight:600}
+.order-status{padding:2px 8px;border-radius:8px;font-size:10px;font-weight:600}
 .status-new{background:#fff3e0;color:#e65100}
 .status-done{background:#e8f5e9;color:#2e7d32}
 .order-item .order-items{font-size:13px;margin:4px 0}
 .order-item .order-total{text-align:right;font-weight:700;color:#ff6b35}
-/* 绠＄悊 */
+/* admin */
 .admin-page{padding:12px}
 .admin-page h2{font-size:15px;margin:12px 0 8px}
 .form-group{margin-bottom:8px}
@@ -128,7 +158,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-green{background:#4caf50}
 .empty-state{text-align:center;padding:30px 15px;color:#999;font-size:13px}
 .hidden{display:none!important}
-/* 鎴戠殑 */
+/* profile */
 .profile-header{background:linear-gradient(135deg,#ff6b35,#ff8c5a);color:#fff;padding:24px 16px;text-align:center}
 .profile-header .avatar{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.3);margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:28px}
 .profile-header .nickname{font-size:16px;font-weight:600}
@@ -136,56 +166,54 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .profile-menu .menu-row{display:flex;justify-content:space-around;padding:10px 0;background:#fff;border-radius:10px;margin-bottom:8px}
 .profile-menu .menu-row .m-item{display:flex;flex-direction:column;align-items:center;font-size:10px;color:#666;cursor:pointer;gap:4px}
 .profile-menu .menu-row .m-item .m-icon{font-size:22px}
-/* 閰嶆柟 */
+/* recipe & paywall */
 .recipe-card{background:#fff;border-radius:10px;margin-bottom:8px;overflow:hidden}
 .recipe-card .rc-header{padding:10px 12px;background:linear-gradient(135deg,#ff6b35,#ff8c5a);color:#fff;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
-.recipe-card .rc-header .rc-name{font-size:14px;font-weight:700}
-.recipe-card .rc-header .rc-tag{background:rgba(255,255,255,0.25);padding:2px 8px;border-radius:8px;font-size:10px}
-.recipe-card .rc-body{padding:12px;display:none}
-.recipe-card .rc-body.open{display:block}
-.recipe-card .rc-body h4{font-size:12px;color:#ff6b35;margin:6px 0 3px}
-.recipe-card .rc-body p{font-size:12px;line-height:1.7;color:#333;white-space:pre-line}
-.recipe-card .rc-body .rc-note{font-size:11px;color:#999;margin-top:6px;padding:8px;background:#fff8f5;border-radius:8px}
-.merchant-form{padding:12px}
-.merchant-form h3{font-size:15px;margin-bottom:10px}
+.rc-name{font-size:14px;font-weight:700}
+.rc-tag{background:rgba(255,255,255,0.25);padding:2px 8px;border-radius:8px;font-size:10px}
+.rc-body{padding:12px;display:none}
+.rc-body.open{display:block}
+.rc-body h4{font-size:12px;color:#ff6b35;margin:6px 0 3px}
+.rc-body p{font-size:12px;line-height:1.7;color:#333;white-space:pre-line}
+.rc-note{font-size:11px;color:#999;margin-top:6px;padding:8px;background:#fff8f5;border-radius:8px}
 .paywall{background:#fff8f5;border:1px dashed #ff6b35;border-radius:10px;padding:20px;text-align:center;margin:10px 0}
-.paywall .pw-icon{font-size:40px;margin-bottom:8px}
-.paywall .pw-text{font-size:14px;color:#ff6b35;font-weight:600;margin-bottom:4px}
-.paywall .pw-sub{font-size:12px;color:#999;margin-bottom:12px}
+.pw-icon{font-size:40px;margin-bottom:8px}
+.pw-text{font-size:14px;color:#ff6b35;font-weight:600;margin-bottom:4px}
+.pw-sub{font-size:12px;color:#999;margin-bottom:12px}
 </style>
 </head>
 <body>
 
-<!-- ========== 棣栭〉 ========== -->
+<!-- home -->
 <div id="page-home">
   <div class="header">
-    <h1 onclick="switchPage('home')">馃崵 铏剧悆鏈湴鐢熸椿 <span class="loc" onclick="event.stopPropagation();showCityPicker()" style="cursor:pointer">馃搷 <span id="currentCity">瀹氫綅涓?..</span></span></h1>
-    <div style="font-size:20px;cursor:pointer" onclick="switchPage('profile')">馃懁</div>
+    <h1 onclick="go('home')">馃崵 铏剧悆鏈湴鐢熸椿 <span class="loc" onclick="event.stopPropagation();showCityPicker()">馃搷 <span id="currentCity">瀹氫綅涓?..</span></span></h1>
+    <div style="font-size:20px;cursor:pointer" onclick="go('profile')">馃懁</div>
   </div>
-  <div class="search-bar"><span>馃攳</span><input type="text" placeholder="鎼滃晢瀹躲€佽彍鍝併€佸洟璐€佽绋?.." onfocus="this.blur()"></div>
-  <div class="home-banner"><h2>馃敟 鏂扮敤鎴烽鍗曠珛鍑?鍏?/h2><p>澶栧崠 路 鍥㈣喘 路 鎵撹溅 路 灏忓悆鏁欏 涓€绔欐悶瀹?/p></div>
+  <div class="search-bar"><span>馃攳</span><input type="text" placeholder="鎼滃晢瀹躲€佽彍鍝併€佸笘瀛?.." onfocus="this.blur()"></div>
+  <div class="home-banner"><h2>馃敟 鍚屽煄鍚冨枬鐜╀箰涓€绔欐悶瀹?/h2><p>澶栧崠 路 鍥㈣喘 路 椋熷湀 路 鏁欏 路 鎵撹溅</p></div>
   <div class="func-grid">
-    <div class="func-item" onclick="switchPage('food')"><div class="fi-icon">馃浀</div><div class="fi-name">澶栧崠</div></div>
-    <div class="func-item" onclick="switchPage('deals')"><div class="fi-icon">馃帿</div><div class="fi-name">鍥㈣喘</div></div>
-    <div class="func-item" onclick="switchPage('ride')"><div class="fi-icon">馃殨</div><div class="fi-name">鎵撹溅</div></div>
-    <div class="func-item" onclick="switchPage('courses')"><div class="fi-icon">馃摎</div><div class="fi-name">鏁欏</div></div>
+    <div class="func-item" onclick="go('food')"><div class="fi-icon">馃浀</div><div class="fi-name">澶栧崠</div></div>
+    <div class="func-item" onclick="go('circle')"><div class="fi-icon">馃挰</div><div class="fi-name">椋熷湀</div></div>
+    <div class="func-item" onclick="go('courses')"><div class="fi-icon">馃摎</div><div class="fi-name">鏁欏</div></div>
+    <div class="func-item" onclick="go('ride')"><div class="fi-icon">馃殨</div><div class="fi-name">鎵撹溅</div></div>
   </div>
-  <div class="section-title">馃敟 鎺ㄨ崘鍟嗗 <span class="more" onclick="switchPage('food')">鏇村 鈥?/span></div>
+  <div class="section-title">馃敟 鎺ㄨ崘鍟嗗 <span class="more" onclick="go('food')">鏇村 鈥?/span></div>
   <div class="card-list" id="homeShops"></div>
-  <div class="section-title">馃帿 鐑棬鍥㈣喘 <span class="more" onclick="switchPage('deals')">鏇村 鈥?/span></div>
+  <div class="section-title">馃挰 椋熷湀鐑笘 <span class="more" onclick="go('circle')">鏇村 鈥?/span></div>
+  <div class="card-list" id="homePosts"></div>
+  <div class="section-title">馃帿 绮鹃€夊洟璐?<span class="more" onclick="go('deals')">鏇村 鈥?/span></div>
   <div class="card-list" id="homeDeals"></div>
-  <div class="section-title">馃摎 鐑棬璇剧▼</div>
-  <div class="card-list" id="homeCourses"></div>
 </div>
 
-<!-- ========== 澶栧崠 鈥?鍟嗗鍒楄〃 ========== -->
+<!-- food list -->
 <div id="page-food" class="hidden">
-  <div class="header"><h1 onclick="switchPage('home')">鈫?澶栧崠</h1></div>
+  <div class="header"><h1 onclick="go('home')">鈫?澶栧崠</h1></div>
   <div class="search-bar"><span>馃攳</span><input type="text" placeholder="鎼滃晢瀹?.." oninput="filterShops(this.value)"></div>
   <div class="card-list" id="shopList"></div>
 </div>
 
-<!-- ========== 澶栧崠 鈥?搴楅摵璇︽儏 ========== -->
+<!-- shop detail -->
 <div id="page-shop" class="hidden">
   <div class="header"><h1 id="shopTitle" onclick="backToShops()">鈫?搴楅摵</h1></div>
   <div id="shopDetailHeader"></div>
@@ -195,55 +223,71 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="cart-bar" id="cartBar"><div class="cart-info" onclick="showCart()"><div class="cart-icon">馃洅<span class="cart-badge" id="cartCount" style="display:none">0</span></div><div style="color:#999;font-size:12px">璐墿杞?/div></div><div class="total" id="cartTotal">楼0</div><button class="checkout" onclick="checkout()">缁撶畻</button></div>
 </div>
 
-<!-- ========== 鍥㈣喘 ========== -->
+<!-- circle -->
+<div id="page-circle" class="hidden">
+  <div class="header"><h1 onclick="go('home')">鈫?鍚屽煄椋熷湀</h1></div>
+  <div class="post-form">
+    <textarea id="postText" placeholder="鍒嗕韩缇庨蹇冩儏..." oninput="document.getElementById('postPreview').textContent=this.value||'浠€涔堜篃涓嶆兂璇?..'"></textarea>
+    <div class="mood-row" id="moodPicker"></div>
+    <div class="img-row">
+      <input type="text" id="postImg" placeholder="鍥剧墖閾炬帴锛堝彲閫夛級">
+      <button onclick="postImageHelp()">?</button>
+    </div>
+    <button class="btn" style="margin-top:6px" onclick="submitPost()">馃摛 鍙戝竷鍔ㄦ€?/button>
+  </div>
+  <div class="card-list" id="postList"></div>
+</div>
+
+<!-- deals -->
 <div id="page-deals" class="hidden">
-  <div class="header"><h1 onclick="switchPage('home')">鈫?鍥㈣喘</h1></div>
+  <div class="header"><h1 onclick="go('home')">鈫?鍥㈣喘</h1></div>
   <div class="categories" id="dealCats"></div>
   <div class="card-list" id="dealList"></div>
 </div>
 
-<!-- ========== 鎵撹溅 ========== -->
+<!-- ride -->
 <div id="page-ride" class="hidden">
-  <div class="header"><h1 onclick="switchPage('home')">鈫?鎵撹溅</h1></div>
+  <div class="header"><h1 onclick="go('home')">鈫?鎵撹溅</h1></div>
   <div class="ride-form">
-    <div class="addr-item"><span class="dot dot-start"></span><input type="text" value="骞垮窞澶╂渤鍖洪緳娲炲晢璐稿ぇ琛? readonly></div>
-    <div class="addr-item"><span class="dot dot-end"></span><input type="text" placeholder="杈撳叆鐩殑鍦?.." id="rideDest"></div>
+    <div class="addr-item"><span class="dot dot-start"></span><input type="text" id="rideStart" value="褰撳墠浣嶇疆" readonly></div>
+    <div class="addr-item"><span class="dot dot-end"></span><input type="text" id="rideDest" placeholder="杈撳叆鐩殑鍦?.."></div>
   </div>
   <div class="ride-types" id="rideTypes"></div>
   <div style="padding:0 12px"><button class="btn" onclick="callRide()">馃殨 绔嬪嵆鍙溅</button></div>
 </div>
 
-<!-- ========== 鏁欏 ========== -->
+<!-- courses -->
 <div id="page-courses" class="hidden">
-  <div class="header"><h1 onclick="switchPage('home')">鈫?灏忓悆鏁欏</h1><span style="font-size:11px;opacity:0.8">浠樿垂璇剧▼</span></div>
+  <div class="header"><h1 onclick="go('home')">鈫?灏忓悆鏁欏</h1><span style="font-size:11px;opacity:0.8">浠樿垂璇剧▼</span></div>
   <div class="categories" id="courseCats"></div>
   <div class="card-list" id="courseList"></div>
 </div>
 
-<!-- ========== 鎴戠殑 ========== -->
+<!-- profile -->
 <div id="page-profile" class="hidden">
-  <div class="header"><h1 onclick="switchPage('home')">鈫?鎴戠殑</h1></div>
+  <div class="header"><h1 onclick="go('home')">鈫?鎴戠殑</h1></div>
   <div class="profile-header"><div class="avatar">馃槑</div><div class="nickname">铏剧悆鐢ㄦ埛</div></div>
   <div class="profile-menu">
     <div class="menu-row">
-      <div class="m-item" onclick="switchPage('food')"><span class="m-icon">馃浀</span><span>澶栧崠璁㈠崟</span></div>
-      <div class="m-item" onclick="switchPage('deals')"><span class="m-icon">馃帿</span><span>鍥㈣喘鍒?/span></div>
+      <div class="m-item" onclick="go('food')"><span class="m-icon">馃浀</span><span>澶栧崠璁㈠崟</span></div>
+      <div class="m-item" onclick="go('deals')"><span class="m-icon">馃帿</span><span>鍥㈣喘鍒?/span></div>
       <div class="m-item" onclick="showOrders()"><span class="m-icon">馃搵</span><span>鍏ㄩ儴璁㈠崟</span></div>
-      <div class="m-item" onclick="switchPage('courses')"><span class="m-icon">馃摎</span><span>宸茶喘璇剧▼</span></div>
+      <div class="m-item" onclick="go('courses')"><span class="m-icon">馃摎</span><span>宸茶喘璇剧▼</span></div>
     </div>
     <div class="menu-row" style="flex-direction:column;padding:12px">
-      <div style="padding:10px 0;border-bottom:1px solid #f0f0f0;cursor:pointer" onclick="switchPage('merchant-register')">馃彧 鍟嗗鍏ラ┗</div>
-      <div style="padding:10px 0;border-bottom:1px solid #f0f0f0;cursor:pointer" onclick="showMerchantLogin()">鈿欙笍 鍟嗗鍚庡彴</div>
-      <div style="padding:10px 0;border-bottom:1px solid #f0f0f0;cursor:pointer" onclick="switchPage('platform-admin')">馃枼锔?骞冲彴绠＄悊</div>
+      <div style="padding:10px 0;border-bottom:1px solid #f0f0f0;cursor:pointer" onclick="go('merchant-register')">馃彧 鍟嗗鍏ラ┗</div>
+      <div style="padding:10px 0;border-bottom:1px solid #f0f0f0;cursor:pointer" onclick="go('merchant-login')">鈿欙笍 鍟嗗鍚庡彴</div>
+      <div style="padding:10px 0;border-bottom:1px solid #f0f0f0;cursor:pointer" onclick="go('platform-admin')">馃枼锔?骞冲彴绠＄悊</div>
+      <div style="padding:10px 0;cursor:pointer" onclick="showCityPicker()">馃寪 鍒囨崲鍩庡競</div>
     </div>
   </div>
 </div>
 
-<!-- ========== 鍟嗗鍏ラ┗ ========== -->
+<!-- merchant register -->
 <div id="page-merchant-register" class="hidden">
-  <div class="header"><h1 onclick="switchPage('profile')">鈫?鍟嗗鍏ラ┗</h1></div>
-  <div class="merchant-form">
-    <h3>馃摑 濉啓搴楅摵淇℃伅</h3>
+  <div class="header"><h1 onclick="go('profile')">鈫?鍟嗗鍏ラ┗</h1></div>
+  <div style="padding:12px">
+    <h3 style="font-size:15px;margin-bottom:10px">馃摑 濉啓搴楅摵淇℃伅</h3>
     <div class="form-group"><label>搴楅摵鍚嶇О</label><input type="text" id="shopName" placeholder="濡傦細铏剧悆灏忓帹"></div>
     <div class="form-group"><label>搴楅摵鍒嗙被</label><select id="shopCat"><option>涓</option><option>灏忓悆</option><option>楗搧</option><option>鐑х儰</option><option>鐏攨</option></select></div>
     <div class="form-group"><label>鑱旂郴鐢佃瘽</label><input type="tel" id="shopPhone" placeholder="鎵嬫満鍙?></div>
@@ -257,21 +301,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- ========== 鍟嗗鐧诲綍 ========== -->
+<!-- merchant login -->
 <div id="page-merchant-login" class="hidden">
-  <div class="header"><h1 onclick="switchPage('profile')">鈫?鍟嗗鐧诲綍</h1></div>
-  <div class="merchant-form" style="padding-top:40px">
-    <h3>馃攼 鍟嗗鐧诲綍</h3>
+  <div class="header"><h1 onclick="go('profile')">鈫?鍟嗗鐧诲綍</h1></div>
+  <div style="padding:12px;padding-top:40px">
+    <h3 style="font-size:15px;margin-bottom:10px">馃攼 鍟嗗鐧诲綍</h3>
     <div class="form-group"><label>搴楅摵鍚嶇О</label><input type="text" id="loginShopName" placeholder="鍏ラ┗鏃剁殑搴楅摵鍚嶇О"></div>
     <div class="form-group"><label>绠＄悊瀵嗙爜</label><input type="password" id="loginShopPwd" placeholder="鍏ラ┗鏃惰缃殑瀵嗙爜"></div>
     <button class="btn" onclick="merchantLogin()">鐧诲綍</button>
-    <div style="font-size:11px;color:#999;margin-top:8px;text-align:center">鏈叆椹伙紵<span style="color:#ff6b35;cursor:pointer" onclick="switchPage('merchant-register')">鍏堝幓鍏ラ┗</span></div>
+    <div style="font-size:11px;color:#999;margin-top:8px;text-align:center">鏈叆椹伙紵<span style="color:#ff6b35;cursor:pointer" onclick="go('merchant-register')">鍏堝幓鍏ラ┗</span></div>
   </div>
 </div>
 
-<!-- ========== 鍟嗗鍚庡彴锛堝鍟嗗鍚勮嚜鐙珛锛?========== -->
+<!-- merchant admin -->
 <div id="page-merchant-admin" class="hidden">
-  <div class="header"><h1 onclick="switchPage('profile')">鈫?鍟嗗鍚庡彴 <span style="font-size:11px;font-weight:400;" id="currentShopLabel"></span></h1></div>
+  <div class="header"><h1 onclick="go('profile')">鈫?鍟嗗鍚庡彴 <span style="font-size:11px;font-weight:400" id="currentShopLabel"></span></h1></div>
   <div class="admin-page">
     <h2>馃搵 浠婃棩璁㈠崟</h2>
     <div id="orderList"></div>
@@ -295,9 +339,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- ========== 骞冲彴绠＄悊 ========== -->
+<!-- platform admin -->
 <div id="page-platform-admin" class="hidden">
-  <div class="header"><h1 onclick="switchPage('profile')">鈫?骞冲彴绠＄悊</h1></div>
+  <div class="header"><h1 onclick="go('profile')">鈫?骞冲彴绠＄悊</h1></div>
   <div class="admin-page">
     <h2>馃彧 鍟嗗瀹℃牳</h2>
     <div id="merchantReviewList"></div>
@@ -313,18 +357,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <h2>馃摝 璇剧▼绠＄悊</h2>
     <div class="form-group"><label>璇剧▼鏍囬</label><input type="text" id="courseTitle" placeholder="璇剧▼鍚嶇О"></div>
     <div class="form-group"><label>鍒嗙被</label><select id="courseCat"><option>鐑х儰</option><option>鍗ゅ懗</option><option>娌圭偢</option><option>闈㈢偣</option><option>鍑夎彍</option><option>楗搧</option></select></div>
-    <div class="form-group"><label>鍞环 (鍏?</label><input type="number" id="coursePrice" value="9.9" step="0.01" min="0" placeholder="0鍒欎负鍏嶈垂"></div>
+    <div class="form-group"><label>鍞环 (鍏?</label><input type="number" id="coursePrice" value="9.9" step="0.01" min="0"></div>
     <div class="form-group"><label>鎻忚堪</label><textarea id="courseDesc" placeholder="璇剧▼绠€浠?.."></textarea></div>
-    <div class="form-group"><label>瑙嗛URL (鍙€?</label><input type="text" id="courseVideo" placeholder="http://..."></div>
     <button class="btn" onclick="addCourse()">鉁?鍙戝竷璇剧▼</button>
     <div id="adminCourseList" style="margin-top:8px"></div>
   </div>
 </div>
 
-<!-- 璇剧▼璇︽儏寮圭獥 -->
+<!-- course detail modal -->
 <div id="courseModal" class="modal hidden"><div class="modal-content" id="courseDetail"></div></div>
-
-<!-- 璐墿杞﹀脊绐?-->
+<!-- cart modal -->
 <div id="cartModal" class="modal hidden">
   <div class="modal-content">
     <h3>馃洅 璐墿杞?<span style="float:right;cursor:pointer" onclick="closeModal('cartModal')">鉁?/span></h3>
@@ -333,8 +375,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="btn" onclick="checkout()">绔嬪嵆涓嬪崟</button>
   </div>
 </div>
-
-<!-- 涓嬪崟寮圭獥 -->
+<!-- order modal -->
 <div id="orderModal" class="modal hidden">
   <div class="modal-content">
     <h3>馃摑 纭涓嬪崟</h3>
@@ -345,13 +386,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div style="display:flex;gap:8px"><button class="btn btn-outline" onclick="closeModal('orderModal')" style="width:50%">鍙栨秷</button><button class="btn" onclick="submitOrder()" style="width:50%">纭涓嬪崟</button></div>
   </div>
 </div>
-
-<!-- 璁㈠崟鍒楄〃寮圭獥 -->
+<!-- orders modal -->
 <div id="ordersModal" class="modal hidden">
   <div class="modal-content"><h3>馃搵 鎴戠殑璁㈠崟 <span style="float:right;cursor:pointer" onclick="closeModal('ordersModal')">鉁?/span></h3><div id="allOrdersList"></div></div>
 </div>
-
-<!-- 鏀粯寮圭獥 -->
+<!-- pay modal -->
 <div id="payModal" class="modal hidden">
   <div class="modal-content" style="text-align:center">
     <h3>馃挸 纭鏀粯</h3>
@@ -364,8 +403,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="btn btn-outline" onclick="closeModal('payModal')">鍙栨秷</button>
   </div>
 </div>
-
-<!-- 鍩庡競閫夋嫨寮圭獥 -->
+<!-- city modal -->
 <div id="cityModal" class="modal hidden">
   <div class="modal-content">
     <h3>馃搷 閫夋嫨鍩庡競 <span style="float:right;cursor:pointer" onclick="closeModal('cityModal')">鉁?/span></h3>
@@ -373,574 +411,222 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- 搴曢儴瀵艰埅 -->
+<!-- bottom nav -->
 <div class="bottom-nav">
-  <div class="nav-item active" onclick="switchPage('home')" id="nav-home"><span class="nav-icon">馃彔</span><span>棣栭〉</span></div>
-  <div class="nav-item" onclick="switchPage('food')" id="nav-food"><span class="nav-icon">馃浀</span><span>澶栧崠</span></div>
-  <div class="nav-item" onclick="switchPage('deals')" id="nav-deals"><span class="nav-icon">馃帿</span><span>鍥㈣喘</span></div>
-  <div class="nav-item" onclick="switchPage('courses')" id="nav-courses"><span class="nav-icon">馃摎</span><span>鏁欏</span></div>
-  <div class="nav-item" onclick="switchPage('profile')" id="nav-profile"><span class="nav-icon">馃懁</span><span>鎴戠殑</span></div>
+  <div class="nav-item active" onclick="go('home')" id="nav-home"><span class="nav-icon">馃彔</span><span>棣栭〉</span></div>
+  <div class="nav-item" onclick="go('food')" id="nav-food"><span class="nav-icon">馃浀</span><span>澶栧崠</span></div>
+  <div class="nav-item" onclick="go('circle')" id="nav-circle"><span class="nav-icon">馃挰</span><span>椋熷湀</span></div>
+  <div class="nav-item" onclick="go('courses')" id="nav-courses"><span class="nav-icon">馃摎</span><span>鏁欏</span></div>
+  <div class="nav-item" onclick="go('profile')" id="nav-profile"><span class="nav-icon">馃懁</span><span>鎴戠殑</span></div>
 </div>
 
 <script>
-// ========== 鏁版嵁灞?==========
+// ========== DATA ==========
 function L(k,f){try{return JSON.parse(localStorage.getItem(k))||f}catch(e){return f}}
 function S(k,d){localStorage.setItem(k,JSON.stringify(d))}
 
-const DEF_SHOPS = [
-  {id:1,name:'铏剧悆灏忓帹',cat:'涓',phone:'13800001111',addr:'骞垮窞澶╂渤鍖洪緳娲炲晢璐稿ぇ琛?0鍙?,time:'10:00-22:00',min:20,fee:3,status:'approved',pwd:'123456',
-    menu:[{id:1,name:'瀹繚楦′竵',desc:'楦¤倝涓侀厤鑺辩敓绫筹紝棣欒荆鍙彛',price:28,cat:'鐑彍'},{id:2,name:'楹诲﹩璞嗚厫',desc:'楹昏荆椴滈锛岃秴涓嬮キ',price:18,cat:'鐑彍'},{id:3,name:'鎷嶉粍鐡?,desc:'娓呯埥瑙ｈ吇锛岃挏棣欏崄瓒?,price:12,cat:'鍑夎彍'},{id:4,name:'铔嬬倰楗?,desc:'绮掔矑鍒嗘槑锛岀粡鍏镐富椋?,price:15,cat:'涓婚'},{id:5,name:'閰告姹?,desc:'鍐伴晣瑙ｆ复锛屽鏃ュ繀鐐?,price:8,cat:'楗搧'}],
-    deals:[{id:101,name:'鍗曚汉瓒呭€煎椁?,desc:'1涓婚+1楗搧+1灏忓悆',price:25,orig:48,cat:'缇庨',days:30,sold:42}]},
-  {id:2,name:'鑰佺帇鐑х儰',cat:'鐑х儰',phone:'13800002222',addr:'骞垮窞澶╂渤鍖轰簲灞辫矾18鍙?,time:'17:00-02:00',min:30,fee:5,status:'approved',pwd:'123456',
-    menu:[{id:1,name:'缇婅倝涓裁?0',desc:'鐜颁覆鐜扮儰锛岃偉鐦︾浉闂?,price:35,cat:'鐑彍'},{id:2,name:'鐑よ寗瀛?,desc:'钂滆搲鍛筹紝涓€鏁翠釜',price:15,cat:'鐑彍'},{id:3,name:'鐑ょ敓铓澝?',desc:'钂滆搲绮変笣锛岄矞瀚╁姹?,price:28,cat:'灏忓悆'},{id:4,name:'鎵庡暏1L',desc:'鍐伴晣鎵庡暏锛岃В鑵诲繀澶?,price:18,cat:'楗搧'},{id:5,name:'鐑ら澶寸墖',desc:'澶栭叆閲岃蒋锛岃樃鐐间钩',price:8,cat:'涓婚'}],
-    deals:[{id:102,name:'鍙屼汉鐑х儰濂楅',desc:'鑲変覆脳20+绱犺彍脳4+鎵庡暏脳2',price:88,orig:156,cat:'缇庨',days:30,sold:28}]},
-  {id:3,name:'鑼堕鎮﹂ギ',cat:'楗搧',phone:'13800003333',addr:'骞垮窞澶╂渤鍖洪緳娲炴琛岃28鍙?,time:'09:00-22:00',min:15,fee:2,status:'approved',pwd:'123456',
-    menu:[{id:1,name:'鏌犳鍐扮孩鑼?,desc:'澶忓ぉ鐖嗘锛屽啺鐖借В娓?,price:8,cat:'楗搧'},{id:2,name:'鐝嶇彔濂惰尪',desc:'鐜扮叜鐝嶇彔锛屾祿閮佸ザ棣?,price:12,cat:'楗搧'},{id:3,name:'鍐伴晣閰告姹?,desc:'鍙ゆ硶鐔埗锛岃В杈ｇ鍣?,price:10,cat:'楗搧'},{id:4,name:'鐐搁浮鎺?,desc:'澶栭叆閲屽锛岄厤楗繀澶?,price:15,cat:'灏忓悆'}],
-    deals:[{id:103,name:'澶忔棩娓呭噳濂楅',desc:'楗搧浠婚€?鏉?楦℃帓',price:25,orig:40,cat:'缇庨',days:30,sold:66}]},
-];
-const DEF_COURSES = [
-  {id:1,title:'鎹炴眮灏忔捣椴?鈥?浠庨€夋潗鍒板嚭椁愬叏娴佺▼',desc:'椋熸潗娓呭崟脳鍒朵綔姝ラ脳鎴愭湰鍒嗘瀽脳鍑洪鎶€宸?,price:19.9,cat:'鍑夎彍'},
-  {id:2,title:'鍟嗕笟浜旈鍗ゆ按 鈥?涓€閿呭崵澶╀笅',desc:'棣欐枡閰嶆瘮脳绯栬壊鐐掑埗脳鑲夌被鍗ゅ埗鏃堕棿琛楀吇鎶ゆ柟娉?,price:29.9,cat:'鍗ゅ懗'},
-  {id:3,title:'琛楄竟鐐搁浮鍙夐 鈥?鏃ラ攢200浠界殑绉樺瘑',desc:'鑵屽埗閰嶆柟脳瑁圭矇鎶€宸楁补娓╂帶鍒睹楁拻鏂欓厤姣?,price:9.9,cat:'娌圭偢'},
-  {id:4,title:'閰歌荆绮夊晢鐢ㄩ厤鏂?鈥?30绉掑嚭椁?,desc:'姹ゅ簳鐔埗脳鏂欑矇璋冮厤脳绮夋潯澶勭悊脳鍑洪娴佺▼',price:14.9,cat:'闈㈢偣'},
-  {id:5,title:'鏌犳鍐扮孩鑼?鈥?澶忓ぉ鏃ラ攢100鏉?,desc:'鎴愭湰涓嶅埌1鍏冿紝鍞环5-8鍏冿紝鏆村埄楗搧閰嶆柟',price:6.9,cat:'楗搧'},
-  {id:6,title:'钁辨补鎷岄潰 鈥?浣庢垚鏈珮鍒╂鼎',desc:'钁辨补鐔埗+鏂欐眮璋冮厤+鍑洪鎶€宸э紝涓€纰楄禋6鍏?,price:9.9,cat:'闈㈢偣'},
-  {id:7,title:'鑴嗙毊鐐搁浮鑵?鈥?楸楃墖閰ヨ剢鎶€鏈?,desc:'瑁圭矇婀块绮掓妧鏈楁补娓╁垎娈得楄厡鏂欓厤鏂?,price:14.9,cat:'娌圭偢'},
-];
-const RECIPES = [
-  {cat:'鍑夋媽/鎹炴眮',items:[
-    {name:'鎹炴眮灏忔捣椴?,tag:'姣斿皵鐩栧崡',ing:'铏俱€佽姳铔ゃ€佽洀瀛愩€侀笨楸硷紙浠婚€?-4鏍凤級\n钂滄湯30g銆佸皬绫宠荆15g銆侀鑿?0g銆佹煚妾崐涓猏n鐢熸娊50ml銆侀閱?0ml銆佽殱娌?0g銆佺櫧绯?5g銆侀娌?0ml銆佺函鍑€姘?00ml',
-     st:'1. 娴烽矞娲楀噣锛岃櫨鍘昏櫨绾匡紝楸块奔鍒囧湀\n2. 姘寸儳寮€鍔犲鐗囨枡閰掞紝娴烽矞鍒嗗埆鐒啛锛堣櫨2鍒嗛挓/鑺辫洡寮€鍙?楸块奔鍗疯捣锛塡n3. 鐒ソ鍚庣珛鍗冲啺姘磋繃鍑夛紝娌ュ共\n4. 璋冩崬姹侊細鐢熸娊+棣欓唻+铓濇补+绯?棣欐补+绾噣姘存悈鍖€\n5. 鍔犲叆钂滄湯銆佸皬绫宠荆銆侀鑿溿€佹煚妾墖\n6. 娴烽矞娴稿叆鎹炴眮锛屽喎钘忚厡2灏忔椂浠ヤ笂\n7. 鍑洪鏃舵崬鍑烘潵锛屾拻鑺濋夯鍜岃懕鑺?,note:'鎴愭湰绾?-12鍏?浠斤紝鍞环28-38鍏冦€傚喎钘忎繚瀛樺彲鏀?4灏忔椂銆?},
-    {name:'钂滄偿鐧借倝',tag:'缁忓吀鍑夎彍',ing:'浜旇姳鑲?00g\n钂滄偿30g銆佽荆妞掓补30ml\n鐢熸娊20ml銆侀閱?5ml銆佺櫧绯?0g銆佽姳妞掔矇2g銆侀娌?ml銆侀粍鐡滀竴鏍?,
-     st:'1. 浜旇姳鑲夊喎姘翠笅閿咃紝鍔犲钁辨枡閰掞紝鐓紑鍚庤浆灏忕伀鐓?0鍒嗛挓鑷崇瀛愯兘鎻掑叆\n2. 鎹炲嚭鏅惧噳锛屽垏鎴愯杽鐗囷紙瓒婅杽瓒婂ソ锛塡n3. 榛勭摐鍒囦笣鍨洏搴曪紝鑲夌墖鐮佸湪涓婇潰\n4. 璋冩枡姹侊細钂滄偿+鐢熸娊+棣欓唻+绯?鑺辨绮?杈ｆ娌?棣欐补鎼呭寑\n5. 娣嬩笂鏂欐眮锛屾拻钁辫姳',note:'鎴愭湰绾?-8鍏?浠斤紝鍞环22-28鍏冦€傝倝鐗囦竴瀹氳钖勶紝鍘氫簡鑵汇€?},
-    {name:'鍙ｆ按楦?,tag:'鎷涚墝蹇呯偣',ing:'楦¤吙2涓猏n榛勭摐鍗婃牴銆佽姳鐢熺20g\n绾㈡补30ml銆佺敓鎶?0ml銆侀閱?5ml銆佺櫧绯?0g銆佽姳妞掔矇3g銆佽姖楹婚叡15g銆佽挏姘?0ml',
-     st:'1. 楦¤吙鍐锋按涓嬮攨锛屽姞濮滆懕鏂欓厭锛岀叜寮€鍚庤浆灏忕伀鐓?0鍒嗛挓\n2. 鍏崇伀鐒?0鍒嗛挓锛屾崬鍑哄啺姘存蹈娉★紙鐨墠鑴嗭級\n3. 鎵嬫挄鎴愭潯锛岄粍鐡滃垏涓濆灚搴曪紝楦¤倝鐮佷笂\n4. 璋冩枡姹侊細鑺濋夯閰?鐢熸娊+閱?绯?鑺辨绮?绾㈡补+钂滄按鎼呭寑\n5. 娣嬫枡姹侊紝鎾掕姳鐢熺鍜岃懕鑺?,note:'鎴愭湰绾?鍏?浠斤紝鍞环28-35鍏冦€傜剸10鍒嗛挓鏄楦＄毊鑴嗙殑鍏抽敭銆?},
-  ]},
-  {cat:'鍗ゅ懗/鐐栫叜',items:[
-    {name:'鍟嗕笟浜旈鍗ゆ按',tag:'閰嶆柟鏍稿績',ing:'棣欐枡鍖咃細鍏15g銆佹鐨?0g銆侀鍙?g銆佽姳妞?0g銆佷竵棣?g銆佽崏鏋?涓€佺櫧鑺?g銆侀檲鐨?g銆佸皬鑼撮10g銆佺敇鑽?g\n鍗ゆ按锛氳€佹娊80ml銆佺敓鎶?50ml銆佺洂60g銆佸啺绯?0g銆佸鐗?0g銆佽懕娈?0g銆佹枡閰?0ml銆佹按3000ml\n锛堝彟澶囧啺绯?0g鐐掔硸鑹诧級',
-     st:'1. 鎵€鏈夐鏂欒绾卞竷琚嬶紝娓╂按娉?0鍒嗛挓鍘昏嫤\n2. 閿呴噷鍔犲皯璁告补锛屽皬鐏倰60g鍐扮硸鑷虫绾㈣壊鍐掑皬娉n3. 绔嬪埢鍊掑叆3000ml寮€姘达紝鍔犻鏂欏寘\n4. 鍔犺€佹娊銆佺敓鎶姐€佺洂銆?0g鍐扮硸銆佸钁便€佹枡閰抃n5. 澶х伀鐑у紑杞皬鐏啲30鍒嗛挓锛屽崵姘村嵆鎴怽n6. 鑲夌被鐒按鍚庡叆鍗ゆ按锛氶浮鑵?0鍒嗛挓/鐚箘40鍒嗛挓/鐗涜倝60鍒嗛挓\n7. 鍏崇伀娴告场30鍒嗛挓浠ヤ笂',note:'姝ゅ崵姘村彲鍙嶅浣跨敤锛岃秺鐢ㄨ秺棣欍€傛瘡澶╃儳寮€涓€娆￠槻鍙橀銆?},
-    {name:'浜旈鑼跺彾铔?,tag:'姣斿皵鐩栧崡',ing:'楦¤泲20涓猏n绾㈣尪/鏅幢鑼?5g\n鍏5涓€佹鐨?娈点€侀鍙?鐗囥€佽姳妞?g\n鐩?0g銆佺敓鎶?0ml銆佽€佹娊20ml銆佸啺绯?0g',
-     st:'1. 楦¤泲鍐锋按涓嬮攨锛岀叜寮€鍚庣叜8鍒嗛挓\n2. 鎹炲嚭鐢ㄥ嫼瀛愭暡瑁傝泲澹筹紙鍧囧寑瑁傜汗锛塡n3. 姘?000ml+鑼跺彾+棣欐枡+璋冩枡锛岀儳寮€\n4. 鏀惧叆铔嬶紝灏忕伀鐓?0鍒嗛挓\n5. 鍏崇伀娴告场鑷冲皯4灏忔椂锛堣繃澶滄洿浣筹級\n6. 鍑洪鍓嶅姞鐑嵆鍙?,note:'鎴愭湰绾?.8鍏?涓紝鍞环2.5-3鍏冦€傛蹈娉℃椂闂磋秺闀胯秺鍏ュ懗銆?},
-  ]},
-  {cat:'娌圭偢灏忓悆',items:[
-    {name:'琛楄竟鐐搁浮鍙夐',tag:'鐖嗘鍗曞搧',ing:'楦″弶楠紙閿侀锛?000g\n鑵屽埗鏂欙細鐩?2g銆佺櫧绯?5g銆佸懗绮?g銆佷簲棣欑矇5g銆佽荆妞掔矇8g銆佽挏绮?g銆佸绮?g銆侀浮铔?涓€佹穩绮?0g\n瑁圭矇锛氶潰绮?00g+娣€绮?00g+娉℃墦绮?g',
-     st:'1. 楦″弶楠ㄨВ鍐绘礂鍑€鍚稿共\n2. 鎷屽叆鎵€鏈夎厡鏂?楦¤泲+娣€绮夛紝鎶撳寑鑵?灏忔椂\n3. 瑁圭矇娣峰悎锛岄€愪釜娌剧矇鎶栨帀浣欑矇\n4. 娌规俯170鈩冿紝鐐?-5鍒嗛挓鑷抽噾榛刓n5. 鎹炲嚭鎾掑瓬鐒惰荆妞掔矇',note:'鎴愭湰绾?鍏?浠斤紝鍞环8-12鍏冦€傛补娓╄绋炽€?},
-    {name:'鑴嗙毊鐐搁浮鑵?,tag:'缁忓吀骞撮攢',ing:'澶ч浮鑵?涓猏n鑵屾枡锛氱墰濂?00ml+鐩?2g+榛戣儭妞?g+钂滅矇5g\n瑁圭矇锛氶潰绮?00g+鐜夌背娣€绮?0g+娉℃墦绮?g+鐩?g+榛戣儭妞?g+杈ｆ绮?g',
-     st:'1. 楦¤吙鎵庡瓟锛岃厡鍏ョ墰濂舵枡锛屽喎钘?灏忔椂\n2. 瑁圭矇娣峰悎锛屽彇灏戣鍔犳按鎼撴垚灏忛绮掓贩鍥瀄n3. 楦¤吙涓嶆播骞茬洿鎺ユ簿绮夋寜鍘嬬揣瀹瀄n4. 娌规俯165鈩冪偢12-15鍒嗛挓鑷崇啛閫?,note:'鎴愭湰绾?鍏?涓紝鍞环15-18鍏冦€傛箍棰楃矑鏄叆鑴嗛碁鐗囧叧閿€?},
-    {name:'鐐歌柉鏉★紙鍟嗙敤鐗堬級',tag:'閰嶉鍒╁櫒',ing:'澶у湡璞哱n娓呮按+鐧介唻灏戣\n璋冨懗鐩愶細鐩?g+绯?g+钂滅矇1g',
-     st:'1. 鍦熻眴鍒?cm绮楁潯锛屾场姘?0鍒嗛挓鍘绘穩绮塡n2. 鎹㈡按鍔犵櫧閱嬫场15鍒嗛挓\n3. 娌告按鐒?鍒嗛挓锛屾播骞叉斁鍑塡n4. 鍐扮鍐峰喕2灏忔椂浠ヤ笂\n5. 娌规俯180鈩冪偢3-4鍒嗛挓鑷抽噾榛刓n6. 鎾掕皟鍛崇洂鎽囧寑',note:'鎴愭湰绾?鍏?浠斤紝鍞环8-10鍏冦€傚喎鍐绘槸澶栭叆閲屽鍏抽敭銆?},
-  ]},
-  {cat:'涓婚/绮夐潰',items:[
-    {name:'閰歌荆绮夛紙鍟嗙敤閰嶆柟锛?,tag:'鎽嗘憡蹇呭',ing:'绾㈣柉绮夋潯150g锛堟彁鍓嶆场杞級\n钂滄按20ml銆佺敓鎶?5ml銆侀檲閱?0ml銆佽荆妞掓补20ml\n鑺辨绮?g銆佺櫧绯?g銆佸懗绮?g銆佺洂2g\n楠ㄦ堡200ml\n鑺辩敓纰?5g銆佹Θ鑿滅15g銆侀鑿滆懕鑺?,
-     st:'1. 纰楀簳璋冩眮锛氳挏姘?鐢熸娊+闄堥唻+杈ｆ娌?鑺辨绮?绯?鍛崇簿+鐩怽n2. 娌告按鐑矇鏉?0绉掞紝鍏ョ\n3. 娴囩儹姹?00ml\n4. 鎾掕姳鐢熺銆佹Θ鑿滅銆侀鑿滆懕鑺?,note:'鎴愭湰绾?.5鍏?纰楋紝鍞环8-12鍏冦€傚嚭椁愰€熷害30绉掋€?},
-    {name:'钁辨补鎷岄潰',tag:'浣庢垚鏈珮鍒╂鼎',ing:'缁嗛潰150g\n钁辨补锛氬皬钁?00g+椋熺敤娌?00ml\n鏂欐眮锛氱敓鎶?0ml+鑰佹娊10ml+鐧界硸15g',
-     st:'1. 鍐锋补鏀捐懕娈典腑灏忕伀鎱㈢啲15鍒嗛挓鑷虫繁妫曡壊\n2. 鏂欐眮寰伀鍔犵儹铻嶅寲锛屽€掑叆钁辨补鎼呭寑\n3. 姘村紑涓嬮潰鐓?鍒嗛挓锛屾播骞瞈n4. 娣?鍕鸿懕娌规枡姹佹媽鍖€',note:'鎴愭湰绾?鍏?纰楋紝鍞环8-10鍏冦€傝懕娌瑰彲澶囦竴鍛ㄧ敤閲忋€?},
-  ]},
-  {cat:'缃戠孩楗搧',items:[
-    {name:'鏌犳鍐扮孩鑼讹紙鍟嗙敤閰嶆柟锛?,tag:'澶忓鐖嗘',ing:'绾㈣尪鍖?0鍖呮垨鑼跺彾30g銆佹按2000ml\n鐧界爞绯?80-200g\n鏌犳2涓猏n鍐板潡',
-     st:'1. 姘寸儳寮€鍏崇伀锛屾斁鑼跺寘鐒?鍒嗛挓\n2. 鎹炲嚭鑼跺寘锛岃秮鐑姞绯栨悈鍖朶n3. 鏀惧噳鎸ゅ叆鏌犳姹佹悈鍖€\n4. 鍐疯棌淇濆瓨銆傚嚭椁愶細鍔犲啺鍧?鑼舵恫+鏌犳鐗?,note:'鎴愭湰绾?.8鍏?鏉紝鍞环5-8鍏冦€傚澶╀竴澶╄兘鍗?0鏉€?},
-    {name:'鍐伴晣閰告姹?,tag:'瑙ｈ吇绁炲櫒',ing:'涔屾30g銆佸北妤傚共20g銆侀檲鐨?0g\n鐢樿崏5g銆佹礇绁炶姳5g\n鍐扮硸150g銆佹鑺卞皯璁竆n姘?500ml',
-     st:'1. 鑽潗鍐叉礂鍏ラ攨鍔犳按2500ml\n2. 澶х伀鐑у紑杞皬鐏啲40鍒嗛挓\n3. 婊ゅ嚭姹ゆ眮鍔犲啺绯栨悈鍖朶n4. 鑽福鍐嶅姞姘?000ml鐔?0鍒嗛挓\n5. 涓ゆ姹ゆ眮鍚堝苟鏀惧噳鍐疯棌\n6. 鍑洪鍔犲啺鍧楁拻妗傝姳',note:'鎴愭湰绾?.5鍏?鏉紝鍞环6-10鍏冦€傛礇绁炶姳璁╅鑹茬孩浜€?},
-  ]},
-];
+const DEF_SHOPS=[{id:1,name:'铏剧悆灏忓帹',cat:'涓',phone:'13800001111',addr:'骞垮窞澶╂渤鍖洪緳娲炲晢璐稿ぇ琛?0鍙?,time:'10:00-22:00',min:20,fee:3,status:'approved',pwd:'123456',
+  menu:[{id:1,name:'瀹繚楦′竵',desc:'楦¤倝涓侀厤鑺辩敓绫?,price:28,cat:'鐑彍'},{id:2,name:'楹诲﹩璞嗚厫',desc:'楹昏荆椴滈瓒呬笅楗?,price:18,cat:'鐑彍'},{id:3,name:'鎷嶉粍鐡?,desc:'娓呯埥瑙ｈ吇',price:12,cat:'鍑夎彍'},{id:4,name:'铔嬬倰楗?,desc:'绮掔矑鍒嗘槑缁忓吀涓婚',price:15,cat:'涓婚'},{id:5,name:'閰告姹?,desc:'鍐伴晣瑙ｆ复澶忔棩蹇呯偣',price:8,cat:'楗搧'}],
+  deals:[{id:101,name:'鍗曚汉瓒呭€煎椁?,desc:'1涓婚+1楗搧+1灏忓悆',price:25,orig:48,cat:'缇庨',days:30,sold:42}]},
+ {id:2,name:'鑰佺帇鐑х儰',cat:'鐑х儰',phone:'13800002222',addr:'骞垮窞澶╂渤鍖轰簲灞辫矾18鍙?,time:'17:00-02:00',min:30,fee:5,status:'approved',pwd:'123456',
+  menu:[{id:1,name:'缇婅倝涓瞲10',desc:'鐜颁覆鐜扮儰鑲ョ槮鐩搁棿',price:35,cat:'鐑彍'},{id:2,name:'鐑よ寗瀛?,desc:'钂滆搲鍛充竴鏁翠釜',price:15,cat:'鐑彍'},{id:3,name:'鐑ょ敓铓漻6',desc:'钂滆搲绮変笣椴滃澶氭眮',price:28,cat:'灏忓悆'},{id:4,name:'鎵庡暏1L',desc:'鍐伴晣鎵庡暏瑙ｈ吇蹇呭',price:18,cat:'楗搧'},{id:5,name:'鐑ら澶寸墖',desc:'澶栭叆閲岃蒋铇哥偧涔?,price:8,cat:'涓婚'}],
+  deals:[{id:102,name:'鍙屼汉鐑х儰濂楅',desc:'鑲変覆x20+绱犺彍x4+鎵庡暏x2',price:88,orig:156,cat:'缇庨',days:30,sold:28}]},
+ {id:3,name:'鑼堕鎮﹂ギ',cat:'楗搧',phone:'13800003333',addr:'骞垮窞澶╂渤鍖洪緳娲炴琛岃28鍙?,time:'09:00-22:00',min:15,fee:2,status:'approved',pwd:'123456',
+  menu:[{id:1,name:'鏌犳鍐扮孩鑼?,desc:'澶忓ぉ鐖嗘鍐扮埥瑙ｆ复',price:8,cat:'楗搧'},{id:2,name:'鐝嶇彔濂惰尪',desc:'鐜扮叜鐝嶇彔娴撻儊濂堕',price:12,cat:'楗搧'},{id:3,name:'鍐伴晣閰告姹?,desc:'鍙ゆ硶鐔埗瑙ｈ荆绁炲櫒',price:10,cat:'楗搧'},{id:4,name:'鐐搁浮鎺?,desc:'澶栭叆閲屽閰嶉ギ蹇呭',price:15,cat:'灏忓悆'}],
+  deals:[{id:103,name:'澶忔棩娓呭噳濂楅',desc:'楗搧浠婚€?鏉?楦℃帓',price:25,orig:40,cat:'缇庨',days:30,sold:66}]}];
 
-const RIDE_TYPES = [
-  {id:'economy',name:'缁忔祹鍨?,icon:'馃殫',price:'12-18',desc:'蹇溅/鐗规儬'},
-  {id:'comfort',name:'鑸掗€傚瀷',icon:'馃殭',price:'18-28',desc:'浼樹韩/涓撹溅'},
-  {id:'business',name:'鍟嗗姟鍨?,icon:'馃殣',price:'35-55',desc:'6搴у晢鍔?},
-];
+const DEF_COURSES=[{id:1,title:'鎹炴眮灏忔捣椴?-- 浠庨€夋潗鍒板嚭椁愬叏娴佺▼',desc:'椋熸潗娓呭崟x鍒朵綔姝ラx鎴愭湰鍒嗘瀽x鍑洪鎶€宸?,price:19.9,cat:'鍑夎彍'},{id:2,title:'鍟嗕笟浜旈鍗ゆ按 -- 涓€閿呭崵澶╀笅',desc:'棣欐枡閰嶆瘮x绯栬壊鐐掑埗x鑲夌被鍗ゅ埗鏃堕棿琛▁鍏绘姢鏂规硶',price:29.9,cat:'鍗ゅ懗'},{id:3,title:'琛楄竟鐐搁浮鍙夐 -- 鏃ラ攢200浠界殑绉樺瘑',desc:'鑵屽埗閰嶆柟x瑁圭矇鎶€宸娌规俯鎺у埗x鎾掓枡閰嶆瘮',price:9.9,cat:'娌圭偢'},{id:4,title:'閰歌荆绮夊晢鐢ㄩ厤鏂?-- 30绉掑嚭椁?,desc:'姹ゅ簳鐔埗x鏂欑矇璋冮厤x绮夋潯澶勭悊x鍑洪娴佺▼',price:14.9,cat:'闈㈢偣'},{id:5,title:'鏌犳鍐扮孩鑼?-- 澶忓ぉ鏃ラ攢100鏉?,desc:'鎴愭湰涓嶅埌1鍏冨敭浠?-8鍏冩毚鍒╅ギ鍝侀厤鏂?,price:6.9,cat:'楗搧'},{id:6,title:'钁辨补鎷岄潰 -- 浣庢垚鏈珮鍒╂鼎',desc:'钁辨补鐔埗+鏂欐眮璋冮厤+鍑洪鎶€宸т竴纰楄禋6鍏?,price:9.9,cat:'闈㈢偣'},{id:7,title:'鑴嗙毊鐐搁浮鑵?-- 槌炵墖閰ヨ剢鎶€鏈?,desc:'瑁圭矇婀块绮掓妧鏈痻娌规俯鍒嗘x鑵屾枡閰嶆柟',price:14.9,cat:'娌圭偢'}];
 
-let shops = L('shops', DEF_SHOPS);
-let courses = L('courses', DEF_COURSES);
-let orders = L('orders', []);
-let boughtCourses = L('bought', []);
-let payQueue = null;
-let currentShopId = null;
-let cart = L('cart', {});
-let activeShopCat = '鍏ㄩ儴';
-let activeDealCat = '鍏ㄩ儴';
-let activeCourseCat = '鍏ㄩ儴';
-let sidCounter = Math.max(0,...shops.map(s=>s.id))+1;
-let oidCounter = Math.max(0,...orders.map(o=>o.id))+1;
+const RECIPES=[{cat:'鍑夋媽/鎹炴眮',items:[{name:'鎹炴眮灏忔捣椴?,tag:'姣斿皵鐩栧崡',ing:'铏俱€佽姳铔ゃ€佽洀瀛愩€侀笨楸?浠婚€?-4鏍?\n钂滄湯30g銆佸皬绫宠荆15g銆侀鑿?0g銆佹煚妾崐涓猏n鐢熸娊50ml銆侀閱?0ml銆佽殱娌?0g銆佺櫧绯?5g銆侀娌?0ml銆佺函鍑€姘?00ml',st:'1. 娴烽矞娲楀噣铏惧幓铏剧嚎楸块奔鍒囧湀\n2. 姘寸儳寮€鍔犲鐗囨枡閰掓捣椴滃垎鍒劘鐔?铏?鍒嗛挓/鑺辫洡寮€鍙?楸块奔鍗疯捣)\n3. 鐒ソ鍚庣珛鍗冲啺姘磋繃鍑夋播骞瞈n4. 璋冩崬姹?鐢熸娊+棣欓唻+铓濇补+绯?棣欐补+绾噣姘存悈鍖€\n5. 鍔犲叆钂滄湯灏忕背杈ｉ鑿滄煚妾墖\n6. 娴烽矞娴稿叆鎹炴眮鍐疯棌鑵?灏忔椂浠ヤ笂\n7. 鍑洪鏃舵崬鍑烘潵鎾掕姖楹诲拰钁辫姳',note:'鎴愭湰绾?-12鍏?浠藉敭浠?8-38鍏冦€傚喎钘忎繚瀛樺彲鏀?4灏忔椂銆?},{name:'钂滄偿鐧借倝',tag:'缁忓吀鍑夎彍',ing:'浜旇姳鑲?00g\n钂滄偿30g杈ｆ娌?0ml\n鐢熸娊20ml棣欓唻15ml鐧界硸10g鑺辨绮?g棣欐补5ml榛勭摐涓€鏍?,st:'1. 浜旇姳鑲夊喎姘翠笅閿呭姞濮滆懕鏂欓厭鐓紑鍚庡皬鐏?0鍒嗛挓鑷崇瀛愯兘鎻掑叆\n2. 鎹炲嚭鏅惧噳鍒囨垚钖勭墖(瓒婅杽瓒婂ソ)\n3. 榛勭摐鍒囦笣鍨洏搴曡倝鐗囩爜鍦ㄤ笂闈n4. 璋冩枡姹?钂滄偿+鐢熸娊+棣欓唻+绯?鑺辨绮?杈ｆ娌?棣欐补鎼呭寑\n5. 娣嬩笂鏂欐眮鎾掕懕鑺?,note:'鎴愭湰绾?-8鍏?浠藉敭浠?2-28鍏冦€傝倝鐗囦竴瀹氳钖勫帤浜嗚吇銆?},{name:'鍙ｆ按楦?,tag:'鎷涚墝蹇呯偣',ing:'楦¤吙2涓猏n榛勭摐鍗婃牴鑺辩敓纰?0g\n绾㈡补30ml鐢熸娊20ml棣欓唻15ml鐧界硸10g鑺辨绮?g鑺濋夯閰?5g钂滄按30ml',st:'1. 楦¤吙鍐锋按涓嬮攨鍔犲钁辨枡閰掔叜寮€鍚庡皬鐏?0鍒嗛挓\n2. 鍏崇伀鐒?0鍒嗛挓鎹炲嚭鍐版按娴告场(鐨墠鑴?\n3. 鎵嬫挄鎴愭潯榛勭摐鍒囦笣鍨簳楦¤倝鐮佷笂\n4. 璋冩枡姹?鑺濋夯閰?鐢熸娊+閱?绯?鑺辨绮?绾㈡补+钂滄按鎼呭寑\n5. 娣嬫枡姹佹拻鑺辩敓纰庡拰钁辫姳',note:'鎴愭湰绾?鍏?浠藉敭浠?8-35鍏冦€傜剸10鍒嗛挓鏄楦＄毊鑴嗙殑鍏抽敭銆?}]},{cat:'鍗ゅ懗/鐐栫叜',items:[{name:'鍟嗕笟浜旈鍗ゆ按',tag:'閰嶆柟鏍稿績',ing:'棣欐枡鍖?鍏15g妗傜毊10g棣欏彾5g鑺辨10g涓侀3g鑽夋灉2涓櫧鑺?g闄堢毊5g灏忚尨棣?0g鐢樿崏5g\n鍗ゆ按:鑰佹娊80ml鐢熸娊150ml鐩?0g鍐扮硸80g濮滅墖50g钁辨50g鏂欓厭50ml姘?000ml\n(鍙﹀鍐扮硸60g鐐掔硸鑹?',st:'1. 鎵€鏈夐鏂欒绾卞竷琚嬫俯姘存场10鍒嗛挓鍘昏嫤\n2. 閿呴噷鍔犲皯璁告补灏忕伀鐐?0g鍐扮硸鑷虫绾㈣壊鍐掑皬娉n3. 绔嬪埢鍊掑叆3000ml寮€姘村姞棣欐枡鍖匼n4. 鍔犺€佹娊鐢熸娊鐩?0g鍐扮硸濮滆懕鏂欓厭\n5. 澶х伀鐑у紑杞皬鐏啲30鍒嗛挓鍗ゆ按鍗虫垚\n6. 鑲夌被鐒按鍚庡叆鍗ゆ按:楦¤吙20鍒嗛挓/鐚箘40鍒嗛挓/鐗涜倝60鍒嗛挓\n7. 鍏崇伀娴告场30鍒嗛挓浠ヤ笂',note:'姝ゅ崵姘村彲鍙嶅浣跨敤瓒婄敤瓒婇銆傛瘡澶╃儳寮€涓€娆￠槻鍙橀銆?},{name:'浜旈鑼跺彾铔?,tag:'姣斿皵鐩栧崡',ing:'楦¤泲20涓猏n绾㈣尪/鏅幢鑼?5g\n鍏5涓鐨?娈甸鍙?鐗囪姳妞?g\n鐩?0g鐢熸娊80ml鑰佹娊20ml鍐扮硸20g',st:'1. 楦¤泲鍐锋按涓嬮攨鐓紑鍚庣叜8鍒嗛挓\n2. 鎹炲嚭鐢ㄥ嫼瀛愭暡瑁傝泲澹?鍧囧寑瑁傜汗)\n3. 姘?000ml+鑼跺彾+棣欐枡+璋冩枡鐑у紑\n4. 鏀惧叆铔嬪皬鐏叜20鍒嗛挓\n5. 鍏崇伀娴告场鑷冲皯4灏忔椂(杩囧鏇翠匠)\n6. 鍑洪鍓嶅姞鐑嵆鍙?,note:'鎴愭湰绾?.8鍏?涓敭浠?.5-3鍏冦€傛蹈娉℃椂闂磋秺闀胯秺鍏ュ懗銆?}]},{cat:'娌圭偢灏忓悆',items:[{name:'琛楄竟鐐搁浮鍙夐',tag:'鐖嗘鍗曞搧',ing:'楦″弶楠?閿侀)1000g\n鑵屽埗鏂?鐩?2g鐧界硸15g鍛崇簿5g浜旈绮?g杈ｆ绮?g钂滅矇5g濮滅矇3g楦¤泲1涓穩绮?0g\n瑁圭矇:闈㈢矇200g+娣€绮?00g+娉℃墦绮?g',st:'1. 楦″弶楠ㄨВ鍐绘礂鍑€鍚稿共\n2. 鎷屽叆鎵€鏈夎厡鏂?楦¤泲+娣€绮夋姄鍖€鑵?灏忔椂\n3. 瑁圭矇娣峰悎閫愪釜娌剧矇鎶栨帀浣欑矇\n4. 娌规俯170搴︾偢4-5鍒嗛挓鑷抽噾榛刓n5. 鎹炲嚭鎾掑瓬鐒惰荆妞掔矇',note:'鎴愭湰绾?鍏?浠藉敭浠?-12鍏冦€傛补娓╄绋炽€?},{name:'鑴嗙毊鐐搁浮鑵?,tag:'缁忓吀骞撮攢',ing:'澶ч浮鑵?涓猏n鑵屾枡:鐗涘ザ200ml+鐩?2g+榛戣儭妞?g+钂滅矇5g\n瑁圭矇:闈㈢矇200g+鐜夌背娣€绮?0g+娉℃墦绮?g+鐩?g+榛戣儭妞?g+杈ｆ绮?g',st:'1. 楦¤吙鎵庡瓟鑵屽叆鐗涘ザ鏂欏喎钘?灏忔椂\n2. 瑁圭矇娣峰悎鍙栧皯璁稿姞姘存悡鎴愬皬棰楃矑娣峰洖\n3. 楦¤吙涓嶆播骞茬洿鎺ユ簿绮夋寜鍘嬬揣瀹瀄n4. 娌规俯165搴︾偢12-15鍒嗛挓鑷崇啛閫?,note:'鎴愭湰绾?鍏?涓敭浠?5-18鍏冦€傛箍棰楃矑鏄叆鑴嗛碁鐗囧叧閿€?},{name:'鐐歌柉鏉?鍟嗙敤鐗?',tag:'閰嶉鍒╁櫒',ing:'澶у湡璞哱n娓呮按+鐧介唻灏戣\n璋冨懗鐩?鐩?g+绯?g+钂滅矇1g',st:'1. 鍦熻眴鍒?cm绮楁潯娉℃按30鍒嗛挓鍘绘穩绮塡n2. 鎹㈡按鍔犵櫧閱嬫场15鍒嗛挓\n3. 娌告按鐒?鍒嗛挓娌ュ共鏀惧噳\n4. 鍐扮鍐峰喕2灏忔椂浠ヤ笂\n5. 娌规俯180搴︾偢3-4鍒嗛挓鑷抽噾榛刓n6. 鎾掕皟鍛崇洂鎽囧寑',note:'鎴愭湰绾?鍏?浠藉敭浠?-10鍏冦€傚喎鍐绘槸澶栭叆閲屽鍏抽敭銆?}]},{cat:'涓婚/绮夐潰',items:[{name:'閰歌荆绮?鍟嗙敤閰嶆柟)',tag:'鎽嗘憡蹇呭',ing:'绾㈣柉绮夋潯150g(鎻愬墠娉¤蒋)\n钂滄按20ml鐢熸娊15ml闄堥唻20ml杈ｆ娌?0ml\n鑺辨绮?g鐧界硸5g鍛崇簿3g鐩?g\n楠ㄦ堡200ml\n鑺辩敓纰?5g姒ㄨ彍纰?5g棣欒彍钁辫姳',st:'1. 纰楀簳璋冩眮:钂滄按+鐢熸娊+闄堥唻+杈ｆ娌?鑺辨绮?绯?鍛崇簿+鐩怽n2. 娌告按鐑矇鏉?0绉掑叆纰梊n3. 娴囩儹姹?00ml\n4. 鎾掕姳鐢熺姒ㄨ彍纰庨鑿滆懕鑺?,note:'鎴愭湰绾?.5鍏?纰楀敭浠?-12鍏冦€傚嚭椁愰€熷害30绉掋€?},{name:'钁辨补鎷岄潰',tag:'浣庢垚鏈珮鍒╂鼎',ing:'缁嗛潰150g\n钁辨补:灏忚懕200g+椋熺敤娌?00ml\n鏂欐眮:鐢熸娊30ml+鑰佹娊10ml+鐧界硸15g',st:'1. 鍐锋补鏀捐懕娈典腑灏忕伀鎱㈢啲15鍒嗛挓鑷虫繁妫曡壊\n2. 鏂欐眮寰伀鍔犵儹铻嶅寲鍊掑叆钁辨补鎼呭寑\n3. 姘村紑涓嬮潰鐓?鍒嗛挓娌ュ共\n4. 娣?鍕鸿懕娌规枡姹佹媽鍖€',note:'鎴愭湰绾?鍏?纰楀敭浠?-10鍏冦€傝懕娌瑰彲澶囦竴鍛ㄧ敤閲忋€?}]},{cat:'缃戠孩楗搧',items:[{name:'鏌犳鍐扮孩鑼?鍟嗙敤閰嶆柟)',tag:'澶忓鐖嗘',ing:'绾㈣尪鍖?0鍖呮垨鑼跺彾30g姘?000ml\n鐧界爞绯?80-200g\n鏌犳2涓猏n鍐板潡',st:'1. 姘寸儳寮€鍏崇伀鏀捐尪鍖呯剸5鍒嗛挓\n2. 鎹炲嚭鑼跺寘瓒佺儹鍔犵硸鎼呭寲\n3. 鏀惧噳鎸ゅ叆鏌犳姹佹悈鍖€\n4. 鍐疯棌淇濆瓨銆傚嚭椁?鍔犲啺鍧?鑼舵恫+鏌犳鐗?,note:'鎴愭湰绾?.8鍏?鏉敭浠?-8鍏冦€傚澶╀竴澶╄兘鍗?0鏉€?},{name:'鍐伴晣閰告姹?,tag:'瑙ｈ吇绁炲櫒',ing:'涔屾30g灞辨骞?0g闄堢毊10g\n鐢樿崏5g娲涚鑺?g\n鍐扮硸150g妗傝姳灏戣\n姘?500ml',st:'1. 鑽潗鍐叉礂鍏ラ攨鍔犳按2500ml\n2. 澶х伀鐑у紑杞皬鐏啲40鍒嗛挓\n3. 婊ゅ嚭姹ゆ眮鍔犲啺绯栨悈鍖朶n4. 鑽福鍐嶅姞姘?000ml鐔?0鍒嗛挓\n5. 涓ゆ姹ゆ眮鍚堝苟鏀惧噳鍐疯棌\n6. 鍑洪鍔犲啺鍧楁拻妗傝姳',note:'鎴愭湰绾?.5鍏?鏉敭浠?-10鍏冦€傛礇绁炶姳璁╅鑹茬孩浜€?}]}];
 
-function currentShop() { return shops.find(s=>s.id===currentShopId); }
-function shopMenu() { const s=currentShop(); return s? s.menu||[] : []; }
+const RIDES=[{id:'econ',name:'缁忔祹鍨?,icon:'馃殫',price:'12-18',desc:'蹇溅/鐗规儬'},{id:'comfort',name:'鑸掗€傚瀷',icon:'馃殭',price:'18-28',desc:'浼樹韩/涓撹溅'},{id:'business',name:'鍟嗗姟鍨?,icon:'馃殣',price:'35-55',desc:'6搴у晢鍔?}];
+const MOODS=['馃構','馃槏','馃グ','馃い','馃槑','馃敟','馃挴','馃帀','馃槩','馃'];
+const CITIES=['鍖椾含','涓婃捣','骞垮窞','娣卞湷','鎴愰兘','鏉窞','姝︽眽','鍗椾含','閲嶅簡','瑗垮畨','閮戝窞','闀挎矙','鑻忓窞','澶╂触','闈掑矝','涓滆帪','浣涘北','鍚堣偉','绂忓窞','鍘﹂棬'];
 
-// ========== 瀵艰埅 ==========
-function navTo(p) {
+let shops=L('shops',DEF_SHOPS);
+let courses=L('courses',DEF_COURSES);
+let orders=L('orders',[]);
+let posts=L('posts',[]);
+let boughtCourses=L('bought',[]);
+let myCity=L('myCity','');
+let payQ=null;
+let curShop=null;
+let cart={};
+let actShopCat='鍏ㄩ儴',actDealCat='鍏ㄩ儴',actCourseCat='鍏ㄩ儴';
+let sidC=Math.max(0,...shops.map(s=>s.id))+1;
+let oidC=Math.max(0,...orders.map(o=>o.id))+1;
+let pidC=Math.max(0,...posts.map(p=>p.id))+1;
+
+function curS(){return shops.find(s=>s.id===curShop)}
+function sMenu(){const s=curS();return s?s.menu||[]:[]}
+
+// ========== NAV ==========
+function go(p){
   document.querySelectorAll('[id^="page-"]').forEach(e=>e.classList.add('hidden'));
-  const t=document.getElementById('page-'+p); if(t) t.classList.remove('hidden');
+  if(p!=='shop'){curShop=null;cart={};S('cart',cart)}
+  const t=document.getElementById('page-'+p); if(t)t.classList.remove('hidden');
   document.querySelectorAll('.bottom-nav .nav-item').forEach(e=>e.classList.remove('active'));
-  const n=document.getElementById('nav-'+p); if(n) n.classList.add('active');
-
-  if(p==='home') renderHome();
-  else if(p==='food') renderShopList();
-  else if(p==='deals'){renderDealCats();renderDeals();}
-  else if(p==='ride') renderRideTypes();
-  else if(p==='courses'){renderCourseCats();renderCourses();}
-  else if(p==='platform-admin') renderPlatform();
-  else if(p==='merchant-admin'){renderMerchantOrders();renderAdminMenu();renderAdminDeals();}
+  ['home','food','circle','courses','profile'].forEach(k=>{
+    if(k===p)document.getElementById('nav-'+k)?.classList.add('active');
+    else if(p==='deals'&&k==='food')document.getElementById('nav-food')?.classList.add('active');
+    else if(p==='ride'&&k==='profile')document.getElementById('nav-profile')?.classList.add('active');
+  });
+  if(p==='home')renderHome();
+  else if(p==='food')renderShopList();
+  else if(p==='circle')renderCircle();
+  else if(p==='deals'){renderDealCats();renderDeals()}
+  else if(p==='ride')renderRides();
+  else if(p==='courses'){renderCourseCats();renderCourses()}
+  else if(p==='platform-admin')renderPlatform();
+  else if(p==='merchant-admin'){renderMerchantOrders();renderAdminMenu();renderAdminDeals()}
 }
-function switchPage(p){currentShopId=null;cart={};S('cart',cart);navTo(p);}
-let prevBeforeShop = 'home';
-function openShop(sid) {
-  prevBeforeShop = document.querySelector('[id^="page-"]:not(.hidden)')?.id?.replace('page-','')||'home';
-  currentShopId=sid; cart=L('cart',{}); S('cart',cart);
+function openShop(id){
+  curShop=id; cart=L('cart',{});
   document.querySelectorAll('[id^="page-"]').forEach(e=>e.classList.add('hidden'));
   document.getElementById('page-shop').classList.remove('hidden');
   document.querySelectorAll('.bottom-nav .nav-item').forEach(e=>e.classList.remove('active'));
   document.getElementById('nav-food').classList.add('active');
-  const s=currentShop(); if(!s) return;
-  document.getElementById('shopTitle').textContent = '鈫?'+s.name;
-  document.getElementById('shopDetailHeader').innerHTML = `
-    <div class="shop-detail-header">
-      <div class="sd-logo">${s.cat[0]}</div>
-      <div class="sd-info"><div class="sd-name">${s.name}</div><div class="sd-meta">${s.cat} 路 璧烽€伮?{s.min} 路 閰嶉€伮?{s.fee}</div><div class="sd-meta">${s.time} 路 ${s.addr}</div></div>
-    </div>`;
-  renderShopCats(); renderShopMenu(); updateCartBar();
+  const s=curS(); if(!s)return;
+  document.getElementById('shopTitle').textContent='鈫?'+s.name;
+  document.getElementById('shopDetailHeader').innerHTML=`<div class="shop-detail-header"><div class="sd-logo">${s.cat[0]}</div><div class="sd-info"><div class="sd-name">${s.name}</div><div class="sd-meta">${s.cat} . 璧烽€伮?{s.min} . 閰嶉€伮?{s.fee}</div><div class="sd-meta">${s.time} . ${s.addr}</div></div></div>`;
+  renderShopCats();renderShopMenu();updateCartBar();
 }
-function backToShops(){currentShopId=null;cart={};S('cart',cart);navTo('food');}
+function backToShops(){curShop=null;cart={};go('food')}
 
-// ========== 棣栭〉 ==========
+// ========== HOME ==========
 function renderHome(){
-  const approved = shops.filter(s=>s.status==='approved');
-  document.getElementById('homeShops').innerHTML = approved.slice(0,4).map(s=>`
-    <div class="shop-card" onclick="openShop(${s.id})">
-      <div class="sc-logo">${s.cat[0]}</div>
-      <div class="sc-info"><div class="sc-name">${s.name}</div><div class="sc-meta">璧烽€伮?{s.min} 路 閰嶉€伮?{s.fee} 路 ${s.time}</div>
-        <div class="sc-tags"><span>${s.cat}</span><span>${(s.menu||[]).length}涓彍鍝?/span></div></div>
-    </div>`).join('');
-  const allDeals = shops.flatMap(s=>(s.deals||[]).map(d=>({...d,shopName:s.name})));
-  document.getElementById('homeDeals').innerHTML = allDeals.slice(0,3).map(d=>`
-    <div class="deal-card"><div class="deal-body"><div class="deal-title">${d.name}</div>
-      <div class="deal-tags"><span class="tag-orange">${d.shopName}</span><span class="tag-red">鐪伮?{(d.orig-d.price).toFixed(0)}</span></div>
-      <div style="font-size:12px;color:#666;margin-bottom:6px">${d.desc||''}</div>
-      <div class="deal-meta"><div class="deal-price"><span class="now">${d.price}</span><span class="old">楼${d.orig}</span></div>
-      <span class="deal-sold">宸插敭${d.sold}</span></div></div></div>`).join('');
-  document.getElementById('homeCourses').innerHTML = courses.slice(0,3).map(c=>`
-    <div class="course-card" onclick="openCourse(${c.id})">
-      <div class="course-thumb ${boughtCourses.includes(c.id)?'':'locked'}">${boughtCourses.includes(c.id)?'鈻讹笍':'馃敀'}</div>
-      <div class="course-body"><div class="course-title">${c.title}</div><div class="course-desc">${c.desc}</div>
-        <span class="course-price">${c.price}</span></div></div>`).join('');
+  const ok=shops.filter(s=>s.status==='approved');
+  document.getElementById('homeShops').innerHTML=ok.slice(0,4).map(s=>
+    `<div class="shop-card" onclick="openShop(${s.id})"><div class="sc-logo">${s.cat[0]}</div><div class="sc-info"><div class="sc-name">${s.name}</div><div class="sc-meta">璧烽€伮?{s.min} . 閰嶉€伮?{s.fee} . ${s.time}</div><div class="sc-tags"><span>${s.cat}</span><span>${(s.menu||[]).length}涓彍鍝?/span></div></div></div>`).join('');
+  document.getElementById('homePosts').innerHTML=posts.slice(0,3).map(p=>renderPost(p)).join('');
+  const allD=ok.flatMap(s=>(s.deals||[]).map(d=>({...d,shopName:s.name})));
+  document.getElementById('homeDeals').innerHTML=allD.slice(0,3).map(d=>
+    `<div class="deal-card"><div class="deal-body"><div class="deal-title">${d.name}</div><div class="deal-tags"><span class="tag-orange">${d.shopName}</span><span class="tag-red">鐪伮?{(d.orig-d.price).toFixed(0)}</span></div><div style="font-size:12px;color:#666;margin-bottom:6px">${d.desc||''}</div><div class="deal-meta"><div class="deal-price"><span class="now">${d.price}</span><span class="old">楼${d.orig}</span></div><span class="deal-sold">宸插敭${d.sold}</span></div></div></div>`).join('');
 }
 
-// ========== 澶栧崠 鈥?鍟嗗鍒楄〃 ==========
+// ========== FOOD ==========
 function renderShopList(){
-  const approved = shops.filter(s=>s.status==='approved');
-  const term = (document.querySelector('#page-food .search-bar input')?.value||'').toLowerCase();
-  const filtered = term ? approved.filter(s=>s.name.toLowerCase().includes(term)||s.cat.includes(term)) : approved;
-  document.getElementById('shopList').innerHTML = filtered.length===0 ? '<div class="empty-state">鏆傛棤鍟嗗</div>' :
-    filtered.map(s=>`
-    <div class="shop-card" onclick="openShop(${s.id})">
-      <div class="sc-logo">${s.cat[0]}</div>
-      <div class="sc-info"><div class="sc-name">${s.name}</div><div class="sc-meta">璧烽€伮?{s.min} 路 閰嶉€伮?{s.fee} 路 ${s.time}</div>
-        <div class="sc-tags"><span>${s.cat}</span><span>${(s.menu||[]).length}涓彍鍝?/span></div></div>
-    </div>`).join('');
+  const ok=shops.filter(s=>s.status==='approved');
+  const term=(document.querySelector('#page-food .search-bar input')?.value||'').toLowerCase();
+  const f=term?ok.filter(s=>s.name.toLowerCase().includes(term)||s.cat.includes(term)):ok;
+  document.getElementById('shopList').innerHTML=f.length?f.map(s=>
+    `<div class="shop-card" onclick="openShop(${s.id})"><div class="sc-logo">${s.cat[0]}</div><div class="sc-info"><div class="sc-name">${s.name}</div><div class="sc-meta">璧烽€伮?{s.min} . 閰嶉€伮?{s.fee} . ${s.time}</div><div class="sc-tags"><span>${s.cat}</span><span>${(s.menu||[]).length}涓彍鍝?/span></div></div></div>`).join(''):'<div class="empty-state">鏆傛棤鍟嗗</div>';
 }
-function filterShops(v){renderShopList();}
-
-// ========== 澶栧崠 鈥?搴楅摵鑿滃崟 ==========
+function filterShops(v){renderShopList()}
 function renderShopCats(){
-  const cats = [...new Set(shopMenu().map(m=>m.cat))];
-  document.getElementById('shopCategoryBar').innerHTML = '<span class="active" onclick="filterShopCat(\'鍏ㄩ儴\')">鍏ㄩ儴</span>'+
-    cats.map(c=>`<span onclick="filterShopCat('${c}')">${c}</span>`).join('');
+  const cats=[...new Set(sMenu().map(m=>m.cat))];
+  document.getElementById('shopCategoryBar').innerHTML='<span class="active" onclick="filterShopCat(\'鍏ㄩ儴\')">鍏ㄩ儴</span>'+cats.map(c=>`<span onclick="filterShopCat('${c}')">${c}</span>`).join('');
 }
-function filterShopCat(c){
-  activeShopCat=c;
-  document.querySelectorAll('#shopCategoryBar span').forEach(s=>s.classList.toggle('active',s.textContent===c));
-  renderShopMenu();
-}
-function filterShopMenu(){
-  const term = (document.getElementById('shopSearch')?.value||'').toLowerCase();
-  renderShopMenu(term);
-}
+function filterShopCat(c){actShopCat=c;document.querySelectorAll('#shopCategoryBar span').forEach(s=>s.classList.toggle('active',s.textContent===c));renderShopMenu()}
+function filterShopMenu(){renderShopMenu((document.getElementById('shopSearch')?.value||'').toLowerCase())}
 function renderShopMenu(term=''){
-  const s=currentShop(); if(!s) return;
-  let items = shopMenu().filter(m=>(activeShopCat==='鍏ㄩ儴'||m.cat===activeShopCat) && (!term||m.name.toLowerCase().includes(term)||(m.desc||'').toLowerCase().includes(term)));
-  document.getElementById('shopMenuList').innerHTML = items.map(m=>`
-    <div class="menu-item">
-      <img src="data:image/svg+xml,${encodeURIComponent('<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"72\" height=\"72\"><rect fill=\"%23eee\" width=\"72\" height=\"72\"/><text fill=\"%23999\" font-size=\"10\" y=\"40\" text-anchor=\"middle\" x=\"36\">鍥剧墖</text></svg>')}" alt="${m.name}">
-      <div class="info"><div><div class="name">${m.name}</div><div class="desc">${m.desc||''}</div></div>
-        <div class="bottom"><span class="price">${m.price}</span>
-          ${cart[m.id]?`<div class="qty-ctrl"><button onclick="chgQty(${m.id},-1)">鈭?/button><span>${cart[m.id]}</span><button onclick="chgQty(${m.id},1)">+</button></div>`:
-          `<button class="add-btn" onclick="chgQty(${m.id},1)">+</button>`}
-        </div></div></div>`).join('');
+  const s=curS(); if(!s)return;
+  let items=sMenu().filter(m=>(actShopCat==='鍏ㄩ儴'||m.cat===actShopCat)&&(!term||m.name.toLowerCase().includes(term)||(m.desc||'').toLowerCase().includes(term)));
+  document.getElementById('shopMenuList').innerHTML=items.map(m=>`<div class="menu-item"><img src="data:image/svg+xml,${encodeURIComponent('<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"72\" height=\"72\"><rect fill=\"%23eee\" width=\"72\" height=\"72\"/><text fill=\"%23999\" font-size=\"10\" y=\"40\" text-anchor=\"middle\" x=\"36\">鍥剧墖</text></svg>')}" alt="${m.name}"><div class="info"><div><div class="name">${m.name}</div><div class="desc">${m.desc||''}</div></div><div class="bottom"><span class="price">${m.price}</span>${cart[m.id]?`<div class="qty-ctrl"><button onclick="chgQty(${m.id},-1)">-</button><span>${cart[m.id]}</span><button onclick="chgQty(${m.id},1)">+</button></div>`:`<button class="add-btn" onclick="chgQty(${m.id},1)">+</button>`}</div></div></div>`).join('');
 }
-function chgQty(iid,d){
-  const items=shopMenu(); const item=items.find(m=>m.id===iid); if(!item) return;
-  cart[iid]=(cart[iid]||0)+d;
-  if(cart[iid]<=0) delete cart[iid];
-  S('cart',cart); updateCartBar(); renderShopMenu();
-}
-function updateCartBar(){
-  const bar=document.getElementById('cartBar');
-  if(!currentShopId){bar.style.display='none';return;}
-  bar.style.display='flex';
-  const totalItems=Object.values(cart).reduce((s,q)=>s+q,0);
-  const totalPrice=Object.entries(cart).reduce((s,[id,q])=>{
-    const item=shopMenu().find(m=>m.id===parseInt(id));
-    return s+(item?item.price*q:0);
-  },0);
-  document.getElementById('cartCount').textContent=totalItems;
-  document.getElementById('cartCount').style.display=totalItems>0?'':'none';
-  document.getElementById('cartTotal').textContent='楼'+totalPrice.toFixed(2);
-}
-function showCart(){
-  const items=document.getElementById('cartItems');
-  if(Object.keys(cart).length===0){items.innerHTML='<div class="empty-state">璐墿杞︾┖绌哄涔?馃洅</div>';}
-  else{
-    items.innerHTML=Object.entries(cart).map(([id,q])=>{
-      const item=shopMenu().find(m=>m.id===parseInt(id));
-      return item?`<div style="display:flex;align-items:center;padding:8px 0;border-bottom:1px solid #eee">
-        <span style="flex:1;font-size:13px">${item.name} 脳${q}</span>
-        <span style="color:#ff6b35;font-weight:700;margin-right:10px">楼${(item.price*q).toFixed(2)}</span>
-        <button onclick="chgQty(${id},-${q});closeModal('cartModal');updateCartBar();renderShopMenu()" style="background:none;border:none;color:#999;cursor:pointer;font-size:15px">鉁?/button></div>`:'';
-    }).join('');
-  }
-  const total=Object.entries(cart).reduce((s,[id,q])=>{
-    const item=shopMenu().find(m=>m.id===parseInt(id));
-    return s+(item?item.price*q:0);
-  },0);
-  document.getElementById('modalTotal').textContent='鍚堣: 楼'+total.toFixed(2);
-  document.getElementById('cartModal').classList.remove('hidden');
-}
-function checkout(){
-  if(Object.keys(cart).length===0){alert('璐墿杞︽槸绌虹殑');return;}
-  closeModal('cartModal');
-  const summary=Object.entries(cart).map(([id,q])=>{
-    const item=shopMenu().find(m=>m.id===parseInt(id));
-    return item?`<div>${item.name} 脳${q} 鈥?楼${(item.price*q).toFixed(2)}</div>`:'';
-  }).join('');
-  const total=Object.entries(cart).reduce((s,[id,q])=>{
-    const item=shopMenu().find(m=>m.id===parseInt(id));
-    return s+(item?item.price*q:0);
-  },0);
-  document.getElementById('orderSummary').innerHTML=summary+`<div style="font-weight:700;margin-top:8px;color:#ff6b35">鎬昏: 楼${total.toFixed(2)}</div>`;
-  document.getElementById('orderModal').classList.remove('hidden');
-}
-function submitOrder(){
-  const name=document.getElementById('orderName').value.trim();
-  const phone=document.getElementById('orderPhone').value.trim();
-  if(!name||!phone){alert('璇峰～鍐欒仈绯讳汉鍜屾墜鏈哄彿');return;}
-  const s=currentShop(); if(!s) return;
-  const items=Object.entries(cart).map(([id,q])=>{
-    const item=shopMenu().find(m=>m.id===parseInt(id));
-    return {name:item?.name||'鏈煡',price:item?.price||0,qty:q};
-  });
-  const total=items.reduce((sum,i)=>sum+i.price*i.qty,0);
-  orders.unshift({id:oidCounter++,items,total,contact:name,phone,note:document.getElementById('orderNote').value,time:new Date().toLocaleString('zh-CN'),status:'new',type:'澶栧崠',shopId:s.id,shopName:s.name});
-  S('orders',orders);
-  cart={}; S('cart',cart); updateCartBar(); renderShopMenu();
-  closeModal('orderModal');
-  alert('涓嬪崟鎴愬姛锛?+s.name+'浼氬敖蹇鐞?馃摝');
-}
-function closeModal(id){document.getElementById(id).classList.add('hidden');}
+function chgQty(iid,d){const items=sMenu();const item=items.find(m=>m.id===iid);if(!item)return;cart[iid]=(cart[iid]||0)+d;if(cart[iid]<=0)delete cart[iid];S('cart',cart);updateCartBar();renderShopMenu()}
+function updateCartBar(){const bar=document.getElementById('cartBar');if(!curShop){bar.style.display='none';return}bar.style.display='flex';const totalItems=Object.values(cart).reduce((s,q)=>s+q,0);const totalPrice=Object.entries(cart).reduce((s,[id,q])=>{const item=sMenu().find(m=>m.id===parseInt(id));return s+(item?item.price*q:0)},0);document.getElementById('cartCount').textContent=totalItems;document.getElementById('cartCount').style.display=totalItems>0?'':'none';document.getElementById('cartTotal').textContent='楼'+totalPrice.toFixed(2)}
+function showCart(){const items=document.getElementById('cartItems');if(Object.keys(cart).length===0){items.innerHTML='<div class="empty-state">璐墿杞︾┖绌哄涔?/div>'}else{items.innerHTML=Object.entries(cart).map(([id,q])=>{const item=sMenu().find(m=>m.id===parseInt(id));return item?`<div style="display:flex;align-items:center;padding:8px 0;border-bottom:1px solid #eee"><span style="flex:1;font-size:13px">${item.name} x${q}</span><span style="color:#ff6b35;font-weight:700;margin-right:10px">楼${(item.price*q).toFixed(2)}</span><button onclick="chgQty(${id},-${q});closeModal('cartModal');updateCartBar();renderShopMenu()" style="background:none;border:none;color:#999;cursor:pointer;font-size:15px">x</button></div>`:''}).join('')}const total=Object.entries(cart).reduce((s,[id,q])=>{const item=sMenu().find(m=>m.id===parseInt(id));return s+(item?item.price*q:0)},0);document.getElementById('modalTotal').textContent='鍚堣: 楼'+total.toFixed(2);document.getElementById('cartModal').classList.remove('hidden')}
+function checkout(){if(Object.keys(cart).length===0){alert('璐墿杞︽槸绌虹殑');return}closeModal('cartModal');const summary=Object.entries(cart).map(([id,q])=>{const item=sMenu().find(m=>m.id===parseInt(id));return item?`<div>${item.name} x${q} - 楼${(item.price*q).toFixed(2)}</div>`:''}).join('');const total=Object.entries(cart).reduce((s,[id,q])=>{const item=sMenu().find(m=>m.id===parseInt(id));return s+(item?item.price*q:0)},0);document.getElementById('orderSummary').innerHTML=summary+`<div style="font-weight:700;margin-top:8px;color:#ff6b35">鎬昏: 楼${total.toFixed(2)}</div>`;document.getElementById('orderModal').classList.remove('hidden')}
+function submitOrder(){const name=document.getElementById('orderName').value.trim();const phone=document.getElementById('orderPhone').value.trim();if(!name||!phone){alert('璇峰～鍐欒仈绯讳汉鍜屾墜鏈哄彿');return}const s=curS();if(!s)return;const items=Object.entries(cart).map(([id,q])=>{const item=sMenu().find(m=>m.id===parseInt(id));return{name:item?.name||'鏈煡',price:item?.price||0,qty:q}});const total=items.reduce((sum,i)=>sum+i.price*i.qty,0);orders.unshift({id:oidC++,items,total,contact:name,phone,note:document.getElementById('orderNote').value,time:new Date().toLocaleString('zh-CN'),status:'new',type:'澶栧崠',shopId:s.id,shopName:s.name});S('orders',orders);cart={};S('cart',cart);updateCartBar();renderShopMenu();closeModal('orderModal');alert('涓嬪崟鎴愬姛锛?+s.name+'浼氬敖蹇鐞?)}
+function closeModal(id){document.getElementById(id).classList.add('hidden')}
 
-// ========== 鍥㈣喘 ==========
-function renderDealCats(){
-  document.getElementById('dealCats').innerHTML = '<span class="active" onclick="filterDeals(\'鍏ㄩ儴\')">鍏ㄩ儴</span>'+
-    [...new Set(shops.flatMap(s=>(s.deals||[]).map(d=>d.cat||'缇庨')))].map(c=>`<span onclick="filterDeals('${c}')">${c}</span>`).join('');
+// ========== CIRCLE ==========
+function renderMoods(){
+  document.getElementById('moodPicker').innerHTML=MOODS.map((m,i)=>`<span class="${i===0?'sel':''}" onclick="pickMood('${m}',this)">${m}</span>`).join('');
 }
-function filterDeals(c){
-  activeDealCat=c;
-  document.querySelectorAll('#dealCats span').forEach(s=>s.classList.toggle('active',s.textContent===c));
-  renderDeals();
+let selMood=MOODS[0];
+function pickMood(m,el){selMood=m;document.querySelectorAll('#moodPicker span').forEach(e=>e.classList.remove('sel'));el.classList.add('sel')}
+function submitPost(){
+  const text=document.getElementById('postText').value.trim();
+  const img=document.getElementById('postImg').value.trim();
+  if(!text&&!img){alert('鑷冲皯鍐欑偣鏂囧瓧鎴栨斁寮犲浘鐗?);return}
+  posts.unshift({id:pidC++,text:text||'',img:img||'',mood:selMood,time:new Date().toLocaleString('zh-CN'),likes:[],comments:[],nickname:'铏剧悆鐢ㄦ埛'});
+  S('posts',posts);
+  document.getElementById('postText').value='';document.getElementById('postImg').value='';
+  renderCircle();renderHome();
 }
-function renderDeals(){
-  const all=shops.filter(s=>s.status==='approved').flatMap(s=>(s.deals||[]).map(d=>({...d,shopId:s.id,shopName:s.name})));
-  const list=activeDealCat==='鍏ㄩ儴'?all:all.filter(d=>(d.cat||'缇庨')===activeDealCat);
-  document.getElementById('dealList').innerHTML=list.length===0?'<div class="empty-state">鏆傛棤鍥㈣喘</div>':
-    list.map(d=>`<div class="deal-card"><div class="deal-body">
-      <div class="deal-title">${d.name} <span style="font-size:11px;color:#999;font-weight:400">鈥?${d.shopName}</span></div>
-      <div class="deal-tags"><span class="tag-orange">${d.cat||'缇庨'}</span><span class="tag-red">鏈夋晥鏈?{d.days||30}澶?/span></div>
-      <div style="font-size:12px;color:#666;margin-bottom:6px">${d.desc||''}</div>
-      <div class="deal-meta"><div class="deal-price"><span class="now">${d.price}</span><span class="old">楼${d.orig}</span></div>
-      <span class="deal-sold">宸插敭${d.sold||0}</span>
-      <button class="btn-buy" onclick="buyDeal(${d.id},${d.shopId})">鎶㈣喘</button></div></div></div>`).join('');
-}
-function buyDeal(did,sid){
-  const s=shops.find(s=>s.id===sid); if(!s) return;
-  const d=(s.deals||[]).find(d=>d.id===did); if(!d) return;
-  payQueue={type:'deal',id:did,shopId:sid,name:d.name,price:d.price};
-  document.getElementById('payAmount').textContent='楼'+d.price.toFixed(2);
-  document.getElementById('payDesc').textContent=d.name+' 鈥?'+s.name;
-  document.getElementById('payModal').classList.remove('hidden');
-}
-
-// ========== 鎵撹溅 ==========
-function renderRideTypes(){
-  document.getElementById('rideTypes').innerHTML=RIDE_TYPES.map((r,i)=>`
-    <div class="rtype ${i===0?'selected':''}" onclick="document.querySelectorAll('.rtype').forEach(e=>e.classList.remove('selected'));this.classList.add('selected')">
-      <div class="rt-icon">${r.icon}</div><div class="rt-name">${r.name}</div><div class="rt-price">楼${r.price}</div><div style="font-size:10px;color:#999">${r.desc}</div></div>`).join('');
-}
-function callRide(){
-  const dest=document.getElementById('rideDest').value.trim(); if(!dest){alert('璇疯緭鍏ョ洰鐨勫湴');return;}
-  const sel=document.querySelector('.rtype.selected'); const p=parseFloat(sel?.querySelector('.rt-price')?.textContent?.replace('楼','')?.split('-')[1]||18);
-  payQueue={type:'ride',name:'鎵撹溅 鈫?'+dest,price:p};
-  document.getElementById('payAmount').textContent='楼'+p.toFixed(2);
-  document.getElementById('payDesc').textContent='鎵撹溅 鈫?'+dest;
-  document.getElementById('payModal').classList.remove('hidden');
-}
-
-// ========== 鏁欏璇剧▼锛堝叏浠樿垂锛?==========
-function renderCourseCats(){
-  const cats=[...new Set(courses.map(c=>c.cat))];
-  document.getElementById('courseCats').innerHTML='<span class="active" onclick="filterCourses(\'鍏ㄩ儴\')">鍏ㄩ儴</span>'+
-    cats.map(c=>`<span onclick="filterCourses('${c}')">${c}</span>`).join('');
-}
-function filterCourses(c){
-  activeCourseCat=c;
-  document.querySelectorAll('#courseCats span').forEach(s=>s.classList.toggle('active',s.textContent===c));
-  renderCourses();
-}
-function renderCourses(){
-  const list=activeCourseCat==='鍏ㄩ儴'?courses:courses.filter(c=>c.cat===activeCourseCat);
-  document.getElementById('courseList').innerHTML=list.map(c=>`
-    <div class="course-card" onclick="openCourse(${c.id})">
-      <div class="course-thumb ${boughtCourses.includes(c.id)?'':'locked'}">${boughtCourses.includes(c.id)?'鈻讹笍':'馃敀'}</div>
-      <div class="course-body"><div class="course-title">${c.title}</div><div class="course-desc">${c.desc}</div>
-        <div style="display:flex;align-items:center;justify-content:space-between">
-          <span class="course-price">楼${c.price}</span>
-          ${boughtCourses.includes(c.id)?'<span style="color:#4caf50;font-size:11px">鉁?宸茶В閿?/span>':
-          '<button class="btn-unlock" onclick="event.stopPropagation();buyCourse('+c.id+')">瑙ｉ攣</button>'}
-        </div></div></div>`).join('');
-}
-function openCourse(id){
-  const c=courses.find(x=>x.id===id); if(!c) return;
-  const ok=boughtCourses.includes(id);
-  // 鎵惧叧鑱旈厤鏂?  const rc=RECIPES.find(r=>r.cat.includes(c.cat)||c.cat.includes(r.cat));
-  let recipeHtml='';
-  if(ok && rc){
-    recipeHtml=rc.items.map(r=>`
-      <div class="recipe-card"><div class="rc-header" onclick="this.nextElementSibling.classList.toggle('open')">
-        <span class="rc-name">${r.name}</span><span class="rc-tag">${r.tag}</span></div>
-        <div class="rc-body"><h4>馃ガ 椋熸潗娓呭崟</h4><p>${r.ing}</p><h4>馃懆鈥嶐煃?鍒朵綔姝ラ</h4><p>${r.st}</p><div class="rc-note">馃挕 ${r.note}</div></div></div>`).join('');
-  }
-  document.getElementById('courseDetail').innerHTML=`
-    <h3>${c.title} <span style="float:right;cursor:pointer" onclick="closeModal('courseModal')">鉁?/span></h3>
-    <div style="background:#333;border-radius:8px;height:160px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:36px;margin-bottom:10px">
-      ${ok?'鈻讹笍 瑙嗛鎾斁鍖?:'馃敀 浠樿垂瑙ｉ攣'}
+function renderPost(p,showComments=false){
+  const liked=p.likes.includes('me');
+  const imgsHtml=p.img?`<div class="post-images"><img src="${p.img}" onerror="this.style.display='none'" style="${p.img?'':'display:none'}"></div>`:'';
+  const moodHtml=p.mood?`<span class="post-mood">${p.mood}</span>`:'';
+  return `<div class="post-card">
+    <div class="post-header"><div class="post-avatar">${p.nickname[0]}</div><div><div class="post-user">${p.nickname}</div><div class="post-time">${p.mood?moodHtml:''} ${p.time}</div></div></div>
+    <div class="post-text">${p.text||''}</div>${imgsHtml}
+    <div class="post-actions">
+      <span class="${liked?'liked':''}" onclick="likePost(${p.id})">${liked?'鉂わ笍':'馃'} ${p.likes.length}</span>
+      <span onclick="toggleComments(${p.id})">馃挰 ${(p.comments||[]).length}</span>
     </div>
-    <p style="font-size:13px;color:#666;margin-bottom:10px">${c.desc}</p>
-    <div style="margin-bottom:10px"><span style="font-size:20px;font-weight:700;color:#ff6b35">楼${c.price}</span></div>
-    ${!ok?
-      `<div class="paywall"><div class="pw-icon">馃敀</div><div class="pw-text">浠樿垂鍐呭</div><div class="pw-sub">璐拱鍚庤В閿佸畬鏁磋棰?+ 鏂囧瓧閰嶆柟</div>
-      <button class="btn" onclick="buyCourse(${c.id})">馃敁 楼${c.price} 瑙ｉ攣鍏ㄩ儴鍐呭</button></div>
-      <div class="paywall"><div class="pw-icon">馃摉</div><div class="pw-text">鏂囧瓧閰嶆柟棰勮鍏抽棴</div><div class="pw-sub">閰嶆柟鏁版嵁闇€浠樿垂鍚庢煡鐪?/div></div>`:
-      `<div style="background:#e8f5e9;padding:10px;border-radius:8px;text-align:center;color:#2e7d32;margin-bottom:10px">鉁?宸茶В閿?鈥?鍚畬鏁磋棰?鏂囧瓧閰嶆柟</div>
-      <div style="font-size:13px;font-weight:600;margin:12px 0 8px">馃摉 闄勮禒鍟嗙敤閰嶆柟</div>${recipeHtml}`
-    }
-  `;
-  document.getElementById('courseModal').classList.remove('hidden');
+    ${showComments?`<div class="post-comments">${(p.comments||[]).map(c=>`<div class="post-comment"><span class="cmt-user">${c.user}:</span><span class="cmt-text">${c.text}</span></div>`).join('')}<div class="comment-input"><input type="text" id="cmtInput${p.id}" placeholder="鍐欎笅璇勮..."><button onclick="addComment(${p.id})">鍙戦€?/button></div></div>`:''}
+  </div>`;
 }
-function buyCourse(id){
-  const c=courses.find(x=>x.id===id); if(!c) return;
-  payQueue={type:'course',id,name:c.title,price:c.price};
-  document.getElementById('payAmount').textContent='楼'+c.price.toFixed(2);
-  document.getElementById('payDesc').textContent=c.title;
-  document.getElementById('payModal').classList.remove('hidden');
+function renderCircle(){document.getElementById('postList').innerHTML=posts.length?posts.map(p=>renderPost(p)):'<div class="empty-state">杩樻病鏈夊姩鎬侊紝蹇潵鍙戠涓€鏉″惂锛?/div>'}
+function likePost(id){const p=posts.find(p=>p.id===id);if(!p)return;if(p.likes.includes('me'))p.likes=p.likes.filter(l=>l!=='me');else p.likes.push('me');S('posts',posts);renderCircle()}
+function toggleComments(id){
+  const isOpen=document.getElementById('cmtInput'+id);
+  renderCircleFull(id,!isOpen);
 }
+function renderCircleFull(openId,show){
+  document.getElementById('postList').innerHTML=posts.length?posts.map(p=>renderPost(p,p.id===openId?show:false)):'<div class="empty-state">杩樻病鏈夊姩鎬?/div>';
+}
+function addComment(id){const input=document.getElementById('cmtInput'+id);if(!input||!input.value.trim())return;const p=posts.find(p=>p.id===id);if(!p)return;if(!p.comments)p.comments=[];p.comments.push({user:'铏剧悆鐢ㄦ埛',text:input.value.trim()});input.value='';S('posts',posts);renderCircleFull(id,true)}
+function postImageHelp(){alert('鍥剧墖閾炬帴:鍦ㄧ綉涓婃壘鍒板枩娆㈢殑鍥剧墖,闀挎寜/鍙抽敭閫夋嫨"澶嶅埗鍥剧墖鍦板潃",绮樿创鍒拌緭鍏ユ鍗冲彲')}
 
-// ========== 鏀粯 ==========
-function doPay(method){
-  if(!payQueue) return;
-  const {type,id,shopId,name,price}=payQueue;
-  if(type==='course'){if(!boughtCourses.includes(id)) boughtCourses.push(id); S('bought',boughtCourses);}
-  else if(type==='deal'){
-    const s=shops.find(s=>s.id===shopId); if(s){const d=(s.deals||[]).find(d=>d.id===id); if(d) d.sold=(d.sold||0)+1; S('shops',shops);}
-    orders.unshift({id:oidCounter++,items:[{name,qty:1,price}],total:price,contact:'鐢ㄦ埛',phone:'-',note:'',time:new Date().toLocaleString('zh-CN'),status:'done',type:'鍥㈣喘'});
-    S('orders',orders);
-  }else if(type==='ride'){
-    orders.unshift({id:oidCounter++,items:[{name,qty:1,price}],total:price,contact:'鐢ㄦ埛',phone:'-',note:'',time:new Date().toLocaleString('zh-CN'),status:'done',type:'鎵撹溅'});
-    S('orders',orders);
-  }
-  payQueue=null; closeModal('payModal'); closeModal('courseModal');
-  alert(`鏀粯鎴愬姛锛?{method==='wechat'?'寰俊':'鏀粯瀹?}鏀粯 楼${price.toFixed(2)}`);
-  renderCourses(); renderDeals();
-}
+// ========== DEALS ==========
+function renderDealCats(){document.getElementById('dealCats').innerHTML='<span class="active" onclick="filterDeals(\'鍏ㄩ儴\')">鍏ㄩ儴</span>'+[...new Set(shops.flatMap(s=>(s.deals||[]).map(d=>d.cat||'缇庨')))].map(c=>`<span onclick="filterDeals('${c}')">${c}</span>`).join('')}
+function filterDeals(c){actDealCat=c;document.querySelectorAll('#dealCats span').forEach(s=>s.classList.toggle('active',s.textContent===c));renderDeals()}
+function renderDeals(){const all=shops.filter(s=>s.status==='approved').flatMap(s=>(s.deals||[]).map(d=>({...d,shopId:s.id,shopName:s.name})));const list=actDealCat==='鍏ㄩ儴'?all:all.filter(d=>(d.cat||'缇庨')===actDealCat);document.getElementById('dealList').innerHTML=list.length?list.map(d=>`<div class="deal-card"><div class="deal-body"><div class="deal-title">${d.name} <span style="font-size:11px;color:#999;font-weight:400">- ${d.shopName}</span></div><div class="deal-tags"><span class="tag-orange">${d.cat||'缇庨'}</span><span class="tag-red">鏈夋晥鏈?{d.days||30}澶?/span></div><div style="font-size:12px;color:#666;margin-bottom:6px">${d.desc||''}</div><div class="deal-meta"><div class="deal-price"><span class="now">${d.price}</span><span class="old">楼${d.orig}</span></div><span class="deal-sold">宸插敭${d.sold||0}</span><button class="btn-buy" onclick="buyDeal(${d.id},${d.shopId})">鎶㈣喘</button></div></div></div>`).join(''):'<div class="empty-state">鏆傛棤鍥㈣喘</div>'}
+function buyDeal(did,sid){const s=shops.find(s=>s.id===sid);if(!s)return;const d=(s.deals||[]).find(d=>d.id===did);if(!d)return;payQ={type:'deal',id:did,shopId:sid,name:d.name,price:d.price};document.getElementById('payAmount').textContent='楼'+d.price.toFixed(2);document.getElementById('payDesc').textContent=d.name+' - '+s.name;document.getElementById('payModal').classList.remove('hidden')}
 
-// ========== 璁㈠崟 ==========
-function showOrders(){
-  const list=document.getElementById('allOrdersList');
-  if(orders.length===0){list.innerHTML='<div class="empty-state">鏆傛棤璁㈠崟</div>';}
-  else{list.innerHTML=orders.map(o=>`
-    <div class="order-item"><div class="order-header"><span>${o.type||'澶栧崠'} 路 ${o.shopName||''} 路 ${o.time}</span>
-      <span class="order-status ${o.status==='new'?'status-new':'status-done'}">${o.status==='new'?'寰呭鐞?:'宸插畬鎴?}</span></div>
-      <div class="order-items">${o.items.map(i=>`${i.name}脳${i.qty}`).join('銆?)}</div>
-      <div class="order-total">楼${o.total.toFixed(2)}</div></div>`).join('');}
-  document.getElementById('ordersModal').classList.remove('hidden');
-}
+// ========== RIDE ==========
+function renderRides(){document.getElementById('rideTypes').innerHTML=RIDES.map((r,i)=>`<div class="rtype ${i===0?'selected':''}" onclick="document.querySelectorAll('.rtype').forEach(e=>e.classList.remove('selected'));this.classList.add('selected')"><div class="rt-icon">${r.icon}</div><div class="rt-name">${r.name}</div><div class="rt-price">楼${r.price}</div><div style="font-size:10px;color:#999">${r.desc}</div></div>`).join('')}
+function callRide(){const dest=document.getElementById('rideDest').value.trim();if(!dest){alert('璇疯緭鍏ョ洰鐨勫湴');return}const sel=document.querySelector('.rtype.selected');const p=parseFloat(sel?.querySelector('.rt-price')?.textContent?.replace('楼','')?.split('-')[1]||18);payQ={type:'ride',name:'鎵撹溅 -> '+dest,price:p};document.getElementById('payAmount').textContent='楼'+p.toFixed(2);document.getElementById('payDesc').textContent='鎵撹溅 -> '+dest;document.getElementById('payModal').classList.remove('hidden')}
 
-// ========== 鍟嗗鍚庡彴 ==========
-let loggedMerchantId = null;
-function showMerchantLogin(){ switchPage('merchant-login'); }
-function merchantLogin(){
-  const name=document.getElementById('loginShopName').value.trim();
-  const pwd=document.getElementById('loginShopPwd').value.trim();
-  if(!name||!pwd){alert('璇峰～鍐欏簵閾哄悕绉板拰瀵嗙爜');return;}
-  const s=shops.find(s=>s.name===name&&s.pwd===pwd);
-  if(!s){alert('搴楅摵鍚嶇О鎴栧瘑鐮侀敊璇?);return;}
-  if(s.status!=='approved'){alert('搴楅摵灏氭湭瀹℃牳閫氳繃');return;}
-  loggedMerchantId=s.id; currentShopId=s.id;
-  document.getElementById('currentShopLabel').textContent='鈥?'+s.name;
-  document.querySelectorAll('[id^="page-"]').forEach(e=>e.classList.add('hidden'));
-  document.getElementById('page-merchant-admin').classList.remove('hidden');
-  document.querySelectorAll('.bottom-nav .nav-item').forEach(e=>e.classList.remove('active'));
-  document.getElementById('nav-profile').classList.add('active');
-  renderMerchantOrders(); renderAdminMenu(); renderAdminDeals();
-}
-function renderMerchantOrders(){
-  const myOrders=orders.filter(o=>o.shopId===loggedMerchantId||(o.type==='澶栧崠'&&!o.shopId));
-  const list=document.getElementById('orderList');
-  if(myOrders.length===0){list.innerHTML='<div class="empty-state">鏆傛棤璁㈠崟</div>';return;}
-  list.innerHTML=myOrders.map(o=>`
-    <div class="order-item"><div class="order-header"><span>${o.type||'澶栧崠'} 路 #${o.id} 路 ${o.time}</span>
-      <span class="order-status ${o.status==='new'?'status-new':'status-done'}">${o.status==='new'?'寰呭鐞?:'宸插畬鎴?}</span></div>
-      <div class="order-items">${o.items.map(i=>`${i.name}脳${i.qty}`).join('銆?)}</div>
-      <div>${o.contact} 路 ${o.phone}${o.note?' 路 '+o.note:''}</div>
-      <div class="order-total">楼${o.total.toFixed(2)}</div>
-      ${o.status==='new'?`<div style="margin-top:6px"><button class="btn-sm btn" onclick="doneOrder(${o.id})">鉁?瀹屾垚</button></div>`:''}</div>`).join('');
-}
-function doneOrder(id){const o=orders.find(o=>o.id===id); if(o){o.status='done'; S('orders',orders); renderMerchantOrders();}}
-function addMenuItem(){
-  const name=document.getElementById('newName').value.trim();
-  const desc=document.getElementById('newDesc').value.trim();
-  const price=parseFloat(document.getElementById('newPrice').value);
-  const cat=document.getElementById('newCat').value;
-  if(!name||isNaN(price)||price<=0){alert('璇峰～鍐欒彍鍚嶅拰浠锋牸');return;}
-  const s=shops.find(s=>s.id===loggedMerchantId); if(!s) return;
-  if(!s.menu) s.menu=[];
-  const maxId=Math.max(0,...s.menu.map(m=>m.id));
-  s.menu.push({id:maxId+1,name,desc,price,cat});
-  S('shops',shops); renderAdminMenu();
-  ['newName','newDesc','newPrice'].forEach(id=>document.getElementById(id).value='');
-}
-function deleteItem(id){
-  if(!confirm('纭畾鍒犻櫎锛?))return;
-  const s=shops.find(s=>s.id===loggedMerchantId); if(!s||!s.menu) return;
-  s.menu=s.menu.filter(m=>m.id!==id); S('shops',shops); renderAdminMenu();
-}
-function renderAdminMenu(){
-  const s=shops.find(s=>s.id===loggedMerchantId); if(!s||!s.menu) return;
-  document.getElementById('adminMenuList').innerHTML=s.menu.map(m=>`
-    <div style="display:flex;align-items:center;padding:8px;border-bottom:1px solid #eee;gap:8px">
-      <span style="flex:1;font-size:12px">${m.name} 鈥?楼${m.price} <span style="color:#999">(${m.cat})</span></span>
-      <button class="btn-sm btn-danger" onclick="deleteItem(${m.id})">鍒犻櫎</button></div>`).join('');
-}
-function addDeal(){
-  const name=document.getElementById('dealName').value.trim();
-  const price=parseFloat(document.getElementById('dealPrice').value);
-  const orig=parseFloat(document.getElementById('dealOrig').value);
-  const days=parseInt(document.getElementById('dealDays').value)||30;
-  if(!name||isNaN(price)||isNaN(orig)){alert('璇峰～鍐欏畬鏁?);return;}
-  const s=shops.find(s=>s.id===loggedMerchantId); if(!s) return;
-  if(!s.deals) s.deals=[];
-  const maxId=Math.max(0,...s.deals.map(d=>d.id));
-  s.deals.push({id:maxId+1,name,desc:'',price,orig,cat:'缇庨',days,sold:0});
-  S('shops',shops); renderAdminDeals();
-  ['dealName','dealPrice','dealOrig','dealDays'].forEach(id=>document.getElementById(id).value='');
-}
-function renderAdminDeals(){
-  const s=shops.find(s=>s.id===loggedMerchantId); if(!s||!s.deals) return;
-  document.getElementById('adminDealList').innerHTML=s.deals.map(d=>`
-    <div style="display:flex;align-items:center;padding:8px;border-bottom:1px solid #eee;gap:8px">
-      <span style="flex:1;font-size:12px">${d.name} 鈥?楼${d.price} <span style="color:#999">鍘熉?{d.orig} 宸插敭${d.sold||0}</span></span>
-      <button class="btn-sm btn-danger" onclick="removeDeal(${d.id})">鍒犻櫎</button></div>`).join('');
-}
-function removeDeal(id){
-  const s=shops.find(s=>s.id===loggedMerchantId); if(!s||!s.deals) return;
-  s.deals=s.deals.filter(d=>d.id!==id); S('shops',shops); renderAdminDeals();
-}
+// ========== COURSES ==========
+function renderCourseCats(){document.getElementById('courseCats').innerHTML='<span class="active" onclick="filterCourses(\'鍏ㄩ儴\')">鍏ㄩ儴</span>'+[...new Set(courses.map(c=>c.cat))].map(c=>`<span onclick="filterCourses('${c}')">${c}</span>`).join('')}
+function filterCourses(c){actCourseCat=c;document.querySelectorAll('#courseCats span').forEach(s=>s.classList.toggle('active',s.textContent===c));renderCourses()}
+function renderCourses(){const list=actCourseCat==='鍏ㄩ儴'?courses:courses.filter(c=>c.cat===actCourseCat);document.getElementById('courseList').innerHTML=list.map(c=>`<div class="course-card" onclick="openCourse(${c.id})"><div class="course-thumb ${boughtCourses.includes(c.id)?'':'locked'}">${boughtCourses.includes(c.id)?'鈻讹笍':'馃敀'}</div><div class="course-body"><div class="course-title">${c.title}</div><div class="course-desc">${c.desc}</div><div style="display:flex;align-items:center;justify-content:space-between"><span class="course-price">楼${c.price}</span>${boughtCourses.includes(c.id)?'<span style="color:#4caf50;font-size:11px">宸茶В閿?/span>':'<button class="btn-unlock" onclick="event.stopPropagation();buyCourse('+c.id+')">瑙ｉ攣</button>'}</div></div></div>`).join('')}
+function openCourse(id){const c=courses.find(x=>x.id===id);if(!c)return;const ok=boughtCourses.includes(id);const rc=RECIPES.find(r=>r.cat.includes(c.cat)||c.cat.includes(r.cat));let rh='';if(ok&&rc){rh=rc.items.map(r=>`<div class="recipe-card"><div class="rc-header" onclick="this.nextElementSibling.classList.toggle('open')"><span class="rc-name">${r.name}</span><span class="rc-tag">${r.tag}</span></div><div class="rc-body"><h4>椋熸潗娓呭崟</h4><p>${r.ing}</p><h4>鍒朵綔姝ラ</h4><p>${r.st}</p><div class="rc-note">${r.note}</div></div></div>`).join('')}
+  document.getElementById('courseDetail').innerHTML=`<h3>${c.title} <span style="float:right;cursor:pointer" onclick="closeModal('courseModal')">x</span></h3><div style="background:#333;border-radius:8px;height:160px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:36px;margin-bottom:10px">${ok?'瑙嗛鎾斁鍖?:'浠樿垂瑙ｉ攣'}</div><p style="font-size:13px;color:#666;margin-bottom:10px">${c.desc}</p><div style="margin-bottom:10px"><span style="font-size:20px;font-weight:700;color:#ff6b35">楼${c.price}</span></div>${!ok?`<div class="paywall"><div class="pw-icon">馃敀</div><div class="pw-text">浠樿垂鍐呭</div><div class="pw-sub">璐拱鍚庤В閿佸畬鏁磋棰?+ 鏂囧瓧閰嶆柟</div><button class="btn" onclick="buyCourse(${c.id})">馃敁 楼${c.price} 瑙ｉ攣鍏ㄩ儴鍐呭</button></div><div class="paywall"><div class="pw-icon">馃摉</div><div class="pw-text">閰嶆柟棰勮鍏抽棴</div><div class="pw-sub">閰嶆柟鏁版嵁闇€浠樿垂鍚庢煡鐪?/div></div>`:`<div style="background:#e8f5e9;padding:10px;border-radius:8px;text-align:center;color:#2e7d32;margin-bottom:10px">宸茶В閿?- 鍚畬鏁磋棰?鏂囧瓧閰嶆柟</div><div style="font-size:13px;font-weight:600;margin:12px 0 8px">闄勮禒鍟嗙敤閰嶆柟</div>${rh}`}`;
+  document.getElementById('courseModal').classList.remove('hidden')}
+function buyCourse(id){const c=courses.find(x=>x.id===id);if(!c)return;payQ={type:'course',id,name:c.title,price:c.price};document.getElementById('payAmount').textContent='楼'+c.price.toFixed(2);document.getElementById('payDesc').textContent=c.title;document.getElementById('payModal').classList.remove('hidden')}
 
-// ========== 鍟嗗鍏ラ┗ ==========
-function submitMerchant(){
-  const name=document.getElementById('shopName').value.trim();
-  const phone=document.getElementById('shopPhone').value.trim();
-  const addr=document.getElementById('shopAddr').value.trim();
-  const pwd=document.getElementById('shopPwd').value.trim();
-  if(!name||!phone||!addr||!pwd){alert('璇峰～鍐欏簵閾哄熀鏈俊鎭拰瀵嗙爜');return;}
-  shops.push({id:sidCounter++,name,cat:document.getElementById('shopCat').value,phone,addr,pwd,
-    time:document.getElementById('shopTime').value,min:parseFloat(document.getElementById('shopMin').value)||20,
-    fee:parseFloat(document.getElementById('shopFee').value)||3,status:'pending',menu:[],deals:[]});
-  S('shops',shops);
-  ['shopName','shopPhone','shopAddr','shopPwd','shopTime'].forEach(id=>document.getElementById(id).value='');
-  alert('鎻愪氦鎴愬姛锛佸钩鍙板皢鍦?-3涓伐浣滄棩鍐呭鏍搞€?); switchPage('profile');
-}
+// ========== PAY ==========
+function doPay(method){if(!payQ)return;const{type,id,shopId,name,price}=payQ;if(type==='course'){if(!boughtCourses.includes(id))boughtCourses.push(id);S('bought',boughtCourses)}else if(type==='deal'){const s=shops.find(s=>s.id===shopId);if(s){const d=(s.deals||[]).find(d=>d.id===id);if(d)d.sold=(d.sold||0)+1;S('shops',shops)}orders.unshift({id:oidC++,items:[{name,qty:1,price}],total:price,contact:'鐢ㄦ埛',phone:'-',note:'',time:new Date().toLocaleString('zh-CN'),status:'done',type:'鍥㈣喘'});S('orders',orders)}else if(type==='ride'){orders.unshift({id:oidC++,items:[{name,qty:1,price}],total:price,contact:'鐢ㄦ埛',phone:'-',note:'',time:new Date().toLocaleString('zh-CN'),status:'done',type:'鎵撹溅'});S('orders',orders)}payQ=null;closeModal('payModal');closeModal('courseModal');alert(`鏀粯鎴愬姛锛?{method==='wechat'?'寰俊':'鏀粯瀹?}鏀粯 楼${price.toFixed(2)}`);renderCourses();renderDeals()}
 
-// ========== 骞冲彴绠＄悊 ==========
-function addCourse(){
-  const title=document.getElementById('courseTitle').value.trim();
-  const desc=document.getElementById('courseDesc').value.trim();
-  const price=parseFloat(document.getElementById('coursePrice').value);
-  const cat=document.getElementById('courseCat').value;
-  if(!title||isNaN(price)){alert('璇峰～鍐欐爣棰樺拰浠锋牸');return;}
-  const maxId=Math.max(0,...courses.map(c=>c.id));
-  courses.push({id:maxId+1,title,desc,price,cat});
-  S('courses',courses); renderAdminCourses();
-  ['courseTitle','courseDesc','coursePrice'].forEach(id=>document.getElementById(id).value='');
-}
-function renderAdminCourses(){
-  document.getElementById('adminCourseList').innerHTML=courses.map(c=>`
-    <div style="display:flex;align-items:center;padding:8px;border-bottom:1px solid #eee;gap:8px">
-      <span style="flex:1;font-size:12px">${c.title} 鈥?楼${c.price} <span style="color:#999">(${c.cat})</span></span>
-      <button class="btn-sm btn-danger" onclick="delCourse(${c.id})">鍒犻櫎</button></div>`).join('');
-}
-function delCourse(id){courses=courses.filter(c=>c.id!==id); S('courses',courses); renderAdminCourses(); renderCourses();}
+// ========== ORDERS ==========
+function showOrders(){const list=document.getElementById('allOrdersList');if(orders.length===0){list.innerHTML='<div class="empty-state">鏆傛棤璁㈠崟</div>'}else{list.innerHTML=orders.map(o=>`<div class="order-item"><div class="order-header"><span>${o.type||'澶栧崠'} . ${o.shopName||''} . ${o.time}</span><span class="order-status ${o.status==='new'?'status-new':'status-done'}">${o.status==='new'?'寰呭鐞?:'宸插畬鎴?}</span></div><div class="order-items">${o.items.map(i=>`${i.name}x${i.qty}`).join('銆?)}</div><div class="order-total">楼${o.total.toFixed(2)}</div></div>`).join('')}document.getElementById('ordersModal').classList.remove('hidden')}
 
-function renderPlatform(){
-  document.getElementById('merchantReviewList').innerHTML=shops.length===0?'<div class="empty-state">鏆傛棤鍏ラ┗鐢宠</div>':
-    shops.map(s=>`<div class="order-item">
-      <div><b>${s.name}</b> <span class="order-status ${s.status==='pending'?'status-new':'status-done'}">${s.status==='pending'?'寰呭鏍?:s.status==='approved'?'宸查€氳繃':'宸查┏鍥?}</span></div>
-      <div style="font-size:12px;color:#666;margin:4px 0">${s.cat} 路 ${s.phone} 路 ${s.addr}</div>
-      ${s.status==='pending'?`<div style="margin-top:6px">
-        <button class="btn-sm btn" onclick="approveShop(${s.id})">鉁?閫氳繃</button>
-        <button class="btn-sm btn-danger" onclick="rejectShop(${s.id})">鉂?椹冲洖</button></div>`:''}</div>`).join('');
-  document.getElementById('statOrders').textContent=orders.length;
-  document.getElementById('statRevenue').textContent='楼'+orders.filter(o=>o.status==='done').reduce((s,o)=>s+o.total,0).toFixed(2);
-  document.getElementById('statShops').textContent=shops.filter(s=>s.status==='approved').length;
-  renderAdminCourses();
-}
-function approveShop(id){const s=shops.find(s=>s.id===id); if(s){s.status='approved'; S('shops',shops); renderPlatform();}}
-function rejectShop(id){shops=shops.filter(s=>s.id!==id); S('shops',shops); renderPlatform();}
+// ========== MERCHANT ==========
+let logMerchant=null;
+function merchantLogin(){const name=document.getElementById('loginShopName').value.trim();const pwd=document.getElementById('loginShopPwd').value.trim();if(!name||!pwd){alert('璇峰～鍐欏簵閾哄悕绉板拰瀵嗙爜');return}const s=shops.find(s=>s.name===name&&s.pwd===pwd);if(!s){alert('搴楅摵鍚嶇О鎴栧瘑鐮侀敊璇?);return}if(s.status!=='approved'){alert('搴楅摵灏氭湭瀹℃牳閫氳繃');return}logMerchant=s.id;curShop=s.id;document.getElementById('currentShopLabel').textContent='- '+s.name;document.querySelectorAll('[id^="page-"]').forEach(e=>e.classList.add('hidden'));document.getElementById('page-merchant-admin').classList.remove('hidden');document.querySelectorAll('.bottom-nav .nav-item').forEach(e=>e.classList.remove('active'));document.getElementById('nav-profile').classList.add('active');renderMerchantOrders();renderAdminMenu();renderAdminDeals()}
+function renderMerchantOrders(){const myO=orders.filter(o=>o.shopId===logMerchant||(o.type==='澶栧崠'&&!o.shopId));const list=document.getElementById('orderList');if(myO.length===0){list.innerHTML='<div class="empty-state">鏆傛棤璁㈠崟</div>';return}list.innerHTML=myO.map(o=>`<div class="order-item"><div class="order-header"><span>${o.type||'澶栧崠'} . #${o.id} . ${o.time}</span><span class="order-status ${o.status==='new'?'status-new':'status-done'}">${o.status==='new'?'寰呭鐞?:'宸插畬鎴?}</span></div><div class="order-items">${o.items.map(i=>`${i.name}x${i.qty}`).join('銆?)}</div><div>${o.contact} . ${o.phone}${o.note?' . '+o.note:''}</div><div class="order-total">楼${o.total.toFixed(2)}</div>${o.status==='new'?`<div style="margin-top:6px"><button class="btn-sm btn" onclick="doneOrder(${o.id})">瀹屾垚</button></div>`:''}</div>`).join('')}
+function doneOrder(id){const o=orders.find(o=>o.id===id);if(o){o.status='done';S('orders',orders);renderMerchantOrders()}}
+function addMenuItem(){const name=document.getElementById('newName').value.trim();const desc=document.getElementById('newDesc').value.trim();const price=parseFloat(document.getElementById('newPrice').value);const cat=document.getElementById('newCat').value;if(!name||isNaN(price)||price<=0){alert('璇峰～鍐欒彍鍚嶅拰浠锋牸');return}const s=shops.find(s=>s.id===logMerchant);if(!s)return;if(!s.menu)s.menu=[];const maxId=Math.max(0,...s.menu.map(m=>m.id));s.menu.push({id:maxId+1,name,desc,price,cat});S('shops',shops);renderAdminMenu();['newName','newDesc','newPrice'].forEach(id=>document.getElementById(id).value='')}
+function deleteItem(id){if(!confirm('纭畾鍒犻櫎锛?))return;const s=shops.find(s=>s.id===logMerchant);if(!s||!s.menu)return;s.menu=s.menu.filter(m=>m.id!==id);S('shops',shops);renderAdminMenu()}
+function renderAdminMenu(){const s=shops.find(s=>s.id===logMerchant);if(!s||!s.menu)return;document.getElementById('adminMenuList').innerHTML=s.menu.map(m=>`<div style="display:flex;align-items:center;padding:8px;border-bottom:1px solid #eee;gap:8px"><span style="flex:1;font-size:12px">${m.name} - 楼${m.price} <span style="color:#999">(${m.cat})</span></span><button class="btn-sm btn-danger" onclick="deleteItem(${m.id})">鍒犻櫎</button></div>`).join('')}
+function addDeal(){const name=document.getElementById('dealName').value.trim();const price=parseFloat(document.getElementById('dealPrice').value);const orig=parseFloat(document.getElementById('dealOrig').value);const days=parseInt(document.getElementById('dealDays').value)||30;if(!name||isNaN(price)||isNaN(orig)){alert('璇峰～鍐欏畬鏁?);return}const s=shops.find(s=>s.id===logMerchant);if(!s)return;if(!s.deals)s.deals=[];const maxId=Math.max(0,...s.deals.map(d=>d.id));s.deals.push({id:maxId+1,name,desc:'',price,orig,cat:'缇庨',days,sold:0});S('shops',shops);renderAdminDeals();['dealName','dealPrice','dealOrig','dealDays'].forEach(id=>document.getElementById(id).value='')}
+function renderAdminDeals(){const s=shops.find(s=>s.id===logMerchant);if(!s||!s.deals)return;document.getElementById('adminDealList').innerHTML=s.deals.map(d=>`<div style="display:flex;align-items:center;padding:8px;border-bottom:1px solid #eee;gap:8px"><span style="flex:1;font-size:12px">${d.name} - 楼${d.price} <span style="color:#999">鍘熉?{d.orig} 宸插敭${d.sold||0}</span></span><button class="btn-sm btn-danger" onclick="removeDeal(${d.id})">鍒犻櫎</button></div>`).join('')}
+function removeDeal(id){const s=shops.find(s=>s.id===logMerchant);if(!s||!s.deals)return;s.deals=s.deals.filter(d=>d.id!==id);S('shops',shops);renderAdminDeals()}
+function submitMerchant(){const name=document.getElementById('shopName').value.trim();const phone=document.getElementById('shopPhone').value.trim();const addr=document.getElementById('shopAddr').value.trim();const pwd=document.getElementById('shopPwd').value.trim();if(!name||!phone||!addr||!pwd){alert('璇峰～鍐欏熀鏈俊鎭拰瀵嗙爜');return}shops.push({id:sidC++,name,cat:document.getElementById('shopCat').value,phone,addr,pwd,time:document.getElementById('shopTime').value,min:parseFloat(document.getElementById('shopMin').value)||20,fee:parseFloat(document.getElementById('shopFee').value)||3,status:'pending',menu:[],deals:[]});S('shops',shops);['shopName','shopPhone','shopAddr','shopPwd','shopTime'].forEach(id=>document.getElementById(id).value='');alert('鎻愪氦鎴愬姛锛?-3涓伐浣滄棩鍐呭鏍搞€?);go('profile')}
 
-// ========== 鍩庡競 ==========
-const CITIES = ['鍖椾含','涓婃捣','骞垮窞','娣卞湷','鎴愰兘','鏉窞','姝︽眽','鍗椾含','閲嶅簡','瑗垮畨','閮戝窞','闀挎矙','鑻忓窞','澶╂触','闈掑矝','涓滆帪','浣涘北','鍚堣偉','绂忓窞','鍘﹂棬'];
-let myCity = L('myCity', '');
-function getCity(){ return myCity || '鏈畾浣?; }
-function showCityPicker(){
-  document.getElementById('cityGrid').innerHTML = CITIES.map(c=>`
-    <div style="padding:10px;text-align:center;background:${c===myCity?'#ff6b35':'#f5f5f5'};color:${c===myCity?'#fff':'#333'};border-radius:8px;cursor:pointer;font-size:13px"
-      onclick="setCity('${c}')">${c}</div>`).join('');
-  document.getElementById('cityModal').classList.remove('hidden');
-}
-function setCity(c){
-  myCity=c; S('myCity',c);
-  document.getElementById('currentCity').textContent=c;
-  closeModal('cityModal');
-  // 鏇存柊鎵撹溅璧风偣
-  const startInput = document.querySelector('#page-ride .addr-item input');
-  if(startInput) startInput.value = c+'锛堣嚜鍔ㄥ畾浣嶏級';
-}
-function autoLocate(){
-  if(myCity){ document.getElementById('currentCity').textContent=myCity; return; }
-  if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(pos=>{
-      // 绠€鍗曞弽鎺細鐢ㄧ粡绾害绮楃暐瀵瑰簲锛堝疄闄呴渶瑕侀€嗗湴鐞嗙紪鐮丄PI锛岃繖閲屽仛绀烘剰锛?      document.getElementById('currentCity').textContent = '璇风偣鍑婚€夋嫨';
-    },()=>{
-      document.getElementById('currentCity').textContent = '璇风偣鍑婚€夋嫨';
-    });
-  } else {
-    document.getElementById('currentCity').textContent = '璇风偣鍑婚€夋嫨';
-  }
-}
+// ========== PLATFORM ==========
+function addCourse(){const title=document.getElementById('courseTitle').value.trim();const desc=document.getElementById('courseDesc').value.trim();const price=parseFloat(document.getElementById('coursePrice').value);const cat=document.getElementById('courseCat').value;if(!title||isNaN(price)){alert('璇峰～鍐欐爣棰樺拰浠锋牸');return}const maxId=Math.max(0,...courses.map(c=>c.id));courses.push({id:maxId+1,title,desc,price,cat});S('courses',courses);renderAdminCourses();['courseTitle','courseDesc','coursePrice'].forEach(id=>document.getElementById(id).value='')}
+function renderAdminCourses(){document.getElementById('adminCourseList').innerHTML=courses.map(c=>`<div style="display:flex;align-items:center;padding:8px;border-bottom:1px solid #eee;gap:8px"><span style="flex:1;font-size:12px">${c.title} - 楼${c.price} <span style="color:#999">(${c.cat})</span></span><button class="btn-sm btn-danger" onclick="delCourse(${c.id})">鍒犻櫎</button></div>`).join('')}
+function delCourse(id){courses=courses.filter(c=>c.id!==id);S('courses',courses);renderAdminCourses();renderCourses()}
+function renderPlatform(){document.getElementById('merchantReviewList').innerHTML=shops.length?shops.map(s=>`<div class="order-item"><div><b>${s.name}</b> <span class="order-status ${s.status==='pending'?'status-new':'status-done'}">${s.status==='pending'?'寰呭鏍?:s.status==='approved'?'宸查€氳繃':'宸查┏鍥?}</span></div><div style="font-size:12px;color:#666;margin:4px 0">${s.cat} . ${s.phone} . ${s.addr}</div>${s.status==='pending'?`<div style="margin-top:6px"><button class="btn-sm btn" onclick="approveShop(${s.id})">閫氳繃</button><button class="btn-sm btn-danger" onclick="rejectShop(${s.id})">椹冲洖</button></div>`:''}</div>`).join(''):'<div class="empty-state">鏆傛棤鍏ラ┗鐢宠</div>';document.getElementById('statOrders').textContent=orders.length;document.getElementById('statRevenue').textContent='楼'+orders.filter(o=>o.status==='done').reduce((s,o)=>s+o.total,0).toFixed(2);document.getElementById('statShops').textContent=shops.filter(s=>s.status==='approved').length;renderAdminCourses()}
+function approveShop(id){const s=shops.find(s=>s.id===id);if(s){s.status='approved';S('shops',shops);renderPlatform()}}
+function rejectShop(id){shops=shops.filter(s=>s.id!==id);S('shops',shops);renderPlatform()}
+
+// ========== CITY ==========
+function showCityPicker(){document.getElementById('cityGrid').innerHTML=CITIES.map(c=>`<div style="padding:10px;text-align:center;background:${c===myCity?'#ff6b35':'#f5f5f5'};color:${c===myCity?'#fff':'#333'};border-radius:8px;cursor:pointer;font-size:13px" onclick="setCity('${c}')">${c}</div>`).join('');document.getElementById('cityModal').classList.remove('hidden')}
+function setCity(c){myCity=c;S('myCity',c);document.getElementById('currentCity').textContent=c;closeModal('cityModal')}
+function autoLocate(){if(myCity){document.getElementById('currentCity').textContent=myCity;return}if(navigator.geolocation){navigator.geolocation.getCurrentPosition(p=>{document.getElementById('currentCity').textContent='璇风偣鍑婚€夋嫨'},()=>{document.getElementById('currentCity').textContent='璇风偣鍑婚€夋嫨'})}else{document.getElementById('currentCity').textContent='璇风偣鍑婚€夋嫨'}}
 
 // init
+renderMoods();
 autoLocate();
-// 鎵撹溅椤甸粯璁よ捣鐐?setTimeout(()=>{
-  const si = document.querySelector('#page-ride .addr-item input');
-  if(si&&!si.value) si.value = getCity()+'锛堣嚜鍔ㄥ畾浣嶏級';
-},500);
-navTo('home');
+go('home');
 </script>
 </body>
 </html>
