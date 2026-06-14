@@ -194,9 +194,58 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .comment-list{font-size:12px;color:#666;margin-top:4px}
 .comment-list .cmt{margin-bottom:2px;padding:2px 0}
 .noscroll{overflow:hidden}
+
+.back-toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.75);color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;z-index:999;transition:opacity 0.3s;pointer-events:none}
 </style>
 <script>
 'use strict';
+function goBack() {
+  if (navHistory.length > 1) {
+    navHistory.pop();
+    var prev = navHistory[navHistory.length - 1];
+    go(prev.page, prev.data, true);
+  } else {
+    go(currentMainTab, null, true);
+  }
+}
+
+var navHistory = [];
+var lastBackTime = 0;
+var mainTabs = ['home', 'food', 'circle', 'courses', 'profile'];
+var currentMainTab = 'home';
+
+function handleBack() {
+  if (navHistory.length > 1) {
+    navHistory.pop();
+    var prev = navHistory[navHistory.length - 1];
+    go(prev.page, prev.data, true);
+  } else {
+    var now = Date.now();
+    if (now - lastBackTime < 2000) {
+      if (typeof WeixinJSBridge !== 'undefined') WeixinJSBridge.call('closeWindow');
+      else if (navigator.userAgent.indexOf('Android') > -1) window.history.go(-1);
+      else window.close();
+    } else {
+      showToast('再按一次退出');
+      lastBackTime = now;
+    }
+  }
+}
+
+function showToast(msg) {
+  var t = document.getElementById('backToast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'backToast';
+    t.className = 'back-toast';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(function() { t.style.opacity = '0'; }, 1500);
+}
+
 var SHOPS = [{"id": "s1", "name": "虾球小厨", "logo": "🦞", "rating": "4.8", "sales": 3280, "tags": ["海鲜", "川菜", "招牌小龙虾"], "address": "滨海路88号", "phone": "13800001001", "desc": "鲜香麻辣，虾球当家！每日新鲜到货，秘制十三香配方。", "categories": ["招牌必点", "热菜", "凉菜", "主食", "饮品"], "menu": [{"cat": "招牌必点", "items": [{"id": "m1", "name": "招牌麻辣小龙虾", "price": 68, "img": "🦞", "desc": "秘制十三香，中份约20只"}, {"id": "m2", "name": "蒜蓉小龙虾", "price": 72, "img": "🧄", "desc": "蒜香浓郁，回味无穷"}, {"id": "m3", "name": "香辣蟹", "price": 88, "img": "🦀", "desc": "鲜活肉蟹，香辣过瘾"}]}, {"cat": "热菜", "items": [{"id": "m4", "name": "水煮鱼", "price": 48, "img": "🐟", "desc": "鲜嫩鱼片，麻辣鲜香"}, {"id": "m5", "name": "回锅肉", "price": 32, "img": "🥩", "desc": "经典川味，肥而不腻"}, {"id": "m6", "name": "麻婆豆腐", "price": 18, "img": "🧈", "desc": "麻辣嫩滑，下饭神器"}]}, {"cat": "凉菜", "items": [{"id": "m7", "name": "凉拌黄瓜", "price": 12, "img": "🥒", "desc": "爽脆开胃"}, {"id": "m8", "name": "口水鸡", "price": 28, "img": "🍗", "desc": "麻辣鲜香，鸡肉嫩滑"}]}, {"cat": "主食", "items": [{"id": "m9", "name": "蛋炒饭", "price": 15, "img": "🍚", "desc": "粒粒分明，香气四溢"}, {"id": "m10", "name": "担担面", "price": 16, "img": "🍜", "desc": "正宗川味担担面"}]}, {"cat": "饮品", "items": [{"id": "m11", "name": "酸梅汤", "price": 8, "img": "🥤", "desc": "冰镇解辣"}, {"id": "m12", "name": "冰粉", "price": 10, "img": "🍨", "desc": "清凉甜品"}]}], "deals": [{"id": "d1", "title": "双人龙虾套餐", "price": 99, "orig": 136, "desc": "麻辣小龙虾+蒜蓉小龙虾+酸梅汤x2"}, {"id": "d2", "title": "招牌尝鲜单人餐", "price": 45, "orig": 66, "desc": "水煮鱼+蛋炒饭+酸梅汤"}]}, {"id": "s2", "name": "老王烧烤", "logo": "🍖", "rating": "4.6", "sales": 5120, "tags": ["烧烤", "夜宵", "东北风味"], "address": "学院路12号", "phone": "13800001002", "desc": "东北老板，地道烤串！炭火现烤，秘制酱料。", "categories": ["经典烤串", "锡纸系列", "凉菜", "酒水"], "menu": [{"cat": "经典烤串", "items": [{"id": "m13", "name": "羊肉串x10", "price": 30, "img": "🍢", "desc": "肥瘦相间，外焦里嫩"}, {"id": "m14", "name": "牛肉串x10", "price": 35, "img": "🥓", "desc": "精选牛里脊"}, {"id": "m15", "name": "烤鸡翅x5", "price": 25, "img": "🍗", "desc": "蜜汁口味，甜香入味"}, {"id": "m16", "name": "烤鱿鱼", "price": 22, "img": "🦑", "desc": "整只大鱿鱼，酱香浓郁"}]}, {"cat": "锡纸系列", "items": [{"id": "m17", "name": "锡纸花甲粉", "price": 28, "img": "🦪", "desc": "花甲+粉丝，蒜蓉味"}, {"id": "m18", "name": "锡纸金针菇", "price": 15, "img": "🍄", "desc": "蒜蓉烤制，鲜嫩多汁"}]}, {"cat": "凉菜", "items": [{"id": "m19", "name": "拍黄瓜", "price": 10, "img": "🥒", "desc": "清爽解腻"}, {"id": "m20", "name": "花生毛豆", "price": 12, "img": "🥜", "desc": "下酒必备"}]}, {"cat": "酒水", "items": [{"id": "m21", "name": "青岛啤酒", "price": 8, "img": "🍺", "desc": "500ml瓶装"}, {"id": "m22", "name": "椰汁", "price": 6, "img": "🥥", "desc": "清凉解渴"}]}], "deals": [{"id": "d3", "title": "烧烤双人畅享", "price": 68, "orig": 96, "desc": "羊肉串x10+牛肉串x10+鸡翅x5+啤酒x2"}, {"id": "d4", "title": "深夜撸串套餐", "price": 35, "orig": 52, "desc": "羊肉串x10+烤鱿鱼+椰汁"}]}, {"id": "s3", "name": "茶颜悦饮", "logo": "🍵", "rating": "4.9", "sales": 8900, "tags": ["茶饮", "甜品", "网红打卡"], "address": "中央大街1号", "phone": "13800001003", "desc": "新中式茶饮，颜值与口感并存！", "categories": ["人气推荐", "奶茶系列", "果茶系列", "纯茶", "甜品"], "menu": [{"cat": "人气推荐", "items": [{"id": "m23", "name": "幽兰拿铁", "price": 18, "img": "☕", "desc": "奶油顶+碧根果碎，招牌必点"}, {"id": "m24", "name": "声声乌龙", "price": 16, "img": "🍑", "desc": "蜜桃乌龙茶底，清新回甘"}, {"id": "m25", "name": "桂花弄", "price": 15, "img": "🌸", "desc": "桂花乌龙，花香四溢"}]}, {"cat": "奶茶系列", "items": [{"id": "m26", "name": "珍珠奶茶", "price": 12, "img": "🧋", "desc": "经典黑糖珍珠"}, {"id": "m27", "name": "芋泥波波", "price": 16, "img": "🟣", "desc": "软糯芋泥+Q弹波波"}]}, {"cat": "果茶系列", "items": [{"id": "m28", "name": "满杯红柚", "price": 18, "img": "🍊", "desc": "新鲜红柚，满满维C"}, {"id": "m29", "name": "霸气橙子", "price": 16, "img": "🍊", "desc": "整颗鲜橙榨取"}]}, {"cat": "纯茶", "items": [{"id": "m30", "name": "龙井绿茶", "price": 22, "img": "🍃", "desc": "明前龙井，清香悠长"}, {"id": "m31", "name": "铁观音", "price": 20, "img": "🫖", "desc": "安溪铁观音，七泡有余香"}]}, {"cat": "甜品", "items": [{"id": "m32", "name": "提拉米苏", "price": 25, "img": "🍰", "desc": "意大利经典甜品"}, {"id": "m33", "name": "芒果班戟", "price": 18, "img": "🥭", "desc": "新鲜芒果+奶油"}]}], "deals": [{"id": "d5", "title": "下午茶双人套餐", "price": 35, "orig": 50, "desc": "幽兰拿铁+声声乌龙+提拉米苏"}, {"id": "d6", "title": "夏日清凉组合", "price": 28, "orig": 40, "desc": "满杯红柚+霸气橙子"}]}];
 var COURSES = [{"id": "c1", "title": "麻辣小龙虾秘方", "price": 9.9, "cover": "🦞", "desc": "学会这道招牌菜，开店月入过万！", "content": {"intro": "麻辣小龙虾是夏季夜宵之王，学会这道菜，无论是家庭聚餐还是摆摊创业都是绝佳选择。本课程由虾球小厨主厨亲自传授。", "ingredients": ["小龙虾 1000g", "干辣椒 50g", "花椒 30g", "郫县豆瓣酱 80g", "生姜 30g", "大蒜 50g", "八角 5个", "桂皮 1块", "香叶 5片", "啤酒 500ml", "生抽 30ml", "蚝油 20ml", "白糖 15g", "盐 适量", "食用油 适量", "香菜 适量"], "steps": ["小龙虾刷洗干净，剪去虾须和虾枪，挑出虾线", "干辣椒切段，生姜切片，大蒜拍碎备用", "热锅冷油，油温七成热时下入小龙虾，大火炸至虾壳变红捞出", "锅中留底油，下入豆瓣酱小火炒出红油", "加入姜片、蒜瓣、干辣椒、花椒、八角、桂皮、香叶炒香", "倒入炸好的小龙虾翻炒均匀", "加入啤酒、生抽、蚝油、白糖，大火烧开后转中火焖煮15分钟", "开盖大火收汁，汤汁浓稠时加盐调味", "出锅装盘，撒上香菜即可"], "tips": ["小龙虾一定要用活虾，死虾口感差且有食品安全风险", "炸虾时油温要够高，这样虾肉才会紧实Q弹", "豆瓣酱要小火慢炒才能炒出红油不苦", "啤酒可以去除腥味并增加麦香，不可省略"]}}, {"id": "c2", "title": "秘制烧烤酱料配方", "price": 6.9, "cover": "🍖", "desc": "万能烧烤酱，万物皆可烤！", "content": {"intro": "烧烤的灵魂在于酱料。本课程公开老王烧烤三代传承的秘制酱料配方，适用于各种肉类、海鲜、蔬菜的烧烤。", "ingredients": ["孜然粉 50g", "辣椒面 30g", "花椒粉 15g", "五香粉 10g", "芝麻酱 50g", "花生酱 30g", "生抽 40ml", "蚝油 30ml", "蜂蜜 20g", "蒜末 30g", "姜末 15g", "食用油 60ml", "白芝麻 20g", "盐 适量"], "steps": ["将孜然粉、辣椒面、花椒粉、五香粉混合均匀制成干料", "芝麻酱和花生酱用少量温水调开至顺滑", "蒜末、姜末放入碗中", "加入生抽、蚝油、蜂蜜搅拌均匀", "将调好的酱料倒入混合干料中搅拌", "淋入烧热的食用油激发出香味", "加入白芝麻和盐调味", "充分搅拌至所有材料融合即可使用"], "tips": ["干料可以提前大量配制密封保存", "热油是激发香味的关键步骤，油温要在180°C左右", "酱料中可以加入苹果泥或梨汁增加果香甜味", "烧烤时先刷一层油，烤至变色再刷酱料"]}}, {"id": "c3", "title": "酸菜鱼完整教程", "price": 8.8, "cover": "🐟", "desc": "酸爽鲜香，家庭版酸菜鱼", "content": {"intro": "酸菜鱼是一道经典川菜，鱼肉嫩滑、汤汁酸爽，是下饭神器。本课程从选鱼到烹饪，手把手教你做出餐厅级别的酸菜鱼。", "ingredients": ["草鱼 1条(约1500g)", "酸菜 300g", "干辣椒 20g", "花椒 15g", "泡椒 30g", "生姜 30g", "大蒜 20g", "蛋清 1个", "淀粉 20g", "料酒 20ml", "白胡椒粉 5g", "盐 适量", "食用油 适量", "葱花 适量"], "steps": ["草鱼宰杀干净，沿脊骨片下鱼肉，切成薄片", "鱼片用料酒、盐、白胡椒粉、蛋清、淀粉抓匀腌制20分钟", "酸菜切丝，泡椒切段，姜蒜切片", "鱼骨剁成段，热油煎至两面金黄盛出", "锅中放油，下姜蒜泡椒炒香", "加入酸菜翻炒3分钟至出香味", "加入适量开水，放入煎好的鱼骨大火煮10分钟至汤白", "将腌好的鱼片逐片滑入锅中，煮至变色(约1分钟)", "加盐调味，出锅撒上葱花", "另起锅烧热油，浇在干辣椒和花椒上激香"], "tips": ["鱼片要顺着纹理斜切，这样口感更嫩", "腌制时加蛋清和淀粉是鱼片嫩滑的关键", "酸菜要先炒香再加水，汤才够浓郁", "鱼片下锅后不要翻动，变色即可出锅"]}}, {"id": "c4", "title": "手工拉面技术", "price": 12.9, "cover": "🍜", "desc": "从面粉到拉面，零基础入门", "content": {"intro": "手工拉面是中华面食的精髓，看似简单实则讲究。本课程从和面、醒面到拉面，完整呈现传统兰州拉面的制作工艺。", "ingredients": ["高筋面粉 500g", "水 250ml", "盐 5g", "蓬灰水 3ml(可选)", "牛肉 300g", "白萝卜 1根", "香菜 适量", "蒜苗 适量", "辣椒油 适量"], "steps": ["面粉中加入盐和水，揉成光滑面团，盖上湿布醒面30分钟", "醒好的面团反复揉搓至表面光滑有弹性", "将面团擀成长方形厚片，刷一层油防粘", "切成宽约1cm的长条，搓圆", "每条均匀抹油，摆入盘中，盖上保鲜膜再醒1小时", "取一条面，两手均匀用力拉长", "对折后继续拉伸，重复5-6次至面条粗细均匀", "沸水下锅煮至面条浮起即可捞出", "牛肉切片，白萝卜切片焯水", "碗底放牛肉和萝卜，盛入面条，浇热牛肉汤，撒香菜蒜苗"], "tips": ["面粉一定要用高筋面粉，蛋白质含量在12%以上", "醒面时间要充足，面筋才能充分形成", "拉面时用力要均匀，新手可以慢慢拉", "煮面水要多，水沸后再下面，面条才爽滑"]}}, {"id": "c5", "title": "网红奶茶调配", "price": 5.9, "cover": "🧋", "desc": "复刻茶颜悦饮招牌饮品", "content": {"intro": "想在家复刻网红奶茶店的味道吗？本课程包含茶颜悦饮多款招牌饮品的完整配方，让你在家也能享受高品质奶茶。", "ingredients": ["红茶/乌龙茶/绿茶 茶包3个", "全脂牛奶 200ml", "淡奶油 50ml", "炼乳 20g", "黑糖珍珠 100g", "冰块 适量", "碧根果碎 适量", "喷射奶油 适量"], "steps": ["茶包用200ml 90°C热水冲泡，焖3分钟后取出", "黑糖珍珠按包装说明煮熟，过凉水后拌入黑糖浆", "杯底放入黑糖珍珠，沿杯壁转动使其挂壁", "倒入泡好的茶汤约150ml", "加入牛奶和炼乳搅拌均匀", "加入冰块至八分满", "顶部挤上淡奶油(或喷射奶油)", "撒上碧根果碎即可"], "tips": ["不同茶底搭配不同配料：红茶配奶油、乌龙配果味、绿茶配柠檬", "黑糖珍珠煮好后要在30分钟内使用口感最佳", "茶汤浓度要根据个人口味调整，一般茶水比1:50", "奶盖可以用淡奶油+奶油奶酪+海盐打发制成"]}}, {"id": "c6", "title": "凉菜卤味大全", "price": 7.9, "cover": "🥒", "desc": "12道经典凉菜卤味配方", "content": {"intro": "凉菜卤味是餐饮创业的热门品类，成本低利润高。本课程包含12道经典凉菜卤味的完整配方，从基础卤水到各式凉拌，一网打尽。", "ingredients": ["猪蹄 2只", "鸡爪 500g", "鸭脖 500g", "卤料包(八角、桂皮、香叶、草果、小茴香、丁香)", "生抽 100ml", "老抽 50ml", "冰糖 50g", "盐 30g", "料酒 50ml", "姜片 30g", "大葱 2根", "干辣椒 20g", "花椒 15g"], "steps": ["猪蹄、鸡爪、鸭脖洗净，冷水下锅焯水去血沫", "焯好的食材捞出冲洗干净", "锅中加水3L，放入卤料包、姜片、大葱", "加入生抽、老抽、冰糖、盐、料酒", "大火烧开后转小火熬制30分钟出香味", "放入焯好的食材，大火煮沸后转小火", "猪蹄卤1.5小时，鸡爪卤40分钟，鸭脖卤1小时", "关火后让食材在卤汁中浸泡至少2小时入味", "捞出晾凉，切片摆盘"], "tips": ["卤水越老越香，卤完食材后将卤水过滤保存下次再用", "不同食材要分开卤制或按先后顺序放入", "浸泡时间越长越入味，建议隔夜冷藏浸泡", "卤水中加入少量高度白酒可以去腥增香"]}}, {"id": "c7", "title": "家庭烘焙入门", "price": 15.9, "cover": "🍰", "desc": "面包、蛋糕、饼干一学就会", "content": {"intro": "家庭烘焙是治愈系美食的代表。本课程从工具准备到成品出炉，涵盖面包、蛋糕、饼干三大品类的基础配方和进阶技巧。", "ingredients": ["高筋面粉 250g", "低筋面粉 200g", "黄油 100g", "细砂糖 80g", "鸡蛋 4个", "牛奶 120ml", "酵母 5g", "盐 3g", "淡奶油 200ml", "糖粉 50g", "可可粉 20g", "泡打粉 5g"], "steps": ["【基础面包】高筋面粉+酵母+糖+盐+牛奶+鸡蛋揉成面团", "加入软化黄油继续揉至手套膜状态", "盖上保鲜膜，温暖处发酵至2倍大(约1小时)", "排气后分割整形，放入模具二次发酵30分钟", "表面刷蛋液，180°C烤25分钟至表面金黄", "【戚风蛋糕】蛋清蛋黄分离，蛋黄+油+牛奶+低粉搅拌", "蛋清分三次加糖打发至硬性发泡", "分次混合蛋白霜和蛋黄糊，倒入模具", "150°C烤50分钟，出炉倒扣冷却", "【曲奇饼干】黄油软化+糖粉打发，分次加蛋液+低粉搅拌，裱花后180°C烤15分钟"], "tips": ["烤箱一定要预热到位再放入烤制", "面包发酵温度控制在28-32°C最佳", "戚风蛋糕出炉后必须倒扣冷却否则会回缩", "饼干黄油不能融化只能软化，否则花纹会消失"]}}];
 var CITIES = ["北京", "上海", "广州", "深圳", "杭州", "成都", "武汉", "南京", "重庆", "西安", "长沙", "郑州", "苏州", "天津", "青岛", "厦门", "合肥", "昆明", "大连", "沈阳"];
@@ -256,7 +305,12 @@ function updateCity(newCity) {
 }
 
 /* ── Navigation ── */
-function go(page, data) {
+function go(page, data, skipHistory) {
+  if (!skipHistory) {
+    if (navHistory.length === 0 || navHistory[navHistory.length-1].page !== page) {
+      navHistory.push({page: page, data: data});
+    }
+  }
   var pages = document.querySelectorAll('.page');
   for (var i = 0; i < pages.length; i++) { pages[i].classList.add('hidden'); }
   var target = document.getElementById('page-' + page);
@@ -265,7 +319,7 @@ function go(page, data) {
   var navItems = document.querySelectorAll('.nav-item');
   for (var j = 0; j < navItems.length; j++) { navItems[j].classList.remove('active'); }
   var navMap = {home:0, food:1, circle:2, courses:3, profile:4};
-  if (navMap[page] !== undefined) { navItems[navMap[page]].classList.add('active'); }
+  if (navMap[page] !== undefined) { navItems[navMap[page]].classList.add('active'); currentMainTab = page; }
 
   if (page === 'home') renderHome();
   if (page === 'food') renderFoodList();
@@ -1205,7 +1259,7 @@ window.onload = function() {
 
 <!-- ====== FOOD LIST PAGE ====== -->
 <div class="page hidden" id="page-food">
-<div class="page-header"><span class="back-btn" onclick="go('home')">←</span>外卖</div>
+<div class="page-header"><span class="back-btn" onclick="goBack(home)">←</span>外卖</div>
 <div class="food-search"><input type="text" id="foodSearchInput" placeholder="搜索店铺..." oninput="searchFood()" /></div>
 <div id="foodListContainer" style="padding:0 16px;"></div>
 </div>
@@ -1231,7 +1285,7 @@ window.onload = function() {
 
 <!-- ====== FOOD CIRCLE PAGE ====== -->
 <div class="page hidden" id="page-circle">
-<div class="page-header"><span class="back-btn" onclick="go('home')">←</span>食圈</div>
+<div class="page-header"><span class="back-btn" onclick="goBack(home)">←</span>食圈</div>
 <div style="padding:10px 16px;">
 <textarea class="textarea" id="circleText" placeholder="分享你的美食体验..."></textarea>
 <input class="input-box" type="text" id="circleImg" placeholder="图片链接（可选）" />
@@ -1244,13 +1298,13 @@ window.onload = function() {
 
 <!-- ====== DEALS PAGE ====== -->
 <div class="page hidden" id="page-deals">
-<div class="page-header"><span class="back-btn" onclick="go('home')">←</span>优惠套餐</div>
+<div class="page-header"><span class="back-btn" onclick="goBack(home)">←</span>优惠套餐</div>
 <div style="padding:10px 16px;" id="dealsList"></div>
 </div>
 
 <!-- ====== RIDE PAGE ====== -->
 <div class="page hidden" id="page-ride">
-<div class="page-header"><span class="back-btn" onclick="go('home')">←</span>打车出行</div>
+<div class="page-header"><span class="back-btn" onclick="goBack(home)">←</span>打车出行</div>
 <div style="padding:16px;">
 <input class="input-box" type="text" id="rideFrom" placeholder="出发地" />
 <input class="input-box" type="text" id="rideTo" placeholder="目的地" />
@@ -1277,25 +1331,25 @@ window.onload = function() {
 
 <!-- ====== COURSES PAGE ====== -->
 <div class="page hidden" id="page-courses">
-<div class="page-header"><span class="back-btn" onclick="go('home')">←</span>烹饪教学</div>
+<div class="page-header"><span class="back-btn" onclick="goBack(home)">←</span>烹饪教学</div>
 <div style="padding:10px 16px;" id="courseList"></div>
 </div>
 
 <!-- ====== COURSE DETAIL PAGE ====== -->
 <div class="page hidden" id="page-courseDetail">
-<div class="page-header"><span class="back-btn" onclick="go('courses')">←</span>课程详情</div>
+<div class="page-header"><span class="back-btn" onclick="goBack(courses)">←</span>课程详情</div>
 <div id="courseDetailContent"></div>
 </div>
 
 <!-- ====== ORDER HISTORY PAGE ====== -->
 <div class="page hidden" id="page-orderHistory">
-<div class="page-header"><span class="back-btn" onclick="go('profile')">←</span>订单记录</div>
+<div class="page-header"><span class="back-btn" onclick="goBack(profile)">←</span>订单记录</div>
 <div style="padding:10px 16px;" id="orderHistoryContent"></div>
 </div>
 
 <!-- ====== PROFILE PAGE ====== -->
 <div class="page hidden" id="page-profile">
-<div class="page-header"><span class="back-btn" onclick="go('home')">←</span>我的</div>
+<div class="page-header"><span class="back-btn" onclick="goBack(home)">←</span>我的</div>
 <div class="profile-header">
 <div class="avatar-lg">😊</div>
 <div class="uname" id="profileName">美食爱好者</div>
@@ -1312,7 +1366,7 @@ window.onload = function() {
 
 <!-- ====== MERCHANT REGISTER/LOGIN PAGE ====== -->
 <div class="page hidden" id="page-merchantReg">
-<div class="page-header"><span class="back-btn" onclick="go('profile')">←</span>商家入驻</div>
+<div class="page-header"><span class="back-btn" onclick="goBack(profile)">←</span>商家入驻</div>
 <div style="padding:16px;">
 <div id="merchantRegForm">
 <h4 style="margin-bottom:12px;">注册新店铺</h4>
@@ -1339,7 +1393,7 @@ window.onload = function() {
 
 <!-- ====== MERCHANT ADMIN PAGE ====== -->
 <div class="page hidden" id="page-merchantAdmin">
-<div class="page-header"><span class="back-btn" onclick="go('profile')">←</span>商家管理</div>
+<div class="page-header"><span class="back-btn" onclick="goBack(profile)">←</span>商家管理</div>
 <div style="padding:16px;">
 <h3 id="merchantAdminName"></h3>
 <div id="merchantAdminStatus" style="font-size:12px;color:#999;margin-bottom:12px;"></div>
@@ -1351,7 +1405,7 @@ window.onload = function() {
 
 <!-- ====== PLATFORM ADMIN PAGE ====== -->
 <div class="page hidden" id="page-platformAdmin">
-<div class="page-header"><span class="back-btn" onclick="go('profile')">←</span>平台管理</div>
+<div class="page-header"><span class="back-btn" onclick="goBack(profile)">←</span>平台管理</div>
 <div style="padding:16px;">
 <div id="adminStats"></div>
 <div id="adminMerchantReview"></div>
@@ -1400,6 +1454,53 @@ window.onload = function() {
 
 <script>
 'use strict';
+function goBack() {
+  if (navHistory.length > 1) {
+    navHistory.pop();
+    var prev = navHistory[navHistory.length - 1];
+    go(prev.page, prev.data, true);
+  } else {
+    go(currentMainTab, null, true);
+  }
+}
+
+var navHistory = [];
+var lastBackTime = 0;
+var mainTabs = ['home', 'food', 'circle', 'courses', 'profile'];
+var currentMainTab = 'home';
+
+function handleBack() {
+  if (navHistory.length > 1) {
+    navHistory.pop();
+    var prev = navHistory[navHistory.length - 1];
+    go(prev.page, prev.data, true);
+  } else {
+    var now = Date.now();
+    if (now - lastBackTime < 2000) {
+      if (typeof WeixinJSBridge !== 'undefined') WeixinJSBridge.call('closeWindow');
+      else if (navigator.userAgent.indexOf('Android') > -1) window.history.go(-1);
+      else window.close();
+    } else {
+      showToast('再按一次退出');
+      lastBackTime = now;
+    }
+  }
+}
+
+function showToast(msg) {
+  var t = document.getElementById('backToast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'backToast';
+    t.className = 'back-toast';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(function() { t.style.opacity = '0'; }, 1500);
+}
+
 function merchantEntry() {
   var m = L('merchant');
   if (m) {
@@ -1412,7 +1513,8 @@ function merchantEntry() {
 /* Initialize */
 renderMoods();
 autoLocate();
-go('home');
+navHistory = [{page: 'home', data: null}];
+go('home', null, true);
 </script>
 </body>
 </html>
