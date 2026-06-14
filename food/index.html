@@ -1454,7 +1454,6 @@ window.onload = function() {
 </script>
 </head>
 <body>
-<button style="position:fixed;top:60px;right:10px;z-index:99999;width:50px;height:50px;border-radius:50%;background:#ff6b35;color:#fff;border:3px solid #fff;font-size:24px;box-shadow:0 0 20px rgba(0,0,0,0.5)" onclick="document.getElementById('postModal').style.display='flex';document.getElementById('postModal').classList.remove('hidden')">📷</button>
 <div class="app" id="app">
 
 <!-- ====== HOME PAGE ====== -->
@@ -1541,7 +1540,7 @@ window.onload = function() {
 
 <!-- ====== FOOD CIRCLE PAGE ====== -->
 <div class="page hidden" id="page-circle">
-<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>食圈</div>
+<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>食圈<button style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:22px;cursor:pointer;padding:6px;z-index:5" onclick="document.getElementById('postModal').style.display='flex';document.getElementById('postModal').classList.remove('hidden')">📷</button></div>
 <div style="padding:0 16px;" id="circlePosts"></div>
 </div>
 
