@@ -227,13 +227,14 @@ function handleImageUpload(e) {
   reader.readAsDataURL(file);
 }
 function goBack() {
-  if (navHistory.length <= 1) {
+  var currentPage = navHistory.length > 0 ? navHistory[navHistory.length-1].page : 'home';
+  if (mainTabs.indexOf(currentPage) >= 0) {
     showToast('再按一次退出');
     if (!window._backTapTime || Date.now() - window._backTapTime > 2000) {
       window._backTapTime = Date.now();
       return;
     }
-    window.close();
+    try { window.close(); } catch(e) {}
     return;
   }
   navHistory.pop();
@@ -1503,13 +1504,14 @@ function handleImageUpload(e) {
   reader.readAsDataURL(file);
 }
 function goBack() {
-  if (navHistory.length <= 1) {
+  var currentPage = navHistory.length > 0 ? navHistory[navHistory.length-1].page : 'home';
+  if (mainTabs.indexOf(currentPage) >= 0) {
     showToast('再按一次退出');
     if (!window._backTapTime || Date.now() - window._backTapTime > 2000) {
       window._backTapTime = Date.now();
       return;
     }
-    window.close();
+    try { window.close(); } catch(e) {}
     return;
   }
   navHistory.pop();
