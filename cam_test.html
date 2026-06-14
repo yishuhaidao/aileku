@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>相机测试</title>
+<style>
+.hidden{display:none!important}
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:999;display:flex;align-items:center;justify-content:center}
+.modal-card{background:#fff;width:90%;max-width:400px;border-radius:16px;padding:24px;text-align:center}
+.cam-btn{font-size:24px;padding:10px 16px;background:#ff6b35;color:#fff;border:none;border-radius:8px;cursor:pointer;margin:20px}
+.cam-btn:active{opacity:0.7}
+</style>
+</head>
+<body style="margin:0;text-align:center;padding-top:100px;font-family:sans-serif">
+<h2>相机按钮测试</h2>
+
+<p>点击下面按钮应该弹出发布框：</p>
+
+<button class="cam-btn" onclick="document.getElementById('testModal').style.display='flex';document.getElementById('testModal').classList.remove('hidden')">📷 点击这里</button>
+
+<p style="color:#999;font-size:12px;margin-top:20px">如果弹不出来 = 微信浏览器有问题<br>能弹出来 = 主文件有bug</p>
+
+<div class="modal-overlay hidden" id="testModal">
+<div class="modal-card">
+<h3>✅ 弹窗成功！</h3>
+<p>发布框能正常打开</p>
+<button onclick="document.getElementById('testModal').classList.add('hidden')" style="background:#ff6b35;color:#fff;border:none;padding:10px 30px;border-radius:20px;font-size:16px;cursor:pointer">关闭</button>
+</div>
+</div>
+</body>
+</html>
