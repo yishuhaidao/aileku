@@ -392,7 +392,18 @@ function go(page, data, skipHistory) {
   if (page === 'home') renderHome();
   if (page === 'food') renderFoodList();
   if (page === 'shop') renderShopDetail(data || APP.currentShop);
-  if (page === 'circle') renderCircle();
+  if (page === 'circle') {
+    renderCircle();
+    setTimeout(function(){
+      var btn = document.querySelector('#page-circle .page-header button');
+      if (btn) {
+        btn.onclick = function(){
+          document.getElementById('postModal').style.display = 'flex';
+          document.getElementById('postModal').classList.remove('hidden');
+        };
+      }
+    }, 200);
+  }
   if (page === 'deals') renderDeals();
   if (page === 'ride') renderRide();
   if (page === 'courses') renderCourses();
@@ -1540,7 +1551,7 @@ window.onload = function() {
 
 <!-- ====== FOOD CIRCLE PAGE ====== -->
 <div class="page hidden" id="page-circle">
-<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>食圈<button style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:22px;cursor:pointer;padding:6px;z-index:5" onclick="document.getElementById('postModal').style.display='flex';document.getElementById('postModal').classList.remove('hidden')">📷</button></div>
+<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>食圈<button style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:22px;cursor:pointer;padding:6px;z-index:5">📷</button></div>
 <div style="padding:0 16px;" id="circlePosts"></div>
 </div>
 
