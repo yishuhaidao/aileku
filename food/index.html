@@ -226,6 +226,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .delivery-review-input:focus{border-color:#ff6b35}
 .delivery-submit-btn{padding:10px 32px;background:#ff6b35;color:#fff;border:none;border-radius:24px;font-size:15px;font-weight:600;cursor:pointer}
 .delivery-submit-btn:disabled{background:#ccc;cursor:not-allowed}
+/* Rider Map */
+.rider-map{width:100%;height:200px;background:linear-gradient(135deg,#e8f5e9,#c8e6c9,#a5d6a7,#81c784);border-radius:12px;position:relative;overflow:hidden;margin:12px 0}
+.rm-road{position:absolute;background:rgba(255,255,255,0.7)}
+.rm-road-h{left:0;right:0;height:3px}
+.rm-road-v{top:0;bottom:0;width:3px}
+.rm-marker{position:absolute;font-size:28px;z-index:2;filter:drop-shadow(0 2px 3px rgba(0,0,0,0.3))}
+.rm-start{bottom:12px;left:14%}
+.rm-end{top:12px;right:14%}
+.rm-rider{position:absolute;font-size:24px;z-index:3;transition:all 0.5s linear;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4));bottom:20px;left:12%}
 
 .circle-camera{font-size:22px;cursor:pointer;padding:6px 10px;border-radius:6px;margin-left:auto;user-select:none;-webkit-user-select:none;z-index:10;position:relative}
 .circle-camera:active{background:rgba(255,255,255,0.35)}
@@ -1390,6 +1399,31 @@ function startDeliveryTracking() {
     setTimeout(function() {
       s2.classList.add('hidden');
       s3.classList.remove('hidden');
+      /* Reset rider position */
+      var riderEl = document.getElementById('rmRider');
+      if (riderEl) { riderEl.style.bottom = '20px'; riderEl.style.left = '12%'; riderEl.style.top = 'auto'; }
+      var etaEl = document.getElementById('deliveryETA');
+      if (etaEl) etaEl.textContent = '预计送达 8 分钟';
+      /* Animate rider on map */
+      var riderEl = document.getElementById('rmRider');
+      var etaEl = document.getElementById('deliveryETA');
+      var positions = [
+        {x: '12%', y: '75%', t: '预计 7 分钟'},
+        {x: '30%', y: '65%', t: '预计 5 分钟'},
+        {x: '48%', y: '45%', t: '预计 3 分钟'},
+        {x: '65%', y: '28%', t: '预计 1 分钟'},
+        {x: '78%', y: '14%', t: '即将送达'}
+      ];
+      for (var p = 0; p < positions.length; p++) {
+        (function(pos) {
+          setTimeout(function() {
+            riderEl.style.left = pos.x;
+            riderEl.style.top = pos.y;
+            riderEl.style.bottom = 'auto';
+            if (etaEl) etaEl.textContent = pos.t;
+          }, p * 700);
+        })(positions[p]);
+      }
 
       /* Step 3 → Step 4 after 3.5s (animation duration) */
       setTimeout(function() {
@@ -1697,12 +1731,17 @@ window.onload = function() {
 <div id="deliveryStep3" class="hidden">
 <div class="delivery-step-icon">📦</div>
 <div class="delivery-step-title">骑手已取餐！</div>
-<div class="delivery-step-desc">正在配送中，请耐心等待...</div>
-<div class="delivery-route-map">
-<div class="delivery-route-label start">🏪</div>
-<div class="delivery-route-label end">🏠</div>
-<div class="delivery-route-path"></div>
-<div class="delivery-route-dot"></div>
+<div class="delivery-step-desc" id="deliveryETA">预计送达 8 分钟</div>
+<div class="rider-map" id="riderMap">
+<div class="rm-road rm-road-h" style="top:25%"></div>
+<div class="rm-road rm-road-v" style="left:30%"></div>
+<div class="rm-road rm-road-h" style="top:60%"></div>
+<div class="rm-road rm-road-v" style="left:65%"></div>
+<div class="rm-road rm-road-h" style="top:85%"></div>
+<div class="rm-marker rm-start">🏪</div>
+<div class="rm-marker rm-end">🏠</div>
+<div class="rm-rider" id="rmRider">🛵</div>
+<div class="rm-path" id="rmPath"></div>
 </div>
 </div>
 <div id="deliveryStep4" class="hidden">
