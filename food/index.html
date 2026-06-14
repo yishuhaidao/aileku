@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>虾球餐饮 — 点餐小程序原型</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f5;max-width:430px;margin:0 auto;min-height:100vh;position:relative}
+/* 顶部 */
+.header{background:#ff6b35;color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.header h1{font-size:18px;font-weight:600}
+.header .tab-switch{display:flex;gap:4px}
+.header .tab-switch button{padding:6px 14px;border-radius:20px;border:none;font-size:13px;cursor:pointer}
+.tab-customer{background:rgba(255,255,255,0.25);color:#fff}
+.tab-admin{background:#fff;color:#ff6b35}
+/* 商家头部 */
+.shop-info{background:linear-gradient(135deg,#ff6b35,#ff8c5a);color:#fff;padding:20px 16px;text-align:center}
+.shop-info .shop-name{font-size:22px;font-weight:700;margin-bottom:4px}
+.shop-info .shop-desc{font-size:13px;opacity:0.85}
+/* 搜索 */
+.search-bar{padding:10px 16px;background:#fff;margin:10px 12px;border-radius:12px;display:flex;align-items:center;gap:8px}
+.search-bar input{flex:1;border:none;outline:none;font-size:14px}
+/* 分类 */
+.categories{display:flex;padding:8px 12px;gap:8px;overflow-x:auto;white-space:nowrap}
+.categories span{display:inline-block;padding:6px 16px;border-radius:16px;font-size:13px;background:#fff;cursor:pointer;flex-shrink:0}
+.categories span.active{background:#ff6b35;color:#fff}
+/* 菜单列表 */
+.menu-list{padding:0 12px 12px}
+.menu-item{background:#fff;border-radius:12px;padding:12px;margin-bottom:10px;display:flex;gap:12px}
+.menu-item img{width:80px;height:80px;border-radius:8px;object-fit:cover;background:#eee}
+.menu-item .info{flex:1;display:flex;flex-direction:column;justify-content:space-between}
+.menu-item .name{font-size:15px;font-weight:600}
+.menu-item .desc{font-size:12px;color:#999;margin-top:2px}
+.menu-item .bottom{display:flex;align-items:center;justify-content:space-between}
+.menu-item .price{color:#ff6b35;font-weight:700;font-size:16px}
+.menu-item .price::before{content:'¥';font-size:12px}
+.menu-item .add-btn{background:#ff6b35;color:#fff;border:none;width:28px;height:28px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+/* 购物车 */
+.cart-bar{position:sticky;bottom:0;background:#333;color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;z-index:100}
+.cart-bar .cart-info{display:flex;align-items:center;gap:10px}
+.cart-bar .cart-icon{background:#ff6b35;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;position:relative}
+.cart-bar .cart-badge{position:absolute;top:-4px;right:-4px;background:red;color:#fff;font-size:10px;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.cart-bar .total{font-size:18px;font-weight:700}
+.cart-bar .checkout{background:#ff6b35;color:#fff;border:none;padding:10px 24px;border-radius:20px;font-size:14px;font-weight:600;cursor:pointer}
+/* 弹窗 */
+.modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:200;display:flex;align-items:flex-end;justify-content:center}
+.modal-content{background:#fff;width:100%;max-width:430px;border-radius:16px 16px 0 0;padding:20px;max-height:80vh;overflow-y:auto}
+.modal-content h3{font-size:16px;margin-bottom:12px}
+/* 订单列表 */
+.order-item{background:#fff;border-radius:10px;padding:12px;margin-bottom:8px}
+.order-item .order-header{display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px;color:#999}
+.order-item .order-status{padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.status-new{background:#fff3e0;color:#e65100}
+.status-done{background:#e8f5e9;color:#2e7d32}
+.order-item .order-items{font-size:14px;margin:4px 0}
+.order-item .order-total{text-align:right;font-weight:700;color:#ff6b35}
+/* 管理页面 */
+.admin-page{padding:12px}
+.admin-page h2{font-size:16px;margin:12px 0 8px}
+.form-group{margin-bottom:10px}
+.form-group label{display:block;font-size:13px;color:#666;margin-bottom:4px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none}
+.form-group textarea{height:60px;resize:vertical}
+.btn{background:#ff6b35;color:#fff;border:none;padding:10px 20px;border-radius:8px;font-size:14px;cursor:pointer;width:100%}
+.btn-sm{padding:6px 14px;font-size:12px;width:auto}
+.btn-outline{background:#fff;color:#ff6b35;border:1px solid #ff6b35}
+.btn-danger{background:#e53935}
+.empty-state{text-align:center;padding:40px 20px;color:#999}
+/* tab切换隐藏 */
+.hidden{display:none!important}
+/* 数量加减 */
+.qty-ctrl{display:flex;align-items:center;gap:8px}
+.qty-ctrl button{width:24px;height:24px;border-radius:50%;border:1px solid #ddd;background:#fff;font-size:14px;cursor:pointer}
+.qty-ctrl span{font-size:14px;min-width:20px;text-align:center}
+/* 视频区 */
+.video-card{background:#fff;border-radius:12px;overflow:hidden;margin-bottom:10px}
+.video-card .video-thumb{width:100%;height:160px;background:#333;display:flex;align-items:center;justify-content:center;color:#fff;font-size:40px;cursor:pointer}
+.video-card .video-info{padding:10px 12px}
+.video-card .video-title{font-size:14px;font-weight:600;margin-bottom:4px}
+.video-card .video-meta{font-size:12px;color:#999}
+</style>
+</head>
+<body>
+
+<!-- ========== 用户端 ========== -->
+<div id="customerView">
+
+  <div class="header">
+    <h1>🍤 虾球餐饮</h1>
+    <div class="tab-switch">
+      <button class="tab-customer" onclick="switchView('customer')">点餐</button>
+      <button class="tab-admin" onclick="switchView('admin')">管理</button>
+    </div>
+  </div>
+
+  <div class="shop-info">
+    <div class="shop-name">虾球小厨</div>
+    <div class="shop-desc">🔥 现炒现做 · 30分钟送达 · 品质保证</div>
+  </div>
+
+  <div class="search-bar">
+    <span>🔍</span>
+    <input type="text" placeholder="搜索菜品..." oninput="filterMenu(this.value)">
+  </div>
+
+  <div class="categories" id="categoryBar"></div>
+  <div class="menu-list" id="menuList"></div>
+
+  <div class="cart-bar" id="cartBar">
+    <div class="cart-info" onclick="showCart()">
+      <div class="cart-icon">🛒<span class="cart-badge" id="cartCount" style="display:none">0</span></div>
+      <div style="color:#999;font-size:13px;">查看购物车</div>
+    </div>
+    <div class="total" id="cartTotal">¥0</div>
+    <button class="checkout" onclick="checkout()">去结算</button>
+  </div>
+
+</div>
+
+<!-- ========== 商家管理端 ========== -->
+<div id="adminView" class="hidden">
+  <div class="header">
+    <h1>⚙️ 商家管理</h1>
+    <div class="tab-switch">
+      <button class="tab-admin" onclick="switchView('customer')">点餐</button>
+      <button class="tab-customer" onclick="switchView('admin')">管理</button>
+    </div>
+  </div>
+  <div class="admin-page">
+    <h2>📋 今日订单</h2>
+    <div id="orderList"></div>
+
+    <h2>📝 添加菜品</h2>
+    <div class="form-group"><label>菜名</label><input type="text" id="newName" placeholder="如：宫保鸡丁"></div>
+    <div class="form-group"><label>描述</label><input type="text" id="newDesc" placeholder="简单描述这道菜..."></div>
+    <div class="form-group"><label>价格 (元)</label><input type="number" id="newPrice" placeholder="0.00" step="0.01"></div>
+    <div class="form-group"><label>分类</label>
+      <select id="newCat">
+        <option value="热菜">热菜</option>
+        <option value="凉菜">凉菜</option>
+        <option value="主食">主食</option>
+        <option value="饮品">饮品</option>
+        <option value="小吃">小吃</option>
+      </select>
+    </div>
+    <div class="form-group"><label>图片URL (可选)</label><input type="text" id="newImg" placeholder="http://..."></div>
+    <button class="btn" onclick="addMenuItem()">✅ 添加菜品</button>
+
+    <h2>📦 已有菜品</h2>
+    <div id="adminMenuList"></div>
+  </div>
+</div>
+
+<!-- 购物车弹窗 -->
+<div id="cartModal" class="modal hidden">
+  <div class="modal-content">
+    <h3>🛒 购物车 <span style="float:right;cursor:pointer" onclick="closeModal('cartModal')">✕</span></h3>
+    <div id="cartItems"></div>
+    <div style="text-align:right;font-size:18px;font-weight:700;color:#ff6b35;margin:12px 0" id="modalTotal">合计: ¥0</div>
+    <button class="btn" onclick="checkout()">立即下单</button>
+  </div>
+</div>
+
+<!-- 下单弹窗 -->
+<div id="orderModal" class="modal hidden">
+  <div class="modal-content">
+    <h3>📝 确认下单</h3>
+    <div id="orderSummary"></div>
+    <div class="form-group"><label>联系人</label><input type="text" id="orderName" placeholder="姓名"></div>
+    <div class="form-group"><label>手机号</label><input type="tel" id="orderPhone" placeholder="手机号"></div>
+    <div class="form-group"><label>备注</label><textarea id="orderNote" placeholder="如：不要辣、多放葱..."></textarea></div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-outline" onclick="closeModal('orderModal')" style="width:50%">取消</button>
+      <button class="btn" onclick="submitOrder()" style="width:50%">确认下单</button>
+    </div>
+  </div>
+</div>
+
+<!-- 视频学习弹窗 -->
+<div id="videoSection" style="padding:12px;margin-top:10px">
+  <div style="font-size:16px;font-weight:600;margin-bottom:8px">📺 视频教程</div>
+  <div id="videoList"></div>
+</div>
+
+<script>
+// ============ 数据管理 ============
+function loadData(key, fallback) {
+  try { return JSON.parse(localStorage.getItem(key)) || fallback; }
+  catch(e) { return fallback; }
+}
+function saveData(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
+
+// 默认菜单
+const defaultMenu = [
+  {id:1,name:'宫保鸡丁',desc:'鸡肉丁配花生米，香辣可口',price:28,category:'热菜',img:''},
+  {id:2,name:'麻婆豆腐',desc:'麻辣鲜香，超下饭',price:18,category:'热菜',img:''},
+  {id:3,name:'拍黄瓜',desc:'清爽解腻，蒜香十足',price:12,category:'凉菜',img:''},
+  {id:4,name:'蛋炒饭',desc:'粒粒分明，经典主食',price:15,category:'主食',img:''},
+  {id:5,name:'酸梅汤',desc:'冰镇解渴，夏日必点',price:8,category:'饮品',img:''},
+  {id:6,name:'炸鸡翅',desc:'外酥里嫩，一口一个',price:22,category:'小吃',img:''},
+  {id:7,name:'红烧肉',desc:'肥而不腻，入口即化',price:38,category:'热菜',img:''},
+  {id:8,name:'番茄鸡蛋面',desc:'家常味，满满一碗',price:16,category:'主食',img:''},
+];
+
+// 默认教程视频
+const defaultVideos = [
+  {title:'菜品拍摄技巧',url:'https://www.bilibili.com/video/BV1uT4y1P7CX',desc:'教你拍出让人想下单的美食照片'},
+  {title:'餐饮店铺运营入门',url:'https://www.bilibili.com/video/BV1vV411r7yD',desc:'零基础学会外卖运营'},
+  {title:'菜单定价策略',url:'https://www.bilibili.com/video/BV1ZS4y1C7Kj',desc:'如何定价才能赚钱又不吓跑顾客'},
+];
+
+let menu = loadData('food_menu', defaultMenu);
+let orders = loadData('food_orders', []);
+let cart = loadData('food_cart', {});
+let nextId = menu.length > 0 ? Math.max(...menu.map(m=>m.id)) + 1 : 1;
+let orderNextId = orders.length > 0 ? Math.max(...orders.map(o=>o.id)) + 1 : 1;
+
+// ============ 渲染 ============
+function getCategories() {
+  return [...new Set(menu.map(m=>m.category))];
+}
+
+function renderCategories() {
+  const cats = getCategories();
+  const bar = document.getElementById('categoryBar');
+  bar.innerHTML = '<span class="active" onclick="filterByCat(\'全部\')">全部</span>';
+  cats.forEach(c => {
+    bar.innerHTML += `<span onclick="filterByCat('${c}')">${c}</span>`;
+  });
+}
+
+let activeCat = '全部';
+let searchTerm = '';
+
+function filterByCat(cat) {
+  activeCat = cat;
+  document.querySelectorAll('#categoryBar span').forEach(s => {
+    s.classList.toggle('active', s.textContent === cat);
+  });
+  renderMenu();
+}
+
+function filterMenu(term) {
+  searchTerm = term.toLowerCase();
+  renderMenu();
+}
+
+function renderMenu() {
+  const list = document.getElementById('menuList');
+  let items = menu.filter(m => {
+    const matchCat = activeCat === '全部' || m.category === activeCat;
+    const matchSearch = !searchTerm || m.name.toLowerCase().includes(searchTerm) || m.desc.toLowerCase().includes(searchTerm);
+    return matchCat && matchSearch;
+  });
+  list.innerHTML = items.map(m => `
+    <div class="menu-item">
+      <img src="${m.img || 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"80\" height=\"80\"><rect fill=\"%23eee\" width=\"80\" height=\"80\"/><text fill=\"%23999\" font-size=\"11\" y=\"45\" text-anchor=\"middle\" x=\"40\">暂无图片</text></svg>')}" alt="${m.name}">
+      <div class="info">
+        <div>
+          <div class="name">${m.name}</div>
+          <div class="desc">${m.desc}</div>
+        </div>
+        <div class="bottom">
+          <span class="price">${m.price}</span>
+          ${cart[m.id] ? 
+            `<div class="qty-ctrl">
+              <button onclick="changeQty(${m.id},-1)">−</button>
+              <span>${cart[m.id]}</span>
+              <button onclick="changeQty(${m.id},1)">+</button>
+            </div>` :
+            `<button class="add-btn" onclick="changeQty(${m.id},1)">+</button>`
+          }
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function changeQty(itemId, delta) {
+  const item = menu.find(m => m.id === itemId);
+  if (!item) return;
+  cart[itemId] = (cart[itemId] || 0) + delta;
+  if (cart[itemId] <= 0) delete cart[itemId];
+  saveData('food_cart', cart);
+  updateCartBar();
+  renderMenu();
+}
+
+function updateCartBar() {
+  const totalItems = Object.values(cart).reduce((s,q) => s+q, 0);
+  const totalPrice = Object.entries(cart).reduce((s,[id,q]) => {
+    const item = menu.find(m => m.id === parseInt(id));
+    return s + (item ? item.price * q : 0);
+  }, 0);
+  document.getElementById('cartCount').textContent = totalItems;
+  document.getElementById('cartCount').style.display = totalItems > 0 ? '' : 'none';
+  document.getElementById('cartTotal').textContent = '¥' + totalPrice.toFixed(2);
+}
+
+function showCart() {
+  const modal = document.getElementById('cartModal');
+  const items = document.getElementById('cartItems');
+  if (Object.keys(cart).length === 0) {
+    items.innerHTML = '<div class="empty-state">购物车空空如也 🛒</div>';
+  } else {
+    items.innerHTML = Object.entries(cart).map(([id,q]) => {
+      const item = menu.find(m => m.id === parseInt(id));
+      return item ? `
+        <div style="display:flex;align-items:center;padding:8px 0;border-bottom:1px solid #eee">
+          <span style="flex:1;font-size:14px">${item.name} × ${q}</span>
+          <span style="color:#ff6b35;font-weight:700;margin-right:12px">¥${(item.price*q).toFixed(2)}</span>
+          <button onclick="changeQty(${id},-${q});closeModal('cartModal');showCart()" style="background:none;border:none;color:#999;cursor:pointer;font-size:16px">&times;</button>
+        </div>
+      ` : '';
+    }).join('');
+  }
+  const totalPrice = Object.entries(cart).reduce((s,[id,q]) => {
+    const item = menu.find(m => m.id === parseInt(id));
+    return s + (item ? item.price * q : 0);
+  }, 0);
+  document.getElementById('modalTotal').textContent = '合计: ¥' + totalPrice.toFixed(2);
+  modal.classList.remove('hidden');
+}
+
+function checkout() {
+  if (Object.keys(cart).length === 0) { alert('购物车是空的'); return; }
+  closeModal('cartModal');
+  const summary = Object.entries(cart).map(([id,q]) => {
+    const item = menu.find(m => m.id === parseInt(id));
+    return item ? `<div>${item.name} × ${q} — ¥${(item.price*q).toFixed(2)}</div>` : '';
+  }).join('');
+  const total = Object.entries(cart).reduce((s,[id,q]) => {
+    const item = menu.find(m => m.id === parseInt(id));
+    return s + (item ? item.price * q : 0);
+  }, 0);
+  document.getElementById('orderSummary').innerHTML = summary + `<div style="font-weight:700;margin-top:8px;color:#ff6b35">总计: ¥${total.toFixed(2)}</div>`;
+  document.getElementById('orderModal').classList.remove('hidden');
+}
+
+function submitOrder() {
+  const name = document.getElementById('orderName').value.trim();
+  const phone = document.getElementById('orderPhone').value.trim();
+  if (!name || !phone) { alert('请填写联系人和手机号'); return; }
+  const items = Object.entries(cart).map(([id,q]) => {
+    const item = menu.find(m => m.id === parseInt(id));
+    return { name: item?.name || '未知', price: item?.price || 0, qty: q };
+  });
+  const total = items.reduce((s,i) => s + i.price * i.qty, 0);
+  const order = {
+    id: orderNextId++,
+    items, total,
+    contact: name, phone,
+    note: document.getElementById('orderNote').value,
+    time: new Date().toLocaleString('zh-CN'),
+    status: 'new'
+  };
+  orders.unshift(order);
+  saveData('food_orders', orders);
+  cart = {};
+  saveData('food_cart', cart);
+  updateCartBar();
+  renderMenu();
+  closeModal('orderModal');
+  alert('下单成功！商家会尽快处理 📦');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.add('hidden');
+}
+
+// ============ 管理端 ============
+function renderOrders() {
+  const list = document.getElementById('orderList');
+  if (orders.length === 0) {
+    list.innerHTML = '<div class="empty-state">暂无订单</div>';
+    return;
+  }
+  list.innerHTML = orders.map(o => `
+    <div class="order-item">
+      <div class="order-header">
+        <span>#${o.id} ${o.time}</span>
+        <span class="order-status ${o.status==='new'?'status-new':'status-done'}">${o.status==='new'?'待处理':'已完成'}</span>
+      </div>
+      <div class="order-items">${o.items.map(i=>`${i.name}×${i.qty}`).join('、')}</div>
+      <div>${o.contact} · ${o.phone}${o.note ? ' · '+o.note : ''}</div>
+      <div class="order-total">¥${o.total.toFixed(2)}</div>
+      ${o.status==='new' ? `<div style="margin-top:6px">
+        <button class="btn-sm btn" onclick="completeOrder(${o.id})">✅ 标记完成</button>
+      </div>` : ''}
+    </div>
+  `).join('');
+}
+
+function completeOrder(id) {
+  const order = orders.find(o => o.id === id);
+  if (order) { order.status = 'done'; saveData('food_orders', orders); renderOrders(); }
+}
+
+function addMenuItem() {
+  const name = document.getElementById('newName').value.trim();
+  const desc = document.getElementById('newDesc').value.trim();
+  const price = parseFloat(document.getElementById('newPrice').value);
+  const category = document.getElementById('newCat').value;
+  const img = document.getElementById('newImg').value.trim();
+  if (!name || isNaN(price) || price <= 0) { alert('请填写菜名和价格'); return; }
+  menu.push({ id: nextId++, name, desc, price, category, img });
+  saveData('food_menu', menu);
+  ['newName','newDesc','newPrice','newImg'].forEach(id => document.getElementById(id).value = '');
+  renderAdminMenu();
+  renderCategories();
+  renderMenu();
+}
+
+function deleteItem(id) {
+  if (!confirm('确定删除吗？')) return;
+  menu = menu.filter(m => m.id !== id);
+  saveData('food_menu', menu);
+  renderAdminMenu();
+  renderCategories();
+  renderMenu();
+}
+
+function renderAdminMenu() {
+  const list = document.getElementById('adminMenuList');
+  list.innerHTML = menu.map(m => `
+    <div style="display:flex;align-items:center;padding:8px;border-bottom:1px solid #eee;gap:8px">
+      <span style="flex:1;font-size:13px">${m.name} — ¥${m.price} <span style="color:#999">(${m.category})</span></span>
+      <button class="btn-sm btn-danger" onclick="deleteItem(${m.id})">删除</button>
+    </div>
+  `).join('');
+}
+
+function renderVideos() {
+  document.getElementById('videoList').innerHTML = defaultVideos.map(v => `
+    <div class="video-card">
+      <div class="video-thumb" onclick="window.open('${v.url}')">▶️</div>
+      <div class="video-info">
+        <div class="video-title">${v.title}</div>
+        <div class="video-meta">${v.desc}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ============ 视图切换 ============
+function switchView(view) {
+  const c = document.getElementById('customerView');
+  const a = document.getElementById('adminView');
+  if (view === 'admin') { c.classList.add('hidden'); a.classList.remove('hidden'); renderOrders(); renderAdminMenu(); }
+  else { a.classList.add('hidden'); c.classList.remove('hidden'); renderMenu(); renderCategories(); updateCartBar(); }
+}
+
+// 初始化
+renderMenu();
+renderCategories();
+renderVideos();
+updateCartBar();
+</script>
+</body>
+</html>
