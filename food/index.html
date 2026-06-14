@@ -1418,7 +1418,20 @@ window.onload = function() {
   var camTimer;
   if (circleCam) {
     circleCam.addEventListener('touchstart', function(e) {
-      camTimer = setTimeout(function() { openPostModal(false); }, 800);
+      e.preventDefault();
+      camTimer = setTimeout(function() {
+        var m = document.getElementById('postModal');
+        if (m) {
+          m.classList.remove('hidden');
+          document.getElementById('postModalAddImgBtn').style.display = 'none';
+          document.getElementById('postModalImgArea').style.display = 'none';
+          document.getElementById('postModalImgSrc').src = '';
+          document.getElementById('postModalImgPreview').style.display = 'none';
+          renderPostModalMoods();
+          var t = document.getElementById('postModalText');
+          if (t) t.focus();
+        }
+      }, 800);
     });
     circleCam.addEventListener('touchend', function() { clearTimeout(camTimer); });
     circleCam.addEventListener('touchmove', function() { clearTimeout(camTimer); });
@@ -1513,7 +1526,7 @@ window.onload = function() {
 
 <!-- ====== FOOD CIRCLE PAGE ====== -->
 <div class="page hidden" id="page-circle">
-<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>食圈<span class="circle-camera" id="circleCamera" onclick="openPostModal()">📷</span></div>
+<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>食圈<span class="circle-camera" id="circleCamera" onclick="var m=document.getElementById('postModal');if(m){m.classList.remove('hidden');renderPostModalMoods();var t=document.getElementById('postModalText');if(t)t.focus();document.getElementById('postModalAddImgBtn').style.display='inline-block';document.getElementById('postModalImgArea').style.display='block';document.getElementById('postModalImgSrc').src='';document.getElementById('postModalImgPreview').style.display='none';}" style="touch-action:manipulation">📷</span></div>
 <div style="padding:0 16px;" id="circlePosts"></div>
 </div>
 
