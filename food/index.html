@@ -383,7 +383,36 @@ function go(page, data, skipHistory) {
   if (page === 'home') renderHome();
   if (page === 'food') renderFoodList();
   if (page === 'shop') renderShopDetail(data || APP.currentShop);
-  if (page === 'circle') renderCircle();
+  if (page === 'circle') {
+    renderCircle();
+    setTimeout(function(){
+      var cam = document.getElementById('circleCamera');
+      if (!cam) return;
+      // Click: show post modal with image
+      cam.onclick = function(){
+        var m = document.getElementById('postModal');
+        m.style.display = 'flex';
+        m.classList.remove('hidden');
+        document.getElementById('postModalAddImgBtn').style.display = 'inline-block';
+        document.getElementById('postModalImgArea').style.display = 'block';
+        return false;
+      };
+      // Long press: text only
+      var pressTimer;
+      cam.addEventListener('touchstart', function(e){
+        pressTimer = setTimeout(function(){
+          var m = document.getElementById('postModal');
+          m.style.display = 'flex';
+          m.classList.remove('hidden');
+          document.getElementById('postModalAddImgBtn').style.display = 'none';
+          document.getElementById('postModalImgArea').style.display = 'none';
+        }, 800);
+        e.preventDefault();
+      }, {passive: false});
+      cam.addEventListener('touchend', function(){ clearTimeout(pressTimer); });
+      cam.addEventListener('touchmove', function(){ clearTimeout(pressTimer); });
+    }, 150);
+  }
   if (page === 'deals') renderDeals();
   if (page === 'ride') renderRide();
   if (page === 'courses') renderCourses();
@@ -1416,28 +1445,7 @@ window.onload = function() {
   navHistory = [{page: 'home', data: null}];
   go('home', null, true);
   renderHome();
-  var circleCam = document.getElementById('circleCamera');
-  var camTimer;
-  if (circleCam) {
-    circleCam.addEventListener('touchstart', function(e) {
-      e.preventDefault();
-      camTimer = setTimeout(function() {
-        var m = document.getElementById('postModal');
-        if (m) {
-          m.style.display = 'flex';
-          m.classList.remove('hidden');
-          document.getElementById('postModalAddImgBtn').style.display = 'none';
-          document.getElementById('postModalImgArea').style.display = 'none';
-          document.getElementById('postModalImgSrc').src = '';
-          document.getElementById('postModalImgPreview').style.display = 'none';
-          document.getElementById('postModalText').value = '';
-          document.getElementById('postModalText').focus();
-        }
-      }, 800);
-    }, {passive: false});
-    circleCam.addEventListener('touchend', function() { clearTimeout(camTimer); });
-    circleCam.addEventListener('touchmove', function() { clearTimeout(camTimer); });
-  }
+}
 };
 </script>
 </head>
@@ -1528,7 +1536,7 @@ window.onload = function() {
 
 <!-- ====== FOOD CIRCLE PAGE ====== -->
 <div class="page hidden" id="page-circle">
-<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>食圈<span class="circle-camera" id="circleCamera" onclick="var m=document.getElementById('postModal');m.style.display='flex';m.classList.remove('hidden')">📷</span></div>
+<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>食圈<span class="circle-camera" id="circleCamera">📷</span></div>
 <div style="padding:0 16px;" id="circlePosts"></div>
 </div>
 
