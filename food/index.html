@@ -79,6 +79,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .video-card .video-info{padding:10px 12px}
 .video-card .video-title{font-size:14px;font-weight:600;margin-bottom:4px}
 .video-card .video-meta{font-size:12px;color:#999}
+/* 配方 */
+.recipe-card{background:#fff;border-radius:12px;margin-bottom:10px;overflow:hidden}
+.recipe-card .rc-header{padding:12px;background:linear-gradient(135deg,#ff6b35,#ff8c5a);color:#fff;display:flex;justify-content:space-between;align-items:center}
+.recipe-card .rc-header .rc-name{font-size:16px;font-weight:700}
+.recipe-card .rc-header .rc-tag{background:rgba(255,255,255,0.25);padding:2px 10px;border-radius:10px;font-size:11px}
+.recipe-card .rc-body{padding:12px}
+.recipe-card .rc-body h4{font-size:13px;color:#ff6b35;margin:8px 0 4px}
+.recipe-card .rc-body p{font-size:13px;line-height:1.8;color:#333}
+.recipe-card .rc-body .rc-note{font-size:12px;color:#999;margin-top:8px;padding:8px;background:#fff8f5;border-radius:8px}
+.recipe-tabs{display:flex;gap:8px;padding:8px 12px;overflow-x:auto}
+.recipe-tabs span{display:inline-block;padding:6px 16px;border-radius:16px;font-size:13px;background:#fff;cursor:pointer;flex-shrink:0}
+.recipe-tabs span.active{background:#ff6b35;color:#fff}
 </style>
 </head>
 <body>
@@ -90,7 +102,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <h1>🍤 虾球餐饮</h1>
     <div class="tab-switch">
       <button class="tab-customer" onclick="switchView('customer')">点餐</button>
-      <button class="tab-admin" onclick="switchView('admin')">管理</button>
+      <button class="tab-customer" onclick="switchView('recipe')">配方</button>
+      <button class="tab-customer" onclick="switchView('admin')">管理</button>
     </div>
   </div>
 
@@ -116,6 +129,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="checkout" onclick="checkout()">去结算</button>
   </div>
 
+</div>
+
+<!-- ========== 配方页 ========== -->
+<div id="recipeView" class="hidden">
+  <div class="header">
+    <h1>📖 鲜吃配方</h1>
+    <div class="tab-switch">
+      <button class="tab-customer" onclick="switchView('customer')">点餐</button>
+      <button class="tab-admin" onclick="switchView('recipe')">配方</button>
+      <button class="tab-customer" onclick="switchView('admin')">管理</button>
+    </div>
+  </div>
+  <div class="recipe-tabs" id="recipeTabs"></div>
+  <div id="recipeList" style="padding:0 12px 12px"></div>
 </div>
 
 <!-- ========== 商家管理端 ========== -->
@@ -202,6 +229,33 @@ const defaultMenu = [
   {id:7,name:'红烧肉',desc:'肥而不腻，入口即化',price:38,category:'热菜',img:''},
   {id:8,name:'番茄鸡蛋面',desc:'家常味，满满一碗',price:16,category:'主食',img:''},
 ];
+
+// 配方数据库
+const recipeData = [
+  {cat:'凉拌/捞汁', recipes:[
+    {name:'捞汁小海鲜',tag:'比尔盖南',ingredients:'虾、花蛤、蛏子、鱿鱼（任选3-4样）\n蒜末30g、小米辣15g、香菜20g、柠檬半个\n生抽50ml、香醋30ml、蚝油20g、白糖15g\n香油10ml、纯净水100ml',steps:`1. 海鲜洗净，虾去虾线，鱿鱼切圈\n2. 水烧开加姜片料酒，海鲜分别焯熟（虾2分钟/花蛤开口/鱿鱼卷起）\n3. 焯好后立即冰水过凉，沥干\n4. 调捞汁：生抽+香醋+蚝油+糖+香油+纯净水搅匀\n5. 加入蒜末、小米辣、香菜、柠檬片\n6. 海鲜浸入捞汁，冷藏腌2小时以上\n7. 出餐时捞出来，撒芝麻和葱花`,note:'成本约8-12元/份，售价28-38元。冷藏保存可放24小时。'},
+    {name:'蒜泥白肉',tag:'经典凉菜',ingredients:'五花肉500g\n蒜泥30g、辣椒油30ml\n生抽20ml、香醋15ml、白糖10g\n花椒粉2g、香油5ml、黄瓜一根',steps:`1. 五花肉冷水下锅，加姜葱料酒，煮开后转小火煮30分钟至筷子能插入\n2. 捞出晾凉，切成薄片（越薄越好）\n3. 黄瓜切丝垫盘底，肉片码在上面\n4. 调料汁：蒜泥+生抽+香醋+糖+花椒粉+辣椒油+香油搅匀\n5. 淋上料汁，撒葱花`,note:'成本约6-8元/份，售价22-28元。肉片一定要薄，厚了腻。'},
+    {name:'口水鸡',tag:'招牌必点',ingredients:'鸡腿2个\n黄瓜半根、花生碎20g\n红油30ml、生抽20ml、香醋15ml、白糖10g\n花椒粉3g、芝麻酱15g、蒜水30ml',steps:`1. 鸡腿冷水下锅，加姜葱料酒，煮开后转小火煮20分钟\n2. 关火焖10分钟，捞出冰水浸泡（皮才脆）\n3. 手撕成条，黄瓜切丝垫底，鸡肉码上\n4. 调料汁：芝麻酱+生抽+醋+糖+花椒粉+红油+蒜水搅匀\n5. 淋料汁，撒花生碎和葱花`,note:'成本约7元/份，售价28-35元。焖10分钟是让鸡皮脆的关键。'},
+  ]},
+  {cat:'卤味/炖煮', recipes:[
+    {name:'商业五香卤水（通用基底）',tag:'配方核心',ingredients:`香料包：八角15g、桂皮10g、香叶5g\n花椒10g、丁香3g、草果2个、白芷8g\n陈皮5g、小茴香10g、甘草5g\n卤水：老抽80ml、生抽150ml\n盐60g、冰糖80g、姜片50g、葱段50g\n料酒50ml、水3000ml\n（另备冰糖60g炒糖色用）`,steps:`1. 所有香料装纱布袋，温水泡10分钟去苦\n2. 锅里加少许油，小火炒60g冰糖至棕红色冒小泡（糖色）\n3. 立刻倒入3000ml开水（小心溅），加香料包\n4. 加老抽、生抽、盐、80g冰糖、姜葱、料酒\n5. 大火烧开转小火熬30分钟，卤水即成\n6. 肉类焯水后入卤水，中小火卤：鸡腿20分钟/猪蹄40分钟/牛肉60分钟\n7. 关火浸泡30分钟以上入味`,note:'此卤水可反复使用，越用越香。每天烧开一次防止变馊。卤豆制品需另起小锅防止坏卤。'},
+    {name:'五香茶叶蛋',tag:'比尔盖南',ingredients:'鸡蛋20个\n红茶/普洱茶15g\n八角5个、桂皮1段、香叶5片、花椒5g\n盐30g、生抽80ml、老抽20ml、冰糖20g',steps:`1. 鸡蛋冷水下锅，煮开后煮8分钟\n2. 捞出用勺子敲裂蛋壳（裂纹均匀，不要敲碎）\n3. 水2000ml+茶叶+香料+盐+生抽+老抽+冰糖，烧开\n4. 放入敲好的蛋，小火煮20分钟\n5. 关火浸泡，至少4小时（建议过夜）\n6. 出餐前加热即可`,note:'成本约0.8元/个，售价2.5-3元。浸泡时间越长越入味，冬天保温桶出摊最佳。'},
+  ]},
+  {cat:'油炸小吃', recipes:[
+    {name:'街边炸鸡叉骨',tag:'爆款单品',ingredients:'鸡叉骨（锁骨）1000g\n腌制料：盐12g、白糖15g、味精5g\n五香粉5g、辣椒粉8g、蒜粉5g\n姜粉3g、鸡蛋1个、淀粉30g\n裹粉：面粉200g+淀粉100g+泡打粉3g',steps:`1. 鸡叉骨解冻洗净，用厨房纸吸干\n2. 拌入所有腌制料+鸡蛋+淀粉，抓匀腌2小时（最好过夜）\n3. 裹粉混合均匀，腌好的鸡叉骨逐个沾粉、抖掉余粉\n4. 油温170℃（筷子冒小泡），下锅炸4-5分钟至金黄\n5. 捞出沥油，撒孜然辣椒粉\n6. 出餐称重，8元/份起`,note:'成本约3元/份，售价8-12元。油温要稳，低了吸油高了外焦里生。'},
+    {name:'脆皮炸鸡腿',tag:'经典年销',ingredients:'大鸡腿6个\n腌料：牛奶200ml+盐12g+黑胡椒3g+蒜粉5g\n裹粉：面粉200g+玉米淀粉80g+泡打粉4g\n盐5g+黑胡椒3g+辣椒粉5g\n（裹粉中取少量，加少量水搅成小颗粒，混回）',steps:`1. 鸡腿用叉子扎孔，腌入牛奶混合料，冷藏4小时以上\n2. 裹粉全部混合，从中取少许加水搅成小团，捏碎混回（形成脆鳞关键）\n3. 鸡腿从腌料中捞出不沥干，直接沾粉，用手按压紧实\n4. 油温165℃，中小火炸12-15分钟（内部熟透）\n5. 捞出沥油，撒调味粉`,note:'成本约5元/个，售价15-18元。裹粉里提前做出湿颗粒是酥脆鳞片的关键。'},
+    {name:'炸薯条（商用版）',tag:'配餐利器',ingredients:'大土豆或冷冻直切薯条\n浸泡水：清水+白醋少许\n调味盐：盐5g+糖2g+蒜粉1g（混合磨粉）',steps:`1. 土豆切1cm粗条，清水浸泡30分钟去淀粉\n2. 换水加少许白醋，再泡15分钟\n3. 沸水焯2分钟，捞出沥干放凉\n4. 冰箱冷冻2小时以上（可长期储存）\n5. 油温180℃，直接下冷冻薯条炸3-4分钟至金黄\n6. 撒调味盐，摇匀`,note:'成本约2元/份，售价8-10元。冷冻是让薯条外酥里嫩的关键步骤，可批量备货。'},
+  ]},
+  {cat:'主食/粉面', recipes:[
+    {name:'酸辣粉（商用配方）',tag:'摆摊必备',ingredients:'红薯粉条150g（提前泡软）\n蒜水20ml、生抽15ml、陈醋20ml、辣椒油20ml\n花椒粉2g、白糖5g、味精3g、盐2g\n鸡汤或骨汤200ml\n油炸花生碎15g、榨菜碎15g、香菜葱花',steps:`1. 碗底调汁：蒜水+生抽+陈醋+辣椒油+花椒粉+糖+味精+盐\n2. 沸水烫粉条30秒捞出，入碗\n3. 浇热汤200ml\n4. 撒花生碎、榨菜碎、香菜葱花\n5. 搅匀即食`,note:'成本约2.5元/碗，售价8-12元。提前批量调好料粉，出餐速度30秒。'},
+    {name:'葱油拌面',tag:'低成本高利润',ingredients:'细面150g\n葱油：小葱200g切段+食用油300ml（小火熬至葱变焦黄）\n料汁：生抽30ml+老抽10ml+白糖15g（加热融化）',steps:`1. 冷油放入葱段，中小火慢熬，经常搅动\n2. 熬至葱变深棕色（约15分钟），捞出焦葱\n3. 料汁微火加热至糖融化，倒入葱油中搅匀\n4. 煮面：水开下面，煮2分钟断生捞出\n5. 沥干入碗，淋2勺葱油料汁，拌匀\n6. 可加煎蛋、卤蛋增加客单价`,note:'成本约2元/碗（含面+葱油），售价8-10元。葱油一次熬多些可用一周，油亮焦香。'},
+  ]},
+  {cat:'网红饮品', recipes:[
+    {name:'柠檬冰红茶（商用配方）',tag:'夏季爆款',ingredients:'立顿红茶包10包或红茶叶30g、水2000ml\n白砂糖180-200g（可调）\n柠檬2个（榨汁+切片装饰用）\n冰块若干',steps:`1. 水烧开，关火放入红茶包/茶叶，焖5分钟\n2. 捞出茶包/滤掉茶叶\n3. 趁热加糖搅拌至全融化\n4. 放凉后挤入柠檬汁，搅匀\n5. 冷藏保存。出餐：杯中加冰块+柠檬红茶+柠檬片1片`,note:'成本约0.8元/杯，售价5-8元。500ml杯装满冰，茶液成本极低。夏天一天能卖50杯。'},
+    {name:'冰镇酸梅汤',tag:'解腻神器',ingredients:'乌梅30g、山楂干20g、陈皮10g\n甘草5g、洛神花5g（增色）\n冰糖150g、桂花少许\n水2500ml',steps:`1. 所有药材过水冲洗（不要泡）\n2. 入锅加水2500ml，大火烧开转小火熬40分钟\n3. 滤出汤汁，加冰糖搅化\n4. 药渣再加1000ml水，再熬20分钟\n5. 两次汤汁合并，放凉冷藏\n6. 出餐加冰块撒桂花`,note:'成本约1.5元/杯（含药材+桂花），售价6-10元。洛神花是酸梅汤颜色红亮的关键。'},
+  ]},
+];
+let activeRecipeCat = '凉拌/捞汁';
 
 // 实用教程
 const defaultVideos = [
@@ -453,12 +507,57 @@ function toggleTutorial(i) {
   el.style.display = el.style.display === 'none' ? 'block' : 'none';
 }
 
+// ============ 配方渲染 ============
+function renderRecipeTabs() {
+  const tabs = document.getElementById('recipeTabs');
+  tabs.innerHTML = recipeData.map(c => 
+    `<span class="${c.cat===activeRecipeCat?'active':''}" onclick="switchRecipeCat('${c.cat}')">${c.cat}</span>`
+  ).join('');
+}
+
+function switchRecipeCat(cat) {
+  activeRecipeCat = cat;
+  renderRecipeTabs();
+  renderRecipes();
+}
+
+function renderRecipes() {
+  const list = document.getElementById('recipeList');
+  const cat = recipeData.find(c => c.cat === activeRecipeCat);
+  if (!cat) { list.innerHTML = '<div class="empty-state">暂无配方</div>'; return; }
+  list.innerHTML = cat.recipes.map(r => `
+    <div class="recipe-card">
+      <div class="rc-header">
+        <span class="rc-name">${r.name}</span>
+        <span class="rc-tag">${r.tag}</span>
+      </div>
+      <div class="rc-body">
+        <h4>🥬 食材清单</h4>
+        <p style="white-space:pre-line">${r.ingredients}</p>
+        <h4>👨‍🍳 制作步骤</h4>
+        <p style="white-space:pre-line">${r.steps}</p>
+        <div class="rc-note">💡 ${r.note}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
 // ============ 视图切换 ============
 function switchView(view) {
   const c = document.getElementById('customerView');
+  const r = document.getElementById('recipeView');
   const a = document.getElementById('adminView');
-  if (view === 'admin') { c.classList.add('hidden'); a.classList.remove('hidden'); renderOrders(); renderAdminMenu(); }
-  else { a.classList.add('hidden'); c.classList.remove('hidden'); renderMenu(); renderCategories(); updateCartBar(); }
+  c.classList.add('hidden'); r.classList.add('hidden'); a.classList.add('hidden');
+  if (view === 'recipe') { r.classList.remove('hidden'); renderRecipeTabs(); renderRecipes(); }
+  else if (view === 'admin') { a.classList.remove('hidden'); renderOrders(); renderAdminMenu(); }
+  else { c.classList.remove('hidden'); renderMenu(); renderCategories(); updateCartBar(); }
+  // 更新tab按钮样式
+  document.querySelectorAll('.header .tab-switch button').forEach(b => {
+    b.classList.remove('tab-admin'); b.classList.add('tab-customer');
+  });
+  const targetBtn = Array.from(document.querySelectorAll('.header .tab-switch button'))
+    .find(b => b.textContent.trim() === (view==='customer'?'点餐':view==='recipe'?'配方':'管理'));
+  if (targetBtn) { targetBtn.classList.remove('tab-customer'); targetBtn.classList.add('tab-admin'); }
 }
 
 // 初始化
