@@ -1422,17 +1422,17 @@ window.onload = function() {
       camTimer = setTimeout(function() {
         var m = document.getElementById('postModal');
         if (m) {
+          m.style.display = 'flex';
           m.classList.remove('hidden');
           document.getElementById('postModalAddImgBtn').style.display = 'none';
           document.getElementById('postModalImgArea').style.display = 'none';
           document.getElementById('postModalImgSrc').src = '';
           document.getElementById('postModalImgPreview').style.display = 'none';
-          renderPostModalMoods();
-          var t = document.getElementById('postModalText');
-          if (t) t.focus();
+          document.getElementById('postModalText').value = '';
+          document.getElementById('postModalText').focus();
         }
       }, 800);
-    });
+    }, {passive: false});
     circleCam.addEventListener('touchend', function() { clearTimeout(camTimer); });
     circleCam.addEventListener('touchmove', function() { clearTimeout(camTimer); });
   }
@@ -1526,7 +1526,7 @@ window.onload = function() {
 
 <!-- ====== FOOD CIRCLE PAGE ====== -->
 <div class="page hidden" id="page-circle">
-<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>食圈<span class="circle-camera" id="circleCamera" onclick="var m=document.getElementById('postModal');if(m){m.classList.remove('hidden');renderPostModalMoods();var t=document.getElementById('postModalText');if(t)t.focus();document.getElementById('postModalAddImgBtn').style.display='inline-block';document.getElementById('postModalImgArea').style.display='block';document.getElementById('postModalImgSrc').src='';document.getElementById('postModalImgPreview').style.display='none';}" style="touch-action:manipulation">📷</span></div>
+<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>食圈<span style="font-size:22px;cursor:pointer;padding:6px 10px;border-radius:6px;margin-left:auto;user-select:none;-webkit-user-select:none;z-index:10;position:relative" id="circleCamera" onclick="document.getElementById('postModal').style.display='flex';document.getElementById('postModal').classList.remove('hidden');document.getElementById('postModalText').value='';document.getElementById('postModalImgSrc').src='';document.getElementById('postModalImgPreview').style.display='none';document.getElementById('postModalAddImgBtn').style.display='inline-block';document.getElementById('postModalImgArea').style.display='block';document.getElementById('postModalText').focus();return false;">📷</span></div>
 <div style="padding:0 16px;" id="circlePosts"></div>
 </div>
 
