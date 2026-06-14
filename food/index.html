@@ -179,7 +179,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <!-- 视频学习弹窗 -->
 <div id="videoSection" style="padding:12px;margin-top:10px">
-  <div style="font-size:16px;font-weight:600;margin-bottom:8px">📺 视频教程</div>
+  <div style="font-size:16px;font-weight:600;margin-bottom:8px">📚 新手开店教程</div>
   <div id="videoList"></div>
 </div>
 
@@ -203,11 +203,13 @@ const defaultMenu = [
   {id:8,name:'番茄鸡蛋面',desc:'家常味，满满一碗',price:16,category:'主食',img:''},
 ];
 
-// 默认教程视频
+// 实用教程
 const defaultVideos = [
-  {title:'菜品拍摄技巧',url:'https://www.bilibili.com/video/BV1uT4y1P7CX',desc:'教你拍出让人想下单的美食照片'},
-  {title:'餐饮店铺运营入门',url:'https://www.bilibili.com/video/BV1vV411r7yD',desc:'零基础学会外卖运营'},
-  {title:'菜单定价策略',url:'https://www.bilibili.com/video/BV1ZS4y1C7Kj',desc:'如何定价才能赚钱又不吓跑顾客'},
+  {title:'📖 开店第一步：上传菜品',desc:'打开管理后台 → 填写菜名、描述、价格 → 点添加。顾客端立刻能看到。',detail:'<b>操作步骤：</b><br>1. 点右上角「管理」进入后台<br>2. 在「添加菜品」区填菜名、描述、价格<br>3. 选分类（热菜/凉菜/主食等）<br>4. 点「添加菜品」即可<br><br><b>技巧：</b>菜名要清晰（如"宫保鸡丁"而不是"特色菜1"），价格用整数更好看。',icon:'📝'},
+  {title:'📋 第二步：管理订单',desc:'顾客下单后 → 后台立刻显示 → 点「标记完成」通知顾客。',detail:'<b>订单流程：</b><br>1. 顾客在前端选菜下单<br>2. 后台「今日订单」立即显示<br>3. 点击「标记完成」完成订单<br><br><b>注意：</b>及时处理订单，建议设置手机提醒。所有订单信息保存在浏览器中。',icon:'📦'},
+  {title:'💰 如何定价赚钱',desc:'成本×2.5=售价。一份成本10元的菜，卖25元才有利润。',detail:'<b>定价公式：</b><br>售价 = 食材成本 × 2.5~3<br><br>举例：<br>• 食材成本8元 → 卖20~24元<br>• 食材成本15元 → 卖38~45元<br><br><b>为什么×2.5？</b><br>剩下的覆盖：房租、人工、水电、包装、平台抽成。×3更安全。',icon:'💡'},
+  {title:'📱 如何让顾客找到你',desc:'微信分享链接、朋友圈发菜单截图、周边小区发传单。',detail:'<b>推广三步走：</b><br>1. 把小程序链接发到小区群、写字楼群<br>2. 截图菜单发朋友圈，配文荐菜<br>3. 开业前三天打折（如8折），吸引第一批顾客<br><br><b>关键：</b>前10个顾客体验好，他们会帮你转发。',icon:'📢'},
+  {title:'🔧 常见问题',desc:'下单没反应？页面空白？数据丢了？来看解决方法。',detail:'<b>Q: 页面打不开？</b><br>A: 检查网络，换成WiFi试试。<br><br><b>Q: 加的菜品不见了？</b><br>A: 数据存在手机浏览器里，换手机看不到。同一部手机永久保存。<br><br><b>Q: 怎么接入微信支付？</b><br>A: 需要注册微信小程序（300元/年认证费），加上后端服务器。当前版本先跑通流程。',icon:'❓'},
 ];
 
 let menu = loadData('food_menu', defaultMenu);
@@ -432,15 +434,23 @@ function renderAdminMenu() {
 }
 
 function renderVideos() {
-  document.getElementById('videoList').innerHTML = defaultVideos.map(v => `
-    <div class="video-card">
-      <div class="video-thumb" onclick="window.open('${v.url}')">▶️</div>
-      <div class="video-info">
-        <div class="video-title">${v.title}</div>
-        <div class="video-meta">${v.desc}</div>
+  document.getElementById('videoList').innerHTML = defaultVideos.map((v,i) => `
+    <div class="video-card" style="padding:14px">
+      <div style="font-size:15px;font-weight:600;display:flex;align-items:center;gap:8px;cursor:pointer" onclick="toggleTutorial(${i})">
+        <span style="font-size:24px">${v.icon||'📖'}</span>
+        <span>${v.title}</span>
+      </div>
+      <div style="font-size:13px;color:#666;margin:6px 0 0 32px">${v.desc}</div>
+      <div class="tutorial-detail" id="tutorial-${i}" style="display:none;margin:10px 0 0 32px;padding:12px;background:#f9f9f9;border-radius:8px;font-size:13px;line-height:1.8">
+        ${v.detail}
       </div>
     </div>
   `).join('');
+}
+
+function toggleTutorial(i) {
+  const el = document.getElementById('tutorial-'+i);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
 }
 
 // ============ 视图切换 ============
