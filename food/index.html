@@ -392,16 +392,7 @@ function go(page, data, skipHistory) {
   if (page === 'home') renderHome();
   if (page === 'food') renderFoodList();
   if (page === 'shop') renderShopDetail(data || APP.currentShop);
-  if (page === 'circle') {
-    renderCircle();
-    var fc = document.getElementById('floatCamera');
-    fc.style.opacity = '1';
-    fc.style.pointerEvents = 'auto';
-  } else {
-    var fc = document.getElementById('floatCamera');
-    fc.style.opacity = '0';
-    fc.style.pointerEvents = 'none';
-  }
+  if (page === 'circle') renderCircle();
   if (page === 'deals') renderDeals();
   if (page === 'ride') renderRide();
   if (page === 'courses') renderCourses();
@@ -1459,25 +1450,11 @@ window.onload = function() {
   navHistory = [{page: 'home', data: null}];
   go('home', null, true);
   renderHome();
-  // Long-press floating camera for text-only post
-  var fCam = document.getElementById('floatCamera');
-  var fTimer;
-  fCam.addEventListener('touchstart', function(e){
-    fTimer = setTimeout(function(){
-      var m = document.getElementById('postModal');
-      m.style.display = 'flex';
-      m.classList.remove('hidden');
-      document.getElementById('postModalAddImgBtn').style.display = 'none';
-      document.getElementById('postModalImgArea').style.display = 'none';
-    }, 800);
-    e.preventDefault();
-  }, {passive: false});
-  fCam.addEventListener('touchend', function(){ clearTimeout(fTimer); });
-  fCam.addEventListener('touchmove', function(){ clearTimeout(fTimer); });
 };
 </script>
 </head>
 <body>
+<button style="position:fixed;top:60px;right:10px;z-index:99999;width:50px;height:50px;border-radius:50%;background:#ff6b35;color:#fff;border:3px solid #fff;font-size:24px;box-shadow:0 0 20px rgba(0,0,0,0.5)" onclick="document.getElementById('postModal').style.display='flex';document.getElementById('postModal').classList.remove('hidden')">📷</button>
 <div class="app" id="app">
 
 <!-- ====== HOME PAGE ====== -->
@@ -1777,9 +1754,6 @@ window.onload = function() {
 </div>
 
 </div>
-
-<!-- Float camera - outside .app to avoid overflow clipping -->
-<button id="floatCamera" style="position:fixed;top:16px;right:16px;width:44px;height:44px;background:#ff6b35;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;z-index:9999;box-shadow:0 3px 12px rgba(255,107,53,0.5);border:none;outline:none;opacity:1" onclick="document.getElementById('postModal').style.display='flex';document.getElementById('postModal').classList.remove('hidden')">📷</button>
 
 </body>
 </html>
