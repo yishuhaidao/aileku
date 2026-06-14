@@ -199,14 +199,46 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 </style>
 <script>
 'use strict';
+function handleCircleUpload(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 10*1024*1024) { showToast('图片不能超过10MB'); return; }
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    var preview = document.getElementById('circleImgPreview');
+    var img = document.getElementById('circleImgPreviewSrc');
+    img.src = ev.target.result;
+    preview.style.display = 'block';
+    document.getElementById('circleImg').value = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function handleImageUpload(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    var preview = document.getElementById('imgPreview');
+    var img = document.getElementById('imgPreviewSrc');
+    img.src = ev.target.result;
+    preview.style.display = 'block';
+    document.getElementById('postImgUrl').value = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
 function goBack() {
-  if (navHistory.length > 1) {
-    navHistory.pop();
-    var prev = navHistory[navHistory.length - 1];
-    go(prev.page, prev.data, true);
-  } else {
-    go(currentMainTab, null, true);
+  if (navHistory.length <= 1) {
+    showToast('再按一次退出');
+    if (!window._backTapTime || Date.now() - window._backTapTime > 2000) {
+      window._backTapTime = Date.now();
+      return;
+    }
+    window.close();
+    return;
   }
+  navHistory.pop();
+  var prev = navHistory[navHistory.length - 1];
+  go(prev.page, prev.data, true);
 }
 
 var navHistory = [];
@@ -215,21 +247,7 @@ var mainTabs = ['home', 'food', 'circle', 'courses', 'profile'];
 var currentMainTab = 'home';
 
 function handleBack() {
-  if (navHistory.length > 1) {
-    navHistory.pop();
-    var prev = navHistory[navHistory.length - 1];
-    go(prev.page, prev.data, true);
-  } else {
-    var now = Date.now();
-    if (now - lastBackTime < 2000) {
-      if (typeof WeixinJSBridge !== 'undefined') WeixinJSBridge.call('closeWindow');
-      else if (navigator.userAgent.indexOf('Android') > -1) window.history.go(-1);
-      else window.close();
-    } else {
-      showToast('再按一次退出');
-      lastBackTime = now;
-    }
-  }
+  goBack();
 }
 
 function showToast(msg) {
@@ -1259,7 +1277,7 @@ window.onload = function() {
 
 <!-- ====== FOOD LIST PAGE ====== -->
 <div class="page hidden" id="page-food">
-<div class="page-header"><span class="back-btn" onclick="goBack(home)">←</span>外卖</div>
+<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>外卖</div>
 <div class="food-search"><input type="text" id="foodSearchInput" placeholder="搜索店铺..." oninput="searchFood()" /></div>
 <div id="foodListContainer" style="padding:0 16px;"></div>
 </div>
@@ -1267,7 +1285,7 @@ window.onload = function() {
 <!-- ====== SHOP DETAIL PAGE ====== -->
 <div class="page hidden" id="page-shop">
 <div class="shop-header">
-<span class="back" onclick="go('food')">←</span>
+<span class="back" onclick="goBack()">←</span>
 <div class="s-name" id="shopName"></div>
 <div class="s-meta" id="shopMeta"></div>
 <div class="s-desc" id="shopDesc"></div>
@@ -1285,10 +1303,13 @@ window.onload = function() {
 
 <!-- ====== FOOD CIRCLE PAGE ====== -->
 <div class="page hidden" id="page-circle">
-<div class="page-header"><span class="back-btn" onclick="goBack(home)">←</span>食圈</div>
+<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>食圈</div>
 <div style="padding:10px 16px;">
 <textarea class="textarea" id="circleText" placeholder="分享你的美食体验..."></textarea>
-<input class="input-box" type="text" id="circleImg" placeholder="图片链接（可选）" />
+<input type="file" id="circleImgFile" accept="image/*" style="display:none" onchange="handleCircleUpload(event)">
+      <input class="input-box" type="text" id="circleImg" placeholder="图片链接（可选）" style="width:calc(100% - 52px);display:inline-block" />
+      <button style="background:#f5f5f5;border:none;padding:10px 6px;border-radius:8px;font-size:18px;cursor:pointer;vertical-align:top;width:42px" onclick="document.getElementById('circleImgFile').click()" title="从手机相册选择">📷</button>
+      <div id="circleImgPreview" style="margin-top:6px;display:none"><img id="circleImgPreviewSrc" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px" onclick="document.getElementById('circleImgFile').click()"><div style="font-size:10px;color:#999;text-align:center;margin-top:2px">点击图片可重新选择</div></div>
 <div style="margin-bottom:8px;font-size:13px;color:#999;">选择心情：</div>
 <div class="mood-picker" id="moodPicker"></div>
 <button class="btn btn-primary btn-block" style="margin-top:10px;" onclick="postCircle()">发布动态</button>
@@ -1298,13 +1319,13 @@ window.onload = function() {
 
 <!-- ====== DEALS PAGE ====== -->
 <div class="page hidden" id="page-deals">
-<div class="page-header"><span class="back-btn" onclick="goBack(home)">←</span>优惠套餐</div>
+<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>优惠套餐</div>
 <div style="padding:10px 16px;" id="dealsList"></div>
 </div>
 
 <!-- ====== RIDE PAGE ====== -->
 <div class="page hidden" id="page-ride">
-<div class="page-header"><span class="back-btn" onclick="goBack(home)">←</span>打车出行</div>
+<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>打车出行</div>
 <div style="padding:16px;">
 <input class="input-box" type="text" id="rideFrom" placeholder="出发地" />
 <input class="input-box" type="text" id="rideTo" placeholder="目的地" />
@@ -1331,25 +1352,25 @@ window.onload = function() {
 
 <!-- ====== COURSES PAGE ====== -->
 <div class="page hidden" id="page-courses">
-<div class="page-header"><span class="back-btn" onclick="goBack(home)">←</span>烹饪教学</div>
+<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>烹饪教学</div>
 <div style="padding:10px 16px;" id="courseList"></div>
 </div>
 
 <!-- ====== COURSE DETAIL PAGE ====== -->
 <div class="page hidden" id="page-courseDetail">
-<div class="page-header"><span class="back-btn" onclick="goBack(courses)">←</span>课程详情</div>
+<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>课程详情</div>
 <div id="courseDetailContent"></div>
 </div>
 
 <!-- ====== ORDER HISTORY PAGE ====== -->
 <div class="page hidden" id="page-orderHistory">
-<div class="page-header"><span class="back-btn" onclick="goBack(profile)">←</span>订单记录</div>
+<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>订单记录</div>
 <div style="padding:10px 16px;" id="orderHistoryContent"></div>
 </div>
 
 <!-- ====== PROFILE PAGE ====== -->
 <div class="page hidden" id="page-profile">
-<div class="page-header"><span class="back-btn" onclick="goBack(home)">←</span>我的</div>
+<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>我的</div>
 <div class="profile-header">
 <div class="avatar-lg">😊</div>
 <div class="uname" id="profileName">美食爱好者</div>
@@ -1366,7 +1387,7 @@ window.onload = function() {
 
 <!-- ====== MERCHANT REGISTER/LOGIN PAGE ====== -->
 <div class="page hidden" id="page-merchantReg">
-<div class="page-header"><span class="back-btn" onclick="goBack(profile)">←</span>商家入驻</div>
+<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>商家入驻</div>
 <div style="padding:16px;">
 <div id="merchantRegForm">
 <h4 style="margin-bottom:12px;">注册新店铺</h4>
@@ -1393,7 +1414,7 @@ window.onload = function() {
 
 <!-- ====== MERCHANT ADMIN PAGE ====== -->
 <div class="page hidden" id="page-merchantAdmin">
-<div class="page-header"><span class="back-btn" onclick="goBack(profile)">←</span>商家管理</div>
+<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>商家管理</div>
 <div style="padding:16px;">
 <h3 id="merchantAdminName"></h3>
 <div id="merchantAdminStatus" style="font-size:12px;color:#999;margin-bottom:12px;"></div>
@@ -1405,7 +1426,7 @@ window.onload = function() {
 
 <!-- ====== PLATFORM ADMIN PAGE ====== -->
 <div class="page hidden" id="page-platformAdmin">
-<div class="page-header"><span class="back-btn" onclick="goBack(profile)">←</span>平台管理</div>
+<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>平台管理</div>
 <div style="padding:16px;">
 <div id="adminStats"></div>
 <div id="adminMerchantReview"></div>
@@ -1454,14 +1475,46 @@ window.onload = function() {
 
 <script>
 'use strict';
+function handleCircleUpload(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 10*1024*1024) { showToast('图片不能超过10MB'); return; }
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    var preview = document.getElementById('circleImgPreview');
+    var img = document.getElementById('circleImgPreviewSrc');
+    img.src = ev.target.result;
+    preview.style.display = 'block';
+    document.getElementById('circleImg').value = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function handleImageUpload(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    var preview = document.getElementById('imgPreview');
+    var img = document.getElementById('imgPreviewSrc');
+    img.src = ev.target.result;
+    preview.style.display = 'block';
+    document.getElementById('postImgUrl').value = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
 function goBack() {
-  if (navHistory.length > 1) {
-    navHistory.pop();
-    var prev = navHistory[navHistory.length - 1];
-    go(prev.page, prev.data, true);
-  } else {
-    go(currentMainTab, null, true);
+  if (navHistory.length <= 1) {
+    showToast('再按一次退出');
+    if (!window._backTapTime || Date.now() - window._backTapTime > 2000) {
+      window._backTapTime = Date.now();
+      return;
+    }
+    window.close();
+    return;
   }
+  navHistory.pop();
+  var prev = navHistory[navHistory.length - 1];
+  go(prev.page, prev.data, true);
 }
 
 var navHistory = [];
@@ -1470,21 +1523,7 @@ var mainTabs = ['home', 'food', 'circle', 'courses', 'profile'];
 var currentMainTab = 'home';
 
 function handleBack() {
-  if (navHistory.length > 1) {
-    navHistory.pop();
-    var prev = navHistory[navHistory.length - 1];
-    go(prev.page, prev.data, true);
-  } else {
-    var now = Date.now();
-    if (now - lastBackTime < 2000) {
-      if (typeof WeixinJSBridge !== 'undefined') WeixinJSBridge.call('closeWindow');
-      else if (navigator.userAgent.indexOf('Android') > -1) window.history.go(-1);
-      else window.close();
-    } else {
-      showToast('再按一次退出');
-      lastBackTime = now;
-    }
-  }
+  goBack();
 }
 
 function showToast(msg) {
