@@ -196,6 +196,34 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .noscroll{overflow:hidden}
 
 .back-toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.75);color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;z-index:999;transition:opacity 0.3s;pointer-events:none}
+/* ── Delivery Tracking ── */
+.delivery-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:400;display:flex;align-items:center;justify-content:center}
+.delivery-card{background:#fff;width:88%;max-width:360px;border-radius:16px;padding:24px 20px;text-align:center}
+.delivery-step-icon{font-size:48px;margin-bottom:12px}
+.delivery-step-title{font-size:17px;font-weight:600;color:#333;margin-bottom:8px}
+.delivery-step-desc{font-size:13px;color:#999;line-height:1.5}
+.delivery-spinner{display:inline-block;width:40px;height:40px;border:3px solid #f0f0f0;border-top-color:#ff6b35;border-radius:50%;animation:delivery-spin 0.8s linear infinite;margin-bottom:12px}
+@keyframes delivery-spin{to{transform:rotate(360deg)}}
+.delivery-rider-info{display:flex;align-items:center;justify-content:center;gap:10px;margin:12px 0;padding:12px;background:#fff3ed;border-radius:10px}
+.delivery-rider-avatar{width:44px;height:44px;border-radius:50%;background:#ff6b35;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.delivery-rider-detail{text-align:left;font-size:13px;line-height:1.6}
+.delivery-rider-name{font-weight:600;color:#333}
+.delivery-rider-phone{color:#ff6b35}
+.delivery-route-map{position:relative;width:100%;height:80px;background:linear-gradient(90deg,#fff3ed,#ff6b35,#fff3ed);border-radius:10px;margin:12px 0;overflow:hidden}
+.delivery-route-label{position:absolute;font-size:10px;color:#999;top:4px}
+.delivery-route-label.start{left:8px}
+.delivery-route-label.end{right:8px}
+.delivery-route-dot{position:absolute;top:50%;transform:translate(-50%,-50%);width:14px;height:14px;background:#ff6b35;border-radius:50%;box-shadow:0 0 8px rgba(255,107,53,0.5);animation:delivery-move 3s ease-in-out forwards}
+@keyframes delivery-move{0%{left:12px}100%{left:calc(100% - 12px)}}
+.delivery-route-path{position:absolute;top:50%;left:20px;right:20px;height:2px;background:rgba(255,107,53,0.3);transform:translateY(-50%)}
+.delivery-rating-stars{display:flex;justify-content:center;gap:6px;margin:12px 0}
+.delivery-rating-star{font-size:32px;cursor:pointer;transition:transform 0.15s;color:#e0e0e0}
+.delivery-rating-star.active{color:#f5a623;transform:scale(1.1)}
+.delivery-rating-star:hover{transform:scale(1.2)}
+.delivery-review-input{width:100%;padding:8px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;outline:none;margin-bottom:12px;resize:none;min-height:50px}
+.delivery-review-input:focus{border-color:#ff6b35}
+.delivery-submit-btn{padding:10px 32px;background:#ff6b35;color:#fff;border:none;border-radius:24px;font-size:15px;font-weight:600;cursor:pointer}
+.delivery-submit-btn:disabled{background:#ccc;cursor:not-allowed}
 </style>
 <script>
 'use strict';
@@ -229,19 +257,26 @@ function handleImageUpload(e) {
 var mainTabs = ['home', 'food', 'circle', 'courses', 'profile'];
 var currentMainTab = 'home';
 function goBack() {
-  var currentPage = navHistory.length > 0 ? navHistory[navHistory.length-1].page : 'home';
-  if (mainTabs.indexOf(currentPage) >= 0) {
-    showToast('再按一次退出');
-    if (!window._backTapTime || Date.now() - window._backTapTime > 2000) {
-      window._backTapTime = Date.now();
-      return;
-    }
-    try { window.close(); } catch(e) {}
-    return;
+  var currentPage = (navHistory && navHistory.length > 0) ? (navHistory[navHistory.length-1].page || 'home') : 'home';
+  var isMain = false;
+  for (var i = 0; i < mainTabs.length; i++) {
+    if (mainTabs[i] === currentPage) { isMain = true; break; }
   }
-  navHistory.pop();
-  var prev = navHistory[navHistory.length - 1];
-  go(prev.page, prev.data, true);
+  if (isMain) {
+    showToast('再按一次退出');
+    if (!window._backTapTime || (new Date().getTime() - window._backTapTime) > 2000) {
+      window._backTapTime = new Date().getTime();
+      return false;
+    }
+    try { if (navigator.userAgent.indexOf('MicroMessenger')>-1) { WeixinJSBridge.call('closeWindow'); } else { window.close(); } } catch(e) {}
+    return false;
+  }
+  if (navHistory.length > 1) {
+    navHistory.pop();
+    var prev = navHistory[navHistory.length - 1];
+    go(prev.page, prev.data, true);
+  }
+  return false;
 }
 
 var navHistory = [];
@@ -735,13 +770,14 @@ function checkout() {
 }
 
 /* ── Payment Modal ── */
-function showPaymentModal(shopName, items, amount, onSuccess) {
+function showPaymentModal(shopName, items, amount, onSuccess, enableDelivery) {
   document.getElementById('payTitle').textContent = shopName;
   document.getElementById('payItems').textContent = items;
   document.getElementById('payAmount').textContent = '¥' + amount.toFixed(1);
   document.getElementById('paymentModal').classList.remove('hidden');
   document.getElementById('paymentModal')._onSuccess = onSuccess;
   document.getElementById('paymentModal')._selectedMethod = 'wechat';
+  document.getElementById('paymentModal')._delivery = (enableDelivery !== false);
   document.getElementById('payMethodWechat').classList.add('selected');
   document.getElementById('payMethodAlipay').classList.remove('selected');
 }
@@ -756,8 +792,12 @@ function selectPayMethod(method) {
 
 function confirmPayment() {
   var modal = document.getElementById('paymentModal');
+  var hasDelivery = modal._delivery;
   modal.classList.add('hidden');
   if (modal._onSuccess) modal._onSuccess();
+  if (hasDelivery) {
+    setTimeout(function() { startDeliveryTracking(); }, 300);
+  }
 }
 
 function cancelPayment() {
@@ -882,7 +922,7 @@ function viewCourse(courseId) {
       S('unlockedCourses', unlocked);
       toast('课程解锁成功！');
       go('courseDetail', courseId);
-    });
+    }, false);
     return;
   }
   APP.currentCourse = courseId;
@@ -1232,6 +1272,94 @@ function globalSearch() {
   toast('未找到相关结果');
 }
 
+/* ── Delivery Tracking ── */
+var RIDERS = [
+  {name: '张师傅', phone: '138****5678', avatar: '🦸'},
+  {name: '李师傅', phone: '139****1234', avatar: '🏍️'},
+  {name: '王师傅', phone: '150****9876', avatar: '🛵'},
+  {name: '赵师傅', phone: '137****3456', avatar: '🚀'}
+];
+var deliveryRating = 0;
+var deliveryOrderData = null;
+
+function startDeliveryTracking() {
+  var orders = L('orders') || [];
+  deliveryOrderData = orders.length > 0 ? orders[orders.length - 1] : null;
+  deliveryRating = 0;
+  var modal = document.getElementById('deliveryModal');
+  var s1 = document.getElementById('deliveryStep1');
+  var s2 = document.getElementById('deliveryStep2');
+  var s3 = document.getElementById('deliveryStep3');
+  var s4 = document.getElementById('deliveryStep4');
+  s1.classList.remove('hidden');
+  s2.classList.add('hidden');
+  s3.classList.add('hidden');
+  s4.classList.add('hidden');
+  modal.classList.remove('hidden');
+  document.body.classList.add('noscroll');
+
+  /* Step 1 → Step 2 after 3s */
+  setTimeout(function() {
+    s1.classList.add('hidden');
+    s2.classList.remove('hidden');
+    var rider = RIDERS[Math.floor(Math.random() * RIDERS.length)];
+    document.getElementById('riderName').textContent = rider.name;
+    document.getElementById('riderPhone').textContent = rider.phone;
+    document.getElementById('riderAvatar').textContent = rider.avatar;
+
+    /* Step 2 → Step 3 after 3s */
+    setTimeout(function() {
+      s2.classList.add('hidden');
+      s3.classList.remove('hidden');
+
+      /* Step 3 → Step 4 after 3.5s (animation duration) */
+      setTimeout(function() {
+        s3.classList.add('hidden');
+        s4.classList.remove('hidden');
+        /* Reset stars */
+        var stars = document.querySelectorAll('#ratingStars .delivery-rating-star');
+        for (var i = 0; i < stars.length; i++) { stars[i].classList.remove('active'); }
+        document.getElementById('deliveryReview').value = '';
+        deliveryRating = 0;
+      }, 3500);
+    }, 3000);
+  }, 3000);
+}
+
+function setDeliveryRating(rating) {
+  deliveryRating = rating;
+  var stars = document.querySelectorAll('#ratingStars .delivery-rating-star');
+  for (var i = 0; i < stars.length; i++) {
+    if (i < rating) { stars[i].classList.add('active'); }
+    else { stars[i].classList.remove('active'); }
+  }
+}
+
+function submitDeliveryRating() {
+  if (deliveryRating === 0) {
+    showToast('请先评星');
+    return;
+  }
+  var review = document.getElementById('deliveryReview').value.trim();
+  /* Save rating to the order */
+  if (deliveryOrderData) {
+    deliveryOrderData.deliveryRating = deliveryRating;
+    deliveryOrderData.deliveryReview = review || '';
+    var orders = L('orders') || [];
+    for (var i = orders.length - 1; i >= 0; i--) {
+      if (orders[i].time === deliveryOrderData.time && orders[i].shopName === deliveryOrderData.shopName && orders[i].total === deliveryOrderData.total) {
+        orders[i].deliveryRating = deliveryRating;
+        orders[i].deliveryReview = review || '';
+        break;
+      }
+    }
+    S('orders', orders);
+  }
+  document.getElementById('deliveryModal').classList.add('hidden');
+  document.body.classList.remove('noscroll');
+  showToast('感谢您的评价！⭐' + deliveryRating + '分');
+}
+
 /* ── INIT ── */
 window.onload = function() {
   autoLocate();
@@ -1278,7 +1406,7 @@ window.onload = function() {
 
 <!-- ====== FOOD LIST PAGE ====== -->
 <div class="page hidden" id="page-food">
-<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>外卖</div>
+<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>外卖</div>
 <div class="food-search"><input type="text" id="foodSearchInput" placeholder="搜索店铺..." oninput="searchFood()" /></div>
 <div id="foodListContainer" style="padding:0 16px;"></div>
 </div>
@@ -1286,7 +1414,7 @@ window.onload = function() {
 <!-- ====== SHOP DETAIL PAGE ====== -->
 <div class="page hidden" id="page-shop">
 <div class="shop-header">
-<span class="back" onclick="goBack()">←</span>
+<span class="back" onclick="goBack();return false;">←</span>
 <div class="s-name" id="shopName"></div>
 <div class="s-meta" id="shopMeta"></div>
 <div class="s-desc" id="shopDesc"></div>
@@ -1304,7 +1432,7 @@ window.onload = function() {
 
 <!-- ====== FOOD CIRCLE PAGE ====== -->
 <div class="page hidden" id="page-circle">
-<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>食圈</div>
+<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>食圈</div>
 <div style="padding:10px 16px;">
 <textarea class="textarea" id="circleText" placeholder="分享你的美食体验..."></textarea>
 <input type="file" id="circleImgFile" accept="image/*" style="display:none" onchange="handleCircleUpload(event)">
@@ -1320,13 +1448,13 @@ window.onload = function() {
 
 <!-- ====== DEALS PAGE ====== -->
 <div class="page hidden" id="page-deals">
-<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>优惠套餐</div>
+<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>优惠套餐</div>
 <div style="padding:10px 16px;" id="dealsList"></div>
 </div>
 
 <!-- ====== RIDE PAGE ====== -->
 <div class="page hidden" id="page-ride">
-<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>打车出行</div>
+<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>打车出行</div>
 <div style="padding:16px;">
 <input class="input-box" type="text" id="rideFrom" placeholder="出发地" />
 <input class="input-box" type="text" id="rideTo" placeholder="目的地" />
@@ -1353,25 +1481,25 @@ window.onload = function() {
 
 <!-- ====== COURSES PAGE ====== -->
 <div class="page hidden" id="page-courses">
-<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>烹饪教学</div>
+<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>烹饪教学</div>
 <div style="padding:10px 16px;" id="courseList"></div>
 </div>
 
 <!-- ====== COURSE DETAIL PAGE ====== -->
 <div class="page hidden" id="page-courseDetail">
-<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>课程详情</div>
+<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>课程详情</div>
 <div id="courseDetailContent"></div>
 </div>
 
 <!-- ====== ORDER HISTORY PAGE ====== -->
 <div class="page hidden" id="page-orderHistory">
-<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>订单记录</div>
+<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>订单记录</div>
 <div style="padding:10px 16px;" id="orderHistoryContent"></div>
 </div>
 
 <!-- ====== PROFILE PAGE ====== -->
 <div class="page hidden" id="page-profile">
-<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>我的</div>
+<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>我的</div>
 <div class="profile-header">
 <div class="avatar-lg">😊</div>
 <div class="uname" id="profileName">美食爱好者</div>
@@ -1388,7 +1516,7 @@ window.onload = function() {
 
 <!-- ====== MERCHANT REGISTER/LOGIN PAGE ====== -->
 <div class="page hidden" id="page-merchantReg">
-<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>商家入驻</div>
+<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>商家入驻</div>
 <div style="padding:16px;">
 <div id="merchantRegForm">
 <h4 style="margin-bottom:12px;">注册新店铺</h4>
@@ -1415,7 +1543,7 @@ window.onload = function() {
 
 <!-- ====== MERCHANT ADMIN PAGE ====== -->
 <div class="page hidden" id="page-merchantAdmin">
-<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>商家管理</div>
+<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>商家管理</div>
 <div style="padding:16px;">
 <h3 id="merchantAdminName"></h3>
 <div id="merchantAdminStatus" style="font-size:12px;color:#999;margin-bottom:12px;"></div>
@@ -1427,7 +1555,7 @@ window.onload = function() {
 
 <!-- ====== PLATFORM ADMIN PAGE ====== -->
 <div class="page hidden" id="page-platformAdmin">
-<div class="page-header"><span class="back-btn" onclick="goBack()">←</span>平台管理</div>
+<div class="page-header"><span class="back-btn" onclick="goBack();return false;">←</span>平台管理</div>
 <div style="padding:16px;">
 <div id="adminStats"></div>
 <div id="adminMerchantReview"></div>
@@ -1448,6 +1576,55 @@ window.onload = function() {
 </div>
 <button class="pay-confirm" onclick="confirmPayment()">确认支付</button>
 <button class="pay-cancel" onclick="cancelPayment()">取消</button>
+</div>
+</div>
+
+<!-- ====== DELIVERY TRACKING MODAL ====== -->
+<div class="delivery-overlay hidden" id="deliveryModal">
+<div class="delivery-card" id="deliveryCard">
+<div id="deliveryStep1">
+<div class="delivery-spinner"></div>
+<div class="delivery-step-icon">🛵</div>
+<div class="delivery-step-title">等待骑手接单...</div>
+<div class="delivery-step-desc">正在为您匹配最近的骑手</div>
+</div>
+<div id="deliveryStep2" class="hidden">
+<div class="delivery-step-icon">🏍️</div>
+<div class="delivery-step-title">骑手已接单！</div>
+<div class="delivery-step-desc">正在赶往商家取餐...</div>
+<div class="delivery-rider-info">
+<div class="delivery-rider-avatar" id="riderAvatar">🦸</div>
+<div class="delivery-rider-detail">
+<div class="delivery-rider-name" id="riderName"></div>
+<div class="delivery-rider-phone" id="riderPhone"></div>
+</div>
+</div>
+</div>
+<div id="deliveryStep3" class="hidden">
+<div class="delivery-step-icon">📦</div>
+<div class="delivery-step-title">骑手已取餐！</div>
+<div class="delivery-step-desc">正在配送中，请耐心等待...</div>
+<div class="delivery-route-map">
+<div class="delivery-route-label start">🏪</div>
+<div class="delivery-route-label end">🏠</div>
+<div class="delivery-route-path"></div>
+<div class="delivery-route-dot"></div>
+</div>
+</div>
+<div id="deliveryStep4" class="hidden">
+<div class="delivery-step-icon">🎉</div>
+<div class="delivery-step-title">已送达！</div>
+<div class="delivery-step-desc">请评价本次配送服务</div>
+<div class="delivery-rating-stars" id="ratingStars">
+<span class="delivery-rating-star" onclick="setDeliveryRating(1)">★</span>
+<span class="delivery-rating-star" onclick="setDeliveryRating(2)">★</span>
+<span class="delivery-rating-star" onclick="setDeliveryRating(3)">★</span>
+<span class="delivery-rating-star" onclick="setDeliveryRating(4)">★</span>
+<span class="delivery-rating-star" onclick="setDeliveryRating(5)">★</span>
+</div>
+<textarea class="delivery-review-input" id="deliveryReview" placeholder="写下您的评价...（可选）"></textarea>
+<button class="delivery-submit-btn" id="deliverySubmitBtn" onclick="submitDeliveryRating()">提交评价</button>
+</div>
 </div>
 </div>
 
