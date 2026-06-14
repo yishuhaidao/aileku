@@ -394,9 +394,13 @@ function go(page, data, skipHistory) {
   if (page === 'shop') renderShopDetail(data || APP.currentShop);
   if (page === 'circle') {
     renderCircle();
-    document.getElementById('floatCamera').style.display = 'flex';
+    var fc = document.getElementById('floatCamera');
+    fc.style.opacity = '1';
+    fc.style.pointerEvents = 'auto';
   } else {
-    document.getElementById('floatCamera').style.display = 'none';
+    var fc = document.getElementById('floatCamera');
+    fc.style.opacity = '0';
+    fc.style.pointerEvents = 'none';
   }
   if (page === 'deals') renderDeals();
   if (page === 'ride') renderRide();
@@ -1773,7 +1777,7 @@ window.onload = function() {
 </div>
 
 <!-- Floating camera button - always in DOM -->
-<div id="floatCamera" style="position:fixed;bottom:80px;right:16px;width:48px;height:48px;background:#ff6b35;color:#fff;border-radius:50%;display:none;align-items:center;justify-content:center;font-size:22px;z-index:150;box-shadow:0 3px 12px rgba(255,107,53,0.5);cursor:pointer;-webkit-tap-highlight-color:transparent" onclick="var m=document.getElementById('postModal');m.style.display='flex';m.classList.remove('hidden');return false">📷</div>
+<div id="floatCamera" style="position:fixed;bottom:80px;right:16px;width:48px;height:48px;background:#ff6b35;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;z-index:150;box-shadow:0 3px 12px rgba(255,107,53,0.5);cursor:pointer;opacity:0;pointer-events:none;transition:opacity 0.2s;border:none;outline:none;-webkit-tap-highlight-color:transparent" onclick="var m=document.getElementById('postModal');m.style.display='flex';m.classList.remove('hidden');return false">📷</div>
 
 </div>
 
