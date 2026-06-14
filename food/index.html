@@ -226,6 +226,8 @@ function handleImageUpload(e) {
   };
   reader.readAsDataURL(file);
 }
+var mainTabs = ['home', 'food', 'circle', 'courses', 'profile'];
+var currentMainTab = 'home';
 function goBack() {
   var currentPage = navHistory.length > 0 ? navHistory[navHistory.length-1].page : 'home';
   if (mainTabs.indexOf(currentPage) >= 0) {
@@ -244,8 +246,6 @@ function goBack() {
 
 var navHistory = [];
 var lastBackTime = 0;
-var mainTabs = ['home', 'food', 'circle', 'courses', 'profile'];
-var currentMainTab = 'home';
 
 function handleBack() {
   goBack();
@@ -1503,6 +1503,8 @@ function handleImageUpload(e) {
   };
   reader.readAsDataURL(file);
 }
+var mainTabs = ['home', 'food', 'circle', 'courses', 'profile'];
+var currentMainTab = 'home';
 function goBack() {
   var currentPage = navHistory.length > 0 ? navHistory[navHistory.length-1].page : 'home';
   if (mainTabs.indexOf(currentPage) >= 0) {
@@ -1521,8 +1523,6 @@ function goBack() {
 
 var navHistory = [];
 var lastBackTime = 0;
-var mainTabs = ['home', 'food', 'circle', 'courses', 'profile'];
-var currentMainTab = 'home';
 
 function handleBack() {
   goBack();
