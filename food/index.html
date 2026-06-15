@@ -863,6 +863,9 @@ function renderHome(){
       '<div class="sic-meta">⭐ 4.8 · 月销999+ · 起送¥'+s.min+'</div></div></div>');
   }
   document.getElementById('homeShops').innerHTML='<div class="shop-img-grid">'+h.join('')+'</div>';
+  var el=document.getElementById('homeDeals');if(el)el.innerHTML='';
+  el=document.getElementById('homeCirclePosts');if(el)el.innerHTML='';
+  el=document.getElementById('homeCourses');if(el)el.innerHTML='';
 }
 function renderShopList(){
   const approved = shops.filter(s=>s.status==='approved');
