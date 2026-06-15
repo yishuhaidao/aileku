@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -205,33 +205,48 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .admin-badge{display:inline-block;background:#ff6b35;color:#fff;font-size:10px;padding:1px 6px;border-radius:8px;margin-left:4px}
 /* 食圈 */
 /* 食圈 */
-.post-card{background:#fff;border-radius:12px;padding:12px;margin-bottom:10px}
-.post-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.post-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#ff6b35,#ff8c5a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.post-user{font-size:14px;font-weight:600}
-.post-time{font-size:11px;color:#999}
-.post-text{font-size:14px;line-height:1.6;margin-bottom:8px;white-space:pre-line}
-.post-images{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:8px}
-.post-images img{width:100%;border-radius:8px;object-fit:cover;aspect-ratio:1;background:#eee}
-.post-mood{display:inline-block;font-size:18px;margin-right:8px}
-.post-actions{display:flex;gap:16px;padding-top:8px;border-top:1px solid #f0f0f0}
-.post-actions span{font-size:12px;color:#999;cursor:pointer;display:flex;align-items:center;gap:4px}
-.post-actions span.liked{color:#e53935}
-.post-comments{margin-top:8px;padding-top:8px;border-top:1px solid #f5f5f5}
-.post-comment{display:flex;gap:6px;margin-bottom:4px;font-size:12px}
-.post-comment .cmt-user{color:#ff6b35;font-weight:600;flex-shrink:0}
-.post-comment .cmt-text{color:#333}
-.post-form{background:#fff;border-radius:12px;padding:12px;margin:8px 12px}
-.post-form textarea{width:100%;border:none;outline:none;font-size:14px;resize:none;height:60px;font-family:inherit}
-.post-form .mood-row{display:flex;gap:4px;padding:4px 0}
-.post-form .mood-row span{font-size:22px;cursor:pointer;padding:2px 4px;border-radius:4px}
-.post-form .mood-row span.sel{background:#fff3e0}
-.post-form .img-row{display:flex;gap:4px;align-items:center}
-.post-form .img-row input{flex:1;border:1px solid #eee;border-radius:8px;padding:4px 8px;font-size:11px;outline:none}
-.post-form .img-row button{background:#f5f5f5;border:1px solid #eee;border-radius:8px;padding:4px 10px;font-size:11px;cursor:pointer}
-.comment-input{display:flex;gap:4px;margin-top:6px}
-.comment-input input{flex:1;border:1px solid #eee;border-radius:14px;padding:4px 10px;font-size:11px;outline:none}
-.comment-input button{background:#ff6b35;color:#fff;border:none;border-radius:14px;padding:4px 12px;font-size:11px;cursor:pointer}
+.moment-card{background:#fff;padding:12px 16px;border-bottom:1px solid #f0f0f0;position:relative}
+.moment-avatar{width:44px;height:44px;border-radius:6px;background:linear-gradient(135deg,#ff6b35,#ff8c5a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;flex-shrink:0}
+.moment-hd{display:flex;gap:10px;align-items:flex-start}
+.moment-name{font-size:15px;font-weight:600;color:#576b95}
+.moment-text{font-size:15px;line-height:1.55;margin:6px 0 8px;white-space:pre-line;word-break:break-all}
+.moment-imgs{display:grid;gap:3px;margin:6px 0}
+.moment-imgs.m1{grid-template-columns:1fr;max-width:240px}
+.moment-imgs.m2{grid-template-columns:1fr 1fr;max-width:240px}
+.moment-imgs.m3{grid-template-columns:1fr 1fr 1fr}
+.moment-imgs.m4{grid-template-columns:1fr 1fr}
+.moment-imgs.m5{grid-template-columns:1fr 1fr 1fr}
+.moment-imgs.m6{grid-template-columns:1fr 1fr 1fr}
+.moment-imgs img{width:100%;aspect-ratio:1;object-fit:cover;background:#eee;display:block}
+.moment-meta{font-size:12px;color:#888;margin:4px 0;display:flex;align-items:center;gap:6px}
+.moment-meta .dot{width:3px;height:3px;border-radius:50%;background:#ccc}
+.moment-bar{background:#f7f7f7;border-radius:2px;padding:8px 10px;margin-top:6px;font-size:13px}
+.moment-bar .like-row{color:#576b95;margin-bottom:3px;line-height:1.5}
+.moment-bar .like-row i{font-style:normal;margin-right:2px}
+.moment-cmt{line-height:1.55;word-break:break-all}
+.moment-cmt .cmt-name{color:#576b95}
+.moment-cmt .cmt-reply{color:#888}
+.moment-actions{display:flex;align-items:center;justify-content:flex-end;gap:12px;margin-top:6px}
+.moment-actions .act-btn{font-size:12px;color:#888;cursor:pointer;display:flex;align-items:center;gap:2px;background:#f5f5f5;border:none;border-radius:4px;padding:2px 8px}
+.moment-actions .act-btn.liked{color:#e53935}
+.moment-cmt-input{display:flex;gap:6px;margin-top:6px;align-items:center}
+.moment-cmt-input input{flex:1;border:1px solid #eee;border-radius:4px;padding:5px 8px;font-size:12px;outline:none;background:#f7f7f7}
+.moment-cmt-input button{background:#576b95;color:#fff;border:none;border-radius:4px;padding:5px 10px;font-size:12px;cursor:pointer;white-space:nowrap}
+.moment-form{background:#fff;padding:0}
+.moment-form .mf-body{display:flex;gap:10px;padding:12px 16px}
+.moment-form .mf-avatar{width:44px;height:44px;border-radius:6px;background:linear-gradient(135deg,#576b95,#7a9cc6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;flex-shrink:0}
+.moment-form textarea{flex:1;border:none;outline:none;font-size:14px;resize:none;min-height:60px;font-family:inherit;padding:4px 0}
+.moment-form .mf-bottom{display:flex;align-items:center;gap:8px;padding:6px 16px 10px;border-top:1px solid #f5f5f5;flex-wrap:wrap}
+.moment-form .mf-bottom .imgs-preview{display:flex;gap:4px;flex-wrap:wrap}
+.moment-form .mf-bottom .imgs-preview img{width:44px;height:44px;object-fit:cover;border-radius:4px;background:#eee}
+.moment-form .mf-bottom .img-add{width:44px;height:44px;border:1px dashed #ccc;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#ccc;cursor:pointer;flex-shrink:0}
+.moment-form .mf-bottom .img-add:hover{border-color:#576b95;color:#576b95}
+.moment-form .mf-submit{background:#07c160;color:#fff;border:none;border-radius:4px;padding:6px 16px;font-size:13px;cursor:pointer;margin-left:auto}
+.moment-page{background:#f5f5f5;min-height:100vh}
+/* Post form header */
+.post-form-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#fff;border-bottom:1px solid #eee;font-size:14px;font-weight:600}
+/* 食圈header */
+.moment-header{background:#fff;border-bottom:1px solid #eee}
 /* 悬浮客服 */
 .cs-float{position:fixed;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#ff6b35,#ff8c5a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 16px rgba(255,107,53,0.4);cursor:grab;z-index:999;touch-action:none;user-select:none;-webkit-user-select:none;animation:csBounce 2s infinite}
 .cs-float:active{cursor:grabbing;animation:none}
@@ -305,21 +320,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
 <!-- ========== 食圈 ========== -->
 <div id="page-circle" class="hidden">
-  <div class="header"><h1 onclick="switchPage('home')">← 同城食圈</h1></div>
-  <div class="post-form">
-    <textarea id="postText" placeholder="分享美食心情..."></textarea>
-    <div class="mood-row" id="moodPicker"></div>
-    <div class="img-row">
-      <input type="text" id="postImg" placeholder="图片链接（可选）">
-      <button onclick="alert('在网上找到喜欢的图片，长按/右键选择「复制图片地址」，粘贴到输入框即可')">?</button>
-    </div>
-    <button class="btn" style="margin-top:6px" onclick="submitPost()">📛 发布动态</button>
+  <div class="moment-header">
+    <div class="header"><h1 onclick="switchPage('home')">← 同城食圈</h1></div>
   </div>
-  <div class="card-list" id="postList"></div>
+  <div class="moment-page">
+    <div class="moment-form">
+      <div class="mf-body">
+        <div class="mf-avatar">我</div>
+        <textarea id="postText" placeholder="分享美食瞬间..."></textarea>
+      </div>
+      <div class="mf-bottom">
+        <div class="imgs-preview" id="imgPreview"></div>
+        <div class="img-add" onclick="addPostImg()" title="添加图片">+</div>
+        <button class="mf-submit" onclick="submitPost()">发表</button>
+      </div>
+    </div>
+    <div id="postList"></div>
+    <div style="height:80px"></div>
+  </div>
 </div>
-
-<!-- ========== 团购 ========== -->
-<div id="page-deals" class="hidden">
+id="page-deals" class="hidden">
   <div class="header"><h1 onclick="switchPage('home')">← 团购</h1></div>
   <div class="categories" id="dealCats"></div>
   <div class="card-list" id="dealList"></div>
@@ -711,40 +731,105 @@ function openShop(sid) {
 function backToShops(){currentShopId=null;cart={};S('cart',cart);navTo('food');}
 
 // ========== 食圈 ==========
-function renderMoods(){
-  document.getElementById('moodPicker').innerHTML = MOODS.map((m,i)=>`<span class="${i===0?'sel':''}" onclick="pickMood('${m}',this)">${m}</span>`).join('');
+let postImgs=[];
+function addPostImg(){
+  var url=prompt('输入图片链接：');
+  if(!url)return;
+  if(!url.startsWith('http')){alert('请输入完整图片链接 http://...');return;}
+  postImgs.push(url);
+  renderImgPreview();
 }
-function pickMood(m,el){selMood=m;document.querySelectorAll('#moodPicker span').forEach(e=>e.classList.remove('sel'));el.classList.add('sel');}
+function removeImg(i){
+  postImgs.splice(i,1);
+  renderImgPreview();
+}
+function renderImgPreview(){
+  var p=document.getElementById('imgPreview');
+  p.innerHTML=postImgs.map(function(u,i){
+    return '<div style="position:relative;display:inline-block"><img src="'+u+'" onerror="this.style.display=\'none\'"><span style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#e53935;color:#fff;border-radius:50%;font-size:10px;line-height:18px;text-align:center;cursor:pointer" onclick="removeImg('+i+')">x</span></div>';
+  }).join('');
+}
 function submitPost(){
-  const text = document.getElementById('postText').value.trim();
-  const img = document.getElementById('postImg').value.trim();
-  if(!text&&!img){alert('至少写点文字或放张图片');return}
-  posts.unshift({id:++pidCounter,text:text||'',img:img||'',mood:selMood,time:new Date().toLocaleString('zh-CN'),likes:[],comments:[],nickname:'虾球用户'});
+  var text=document.getElementById('postText').value.trim();
+  if(!text&&postImgs.length===0){alert('至少写点文字或放张图片');return}
+  posts.unshift({id:++pidCounter,text:text||'',imgs:postImgs.slice(),time:new Date().toLocaleString('zh-CN'),likes:[],comments:[],nickname:'虾球用户',loc:'广州市'});
+  postImgs=[];renderImgPreview();
   S('circle_posts',posts);
-  document.getElementById('postText').value='';document.getElementById('postImg').value='';
+  document.getElementById('postText').value='';
   renderCircle();renderHome();
 }
-function renderPost(p,showComments=false){
-  const liked = p.likes.includes('me');
-  const imgsHtml = p.img?`<div class="post-images"><img src="${p.img}" onerror="this.style.display='none'"></div>`:'';
-  const moodHtml = p.mood?`<span class="post-mood">${p.mood}</span>`:'';
-  return `<div class="post-card">
-    <div class="post-header"><div class="post-avatar">${p.nickname[0]}</div><div><div class="post-user">${p.nickname}</div><div class="post-time">${moodHtml} ${p.time}</div></div></div>
-    <div class="post-text">${p.text||''}</div>${imgsHtml}
-    <div class="post-actions">
-      <span class="${liked?'liked':''}" onclick="likePost(${p.id})">${liked?'❤️':'🤍'} ${p.likes.length}</span>
-      <span onclick="toggleComments(${p.id})">💬 ${(p.comments||[]).length}</span>
-    </div>
-    ${showComments?`<div class="post-comments">${(p.comments||[]).map(c=>`<div class="post-comment"><span class="cmt-user">${c.user}:</span><span class="cmt-text">${c.text}</span></div>`).join('')}<div class="comment-input"><input type="text" id="cmtInput${p.id}" placeholder="写下评论..."><button onclick="addComment(${p.id})">发送</button></div></div>`:''}
-  </div>`;
+function renderPost(p,showComments){
+  showComments=showComments||false;
+  var liked=p.likes.indexOf('me')>=0;
+  var imgCount=(p.imgs||[]).length;
+  if(!imgCount&&p.img)imgCount=1; // backward compat
+  var imgsHtml='';
+  var allImgs=p.imgs||[];
+  if(allImgs.length===0&&p.img)allImgs=[p.img];
+  if(allImgs.length>0){
+    var cls='m'+Math.min(allImgs.length,6);
+    imgsHtml='<div class="moment-imgs '+cls+'">'+allImgs.map(function(u){
+      return '<img src="'+u+'" onerror="this.style.display=\'none\'">';
+    }).join('')+'</div>';
+  }
+  var likeHtml='';
+  if(p.likes.length>0){
+    likeHtml='<div class="like-row" onclick="likePost('+p.id+')">❤️ '+p.likes.join(', ')+'</div>';
+  }
+  var cmtsHtml='';
+  if(p.comments&&p.comments.length>0){
+    cmtsHtml=p.comments.map(function(c){
+      return '<div class="moment-cmt"><span class="cmt-name">'+c.user+'</span>'+ (c.replyTo?('<span class="cmt-reply"> 回复 </span><span class="cmt-name">'+c.replyTo+'</span>'):'') +'：'+c.text+'</div>';
+    }).join('');
+  }
+  var hasInteraction=p.likes.length>0||(p.comments&&p.comments.length>0)||showComments;
+  var barHtml='';
+  if(hasInteraction){
+    barHtml='<div class="moment-bar">'+likeHtml+cmtsHtml;
+    if(showComments){
+      barHtml+='<div class="moment-cmt-input"><input type="text" id="cmtInput'+p.id+'" placeholder="评论..."><button onclick="addComment('+p.id+')">发送</button></div>';
+    }
+    barHtml+='</div>';
+  }
+  return '<div class="moment-card"><div class="moment-hd"><div class="moment-avatar">'+(p.nickname||'虾')[0]+'</div><div style="flex:1"><div class="moment-name">'+(p.nickname||'虾球用户')+'</div>'
+    +(p.text?('<div class="moment-text">'+p.text+'</div>'):'')
+    +imgsHtml
+    +'<div class="moment-meta"><span>'+p.time+'</span>'+(p.loc?('<span class="dot"></span><span>'+p.loc+'</span>'):'')+'</div>'
+    +'<div class="moment-actions">'
+    +'<button class="act-btn'+(liked?' liked':'')+'" onclick="likePost('+p.id+')">'+'❤️ '+(p.likes.length||'')+'</button>'
+    +'<button class="act-btn" onclick="toggleComments('+p.id+')">💬</button>'
+    +'</div>'+barHtml+'</div></div></div>';
 }
-function renderCircle(){document.getElementById('postList').innerHTML=posts.length?posts.map(p=>renderPost(p)).join(''):'<div class="empty-state">还没有动态，快来发第一条吧！</div>'}
-function likePost(id){const p=posts.find(p=>p.id===id);if(!p)return;if(p.likes.includes('me'))p.likes=p.likes.filter(l=>l!=='me');else p.likes.push('me');S('circle_posts',posts);renderCircle()}
-function toggleComments(id){const isOpen=document.getElementById('cmtInput'+id);renderCircleFull(id,!isOpen)}
-function renderCircleFull(openId,show){document.getElementById('postList').innerHTML=posts.length?posts.map(p=>renderPost(p,p.id===openId?show:false)).join(''):'<div class="empty-state">还没有动态</div>'}
-function addComment(id){const input=document.getElementById('cmtInput'+id);if(!input||!input.value.trim())return;const p=posts.find(p=>p.id===id);if(!p)return;if(!p.comments)p.comments=[];p.comments.push({user:'虾球用户',text:input.value.trim()});input.value='';S('circle_posts',posts);renderCircleFull(id,true)}
-
-// ========== 首页 ==========
+function renderCircle(){
+  document.getElementById('postList').innerHTML=posts.length?posts.map(function(p){return renderPost(p,false)}).join(''):'<div style="text-align:center;padding:40px;color:#999;font-size:14px">还没有动态，快来发布第一条吧 🍜</div>';
+}
+function likePost(id){
+  var p=posts.find(function(p){return p.id===id});
+  if(!p)return;
+  var meIdx=p.likes.indexOf('me');
+  if(meIdx>=0)p.likes.splice(meIdx,1);
+  else p.likes.push('me');
+  S('circle_posts',posts);
+  renderCircle();
+}
+function toggleComments(id){
+  var isOpen=document.getElementById('cmtInput'+id);
+  renderCircleFull(id,!isOpen);
+}
+function renderCircleFull(openId,show){
+  document.getElementById('postList').innerHTML=posts.length?posts.map(function(p){return renderPost(p,p.id===openId?show:false)}).join(''):'<div style="text-align:center;padding:40px;color:#999;font-size:14px">还没有动态</div>';
+}
+function addComment(id){
+  var input=document.getElementById('cmtInput'+id);
+  if(!input||!input.value.trim())return;
+  var p=posts.find(function(p){return p.id===id});
+  if(!p)return;
+  if(!p.comments)p.comments=[];
+  p.comments.push({user:'虾球用户',text:input.value.trim()});
+  input.value='';
+  S('circle_posts',posts);
+  renderCircleFull(id,true);
+}// ========== 首页 ==========
 function renderHome(){
   var approved=shops.filter(function(s){return s.status==='approved'});
   var h=[];
