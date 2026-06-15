@@ -325,6 +325,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
   <div class="moment-page">
     <div id="postList"></div>
+    <div style="text-align:center;padding:20px"><span style="color:#999;font-size:12px;cursor:pointer" onclick="if(confirm('确定清除所有动态？')){posts=[];S('circle_posts',[]);renderCircle();}">🗑️ 清除历史</span></div>
     <div style="height:80px"></div>
   </div>
   <!-- 发动态弹窗 -->
@@ -1141,7 +1142,7 @@ let activeShopCat = '全部';
 let activeDealCat = '全部';
 let activeCourseCat = '全部';
 let posts = L('circle_posts', []);
-console.log('🦞虾球本地生活 v3.0 | 9图+1视频 | 自动压缩');
+console.log('🦞虾球本地生活 v4.0 | 无限制 | 自动压缩');
 let pidCounter = 0;
 const MOODS = ['😋','😍','🤤','🥰','😎','🔥','👏','💪','🍜','🍰'];
 let selMood = MOODS[0];
@@ -1206,16 +1207,13 @@ function onGalleryPick(input){
     var f=files[i];
     var isVideo=f.type.startsWith('video/');
     if(isVideo){
-      if(postVids.length>=1){alert('最多发1个视频');continue;}
-      if(f.size>8*1024*1024){alert('视频超过8MB，请压缩');continue;}
       var vreader=new FileReader();
       vreader.onload=(function(file){
         return function(e){ postVids.push(e.target.result); renderImgPreview(); };
       })(f);
       vreader.readAsDataURL(f);
     }else{
-      if(postImgs.length>=9){alert('最多发9张图片');continue;}
-      // 图片自动压缩
+      // 图片自动压缩，不限大小不限数量
       var ireader=new FileReader();
       ireader.onload=(function(file){
         return function(e){
@@ -1264,7 +1262,14 @@ function submitPost(){
   if(!text&&postImgs.length===0&&postVids.length===0){alert('至少写点文字或放张图片/视频');return}
   posts.unshift({id:++pidCounter,text:text||'',imgs:postImgs.slice(),vids:postVids.slice(),time:new Date().toLocaleString('zh-CN'),likes:[],comments:[],nickname:'虾球用户',loc:'广州市'});
   postImgs=[];postVids=[];renderImgPreview();
-  try{ S('circle_posts',posts); }catch(e){ alert('存储空间不足，请尝试发纯文字或减少内容');posts.pop();return; }
+  // 存储失败时自动清理旧帖腾空间
+  var saved=false;
+  for(var t=0;t<3;t++){
+    try{ S('circle_posts',posts); saved=true; break; } catch(e){}
+    if(posts.length>1) posts.pop();
+    else break;
+  }
+  if(!saved){ alert('存不下，请清缓存：微信→我→设置→通用→存储空间→清理');posts.shift();return; }
   document.getElementById('postText').value='';
   document.getElementById('momentEditor').style.display='none';
   renderCircle();renderHome();
