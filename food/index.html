@@ -98,7 +98,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 /* 购物车 */
 .cart-bar{position:sticky;bottom:56px;background:#333;color:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;z-index:99}
 .cart-bar .cart-info{display:flex;align-items:center;gap:8px;cursor:pointer}
-.cart-bar .cart-icon{background:#ff6b35;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;position:relative}
+.cart-bar .cart-icon{background:#ff6b35;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;position:relative;overflow:hidden}.ai-avatar svg{width:80px;height:80px}
 .cart-bar .cart-badge{position:absolute;top:-4px;right:-4px;background:red;color:#fff;font-size:9px;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .cart-bar .total{font-size:16px;font-weight:700}
 .cart-bar .checkout{background:#ff6b35;color:#fff;border:none;padding:8px 20px;border-radius:16px;font-size:13px;font-weight:600;cursor:pointer}
@@ -154,7 +154,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .paywall .pw-sub{font-size:12px;color:#999;margin-bottom:12px}
 /* AI主播 */
 .ai-stage{text-align:center;padding:20px 0}
-.ai-avatar{width:160px;height:160px;border-radius:50%;background:linear-gradient(135deg,#ff6b35,#ff8c5a);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:64px;box-shadow:0 6px 30px rgba(255,107,53,0.35);transition:all 0.3s;position:relative}
+.ai-avatar{width:160px;height:160px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 30px rgba(102,126,234,0.35);transition:all 0.3s;position:relative;overflow:hidden}.ai-avatar svg{width:80px;height:80px}
 .ai-avatar.speaking{animation:aiPulse 0.6s ease-in-out infinite;box-shadow:0 6px 40px rgba(255,107,53,0.6)}
 @keyframes aiPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 .ai-status{font-size:13px;color:#ff6b35;margin-bottom:12px;font-weight:600}
@@ -441,9 +441,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="header"><h1 onclick="switchPage('home')">← AI主播</h1><span style="font-size:11px;opacity:0.8">🎙️ 虚拟播报</span></div>
   <div style="padding:16px">
     <div class="ai-stage">
-      <div class="ai-avatar" id="aiAvatar">🎙️</div>
+      <div class="ai-avatar" id="aiAvatar">
+        <svg viewBox="0 0 100 100" width="100" height="100"><circle cx="50" cy="38" r="20" fill="#ffccb3"/><circle cx="50" cy="76" r="28" fill="#ff8c5a"/><circle cx="38" cy="34" r="3" fill="#333"/><circle cx="62" cy="34" r="3" fill="#333"/><path d="M42 46 Q50 54 58 46" stroke="#e55" stroke-width="2.5" fill="none" stroke-linecap="round"/><rect x="33" y="10" width="34" height="6" rx="3" fill="#333"/><rect x="40" y="16" width="6" height="4" rx="2" fill="#ff6b35"/></svg>
+      </div>
       <div class="ai-status" id="aiStatus">🟢 就绪 · 输入台词开始播报</div>
       <div class="ai-wave" id="aiWave">${'<span></span>'.repeat(12)}</div>
+    </div>
+    <div style="text-align:center;margin-bottom:8px">
+      <select id="aiVoiceSelect" onchange="aiSelectVoice()" style="padding:4px 8px;border:1px solid #ddd;border-radius:8px;font-size:11px;max-width:100%">
+        <option value="">加载语音中...</option>
+      </select>
     </div>
     <textarea class="ai-script" id="aiScript" placeholder="输入主播台词，每行一段...&#10;&#10;示例：&#10;欢迎来到虾球本地生活直播间！&#10;今天给大家推荐超值团购～&#10;新用户首单立减5元，快来试试！"></textarea>
     <div class="ai-quick">
@@ -1081,9 +1088,27 @@ function rejectShop(id){shops=shops.filter(s=>s.id!==id); S('shops',shops); rend
 let aiSpeaking=false,aiSynth=window.speechSynthesis,aiVoices=[],aiUtterance=null;
 function initAiAnchor(){
   aiVoices=aiSynth.getVoices();
-  if(!aiVoices.length) setTimeout(()=>{aiVoices=aiSynth.getVoices();},500);
+  updateVoiceSelect();
+  if(!aiVoices.length) setTimeout(()=>{aiVoices=aiSynth.getVoices();updateVoiceSelect();},800);
 }
-aiSynth.onvoiceschanged=()=>{aiVoices=aiSynth.getVoices();};
+aiSynth.onvoiceschanged=()=>{aiVoices=aiSynth.getVoices();updateVoiceSelect();};
+function updateVoiceSelect(){
+  const sel=document.getElementById('aiVoiceSelect');
+  if(!sel)return;
+  const zh=aiVoices.filter(v=>v.lang.startsWith('zh'));
+  if(zh.length){
+    sel.innerHTML=zh.map((v,i)=>`<option value="${i}" ${i===0?'selected':''}>${v.name} (${v.lang})</option>`).join('');
+  }else if(aiVoices.length){
+    sel.innerHTML=aiVoices.map((v,i)=>`<option value="${i}">${v.name} (${v.lang})</option>`).join('');
+  }else{
+    sel.innerHTML='<option value="">未检测到语音引擎</option>';
+  }
+  aiVoiceIndex=0;
+}
+let aiVoiceIndex=0;
+function aiSelectVoice(){
+  aiVoiceIndex=parseInt(document.getElementById('aiVoiceSelect').value)||0;
+}
 function aiQuick(text){
   document.getElementById('aiScript').value=text;
   aiStop(); setTimeout(aiStart,200);
@@ -1100,8 +1125,9 @@ function aiStart(){
 function aiSpeakLines(lines,i){
   if(i>=lines.length||!aiSpeaking){aiSpeaking=false;aiSetState(false);return;}
   const u=new SpeechSynthesisUtterance(lines[i]);
-  const zh=aiVoices.find(v=>v.lang.startsWith('zh'));
-  if(zh) u.voice=zh;
+  const zh=aiVoices.filter(v=>v.lang.startsWith('zh'));
+  if(zh.length && zh[aiVoiceIndex]) u.voice=zh[aiVoiceIndex];
+  else if(aiVoices[aiVoiceIndex]) u.voice=aiVoices[aiVoiceIndex];
   u.rate=1.05; u.volume=0.9; u.pitch=1.08;
   u.onstart=()=>aiSetState(true);
   u.onend=()=>{setTimeout(()=>aiSpeakLines(lines,i+1),300);};
