@@ -502,7 +502,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 </div>
 
 <!-- 付费弹窗 -->
-<div class="pay-modal hidden" id="payModal">
+<div class="pay-modal hidden" id="aiPayModal">
   <div class="pm-box">
     <div class="pm-plan" id="payPlanName"></div>
     <div class="pm-price" id="payPlanPrice"></div>
@@ -862,7 +862,7 @@ function buyDeal(did,sid){
   payQueue={type:'deal',id:did,shopId:sid,name:d.name,price:d.price};
   document.getElementById('payAmount').textContent='¥'+d.price.toFixed(2);
   document.getElementById('payDesc').textContent=d.name+' — '+s.name;
-  document.getElementById('payModal').classList.remove('hidden');
+  document.getElementById('aiPayModal').classList.remove('hidden');
 }
 
 // ========== 打车 ==========
@@ -877,7 +877,7 @@ function callRide(){
   payQueue={type:'ride',name:'打车 → '+dest,price:p};
   document.getElementById('payAmount').textContent='¥'+p.toFixed(2);
   document.getElementById('payDesc').textContent='打车 → '+dest;
-  document.getElementById('payModal').classList.remove('hidden');
+  document.getElementById('aiPayModal').classList.remove('hidden');
 }
 
 // ========== 教学课程（全付费） ==========
@@ -937,7 +937,7 @@ function buyCourse(id){
   payQueue={type:'course',id,name:c.title,price:c.price};
   document.getElementById('payAmount').textContent='¥'+c.price.toFixed(2);
   document.getElementById('payDesc').textContent=c.title;
-  document.getElementById('payModal').classList.remove('hidden');
+  document.getElementById('aiPayModal').classList.remove('hidden');
 }
 
 // ========== 支付 ==========
@@ -1224,14 +1224,14 @@ function navToPage(p) {
 function openPay(name, price, months){
   document.getElementById('payPlanName').textContent = name + '套餐';
   document.getElementById('payPlanPrice').textContent = '¥' + price;
-  document.getElementById('payModal').classList.remove('hidden');
+  document.getElementById('aiPayModal').classList.remove('hidden');
 }
 function closePayModal(){
-  document.getElementById('payModal').classList.add('hidden');
+  document.getElementById('aiPayModal').classList.add('hidden');
 }
 
 function paidAndActivate(){
-  document.getElementById('payModal').classList.add('hidden');
+  document.getElementById('aiPayModal').classList.add('hidden');
   setTimeout(()=>{
     document.getElementById('activateCode').focus();
     document.getElementById('activateCode').scrollIntoView({behavior:'smooth'});
