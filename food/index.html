@@ -571,8 +571,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="pm-box">
     <div class="pm-plan" id="payPlanName"></div>
     <div class="pm-price" id="payPlanPrice"></div>
-    <div class="pm-qr" id="payQr">💬</div>
-    <div class="pm-note">请截图保存上方二维码<br>使用微信扫码付款<br>付款后点击下方按钮获取激活码</div>
+    <div style="display:flex;gap:10px;margin:14px 0;justify-content:center" id="payMethods">
+      <div style="flex:1;max-width:130px;background:#f0fff0;border:2px solid #07c160;border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer" onclick="selectPayment('wechat')">
+        <div style="font-size:30px">💚</div>
+        <div style="font-weight:600;font-size:14px;color:#07c160;margin-top:4px">微信支付</div>
+      </div>
+      <div style="flex:1;max-width:130px;background:#f0f8ff;border:2px solid #1677ff;border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer" onclick="selectPayment('alipay')">
+        <div style="font-size:30px">💙</div>
+        <div style="font-weight:600;font-size:14px;color:#1677ff;margin-top:4px">支付宝</div>
+      </div>
+    </div>
+    <div id="payQrWrap" style="display:none;text-align:center">
+      <div class="pm-qr" id="payQr" style="font-size:80px;margin:8px auto">💰</div>
+      <div class="pm-note" id="payNote">请截图保存二维码<br>打开对应App扫码付款</div>
+    </div>
     <button class="pm-close" style="background:#ff6b35;color:#fff;margin-bottom:6px" onclick="paidAndActivate()">✅ 我已付款，去激活</button>
     <button class="pm-close" style="background:#eee;color:#666" onclick="closePayModal()">稍后再说</button>
   </div>
@@ -1845,10 +1857,29 @@ function navToPage(p) {
 function openPay(name, price, months){
   document.getElementById('payPlanName').textContent = name + '套餐';
   document.getElementById('payPlanPrice').textContent = '¥' + price;
+  document.getElementById('payMethods').style.display='flex';
+  document.getElementById('payQrWrap').style.display='none';
   document.getElementById('aiPayModal').classList.remove('hidden');
 }
 function closePayModal(){
   document.getElementById('aiPayModal').classList.add('hidden');
+  document.getElementById('payQrWrap').style.display='none';
+  document.getElementById('payMethods').style.display='flex';
+}
+
+function selectPayment(method){
+  document.getElementById('payMethods').style.display='none';
+  var wrap=document.getElementById('payQrWrap');
+  wrap.style.display='block';
+  var qr=document.getElementById('payQr');
+  var note=document.getElementById('payNote');
+  if(method==='wechat'){
+    qr.textContent='💚';
+    note.innerHTML='请截图保存二维码<br>打开<b style="color:#07c160">微信</b>扫码付款';
+  }else{
+    qr.textContent='💙';
+    note.innerHTML='请截图保存二维码<br>打开<b style="color:#1677ff">支付宝</b>扫码付款';
+  }
 }
 
 function paidAndActivate(){
