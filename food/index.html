@@ -218,6 +218,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .moment-imgs.m5{grid-template-columns:1fr 1fr 1fr}
 .moment-imgs.m6{grid-template-columns:1fr 1fr 1fr}
 .moment-imgs img{width:100%;aspect-ratio:1;object-fit:cover;background:#eee;display:block}
+.moment-vids{margin-top:8px}
+.mv-item video{width:100%;max-height:320px;border-radius:8px;background:#000}
 .moment-meta{font-size:12px;color:#888;margin:4px 0;display:flex;align-items:center;gap:6px}
 .moment-meta .dot{width:3px;height:3px;border-radius:50%;background:#ccc}
 .moment-bar{background:#f7f7f7;border-radius:2px;padding:8px 10px;margin-top:6px;font-size:13px}
@@ -334,7 +336,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div id="imgPreview" style="display:flex;gap:6px;flex-wrap:wrap"></div>
       <label style="display:inline-flex;align-items:center;justify-content:center;width:80px;height:80px;border:1px dashed #ccc;border-radius:6px;cursor:pointer;margin-top:6px;font-size:28px;color:#ccc">
         +
-        <input type="file" accept="image/*" multiple onchange="onGalleryPick(this)" style="display:none">
+        <input type="file" accept="image/*,video/*" multiple onchange="onGalleryPick(this)" style="display:none">
       </label>
     </div>
   </div>
@@ -1184,6 +1186,7 @@ function backToShops(){currentShopId=null;cart={};S('cart',cart);navTo('food');}
 
 // ========== 食圈 ==========
 let postImgs=[];
+let postVids=[];
 function openMomentEditor(){
   document.getElementById('momentEditor').style.display='block';
   document.getElementById('postText').focus();
@@ -1191,26 +1194,31 @@ function openMomentEditor(){
 function closeMomentEditor(){
   document.getElementById('momentEditor').style.display='none';
   document.getElementById('postText').value='';
-  postImgs=[];renderImgPreview();
+  postImgs=[];postVids=[];renderImgPreview();
 }
 function onGalleryPick(input){
   var files=input.files;
   for(var i=0;i<files.length;i++){
     var f=files[i];
-    if(f.size>2*1024*1024){alert('图片"'+f.name+'"超过2MB，请压缩后再上传');continue;}
+    var isVideo=f.type.startsWith('video/');
+    var maxSize=isVideo?8*1024*1024:2*1024*1024;
+    var label=isVideo?'视频':'图片';
+    if(f.size>maxSize){alert(label+'"'+f.name+'"超过'+(isVideo?'8':'2')+'MB，请压缩后再上传');continue;}
     var reader=new FileReader();
-    reader.onload=(function(file){
+    reader.onload=(function(file,vid){
       return function(e){
-        postImgs.push(e.target.result);
+        if(vid){ postVids.push(e.target.result); }
+        else { postImgs.push(e.target.result); }
         renderImgPreview();
       };
-    })(f);
+    })(f,isVideo);
     reader.readAsDataURL(f);
   }
   input.value='';
 }
-function removeImg(i){
-  postImgs.splice(i,1);
+function removeMedia(i,isVid){
+  if(isVid){ postVids.splice(i,1); }
+  else { postImgs.splice(i,1); }
   renderImgPreview();
 }
 function renderImgPreview(){
@@ -1218,16 +1226,19 @@ function renderImgPreview(){
   if(!p)return;
   var h='';
   for(var i=0;i<postImgs.length;i++){
-    h+='<div style="position:relative;display:inline-block;margin:2px"><img src="'+postImgs[i]+'" style="width:80px;height:80px;object-fit:cover;border-radius:6px"><span style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#e53935;color:#fff;border-radius:50%;font-size:10px;line-height:18px;text-align:center;cursor:pointer" onclick="removeImg('+i+')">x</span></div>';
+    h+='<div style="position:relative;display:inline-block;margin:2px"><img src="'+postImgs[i]+'" style="width:80px;height:80px;object-fit:cover;border-radius:6px"><span style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#e53935;color:#fff;border-radius:50%;font-size:10px;line-height:18px;text-align:center;cursor:pointer" onclick="removeMedia('+i+',false)">x</span></div>';
+  }
+  for(var j=0;j<postVids.length;j++){
+    h+='<div style="position:relative;display:inline-block;margin:2px"><video src="'+postVids[j]+'" style="width:80px;height:80px;object-fit:cover;border-radius:6px" muted></video><div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:24px;pointer-events:none">▶️</div><span style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#e53935;color:#fff;border-radius:50%;font-size:10px;line-height:18px;text-align:center;cursor:pointer" onclick="removeMedia('+j+',true)">x</span></div>';
   }
   p.innerHTML=h;
 }
 function submitPost(){
   var text=document.getElementById('postText').value.trim();
-  if(!text&&postImgs.length===0){alert('至少写点文字或放张图片');return}
-  posts.unshift({id:++pidCounter,text:text||'',imgs:postImgs.slice(),time:new Date().toLocaleString('zh-CN'),likes:[],comments:[],nickname:'虾球用户',loc:'广州市'});
-  postImgs=[];renderImgPreview();
-  try{ S('circle_posts',posts); }catch(e){ alert('图片太大，存储空间不足，请压缩后重试');posts.pop();return; }
+  if(!text&&postImgs.length===0&&postVids.length===0){alert('至少写点文字或放张图片/视频');return}
+  posts.unshift({id:++pidCounter,text:text||'',imgs:postImgs.slice(),vids:postVids.slice(),time:new Date().toLocaleString('zh-CN'),likes:[],comments:[],nickname:'虾球用户',loc:'广州市'});
+  postImgs=[];postVids=[];renderImgPreview();
+  try{ S('circle_posts',posts); }catch(e){ alert('文件太大，存储空间不足，请压缩后重试');posts.pop();return; }
   document.getElementById('postText').value='';
   document.getElementById('momentEditor').style.display='none';
   renderCircle();renderHome();
@@ -1244,6 +1255,13 @@ function renderPost(p,showComments){
     var cls='m'+Math.min(allImgs.length,6);
     imgsHtml='<div class="moment-imgs '+cls+'">'+allImgs.map(function(u){
       return '<img src="'+u+'" onerror="this.style.display=\'none\'">';
+    }).join('')+'</div>';
+  }
+  var vidsHtml='';
+  var allVids=p.vids||[];
+  if(allVids.length>0){
+    vidsHtml='<div class="moment-vids">'+allVids.map(function(v){
+      return '<div class="mv-item"><video src="'+v+'" controls playsinline preload="metadata" style="width:100%;max-height:320px;border-radius:8px;background:#000"></video></div>';
     }).join('')+'</div>';
   }
   var likeHtml='';
@@ -1268,6 +1286,7 @@ function renderPost(p,showComments){
   return '<div class="moment-card"><div class="moment-hd"><div class="moment-avatar">'+(p.nickname||'虾')[0]+'</div><div style="flex:1"><div class="moment-name">'+(p.nickname||'虾球用户')+'</div>'
     +(p.text?('<div class="moment-text">'+p.text+'</div>'):'')
     +imgsHtml
+    +vidsHtml
     +'<div class="moment-meta"><span>'+p.time+'</span>'+(p.loc?('<span class="dot"></span><span>'+p.loc+'</span>'):'')+'</div>'
     +'<div class="moment-actions">'
     +'<button class="act-btn'+(liked?' liked':'')+'" onclick="likePost('+p.id+')">'+'❤️ '+(p.likes.length||'')+'</button>'
