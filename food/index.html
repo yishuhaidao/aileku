@@ -253,6 +253,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .cs-panel .cs-input-row{display:flex;gap:6px;padding:8px 12px;border-top:1px solid #f0f0f0}
 .cs-panel .cs-input-row input{flex:1;border:none;outline:none;font-size:13px;background:#f5f5f5;border-radius:16px;padding:8px 14px}
 .cs-panel .cs-input-row button{background:#ff6b35;color:#fff;border:none;border-radius:16px;padding:8px 14px;font-size:12px;cursor:pointer;white-space:nowrap}
+
+.shop-img-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:8px 0}
+.shop-img-card{border-radius:14px;overflow:hidden;position:relative;aspect-ratio:1;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+.shop-img-card .sic-img{width:100%;height:100%;object-fit:cover;display:block}
+.shop-img-card .sic-gradient{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:#fff;letter-spacing:2px}
+.shop-img-card .sic-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.75));padding:40px 10px 10px;color:#fff}
+.shop-img-card .sic-name{font-size:14px;font-weight:700;margin-bottom:3px}
+.shop-img-card .sic-meta{font-size:10px;opacity:0.9;display:flex;align-items:center;gap:6px}
+.shop-img-card .sic-badge{position:absolute;top:10px;left:10px;background:#ff6b35;color:#fff;font-size:10px;padding:3px 8px;border-radius:10px;font-weight:600}
+
 </style>
 </head>
 <body>
@@ -264,16 +274,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div style="font-size:10px;opacity:0.5">v250615</div>
     <div style="font-size:20px;cursor:pointer" onclick="switchPage('profile')">👤</div>
   </div>
-  <div class="search-bar"><span>🔍</span><input type="text" placeholder="搜商家、菜品、团购、课程..." onfocus="this.blur()"></div>
-  <div class="home-banner"><h2>🔥 新用户首单立减5元</h2><p>外卖 · 团购 · 打车 · 小吃教学 一站搞定</p></div>
-  <div class="section-title">🔥 推荐商家 <span class="more" onclick="switchPage('food')">更多 ›</span></div>
+  
+  
+  
   <div class="card-list" id="homeShops"></div>
-  <div class="section-title">🎫 热门团购 <span class="more" onclick="switchPage('deals')">更多 ›</span></div>
-  <div class="card-list" id="homeDeals"></div>
-  <div class="section-title">💬 食圈热帖 <span class="more" onclick="switchPage('circle')">更多 ›</span></div>
-  <div class="card-list" id="homeCirclePosts"></div>
-  <div class="section-title">📚 热门课程</div>
-  <div class="card-list" id="homeCourses"></div>
+  
+  
+  
+  
+  
+  
 </div>
 
 <!-- ========== 外卖 — 商家列表 ========== -->
@@ -388,6 +398,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="admin-page">
     <h2>📋 今日订单</h2>
     <div id="orderList"></div>
+    <h2>📷 店铺封面</h2>
+    <div class="form-group">
+      <div id="shopImgPreview" style="width:100%;height:160px;border-radius:12px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#fff;background:linear-gradient(135deg,#ddd,#ccc)">封面预览</div>
+      <input type="file" id="shopImgUpload" accept="image/*" onchange="uploadShopImg()" style="display:none">
+      <div style="display:flex;gap:8px">
+        <button class="btn" onclick="document.getElementById('shopImgUpload').click()" style="flex:1">📁 选择图片</button>
+        <button class="btn btn-outline" onclick="resetShopImg()" style="flex:1">🔄 恢复默认</button>
+      </div>
+      <div style="font-size:10px;color:#999;margin-top:4px">上传有食欲的店铺照片，吸引更多顾客</div>
+    </div>
     <h2>📝 添加菜品</h2>
     <div class="form-group"><label>菜名</label><input type="text" id="newName" placeholder="如：宫保鸡丁"></div>
     <div class="form-group"><label>描述</label><input type="text" id="newDesc" placeholder="简单描述..."></div>
@@ -571,10 +591,10 @@ function L(k,f){try{return JSON.parse(localStorage.getItem(k))||f}catch(e){retur
 function S(k,d){localStorage.setItem(k,JSON.stringify(d))}
 
 const DEF_SHOPS = [
-  {id:1,name:'虾球小厨',cat:'中餐',phone:'13800001111',addr:'广州天河区龙洞商贸大街10号',time:'10:00-22:00',min:20,fee:3,status:'approved',pwd:'123456',
+  {id:1,name:'虾球小厨',cat:'中餐',gradient:'linear-gradient(135deg,#e74c3c,#c0392b)',phone:'13800001111',addr:'广州天河区龙洞商贸大街10号',time:'10:00-22:00',min:20,fee:3,status:'approved',pwd:'123456',
     menu:[{id:1,name:'宫保鸡丁',desc:'鸡肉丁配花生米，香辣可口',price:28,cat:'热菜'},{id:2,name:'麻婆豆腐',desc:'麻辣鲜香，超下饭',price:18,cat:'热菜'},{id:3,name:'拍黄瓜',desc:'清爽解腻，蒜香十足',price:12,cat:'凉菜'},{id:4,name:'蛋炒饭',desc:'粒粒分明，经典主食',price:15,cat:'主食'},{id:5,name:'酸梅汤',desc:'冰镇解渴，夏日必点',price:8,cat:'饮品'}],
     deals:[{id:101,name:'单人超值套餐',desc:'1主食+1饮品+1小吃',price:25,orig:48,cat:'美食',days:30,sold:42}]},
-  {id:2,name:'老王烧烤',cat:'烧烤',phone:'13800002222',addr:'广州天河区五山路18号',time:'17:00-02:00',min:30,fee:5,status:'approved',pwd:'123456',
+  {id:2,name:'老王烧烤',cat:'烧烤',gradient:'linear-gradient(135deg,#e67e22,#d35400)',phone:'13800002222',addr:'广州天河区五山路18号',time:'17:00-02:00',min:30,fee:5,status:'approved',pwd:'123456',
     menu:[{id:1,name:'羊肉串×10',desc:'现串现烤，肥瘦相间',price:35,cat:'热菜'},{id:2,name:'烤茄子',desc:'蒜蓉味，一整个',price:15,cat:'热菜'},{id:3,name:'烤生蚝×6',desc:'蒜蓉粉丝，鲜嫩多汁',price:28,cat:'小吃'},{id:4,name:'扎啤1L',desc:'冰镇扎啤，解腻必备',price:18,cat:'饮品'},{id:5,name:'烤馒头片',desc:'外酥里软，蘸炼乳',price:8,cat:'主食'}],
     deals:[{id:102,name:'双人烧烤套餐',desc:'肉串×20+素菜×4+扎啤×2',price:88,orig:156,cat:'美食',days:30,sold:28}]},
   {id:3,name:'茶颜悦饮',cat:'饮品',phone:'13800003333',addr:'广州天河区龙洞步行街28号',time:'09:00-22:00',min:15,fee:2,status:'approved',pwd:'123456',
@@ -726,29 +746,19 @@ function addComment(id){const input=document.getElementById('cmtInput'+id);if(!i
 
 // ========== 首页 ==========
 function renderHome(){
-  const approved = shops.filter(s=>s.status==='approved');
-  document.getElementById('homeShops').innerHTML = approved.slice(0,4).map(s=>`
-    <div class="shop-card" onclick="openShop(${s.id})">
-      <div class="sc-logo">${s.cat[0]}</div>
-      <div class="sc-info"><div class="sc-name">${s.name}</div><div class="sc-meta">起送¥${s.min} · 配送¥${s.fee} · ${s.time}</div>
-        <div class="sc-tags"><span>${s.cat}</span><span>${(s.menu||[]).length}个菜品</span></div></div>
-    </div>`).join('');
-  const allDeals = shops.flatMap(s=>(s.deals||[]).map(d=>({...d,shopName:s.name})));
-  document.getElementById('homeDeals').innerHTML = allDeals.slice(0,3).map(d=>`
-    <div class="deal-card"><div class="deal-body"><div class="deal-title">${d.name}</div>
-      <div class="deal-tags"><span class="tag-orange">${d.shopName}</span><span class="tag-red">省¥${(d.orig-d.price).toFixed(0)}</span></div>
-      <div style="font-size:12px;color:#666;margin-bottom:6px">${d.desc||''}</div>
-      <div class="deal-meta"><div class="deal-price"><span class="now">${d.price}</span><span class="old">¥${d.orig}</span></div>
-      <span class="deal-sold">已售${d.sold}</span></div></div></div>`).join('');
-  document.getElementById('homeCourses').innerHTML = courses.slice(0,3).map(c=>`
-    <div class="course-card" onclick="openCourse(${c.id})">
-      <div class="course-thumb ${boughtCourses.includes(c.id)?'':'locked'}">${boughtCourses.includes(c.id)?'▶️':'🔒'}</div>
-      <div class="course-body"><div class="course-title">${c.title}</div><div class="course-desc">${c.desc}</div>
-        <span class="course-price">${c.price}</span></div></div>`).join('');
-  document.getElementById('homeCirclePosts').innerHTML = posts.slice(0,3).map(p=>renderPost(p)).join('');
+  var approved=shops.filter(function(s){return s.status==='approved'});
+  var h=[];
+  for(var i=0;i<Math.min(approved.length,6);i++){
+    var s=approved[i];
+    var bg=s.gradient||'linear-gradient(135deg,#667eea,#764ba2)';
+    h.push('<div class="shop-img-card" onclick="openShop('+s.id+')">'+
+      (s.img?'<img class="sic-img" src="'+s.img+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">':'')+
+      '<div class="sic-gradient" style="background:'+bg+';'+(s.img?'display:none':'')+'">'+s.cat+'</div>'+
+      '<div class="sic-overlay"><div class="sic-badge">'+s.cat+'</div><div class="sic-name">'+s.name+'</div>'+
+      '<div class="sic-meta">⭐ 4.8 · 月销999+ · 起送¥'+s.min+'</div></div></div>');
+  }
+  document.getElementById('homeShops').innerHTML='<div class="shop-img-grid">'+h.join('')+'</div>';
 }
-
-// ========== 外卖 — 商家列表 ==========
 function renderShopList(){
   const approved = shops.filter(s=>s.status==='approved');
   const term = (document.querySelector('#page-food .search-bar input')?.value||'').toLowerCase();
@@ -1045,7 +1055,44 @@ function deleteItem(id){
   const s=shops.find(s=>s.id===loggedMerchantId); if(!s||!s.menu) return;
   s.menu=s.menu.filter(m=>m.id!==id); S('shops',shops); renderAdminMenu();
 }
+
+function uploadShopImg(){
+  var f=document.getElementById('shopImgUpload').files[0];
+  if(!f)return;
+  var r=new FileReader();
+  r.onload=function(e){
+    var s=shops.find(function(x){return x.id===loggedMerchantId});
+    if(!s)return;
+    s.img=e.target.result;
+    S('shops',shops);
+    renderShopImg();
+  };
+  r.readAsDataURL(f);
+}
+function resetShopImg(){
+  var s=shops.find(function(x){return x.id===loggedMerchantId});
+  if(!s)return;
+  delete s.img;
+  S('shops',shops);
+  renderShopImg();
+}
+function renderShopImg(){
+  var s=shops.find(function(x){return x.id===loggedMerchantId});
+  if(!s)return;
+  var p=document.getElementById('shopImgPreview');
+  if(!p)return;
+  if(s.img){
+    p.innerHTML='<img src="'+s.img+'" style="width:100%;height:100%;object-fit:cover;border-radius:12px">';
+    p.style.background='none';
+  }else{
+    p.style.backgroundImage='none';
+    p.style.background=s.gradient||'linear-gradient(135deg,#ddd,#ccc)';
+    p.style.color='#fff';
+    p.textContent=s.cat||'预览';
+  }
+}
 function renderAdminMenu(){
+  renderShopImg();
   const s=shops.find(s=>s.id===loggedMerchantId); if(!s||!s.menu) return;
   document.getElementById('adminMenuList').innerHTML=s.menu.map(m=>`
     <div style="display:flex;align-items:center;padding:8px;border-bottom:1px solid #eee;gap:8px">
