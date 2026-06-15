@@ -232,18 +232,35 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .comment-input{display:flex;gap:4px;margin-top:6px}
 .comment-input input{flex:1;border:1px solid #eee;border-radius:14px;padding:4px 10px;font-size:11px;outline:none}
 .comment-input button{background:#ff6b35;color:#fff;border:none;border-radius:14px;padding:4px 12px;font-size:11px;cursor:pointer}
-/* 首页门店图片卡 */
-.shop-img-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 12px 12px}
+/* 悬浮客服 */
+.cs-float{position:fixed;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#ff6b35,#ff8c5a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 16px rgba(255,107,53,0.4);cursor:grab;z-index:999;touch-action:none;user-select:none;-webkit-user-select:none;animation:csBounce 2s infinite}
+.cs-float:active{cursor:grabbing;animation:none}
+.cs-float .cs-badge{position:absolute;top:-2px;right:-2px;width:16px;height:16px;background:#e53935;border-radius:50%;border:2px solid #fff;animation:csPulse 1.5s infinite}
+@keyframes csBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes csPulse{0%,100%{box-shadow:0 0 0 0 rgba(229,57,53,0.5)}50%{box-shadow:0 0 0 6px rgba(229,57,53,0)}}
+.cs-panel{position:fixed;bottom:80px;right:16px;width:280px;background:#fff;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.15);z-index:998;overflow:hidden;display:none;max-height:420px}
+.cs-panel.show{display:block}
+.cs-panel .cs-head{background:linear-gradient(135deg,#ff6b35,#ff8c5a);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px}
+.cs-panel .cs-head .cs-avatar{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.cs-panel .cs-head .cs-info{flex:1}
+.cs-panel .cs-head .cs-name{font-size:14px;font-weight:600}
+.cs-panel .cs-head .cs-desc{font-size:10px;opacity:0.8}
+.cs-panel .cs-head .cs-close{font-size:18px;cursor:pointer;padding:4px}
+.cs-panel .cs-body{padding:12px;max-height:280px;overflow-y:auto}
+.cs-panel .cs-msg{background:#f5f5f5;border-radius:12px 12px 12px 4px;padding:10px 12px;margin-bottom:8px;font-size:13px;line-height:1.5}
+.cs-panel .cs-qs{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.cs-panel .cs-qs span{background:#fff3e0;color:#ff6b35;padding:6px 12px;border-radius:14px;font-size:11px;cursor:pointer;white-space:nowrap}
+.cs-panel .cs-input-row{display:flex;gap:6px;padding:8px 12px;border-top:1px solid #f0f0f0}
+.cs-panel .cs-input-row input{flex:1;border:none;outline:none;font-size:13px;background:#f5f5f5;border-radius:16px;padding:8px 14px}
+.cs-panel .cs-input-row button{background:#ff6b35;color:#fff;border:none;border-radius:16px;padding:8px 14px;font-size:12px;cursor:pointer;white-space:nowrap}
+.shop-img-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:8px 0}
 .shop-img-card{border-radius:14px;overflow:hidden;position:relative;aspect-ratio:1;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
 .shop-img-card .sic-img{width:100%;height:100%;object-fit:cover;display:block}
-.shop-img-card .sic-gradient{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:40px;color:#fff}
+.shop-img-card .sic-gradient{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:#fff;letter-spacing:2px}
 .shop-img-card .sic-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.75));padding:40px 10px 10px;color:#fff}
 .shop-img-card .sic-name{font-size:14px;font-weight:700;margin-bottom:3px}
 .shop-img-card .sic-meta{font-size:10px;opacity:0.9;display:flex;align-items:center;gap:6px}
-.shop-img-card .sic-tag{display:inline-block;background:rgba(255,255,255,0.25);padding:2px 8px;border-radius:10px;font-size:10px}
 .shop-img-card .sic-badge{position:absolute;top:10px;left:10px;background:#ff6b35;color:#fff;font-size:10px;padding:3px 8px;border-radius:10px;font-weight:600}
-/* 客服 */
-.cs-float{position:fixed;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#ff6b35,#ff8c5a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 16px rgba(255,107,53,0.4);cursor:pointer;z-index:999;user-select:none;-webkit-user-select:none;right:16px;bottom:120px}
 </style>
 </head>
 <body>
@@ -255,10 +272,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div style="font-size:10px;opacity:0.5">v250615</div>
     <div style="font-size:20px;cursor:pointer" onclick="switchPage('profile')">👤</div>
   </div>
-  <div style="padding:8px 12px">
-    <div id="homeShops"></div>
-  </div>
+  
+  
 </div>
+
 <!-- ========== 外卖 — 商家列表 ========== -->
 <div id="page-food" class="hidden">
   <div class="header"><h1 onclick="switchPage('home')">← 外卖</h1></div>
@@ -373,7 +390,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div id="orderList"></div>
     <h2>📷 店铺封面</h2>
     <div class="form-group">
-      <div id="shopImgPreview" style="width:100%;height:160px;border-radius:12px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;font-size:40px;color:#fff;background:linear-gradient(135deg,#ddd,#ccc)">🖼️</div>
+      <div id="shopImgPreview" style="width:100%;height:160px;border-radius:12px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#fff;background:linear-gradient(135deg,#ddd,#ccc)">封面预览</div>
       <input type="file" id="shopImgUpload" accept="image/*" onchange="uploadShopImg()" style="display:none">
       <div style="display:flex;gap:8px">
         <button class="btn" onclick="document.getElementById('shopImgUpload').click()" style="flex:1">📁 选择图片</button>
@@ -719,656 +736,26 @@ function addComment(id){const input=document.getElementById('cmtInput'+id);if(!i
 
 // ========== 首页 ==========
 function renderHome(){
-  const approved = shops.filter(s=>s.status==='approved');
-  document.getElementById('homeShops').innerHTML = '<div class="shop-img-grid">'+approved.slice(0,6).map(s=>`
-    <div class="shop-img-card" onclick="openShop(${s.id})">
-      ${s.img?'<img class="sic-img" src="'+s.img+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">':''}<div class="sic-gradient" style="background:${s.gradient||'linear-gradient(135deg,#667eea,#764ba2)'};${s.img?'display:none':''}">${s.cat==='中餐'?'🍳':s.cat==='烧烤'?'🔥':s.cat==='饮品'?'🧋':s.cat==='粤菜'?'🦐':s.cat==='火锅'?'🍲':'🍜'}</div>
-      <div class="sic-overlay">
-        <div class="sic-badge">${s.cat}</div>
-        <div class="sic-name">${s.name}</div>
-        <div class="sic-meta">⭐ 4.8 · 月销999+ · 起送¥${s.min}</div>
-      </div>
-    </div>`).join('')+'</div>';
-}
-
-// ========== 外卖 — 商家列表 ==========
-function renderShopList(){
-  const approved = shops.filter(s=>s.status==='approved');
-  const term = (document.querySelector('#page-food .search-bar input')?.value||'').toLowerCase();
-  const filtered = term ? approved.filter(s=>s.name.toLowerCase().includes(term)||s.cat.includes(term)) : approved;
-  document.getElementById('shopList').innerHTML = filtered.length===0 ? '<div class="empty-state">暂无商家</div>' :
-    filtered.map(s=>`
-    <div class="shop-card" onclick="openShop(${s.id})">
-      <div class="sc-logo">${s.cat[0]}</div>
-      <div class="sc-info"><div class="sc-name">${s.name}</div><div class="sc-meta">起送¥${s.min} · 配送¥${s.fee} · ${s.time}</div>
-        <div class="sc-tags"><span>${s.cat}</span><span>${(s.menu||[]).length}个菜品</span></div></div>
-    </div>`).join('');
-}
-function filterShops(v){renderShopList();}
-
-// ========== 外卖 — 店铺菜单 ==========
-function renderShopCats(){
-  const cats = [...new Set(shopMenu().map(m=>m.cat))];
-  document.getElementById('shopCategoryBar').innerHTML = '<span class="active" onclick="filterShopCat(\'全部\')">全部</span>'+
-    cats.map(c=>`<span onclick="filterShopCat('${c}')">${c}</span>`).join('');
-}
-function filterShopCat(c){
-  activeShopCat=c;
-  document.querySelectorAll('#shopCategoryBar span').forEach(s=>s.classList.toggle('active',s.textContent===c));
-  renderShopMenu();
-}
-function filterShopMenu(){
-  const term = (document.getElementById('shopSearch')?.value||'').toLowerCase();
-  renderShopMenu(term);
-}
-function renderShopMenu(term=''){
-  const s=currentShop(); if(!s) return;
-  let items = shopMenu().filter(m=>(activeShopCat==='全部'||m.cat===activeShopCat) && (!term||m.name.toLowerCase().includes(term)||(m.desc||'').toLowerCase().includes(term)));
-  document.getElementById('shopMenuList').innerHTML = items.map(m=>`
-    <div class="menu-item">
-      <img src="data:image/svg+xml,${encodeURIComponent('<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"72\" height=\"72\"><rect fill=\"%23eee\" width=\"72\" height=\"72\"/><text fill=\"%23999\" font-size=\"10\" y=\"40\" text-anchor=\"middle\" x=\"36\">图片</text></svg>')}" alt="${m.name}">
-      <div class="info"><div><div class="name">${m.name}</div><div class="desc">${m.desc||''}</div></div>
-        <div class="bottom"><span class="price">${m.price}</span>
-          ${cart[m.id]?`<div class="qty-ctrl"><button onclick="chgQty(${m.id},-1)">−</button><span>${cart[m.id]}</span><button onclick="chgQty(${m.id},1)">+</button></div>`:
-          `<button class="add-btn" onclick="chgQty(${m.id},1)">+</button>`}
-        </div></div></div>`).join('');
-}
-function chgQty(iid,d){
-  const items=shopMenu(); const item=items.find(m=>m.id===iid); if(!item) return;
-  cart[iid]=(cart[iid]||0)+d;
-  if(cart[iid]<=0) delete cart[iid];
-  S('cart',cart); updateCartBar(); renderShopMenu();
-}
-function updateCartBar(){
-  const bar=document.getElementById('cartBar');
-  if(!currentShopId){bar.style.display='none';return;}
-  bar.style.display='flex';
-  const totalItems=Object.values(cart).reduce((s,q)=>s+q,0);
-  const totalPrice=Object.entries(cart).reduce((s,[id,q])=>{
-    const item=shopMenu().find(m=>m.id===parseInt(id));
-    return s+(item?item.price*q:0);
-  },0);
-  document.getElementById('cartCount').textContent=totalItems;
-  document.getElementById('cartCount').style.display=totalItems>0?'':'none';
-  document.getElementById('cartTotal').textContent='¥'+totalPrice.toFixed(2);
-}
-function showCart(){
-  const items=document.getElementById('cartItems');
-  if(Object.keys(cart).length===0){items.innerHTML='<div class="empty-state">购物车空空如也 🛒</div>';}
-  else{
-    items.innerHTML=Object.entries(cart).map(([id,q])=>{
-      const item=shopMenu().find(m=>m.id===parseInt(id));
-      return item?`<div style="display:flex;align-items:center;padding:8px 0;border-bottom:1px solid #eee">
-        <span style="flex:1;font-size:13px">${item.name} ×${q}</span>
-        <span style="color:#ff6b35;font-weight:700;margin-right:10px">¥${(item.price*q).toFixed(2)}</span>
-        <button onclick="chgQty(${id},-${q});closeModal('cartModal');updateCartBar();renderShopMenu()" style="background:none;border:none;color:#999;cursor:pointer;font-size:15px">✕</button></div>`:'';
-    }).join('');
-  }
-  const total=Object.entries(cart).reduce((s,[id,q])=>{
-    const item=shopMenu().find(m=>m.id===parseInt(id));
-    return s+(item?item.price*q:0);
-  },0);
-  document.getElementById('modalTotal').textContent='合计: ¥'+total.toFixed(2);
-  document.getElementById('cartModal').classList.remove('hidden');
-}
-function checkout(){
-  if(Object.keys(cart).length===0){alert('购物车是空的');return;}
-  closeModal('cartModal');
-  const summary=Object.entries(cart).map(([id,q])=>{
-    const item=shopMenu().find(m=>m.id===parseInt(id));
-    return item?`<div>${item.name} ×${q} — ¥${(item.price*q).toFixed(2)}</div>`:'';
-  }).join('');
-  const total=Object.entries(cart).reduce((s,[id,q])=>{
-    const item=shopMenu().find(m=>m.id===parseInt(id));
-    return s+(item?item.price*q:0);
-  },0);
-  document.getElementById('orderSummary').innerHTML=summary+`<div style="font-weight:700;margin-top:8px;color:#ff6b35">总计: ¥${total.toFixed(2)}</div>`;
-  document.getElementById('orderModal').classList.remove('hidden');
-}
-function submitOrder(){
-  const name=document.getElementById('orderName').value.trim();
-  const phone=document.getElementById('orderPhone').value.trim();
-  if(!name||!phone){alert('请填写联系人和手机号');return;}
-  const s=currentShop(); if(!s) return;
-  const items=Object.entries(cart).map(([id,q])=>{
-    const item=shopMenu().find(m=>m.id===parseInt(id));
-    return {name:item?.name||'未知',price:item?.price||0,qty:q};
-  });
-  const total=items.reduce((sum,i)=>sum+i.price*i.qty,0);
-  orders.unshift({id:oidCounter++,items,total,contact:name,phone,note:document.getElementById('orderNote').value,time:new Date().toLocaleString('zh-CN'),status:'new',type:'外卖',shopId:s.id,shopName:s.name});
-  S('orders',orders);
-  cart={}; S('cart',cart); updateCartBar(); renderShopMenu();
-  closeModal('orderModal');
-  alert('下单成功！'+s.name+'会尽快处理 📦');
-}
-function closeModal(id){document.getElementById(id).classList.add('hidden');}
-
-// ========== 团购 ==========
-function renderDealCats(){
-  document.getElementById('dealCats').innerHTML = '<span class="active" onclick="filterDeals(\'全部\')">全部</span>'+
-    [...new Set(shops.flatMap(s=>(s.deals||[]).map(d=>d.cat||'美食')))].map(c=>`<span onclick="filterDeals('${c}')">${c}</span>`).join('');
-}
-function filterDeals(c){
-  activeDealCat=c;
-  document.querySelectorAll('#dealCats span').forEach(s=>s.classList.toggle('active',s.textContent===c));
-  renderDeals();
-}
-function renderDeals(){
-  const all=shops.filter(s=>s.status==='approved').flatMap(s=>(s.deals||[]).map(d=>({...d,shopId:s.id,shopName:s.name})));
-  const list=activeDealCat==='全部'?all:all.filter(d=>(d.cat||'美食')===activeDealCat);
-  document.getElementById('dealList').innerHTML=list.length===0?'<div class="empty-state">暂无团购</div>':
-    list.map(d=>`<div class="deal-card"><div class="deal-body">
-      <div class="deal-title">${d.name} <span style="font-size:11px;color:#999;font-weight:400">— ${d.shopName}</span></div>
-      <div class="deal-tags"><span class="tag-orange">${d.cat||'美食'}</span><span class="tag-red">有效期${d.days||30}天</span></div>
-      <div style="font-size:12px;color:#666;margin-bottom:6px">${d.desc||''}</div>
-      <div class="deal-meta"><div class="deal-price"><span class="now">${d.price}</span><span class="old">¥${d.orig}</span></div>
-      <span class="deal-sold">已售${d.sold||0}</span>
-      <button class="btn-buy" onclick="buyDeal(${d.id},${d.shopId})">抢购</button></div></div></div>`).join('');
-}
-function buyDeal(did,sid){
-  const s=shops.find(s=>s.id===sid); if(!s) return;
-  const d=(s.deals||[]).find(d=>d.id===did); if(!d) return;
-  payQueue={type:'deal',id:did,shopId:sid,name:d.name,price:d.price};
-  document.getElementById('payAmount').textContent='¥'+d.price.toFixed(2);
-  document.getElementById('payDesc').textContent=d.name+' — '+s.name;
-  document.getElementById('aiPayModal').classList.remove('hidden');
-}
-
-// ========== 打车 ==========
-function renderRideTypes(){
-  document.getElementById('rideTypes').innerHTML=RIDE_TYPES.map((r,i)=>`
-    <div class="rtype ${i===0?'selected':''}" onclick="document.querySelectorAll('.rtype').forEach(e=>e.classList.remove('selected'));this.classList.add('selected')">
-      <div class="rt-icon">${r.icon}</div><div class="rt-name">${r.name}</div><div class="rt-price">¥${r.price}</div><div style="font-size:10px;color:#999">${r.desc}</div></div>`).join('');
-}
-function callRide(){
-  const dest=document.getElementById('rideDest').value.trim(); if(!dest){alert('请输入目的地');return;}
-  const sel=document.querySelector('.rtype.selected'); const p=parseFloat(sel?.querySelector('.rt-price')?.textContent?.replace('¥','')?.split('-')[1]||18);
-  payQueue={type:'ride',name:'打车 → '+dest,price:p};
-  document.getElementById('payAmount').textContent='¥'+p.toFixed(2);
-  document.getElementById('payDesc').textContent='打车 → '+dest;
-  document.getElementById('aiPayModal').classList.remove('hidden');
-}
-
-// ========== 教学课程（全付费） ==========
-function renderCourseCats(){
-  const cats=[...new Set(courses.map(c=>c.cat))];
-  document.getElementById('courseCats').innerHTML='<span class="active" onclick="filterCourses(\'全部\')">全部</span>'+
-    cats.map(c=>`<span onclick="filterCourses('${c}')">${c}</span>`).join('');
-}
-function filterCourses(c){
-  activeCourseCat=c;
-  document.querySelectorAll('#courseCats span').forEach(s=>s.classList.toggle('active',s.textContent===c));
-  renderCourses();
-}
-function renderCourses(){
-  const list=activeCourseCat==='全部'?courses:courses.filter(c=>c.cat===activeCourseCat);
-  document.getElementById('courseList').innerHTML=list.map(c=>`
-    <div class="course-card" onclick="openCourse(${c.id})">
-      <div class="course-thumb ${boughtCourses.includes(c.id)?'':'locked'}">${boughtCourses.includes(c.id)?'▶️':'🔒'}</div>
-      <div class="course-body"><div class="course-title">${c.title}</div><div class="course-desc">${c.desc}</div>
-        <div style="display:flex;align-items:center;justify-content:space-between">
-          <span class="course-price">¥${c.price}</span>
-          ${boughtCourses.includes(c.id)?'<span style="color:#4caf50;font-size:11px">✅ 已解锁</span>':
-          '<button class="btn-unlock" onclick="event.stopPropagation();buyCourse('+c.id+')">解锁</button>'}
-        </div></div></div>`).join('');
-}
-function openCourse(id){
-  const c=courses.find(x=>x.id===id); if(!c) return;
-  const ok=boughtCourses.includes(id);
-  // 找关联配方
-  const rc=RECIPES.find(r=>r.cat.includes(c.cat)||c.cat.includes(r.cat));
-  let recipeHtml='';
-  if(ok && rc){
-    recipeHtml=rc.items.map(r=>`
-      <div class="recipe-card"><div class="rc-header" onclick="this.nextElementSibling.classList.toggle('open')">
-        <span class="rc-name">${r.name}</span><span class="rc-tag">${r.tag}</span></div>
-        <div class="rc-body"><h4>🥬 食材清单</h4><p>${r.ing}</p><h4>👨‍🍳 制作步骤</h4><p>${r.st}</p><div class="rc-note">💡 ${r.note}</div></div></div>`).join('');
-  }
-  document.getElementById('courseDetail').innerHTML=`
-    <h3>${c.title} <span style="float:right;cursor:pointer" onclick="closeModal('courseModal')">✕</span></h3>
-    <div style="background:#333;border-radius:8px;height:160px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:36px;margin-bottom:10px">
-      ${ok?'▶️ 视频播放区':'🔒 付费解锁'}
-    </div>
-    <p style="font-size:13px;color:#666;margin-bottom:10px">${c.desc}</p>
-    <div style="margin-bottom:10px"><span style="font-size:20px;font-weight:700;color:#ff6b35">¥${c.price}</span></div>
-    ${!ok?
-      `<div class="paywall"><div class="pw-icon">🔒</div><div class="pw-text">付费内容</div><div class="pw-sub">购买后解锁完整视频 + 文字配方</div>
-      <button class="btn" onclick="buyCourse(${c.id})">🔓 ¥${c.price} 解锁全部内容</button></div>
-      <div class="paywall"><div class="pw-icon">📖</div><div class="pw-text">文字配方预览关闭</div><div class="pw-sub">配方数据需付费后查看</div></div>`:
-      `<div style="background:#e8f5e9;padding:10px;border-radius:8px;text-align:center;color:#2e7d32;margin-bottom:10px">✅ 已解锁 — 含完整视频+文字配方</div>
-      <div style="font-size:13px;font-weight:600;margin:12px 0 8px">📖 附赠商用配方</div>${recipeHtml}`
+  var approved=shops.filter(function(s){return s.status==='approved'});
+  var h=[];
+  for(var i=0;i<Math.min(approved.length,6);i++){
+    var s=approved[i];
+    var bg=s.gradient||'linear-gradient(135deg,#667eea,#764ba2)';
+    var item='<div class="shop-img-card" onclick="openShop('+s.id+')">';
+    if(s.img){
+      item+='<img class="sic-img" src="'+s.img+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">';
+      item+='<div class="sic-gradient" style="display:none">'+s.cat+'</div>';
+    }else{
+      item+='<div class="sic-gradient" style="background:'+bg+'">'+s.cat+'</div>';
     }
-  `;
-  document.getElementById('courseModal').classList.remove('hidden');
-}
-function buyCourse(id){
-  const c=courses.find(x=>x.id===id); if(!c) return;
-  payQueue={type:'course',id,name:c.title,price:c.price};
-  document.getElementById('payAmount').textContent='¥'+c.price.toFixed(2);
-  document.getElementById('payDesc').textContent=c.title;
-  document.getElementById('aiPayModal').classList.remove('hidden');
-}
-
-// ========== 支付 ==========
-function doPay(method){
-  if(!payQueue) return;
-  const {type,id,shopId,name,price}=payQueue;
-  if(type==='course'){if(!boughtCourses.includes(id)) boughtCourses.push(id); S('bought',boughtCourses);}
-  else if(type==='deal'){
-    const s=shops.find(s=>s.id===shopId); if(s){const d=(s.deals||[]).find(d=>d.id===id); if(d) d.sold=(d.sold||0)+1; S('shops',shops);}
-    orders.unshift({id:oidCounter++,items:[{name,qty:1,price}],total:price,contact:'用户',phone:'-',note:'',time:new Date().toLocaleString('zh-CN'),status:'done',type:'团购'});
-    S('orders',orders);
-  }else if(type==='ride'){
-    orders.unshift({id:oidCounter++,items:[{name,qty:1,price}],total:price,contact:'用户',phone:'-',note:'',time:new Date().toLocaleString('zh-CN'),status:'done',type:'打车'});
-    S('orders',orders);
+    item+='<div class="sic-overlay">';
+    item+='<div class="sic-badge">'+s.cat+'</div>';
+    item+='<div class="sic-name">'+s.name+'</div>';
+    item+='<div class="sic-meta">⭐ 4.8 · 月销999+ · 起送¥'+s.min+'</div>';
+    item+='</div></div>';
+    h.push(item);
   }
-  payQueue=null; closeModal('payModal'); closeModal('courseModal');
-  alert(`支付成功！${method==='wechat'?'微信':'支付宝'}支付 ¥${price.toFixed(2)}`);
-  renderCourses(); renderDeals();
-}
-
-// ========== 订单 ==========
-function showOrders(){
-  const list=document.getElementById('allOrdersList');
-  if(orders.length===0){list.innerHTML='<div class="empty-state">暂无订单</div>';}
-  else{list.innerHTML=orders.map(o=>`
-    <div class="order-item"><div class="order-header"><span>${o.type||'外卖'} · ${o.shopName||''} · ${o.time}</span>
-      <span class="order-status ${o.status==='new'?'status-new':'status-done'}">${o.status==='new'?'待处理':'已完成'}</span></div>
-      <div class="order-items">${o.items.map(i=>`${i.name}×${i.qty}`).join('、')}</div>
-      <div class="order-total">¥${o.total.toFixed(2)}</div></div>`).join('');}
-  document.getElementById('ordersModal').classList.remove('hidden');
-}
-
-// ========== 商家后台 ==========
-let loggedMerchantId = null;
-function showMerchantLogin(){ switchPage('merchant-login'); }
-function merchantLogin(){
-  const name=document.getElementById('loginShopName').value.trim();
-  const pwd=document.getElementById('loginShopPwd').value.trim();
-  if(!name||!pwd){alert('请填写店铺名称和密码');return;}
-  const s=shops.find(s=>s.name===name&&s.pwd===pwd);
-  if(!s){alert('店铺名称或密码错误');return;}
-  if(s.status!=='approved'){alert('店铺尚未审核通过');return;}
-  loggedMerchantId=s.id; currentShopId=s.id;
-  document.getElementById('currentShopLabel').textContent='— '+s.name;
-  document.querySelectorAll('[id^="page-"]').forEach(e=>e.classList.add('hidden'));
-  document.getElementById('page-merchant-admin').classList.remove('hidden');
-  document.querySelectorAll('.bottom-nav .nav-item').forEach(e=>e.classList.remove('active'));
-  document.getElementById('nav-profile').classList.add('active');
-  renderMerchantOrders(); renderAdminMenu(); renderAdminDeals();
-}
-function renderMerchantOrders(){
-  const myOrders=orders.filter(o=>o.shopId===loggedMerchantId||(o.type==='外卖'&&!o.shopId));
-  const list=document.getElementById('orderList');
-  if(myOrders.length===0){list.innerHTML='<div class="empty-state">暂无订单</div>';return;}
-  list.innerHTML=myOrders.map(o=>`
-    <div class="order-item"><div class="order-header"><span>${o.type||'外卖'} · #${o.id} · ${o.time}</span>
-      <span class="order-status ${o.status==='new'?'status-new':'status-done'}">${o.status==='new'?'待处理':'已完成'}</span></div>
-      <div class="order-items">${o.items.map(i=>`${i.name}×${i.qty}`).join('、')}</div>
-      <div>${o.contact} · ${o.phone}${o.note?' · '+o.note:''}</div>
-      <div class="order-total">¥${o.total.toFixed(2)}</div>
-      ${o.status==='new'?`<div style="margin-top:6px"><button class="btn-sm btn" onclick="doneOrder(${o.id})">✅ 完成</button></div>`:''}</div>`).join('');
-}
-function doneOrder(id){const o=orders.find(o=>o.id===id); if(o){o.status='done'; S('orders',orders); renderMerchantOrders();}}
-function addMenuItem(){
-  const name=document.getElementById('newName').value.trim();
-  const desc=document.getElementById('newDesc').value.trim();
-  const price=parseFloat(document.getElementById('newPrice').value);
-  const cat=document.getElementById('newCat').value;
-  if(!name||isNaN(price)||price<=0){alert('请填写菜名和价格');return;}
-  const s=shops.find(s=>s.id===loggedMerchantId); if(!s) return;
-  if(!s.menu) s.menu=[];
-  const maxId=Math.max(0,...s.menu.map(m=>m.id));
-  s.menu.push({id:maxId+1,name,desc,price,cat});
-  S('shops',shops); renderAdminMenu();
-  ['newName','newDesc','newPrice'].forEach(id=>document.getElementById(id).value='');
-}
-function deleteItem(id){
-  if(!confirm('确定删除？'))return;
-  const s=shops.find(s=>s.id===loggedMerchantId); if(!s||!s.menu) return;
-  s.menu=s.menu.filter(m=>m.id!==id); S('shops',shops); renderAdminMenu();
-}
-function uploadShopImg(){
-  const file=document.getElementById('shopImgUpload').files[0];
-  if(!file)return;
-  const reader=new FileReader();
-  reader.onload=function(e){
-    const s=shops.find(s=>s.id===loggedMerchantId);
-    if(!s)return;
-    s.img=e.target.result;
-    S('shops',shops);
-    renderShopImg();
-  };
-  reader.readAsDataURL(file);
-}
-function resetShopImg(){
-  const s=shops.find(s=>s.id===loggedMerchantId);
-  if(!s)return;
-  delete s.img;
-  S('shops',shops);
-  renderShopImg();
-}
-function renderShopImg(){
-  const s=shops.find(s=>s.id===loggedMerchantId);
-  if(!s)return;
-  const preview=document.getElementById('shopImgPreview');
-  if(!preview)return;
-  if(s.img){
-    preview.innerHTML='<img src="'+s.img+'" style="width:100%;height:100%;object-fit:cover;border-radius:12px">';
-  }else{
-    preview.innerHTML='🖼️';
-    preview.style.background=s.gradient||'linear-gradient(135deg,#ddd,#ccc)';
-    preview.style.color='#fff';
-  }
-}
-
-// ========== 首页 ==========function renderAdminMenu(){
-  renderShopImg();
-  const s=shops.find(s=>s.id===loggedMerchantId); if(!s||!s.menu) return;
-  document.getElementById('adminMenuList').innerHTML=s.menu.map(m=>`
-    <div style="display:flex;align-items:center;padding:8px;border-bottom:1px solid #eee;gap:8px">
-      <span style="flex:1;font-size:12px">${m.name} — ¥${m.price} <span style="color:#999">(${m.cat})</span></span>
-      <button class="btn-sm btn-danger" onclick="deleteItem(${m.id})">删除</button></div>`).join('');
-}
-function addDeal(){
-  const name=document.getElementById('dealName').value.trim();
-  const price=parseFloat(document.getElementById('dealPrice').value);
-  const orig=parseFloat(document.getElementById('dealOrig').value);
-  const days=parseInt(document.getElementById('dealDays').value)||30;
-  if(!name||isNaN(price)||isNaN(orig)){alert('请填写完整');return;}
-  const s=shops.find(s=>s.id===loggedMerchantId); if(!s) return;
-  if(!s.deals) s.deals=[];
-  const maxId=Math.max(0,...s.deals.map(d=>d.id));
-  s.deals.push({id:maxId+1,name,desc:'',price,orig,cat:'美食',days,sold:0});
-  S('shops',shops); renderAdminDeals();
-  ['dealName','dealPrice','dealOrig','dealDays'].forEach(id=>document.getElementById(id).value='');
-}
-function renderAdminDeals(){
-  const s=shops.find(s=>s.id===loggedMerchantId); if(!s||!s.deals) return;
-  document.getElementById('adminDealList').innerHTML=s.deals.map(d=>`
-    <div style="display:flex;align-items:center;padding:8px;border-bottom:1px solid #eee;gap:8px">
-      <span style="flex:1;font-size:12px">${d.name} — ¥${d.price} <span style="color:#999">原¥${d.orig} 已售${d.sold||0}</span></span>
-      <button class="btn-sm btn-danger" onclick="removeDeal(${d.id})">删除</button></div>`).join('');
-}
-function removeDeal(id){
-  const s=shops.find(s=>s.id===loggedMerchantId); if(!s||!s.deals) return;
-  s.deals=s.deals.filter(d=>d.id!==id); S('shops',shops); renderAdminDeals();
-}
-
-// ========== 商家入驻 ==========
-function submitMerchant(){
-  const name=document.getElementById('shopName').value.trim();
-  const phone=document.getElementById('shopPhone').value.trim();
-  const addr=document.getElementById('shopAddr').value.trim();
-  const pwd=document.getElementById('shopPwd').value.trim();
-  if(!name||!phone||!addr||!pwd){alert('请填写店铺基本信息和密码');return;}
-  shops.push({id:sidCounter++,name,cat:document.getElementById('shopCat').value,phone,addr,pwd,
-    time:document.getElementById('shopTime').value,min:parseFloat(document.getElementById('shopMin').value)||20,
-    fee:parseFloat(document.getElementById('shopFee').value)||3,status:'pending',menu:[],deals:[]});
-  S('shops',shops);
-  ['shopName','shopPhone','shopAddr','shopPwd','shopTime'].forEach(id=>document.getElementById(id).value='');
-  alert('提交成功！平台将在1-3个工作日内审核。'); switchPage('profile');
-}
-
-// ========== 平台管理 ==========
-function addCourse(){
-  const title=document.getElementById('courseTitle').value.trim();
-  const desc=document.getElementById('courseDesc').value.trim();
-  const price=parseFloat(document.getElementById('coursePrice').value);
-  const cat=document.getElementById('courseCat').value;
-  if(!title||isNaN(price)){alert('请填写标题和价格');return;}
-  const maxId=Math.max(0,...courses.map(c=>c.id));
-  courses.push({id:maxId+1,title,desc,price,cat});
-  S('courses',courses); renderAdminCourses();
-  ['courseTitle','courseDesc','coursePrice'].forEach(id=>document.getElementById(id).value='');
-}
-function renderAdminCourses(){
-  document.getElementById('adminCourseList').innerHTML=courses.map(c=>`
-    <div style="display:flex;align-items:center;padding:8px;border-bottom:1px solid #eee;gap:8px">
-      <span style="flex:1;font-size:12px">${c.title} — ¥${c.price} <span style="color:#999">(${c.cat})</span></span>
-      <button class="btn-sm btn-danger" onclick="delCourse(${c.id})">删除</button></div>`).join('');
-}
-function delCourse(id){courses=courses.filter(c=>c.id!==id); S('courses',courses); renderAdminCourses(); renderCourses();}
-
-function renderPlatform(){
-  document.getElementById('merchantReviewList').innerHTML=shops.length===0?'<div class="empty-state">暂无入驻申请</div>':
-    shops.map(s=>`<div class="order-item">
-      <div><b>${s.name}</b> <span class="order-status ${s.status==='pending'?'status-new':'status-done'}">${s.status==='pending'?'待审核':s.status==='approved'?'已通过':'已驳回'}</span></div>
-      <div style="font-size:12px;color:#666;margin:4px 0">${s.cat} · ${s.phone} · ${s.addr}</div>
-      ${s.status==='pending'?`<div style="margin-top:6px">
-        <button class="btn-sm btn" onclick="approveShop(${s.id})">✅ 通过</button>
-        <button class="btn-sm btn-danger" onclick="rejectShop(${s.id})">❌ 驳回</button></div>`:''}</div>`).join('');
-  document.getElementById('statOrders').textContent=orders.length;
-  document.getElementById('statRevenue').textContent='¥'+orders.filter(o=>o.status==='done').reduce((s,o)=>s+o.total,0).toFixed(2);
-  document.getElementById('statShops').textContent=shops.filter(s=>s.status==='approved').length;
-  renderAdminCourses();
-}
-function approveShop(id){const s=shops.find(s=>s.id===id); if(s){s.status='approved'; S('shops',shops); renderPlatform();}}
-function rejectShop(id){shops=shops.filter(s=>s.id!==id); S('shops',shops); renderPlatform();}
-
-// ========== AI主播 ==========
-let aiSpeaking=false,aiSynth=window.speechSynthesis,aiVoices=[],aiUtterance=null;
-function initAiAnchor(){
-  aiVoices=aiSynth.getVoices();
-  updateVoiceSelect();
-  if(!aiVoices.length) setTimeout(()=>{aiVoices=aiSynth.getVoices();updateVoiceSelect();},800);
-}
-aiSynth.onvoiceschanged=()=>{aiVoices=aiSynth.getVoices();updateVoiceSelect();};
-function updateVoiceSelect(){
-  const sel=document.getElementById('aiVoiceSelect');
-  if(!sel)return;
-  const zh=aiVoices.filter(v=>v.lang.startsWith('zh'));
-  if(zh.length){
-    sel.innerHTML=zh.map((v,i)=>`<option value="${i}" ${i===0?'selected':''}>${v.name}</option>`).join('');
-  }else if(aiVoices.length){
-    sel.innerHTML=aiVoices.map((v,i)=>`<option value="${i}">${v.name}</option>`).join('');
-  }else{
-    sel.innerHTML='<option value="">语音加载中，请稍候...</option>';
-    setTimeout(updateVoiceSelect, 1000);
-  }
-  aiVoiceIndex=0;
-}
-let aiVoiceIndex=0;
-function aiSelectVoice(){
-  aiVoiceIndex=parseInt(document.getElementById('aiVoiceSelect').value)||0;
-}
-function aiQuick(text){
-  document.getElementById('aiScript').value=text;
-  aiStop(); setTimeout(aiStart,200);
-}
-function aiStart(){
-  const text=document.getElementById('aiScript').value.trim();
-  if(!text){
-    document.getElementById('aiScript').value='欢迎来到虾球本地生活！外卖、团购、打车、小吃教学一站搞定～\n新用户首单立减5元，品质商家任你选！\n点击下方功能，开启你的本地生活之旅吧～';
-    return aiStart();
-  }
-  const lines=text.split('\n').filter(l=>l.trim());
-  aiSpeakLines(lines,0);
-}
-function aiSpeakLines(lines,i){
-  if(i>=lines.length||!aiSpeaking){aiSpeaking=false;aiSetState(false);return;}
-  const u=new SpeechSynthesisUtterance(lines[i]);
-  const zh=aiVoices.filter(v=>v.lang.startsWith('zh'));
-  if(zh.length && zh[aiVoiceIndex]) u.voice=zh[aiVoiceIndex];
-  else if(aiVoices[aiVoiceIndex]) u.voice=aiVoices[aiVoiceIndex];
-  u.rate=1.05; u.volume=0.9; u.pitch=1.08;
-  u.onstart=()=>aiSetState(true);
-  u.onend=()=>{setTimeout(()=>aiSpeakLines(lines,i+1),300);};
-  u.onerror=()=>{aiSetState(false);};
-  aiUtterance=u; aiSynth.speak(u);
-}
-function aiToggle(){
-  if(aiSpeaking){aiSynth.pause();aiSpeaking=false;aiSetState(false);document.getElementById('aiPlay').textContent='▶ 继续';}
-  else if(aiSynth.paused){aiSynth.resume();aiSpeaking=true;aiSetState(true);document.getElementById('aiPlay').textContent='⏸ 暂停';}
-  else{aiSpeaking=true;document.getElementById('aiPlay').textContent='⏸ 暂停';aiStart();}
-}
-function aiStop(){aiSynth.cancel();aiSpeaking=false;aiSetState(false);document.getElementById('aiPlay').textContent='▶ 开始播报';}
-function aiSetState(s){
-  const avatar=document.getElementById('aiAvatar');
-  const status=document.getElementById('aiStatus');
-  const wave=document.getElementById('aiWave');
-  if(s){
-    avatar.classList.add('speaking');wave.classList.add('ai-speak');
-    status.textContent='🔴 播报中...';
-  }else{
-    avatar.classList.remove('speaking');wave.classList.remove('ai-speak');
-    status.textContent='🟢 就绪 · 输入台词开始播报';
-  }
-}
-
-// ========== AI主播付费 ==========
-const AI_PLANS = [
-  {name:'包月',months:1,price:99,orig:99,recommend:false,features:'30天无限播报<br>全语音库支持'},
-  {name:'包季',months:3,price:269,orig:297,recommend:false,features:'90天无限播报<br>立省¥28'},
-  {name:'半年',months:6,price:498,orig:594,recommend:true,features:'180天无限播报<br>立省¥96 · 热门'},
-  {name:'包年',months:12,price:998,orig:1188,recommend:false,features:'365天无限播报<br>立省¥190 · 划算'}
-];
-const AI_SALT = 'xq2026ai';
-
-function renderPricing(){
-  document.getElementById('pricingGrid').innerHTML = AI_PLANS.map(p=>`
-    <div class="pricing-card${p.recommend?' recommend':''}" onclick="openPay('${p.name}','${p.price}','${p.months}')">
-      <div class="pc-plan">${p.name}</div>
-      <div class="pc-price">${p.price}<span>元</span></div>
-      <div class="pc-unit">${p.months===1?'/月':'/'+p.months+'个月'}</div>
-      <div class="pc-feature">${p.features}</div>
-      <div class="pc-btn primary">立即开通</div>
-    </div>`).join('');
-}
-
-function checkAiActivation(){
-  const act = L('ai_activation', null);
-  if(act && act.expires > Date.now()) {
-    // 已激活且在有效期内
-    navToPage('ai-anchor');
-    initAiAnchor();
-    return;
-  }
-  if(act && act.expires <= Date.now()) {
-    // 已过期
-    S('ai_activation', null);
-  }
-  // 未激活 → 显示定价页
-  navToPage('ai-pricing');
-  renderPricing();
-}
-
-function navToPage(p) {
-  document.querySelectorAll('[id^="page-"]').forEach(e=>e.classList.add('hidden'));
-  const t=document.getElementById('page-'+p); if(t) t.classList.remove('hidden');
-  document.querySelectorAll('.bottom-nav .nav-item').forEach(e=>e.classList.remove('active'));
-  const n=document.getElementById('nav-'+p.startsWith('ai')?'ai-anchor':'home');
-  if(p==='ai-pricing'||p==='ai-anchor'){
-    document.getElementById('nav-ai-anchor').classList.add('active');
-  } else {
-    const nn=document.getElementById('nav-'+p); if(nn) nn.classList.add('active');
-  }
-}
-
-function openPay(name, price, months){
-  document.getElementById('payPlanName').textContent = name + '套餐';
-  document.getElementById('payPlanPrice').textContent = '¥' + price;
-  document.getElementById('aiPayModal').classList.remove('hidden');
-}
-function closePayModal(){
-  document.getElementById('aiPayModal').classList.add('hidden');
-}
-
-function paidAndActivate(){
-  document.getElementById('aiPayModal').classList.add('hidden');
-  setTimeout(()=>{
-    document.getElementById('activateCode').focus();
-    document.getElementById('activateCode').scrollIntoView({behavior:'smooth'});
-  }, 300);
-}
-
-function activateAi(){
-  const code = document.getElementById('activateCode').value.trim().toUpperCase();
-  if(!code){alert('请输入激活码');return;}
-  const result = verifyCode(code);
-  if(!result.valid){alert('激活码无效，请检查后重试');return;}
-  // 激活成功
-  const expires = Date.now() + result.months * 30 * 24 * 3600 * 1000;
-  S('ai_activation', {code:code, months:result.months, expires:expires, activatedAt:Date.now()});
-  alert('激活成功！有效期至 ' + new Date(expires).toLocaleDateString('zh-CN'));
-  navTo('ai-anchor');
-}
-
-function verifyCode(code){
-  // 格式: XQ-6M-A1B2C3D4
-  const m = code.match(/^XQ-(\d+)M-([A-F0-9]{6,8})$/);
-  if(!m) return {valid:false};
-  const months = parseInt(m[1]);
-  if(![1,3,6,12].includes(months)) return {valid:false};
-  const hashPart = m[2];
-  // 简单校验: 基于 salt 的 checksum
-  const expected = simpleHash(AI_SALT + months + 'anchor2026');
-  if(hashPart !== expected.substring(0, hashPart.length)) return {valid:false};
-  return {valid:true, months:months};
-}
-
-function simpleHash(str){
-  let h = 0;
-  for(let i=0;i<str.length;i++){
-    h = ((h<<5)-h + str.charCodeAt(i))|0;
-  }
-  let hex = Math.abs(h).toString(16).toUpperCase();
-  while(hex.length<8) hex = '0'+hex;
-  return hex;
-}
-
-function genCode(months){
-  const hash = simpleHash(AI_SALT + months + 'anchor2026').substring(0,8);
-  const code = 'XQ-'+months+'M-'+hash;
-  document.getElementById('adminGenCode').value = code;
-}
-
-function showAdminActivate(e){
-  e.stopPropagation();
-  // 管理员密码保护
-  const pw = prompt('请输入管理员密码：');
-  if(pw !== 'xqadmin888'){
-    if(pw) alert('密码错误');
-    return;
-  }
-  document.getElementById('adminActivatePanel').classList.remove('hidden');
-}
-
-function closeAdminPanel(){
-  document.getElementById('adminActivatePanel').classList.add('hidden');
-}
-
-// 点击遮罩关闭弹窗
-document.addEventListener('click', function(e){
-  if(e.target.classList.contains('pay-modal') && !e.target.closest('.pm-box')){
-    e.target.classList.add('hidden');
-  }
-});
-
-// 初始化定价页
-renderPricing();
-
-// ========== 客服 ==========
-function csToggle(){
-  var p=document.getElementById('csPanel');
-  if(p)p.classList.toggle('show');
-}
-function csQuick(msg){
-  document.getElementById('csInput').value=msg;
-  csSend();
-}
-function csSend(){
-  var inp=document.getElementById('csInput');
-  var msg=inp.value.trim();
-  if(!msg)return;
-  var bd=document.getElementById('csBody');
-  bd.insertAdjacentHTML('beforeend','<div style="text-align:right;margin:4px 0"><span style="background:#ff6b35;color:#fff;padding:6px 12px;border-radius:12px 12px 4px 12px;font-size:12px;display:inline-block">'+msg+'</span></div>');
-  inp.value='';
-  setTimeout(function(){
-    bd.insertAdjacentHTML('beforeend','<div class="cs-msg">收到！客服稍后回复您～<br>紧急问题请直接联系管理员</div>');
-    bd.scrollTop=bd.scrollHeight;
-  },500);
-  bd.scrollTop=bd.scrollHeight;
+  document.getElementById('homeShops').innerHTML='<div class="shop-img-grid">'+h.join('')+'</div>';
 }
 
 // init
