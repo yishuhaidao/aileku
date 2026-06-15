@@ -339,7 +339,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
   </div>
 </div>
-id="page-deals" class="hidden">
+<div id="page-deals" class="hidden">
   <div class="header"><h1 onclick="switchPage('home')">← 团购</h1></div>
   <div class="categories" id="dealCats"></div>
   <div class="card-list" id="dealList"></div>
@@ -863,9 +863,9 @@ function renderHome(){
       '<div class="sic-meta">⭐ 4.8 · 月销999+ · 起送¥'+s.min+'</div></div></div>');
   }
   document.getElementById('homeShops').innerHTML='<div class="shop-img-grid">'+h.join('')+'</div>';
-  var el=document.getElementById('homeDeals');if(el)el.innerHTML='';
-  el=document.getElementById('homeCirclePosts');if(el)el.innerHTML='';
-  el=document.getElementById('homeCourses');if(el)el.innerHTML='';
+  var el=document.getElementById('homeDeals');if(el){el.innerHTML='';el.style.display='none';}
+  el=document.getElementById('homeCirclePosts');if(el){el.innerHTML='';el.style.display='none';}
+  el=document.getElementById('homeCourses');if(el){el.innerHTML='';el.style.display='none';}
 }
 function renderShopList(){
   const approved = shops.filter(s=>s.status==='approved');
