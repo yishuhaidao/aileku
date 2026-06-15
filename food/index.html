@@ -255,18 +255,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div style="font-size:10px;opacity:0.5">v250615</div>
     <div style="font-size:20px;cursor:pointer" onclick="switchPage('profile')">👤</div>
   </div>
-  <div class="search-bar"><span>🔍</span><input type="text" placeholder="搜商家、菜品、团购、课程..." onfocus="this.blur()"></div>
-  <div class="home-banner"><h2>🔥 新用户首单立减5元</h2><p>外卖 · 团购 · 打车 · 小吃教学 一站搞定</p></div>
-  <div class="section-title">🔥 推荐商家 <span class="more" onclick="switchPage('food')">更多 ›</span></div>
-  <div class="card-list" id="homeShops"></div>
-  <div class="section-title">🎫 热门团购 <span class="more" onclick="switchPage('deals')">更多 ›</span></div>
-  <div class="card-list" id="homeDeals"></div>
-  <div class="section-title">💬 食圈热帖 <span class="more" onclick="switchPage('circle')">更多 ›</span></div>
-  <div class="card-list" id="homeCirclePosts"></div>
-  <div class="section-title">📚 热门课程</div>
-  <div class="card-list" id="homeCourses"></div>
+  <div style="padding:8px 12px">
+    <div id="homeShops"></div>
+  </div>
 </div>
-
 <!-- ========== 外卖 — 商家列表 ========== -->
 <div id="page-food" class="hidden">
   <div class="header"><h1 onclick="switchPage('home')">← 外卖</h1></div>
@@ -737,19 +729,6 @@ function renderHome(){
         <div class="sic-meta">⭐ 4.8 · 月销999+ · 起送¥${s.min}</div>
       </div>
     </div>`).join('')+'</div>';
-  const allDeals = shops.flatMap(s=>(s.deals||[]).map(d=>({...d,shopName:s.name})));
-  document.getElementById('homeDeals').innerHTML = allDeals.slice(0,3).map(d=>`
-    <div class="deal-card"><div class="deal-body"><div class="deal-title">${d.name}</div>
-      <div class="deal-tags"><span class="tag-orange">${d.shopName}</span><span class="tag-red">省¥${(d.orig-d.price).toFixed(0)}</span></div>
-      <div style="font-size:12px;color:#666;margin-bottom:6px">${d.desc||''}</div>
-      <div class="deal-meta"><div class="deal-price"><span class="now">${d.price}</span><span class="old">¥${d.orig}</span></div>
-      <span class="deal-sold">已售${d.sold}</span></div></div></div>`).join('');
-  document.getElementById('homeCourses').innerHTML = courses.slice(0,3).map(c=>`
-    <div class="course-card" onclick="openCourse(${c.id})">
-      <div class="course-thumb ${boughtCourses.includes(c.id)?'':'locked'}">${boughtCourses.includes(c.id)?'▶️':'🔒'}</div>
-      <div class="course-body"><div class="course-title">${c.title}</div><div class="course-desc">${c.desc}</div>
-        <span class="course-price">${c.price}</span></div></div>`).join('');
-  document.getElementById('homeCirclePosts').innerHTML = posts.slice(0,3).map(p=>renderPost(p)).join('');
 }
 
 // ========== 外卖 — 商家列表 ==========
