@@ -1330,62 +1330,69 @@ document.addEventListener('click', function(e){
 renderPricing();
 
 // ========== 悬浮客服 ==========
-let csDragging=false,csX=0,csY=0,csInitX=0,csInitY=0;
-const csFloat=document.getElementById('csFloat');
-csFloat.style.right='16px'; csFloat.style.bottom='100px';
-
-function csDragStart(e){
-  e.preventDefault(); csDragging=true;
-  const t=e.touches?e.touches[0]:e;
-  csInitX=t.clientX; csInitY=t.clientY;
-  const el=e.target.closest('.cs-float');
-  const r=el.getBoundingClientRect();
-  csX=r.left; csY=r.top;
-  document.addEventListener('mousemove',csDragMove); document.addEventListener('mouseup',csDragEnd);
-  document.addEventListener('touchmove',csDragMove,{passive:false}); document.addEventListener('touchend',csDragEnd);
-}
-function csDragMove(e){
-  if(!csDragging)return;
-  const t=e.touches?e.touches[0]:e;
-  const dx=t.clientX-csInitX, dy=t.clientY-csInitY;
-  const nLeft=csX+dx, nTop=csY+dy;
-  const maxX=window.innerWidth-60, maxY=window.innerHeight-60;
-  csFloat.style.left=Math.max(0,Math.min(nLeft,maxX))+'px';
-  csFloat.style.top=Math.max(0,Math.min(nTop,maxY))+'px';
-  csFloat.style.right='auto'; csFloat.style.bottom='auto';
-}
-function csDragEnd(){csDragging=false;
-  document.removeEventListener('mousemove',csDragMove); document.removeEventListener('mouseup',csDragEnd);
-  document.removeEventListener('touchmove',csDragMove); document.removeEventListener('touchend',csDragEnd);
-}
-function csToggle(e){
-  if(csDragging)return;
-  const p=document.getElementById('csPanel');
-  p.classList.toggle('show');
-}
-csFloat.addEventListener('click',function(e){
-  if(!csDragging) csToggle();
-});
-function csQuick(msg){document.getElementById('csInput').value=msg; csSend();}
-function csSend(){
-  const input=document.getElementById('csInput');
-  const msg=input.value.trim();
-  if(!msg)return;
-  const body=document.getElementById('csBody');
-  body.innerHTML+='<div style="text-align:right;margin:4px 0"><span style="background:#ff6b35;color:#fff;padding:6px 12px;border-radius:12px 12px 4px 12px;font-size:12px;display:inline-block">'+msg+'</span></div>';
-  input.value='';
-  setTimeout(()=>{
-    body.innerHTML+='<div class="cs-msg">收到！客服稍后回复您～<br>紧急问题请直接联系管理员</div>';
-    body.scrollTop=body.scrollHeight;
-  },500);
-  body.scrollTop=body.scrollHeight;
-}
+(function(){
+  var el=document.getElementById('csFloat');
+  if(!el)return;
+  var panel=document.getElementById('csPanel');
+  var dragging=false,startX=0,startY=0,elX=0,elY=0,moved=false;
+  el.style.right='16px';el.style.bottom='120px';
+  
+  function onDown(e){
+    e.preventDefault();
+    dragging=true;moved=false;
+    var t=e.touches?e.touches[0]:e;
+    startX=t.clientX;startY=t.clientY;
+    var r=el.getBoundingClientRect();
+    elX=r.left;elY=r.top;
+  }
+  function onMove(e){
+    if(!dragging)return;
+    var t=e.touches?e.touches[0]:e;
+    var dx=t.clientX-startX,dy=t.clientY-startY;
+    if(Math.abs(dx)<3&&Math.abs(dy)<3)return;
+    moved=true;
+    var L=elX+dx,T=elY+dy;
+    var maxX=window.innerWidth-60,maxY=window.innerHeight-60;
+    el.style.left=Math.max(0,Math.min(L,maxX))+'px';
+    el.style.top=Math.max(0,Math.min(T,maxY))+'px';
+    el.style.right='auto';el.style.bottom='auto';
+  }
+  function onUp(){
+    if(!dragging)return;
+    dragging=false;
+    if(!moved){ csToggle(); }
+  }
+  function csToggle(){
+    if(panel)panel.classList.toggle('show');
+  }
+  el.addEventListener('touchstart',onDown,{passive:false});
+  el.addEventListener('mousedown',onDown);
+  document.addEventListener('touchmove',onMove,{passive:false});
+  document.addEventListener('mousemove',onMove);
+  document.addEventListener('touchend',onUp);
+  document.addEventListener('mouseup',onUp);
+  
+  window.csQuick=function(msg){document.getElementById('csInput').value=msg;csSend();};
+  window.csSend=function(){
+    var inp=document.getElementById('csInput');
+    var msg=inp.value.trim();
+    if(!msg)return;
+    var bd=document.getElementById('csBody');
+    bd.insertAdjacentHTML('beforeend','<div style="text-align:right;margin:4px 0"><span style="background:#ff6b35;color:#fff;padding:6px 12px;border-radius:12px 12px 4px 12px;font-size:12px;display:inline-block">'+msg+'</span></div>');
+    inp.value='';
+    setTimeout(function(){
+      bd.insertAdjacentHTML('beforeend','<div class="cs-msg">收到！客服稍后回复您～<br>紧急问题请直接联系管理员</div>');
+      bd.scrollTop=bd.scrollHeight;
+    },500);
+    bd.scrollTop=bd.scrollHeight;
+  };
+})();
 
 // init
 navTo('home');
 </script>
 <!-- 悬浮客服 -->
-<div class="cs-float" id="csFloat" onmousedown="csDragStart(event)" ontouchstart="csDragStart(event)">💬<span class="cs-badge"></span></div>
+<div class="cs-float" id="csFloat">💬<span class="cs-badge"></span></div>
 <div class="cs-panel" id="csPanel">
   <div class="cs-head">
     <div class="cs-avatar">🎧</div>
