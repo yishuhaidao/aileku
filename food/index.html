@@ -685,7 +685,9 @@ function selectLocCounty(city,county){
 // 页面初始化时恢复位置
 (function(){
   var saved=L('userLoc','');
-  if(saved) document.querySelector('.header .loc').textContent='📍 '+saved;
+  if(saved) {
+    document.querySelector('.header .loc').textContent='📍 '+saved;
+  }
 })();
 
 const DEF_SHOPS = [
