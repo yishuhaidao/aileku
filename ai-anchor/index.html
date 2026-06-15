@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI铏氭嫙涓绘挱 馃帣锔?/title>
+<style>
+  :root {
+    --bg: #0a0a14;
+    --accent: #ff4473;
+    --accent2: #7c5ce7;
+    --gold: #f0c040;
+    --text: #e8e8f0;
+    --sub: #999;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'PingFang SC','Microsoft YaHei',sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  /* 绮掑瓙鑳屾櫙 */
+  #particles {
+    position: fixed; top:0; left:0; width:100%; height:100%;
+    z-index: 0; pointer-events: none;
+  }
+  /* OBS閫忔槑妯″紡 */
+  body.obs-mode { background: transparent !important; }
+  body.obs-mode #particles { display: none; }
+  body.obs-mode .panel { background: rgba(10,10,20,0.75); backdrop-filter: blur(10px); }
+
+  .container {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 20px; padding: 20px; width: 100%; max-width: 800px;
+  }
+
+  /* ========== 瑙掕壊鑸炲彴 ========== */
+  .stage {
+    position: relative;
+    width: 360px; height: 460px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  /* 鍏夌幆 */
+  .aura {
+    position: absolute; bottom: 50px;
+    width: 240px; height: 240px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,68,115,0.25) 0%, rgba(124,92,231,0.1) 40%, transparent 70%);
+    animation: auraPulse 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes auraPulse {
+    0%,100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.25); opacity: 0.8; }
+  }
+  .character.speaking ~ .aura {
+    animation: auraPulse 1.5s ease-in-out infinite;
+    background: radial-gradient(circle, rgba(255,68,115,0.4) 0%, rgba(124,92,231,0.2) 40%, transparent 70%);
+  }
+
+  /* 瑙掕壊瀹瑰櫒 */
+  .character {
+    position: relative; z-index: 2;
+    width: 280px; height: 400px;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 10px 50px rgba(0,0,0,0.5), 0 0 0 2px rgba(255,255,255,0.08);
+    transition: transform 0.3s;
+    animation: gentleFloat 4s ease-in-out infinite;
+  }
+  @keyframes gentleFloat {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  .character.speaking {
+    animation: speakBounce 0.25s ease-in-out infinite;
+    box-shadow: 0 10px 50px rgba(0,0,0,0.5), 0 0 0 3px var(--accent), 0 0 30px rgba(255,68,115,0.3);
+  }
+  @keyframes speakBounce {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.015); }
+  }
+
+  /* 澶村儚鍥剧墖 */
+  .avatar-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  /* 榛樿鍗犱綅澶村儚锛堢函CSS缁樺埗锛屾棤鍥剧墖鏃舵樉绀猴級 */
+  .avatar-placeholder {
+    width: 100%; height: 100%;
+    background: linear-gradient(180deg, #1a1a3e 0%, #0d0d20 100%);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    position: relative;
+  }
+  .avatar-placeholder .face-icon {
+    font-size: 100px; opacity: 0.3;
+    filter: grayscale(1);
+  }
+  .avatar-placeholder .drop-hint {
+    position: absolute; bottom: 50px;
+    color: #666; font-size: 13px;
+  }
+
+  /* 鍢村反鍔ㄧ敾瑕嗙洊灞?*/
+  .mouth-overlay {
+    position: absolute; bottom: 28%;
+    left: 50%; transform: translateX(-50%);
+    width: 0; height: 0;
+    opacity: 0;
+    transition: opacity 0.15s;
+    pointer-events: none;
+  }
+  .character.speaking .mouth-overlay {
+    opacity: 1;
+    animation: mouthTalk 0.15s ease-in-out infinite;
+  }
+  @keyframes mouthTalk {
+    0%,100% { 
+      box-shadow: 0 0 0 18px rgba(255,68,115,0.15);
+      border-radius: 50%;
+    }
+    50% { 
+      box-shadow: 0 0 0 10px rgba(255,68,115,0.08);
+      border-radius: 30%;
+    }
+  }
+
+  /* 璇煶鍙鍖栨潯 */
+  .voice-bars {
+    display: flex; align-items: flex-end; gap: 3px;
+    height: 30px; margin-top: 8px;
+  }
+  .voice-bar {
+    width: 4px; border-radius: 2px;
+    background: var(--accent);
+    transition: height 0.08s;
+    height: 4px;
+  }
+  .character.speaking ~ .voice-bars .voice-bar {
+    animation: barDance 0.3s ease-in-out infinite;
+  }
+  @keyframes barDance {
+    0%,100% { height: 4px; opacity: 0.4; }
+    50% { height: 24px; opacity: 1; }
+  }
+
+  /* 鐘舵€佹寚绀?*/
+  .status-bar {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 14px; color: var(--sub);
+  }
+  .status-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    background: #555; transition: all 0.3s;
+    box-shadow: 0 0 0 0 transparent;
+  }
+  .status-dot.idle { background: #4ecdc4; box-shadow: 0 0 8px rgba(78,205,196,0.5); }
+  .status-dot.speaking { background: var(--accent); box-shadow: 0 0 12px rgba(255,68,115,0.7); animation: dotGlow 0.5s infinite; }
+  @keyframes dotGlow {
+    0%,100% { box-shadow: 0 0 8px rgba(255,68,115,0.5); }
+    50% { box-shadow: 0 0 20px rgba(255,68,115,0.9); }
+  }
+
+  /* ========== 鎺у埗闈㈡澘 ========== */
+  .panel {
+    width: 100%; max-width: 640px;
+    background: rgba(20,20,40,0.9);
+    border-radius: 20px; padding: 24px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(10px);
+  }
+  .panel-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .panel-header h2 { font-size: 17px; font-weight: 600; }
+  .btn-sm {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    color: var(--sub); padding: 5px 14px; border-radius: 20px;
+    cursor: pointer; font-size: 12px; transition: all 0.2s;
+    font-family: inherit;
+  }
+  .btn-sm:hover { background: rgba(255,255,255,0.18); color: #fff; }
+  .btn-sm.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  textarea {
+    width: 100%; min-height: 120px;
+    background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; padding: 14px;
+    color: var(--text); font-size: 14px; line-height: 1.7;
+    font-family: inherit; resize: vertical;
+    outline: none; transition: border 0.2s;
+  }
+  textarea:focus { border-color: var(--accent); }
+  textarea::placeholder { color: #555; }
+
+  .quick-words {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;
+  }
+  .quick-word {
+    background: rgba(255,68,115,0.12); border: 1px solid rgba(255,68,115,0.25);
+    color: var(--accent); padding: 6px 14px; border-radius: 20px;
+    cursor: pointer; font-size: 13px; transition: all 0.15s;
+    font-family: inherit;
+  }
+  .quick-word:hover { background: rgba(255,68,115,0.28); transform: translateY(-1px); }
+
+  .controls {
+    display: flex; gap: 10px; margin-top: 16px;
+    align-items: center; flex-wrap: wrap;
+  }
+  .btn {
+    padding: 10px 22px; border-radius: 25px;
+    border: none; cursor: pointer; font-size: 14px;
+    font-weight: 600; transition: all 0.2s;
+    display: flex; align-items: center; gap: 5px;
+    font-family: inherit;
+  }
+  .btn-play {
+    background: linear-gradient(135deg, var(--accent), #e03060);
+    color: white; box-shadow: 0 4px 18px rgba(255,68,115,0.35);
+  }
+  .btn-play:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(255,68,115,0.5); }
+  .btn-stop {
+    background: rgba(255,255,255,0.08); color: var(--text);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .btn-stop:hover { background: rgba(255,255,255,0.18); }
+
+  select {
+    background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text); padding: 8px 14px; border-radius: 20px;
+    font-size: 13px; outline: none; cursor: pointer; font-family: inherit;
+    max-width: 200px;
+  }
+  select:focus { border-color: var(--accent); }
+
+  .slider-group {
+    display: flex; align-items: center; gap: 6px;
+    color: var(--sub); font-size: 12px;
+  }
+  .slider-group input[type="range"] {
+    width: 70px; accent-color: var(--accent);
+  }
+
+  /* 鎷栨斁鎻愮ず */
+  .drop-zone {
+    position: absolute; inset: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.7); border: 2px dashed rgba(255,255,255,0.3);
+    border-radius: 30px; opacity: 0; pointer-events: none;
+    transition: opacity 0.2s;
+    font-size: 14px; color: #ccc;
+  }
+  .character.drag-over .drop-zone { opacity: 1; }
+
+  .tip {
+    font-size: 12px; color: #555; text-align: center;
+    line-height: 1.6;
+  }
+  .tip b { color: #888; }
+
+  @media (max-width: 500px) {
+    .stage { width: 280px; height: 380px; }
+    .character { width: 220px; height: 320px; }
+    .panel { padding: 16px; }
+    select { max-width: 140px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<div class="container">
+  <!-- 瑙掕壊鑸炲彴 -->
+  <div class="stage">
+    <div class="aura"></div>
+    <div class="character" id="character">
+      <div class="avatar-placeholder" id="avatarPlaceholder">
+        <span class="face-icon">馃懇鈥嶐煉?/span>
+        <span class="drop-hint">鎷栧叆鐓х墖鏇挎崲褰㈣薄</span>
+      </div>
+      <img class="avatar-img" id="avatarImg" src="" alt="涓绘挱褰㈣薄" style="display:none" crossorigin="anonymous">
+      <div class="mouth-overlay"></div>
+      <div class="drop-zone">馃摲 鎷栨斁鐓х墖鍒拌繖閲?/div>
+    </div>
+    <div class="voice-bars" id="voiceBars"></div>
+  </div>
+
+  <!-- 鐘舵€?-->
+  <div class="status-bar">
+    <div class="status-dot idle" id="statusDot"></div>
+    <span id="statusText">馃煝 灏辩华 路 绛夊緟鑴氭湰</span>
+    <span style="margin-left:8px;font-size:12px;color:#555" id="voiceInfo"></span>
+  </div>
+
+  <!-- 鎺у埗闈㈡澘 -->
+  <div class="panel" id="controlPanel">
+    <div class="panel-header">
+      <h2>馃帣锔?涓绘挱鎺у埗鍙?/h2>
+      <div style="display:flex;gap:6px">
+        <button class="btn-sm" id="photoBtn">馃摲 鎹㈢収鐗?/button>
+        <button class="btn-sm" id="obsToggle">馃幀 OBS妯″紡</button>
+      </div>
+    </div>
+
+    <textarea id="scriptInput" placeholder="杈撳叆涓绘挱鍙拌瘝锛屾瘡琛屼竴娈?..&#10;&#10;绀轰緥锛?#10;澶у鏅氫笂濂斤紒娆㈣繋鏉ュ埌鐩存挱闂达綖&#10;浠婂ぉ缁欏ぇ瀹跺甫鏉ヤ竴涓秴妫掔殑鍒嗕韩锛?#10;瑙夊緱鏈夌敤鐨勮瘽锛岀偣涓叧娉ㄦ敮鎸佷竴涓嬪摝锛?></textarea>
+
+    <div class="quick-words">
+      <button class="quick-word" data-text="娆㈣繋鏉ュ埌鐩存挱闂达紒娆㈣繋鏂版潵鐨勫皬浼欎即锝?>馃帀 娆㈣繋</button>
+      <button class="quick-word" data-text="鎰熻阿鑰佹澘鐨勭ぜ鐗╋紒鑰佹澘澶ф皵锛岃€佹澘韬綋鍋ュ悍锛?>馃巵 璋㈢ぜ鐗?/button>
+      <button class="quick-word" data-text="鍠滄涓绘挱鐨勭偣涓叧娉紝姣忓ぉ閮芥湁绮惧僵鍐呭锛?>鉂わ笍 姹傚叧娉?/button>
+      <button class="quick-word" data-text="浠婂ぉ鐨勭洿鎾氨鍒拌繖閲屽暒锛屾槑澶╁悓涓€鏃堕棿涓嶈涓嶆暎锛佹嫓鎷滐綖">馃憢 涓嬫挱</button>
+      <button class="quick-word" data-text="杩欎釜闂闂緱濂斤紝璁╂垜缁欏ぇ瀹惰缁嗚В閲婁竴涓?..">馃挕 浜掑姩</button>
+      <button class="quick-word" data-text="鍝堝柦澶у濂芥垜鏄疉I铏氭嫙涓绘挱锛佷粖澶╁張鏄厓姘旀弧婊＄殑涓€澶╋綖">鉁?寮€鍦?/button>
+    </div>
+
+    <div class="controls">
+      <button class="btn btn-play" id="btnPlay">鈻?寮€濮嬫挱鎶?/button>
+      <button class="btn btn-stop" id="btnStop">鈴?鍋滄</button>
+      <select id="voiceSelect"><option value="">馃攳 妫€娴嬭闊充腑...</option></select>
+      <div class="slider-group">
+        <span>璇€?/span>
+        <input type="range" id="rateSlider" min="0.6" max="2" step="0.1" value="1.05">
+        <span id="rateLabel">1.05x</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <b>绌烘牸</b> 鎾斁/鏆傚仠 路 <b>ESC</b> 鍋滄 路 <b>鎷栨斁鐓х墖</b>鍒拌鑹蹭笂鏇存崲褰㈣薄 路 璇煶鍚堟垚浣跨敤绯荤粺鑷甫涓枃璇煶鍖?  </div>
+</div>
+
+<script>
+(async function(){
+  // ===== DOM =====
+  const character = document.getElementById('character');
+  const avatarPlaceholder = document.getElementById('avatarPlaceholder');
+  const avatarImg = document.getElementById('avatarImg');
+  const voiceBars = document.getElementById('voiceBars');
+  const statusDot = document.getElementById('statusDot');
+  const statusText = document.getElementById('statusText');
+  const voiceInfo = document.getElementById('voiceInfo');
+  const scriptInput = document.getElementById('scriptInput');
+  const btnPlay = document.getElementById('btnPlay');
+  const btnStop = document.getElementById('btnStop');
+  const voiceSelect = document.getElementById('voiceSelect');
+  const rateSlider = document.getElementById('rateSlider');
+  const rateLabel = document.getElementById('rateLabel');
+  const obsToggle = document.getElementById('obsToggle');
+  const photoBtn = document.getElementById('photoBtn');
+  const particlesCanvas = document.getElementById('particles');
+
+  // ===== 绮掑瓙鑳屾櫙 =====
+  const ctx = particlesCanvas.getContext('2d');
+  let particles = [];
+  function resizeParticles() {
+    particlesCanvas.width = window.innerWidth;
+    particlesCanvas.height = window.innerHeight;
+  }
+  resizeParticles();
+  window.addEventListener('resize', resizeParticles);
+  
+  for (let i = 0; i < 50; i++) {
+    particles.push({
+      x: Math.random() * 2000, y: Math.random() * 2000,
+      r: Math.random() * 1.5 + 0.5,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      o: Math.random() * 0.5 + 0.1
+    });
+  }
+  function animateParticles() {
+    if (document.body.classList.contains('obs-mode')) { requestAnimationFrame(animateParticles); return; }
+    ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < -50) p.x = particlesCanvas.width + 50;
+      if (p.x > particlesCanvas.width + 50) p.x = -50;
+      if (p.y < -50) p.y = particlesCanvas.height + 50;
+      if (p.y > particlesCanvas.height + 50) p.y = -50;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${p.o})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(animateParticles);
+  }
+  animateParticles();
+
+  // ===== 璇煶鍙鍖栨潯 =====
+  for (let i = 0; i < 16; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'voice-bar';
+    bar.style.animationDelay = (i * 0.05) + 's';
+    voiceBars.appendChild(bar);
+  }
+
+  // ===== 璇煶妫€娴?=====
+  let synth = window.speechSynthesis;
+  let voices = [];
+  let selectedVoice = null;
+  let speaking = false;
+  let obsMode = false;
+
+  function loadVoices() {
+    voices = synth.getVoices();
+    voiceSelect.innerHTML = '';
+    
+    // 浼樺厛涓枃
+    const zhVoices = voices.filter(v => v.lang.startsWith('zh'));
+    const otherVoices = voices.filter(v => !v.lang.startsWith('zh'));
+    
+    if (zhVoices.length > 0) {
+      zhVoices.forEach(v => {
+        const opt = document.createElement('option');
+        opt.value = v.name;
+        const label = v.name.includes('Xiaoxiao') ? '馃敟 鏅撴檽(鎺ㄨ崘)' :
+                      v.name.includes('Yunxi') ? '馃敟 浜戝笇(鐢?' :
+                      v.name.includes('Xiaoyi') ? '馃敟 鏅撲紛' :
+                      v.name.includes('Huihui') ? '鉁?鎱ф収' :
+                      v.name.includes('Kangkang') ? '鉁?搴峰悍(鐢?' :
+                      `鉁?${v.name}`;
+        opt.textContent = `${label} (${v.lang})`;
+        voiceSelect.appendChild(opt);
+      });
+      selectedVoice = zhVoices.find(v => v.name.includes('Xiaoxiao')) || 
+                      zhVoices.find(v => v.name.includes('Huihui')) || 
+                      zhVoices[0];
+      voiceSelect.value = selectedVoice?.name || '';
+      voiceInfo.textContent = `宸插姞杞?${zhVoices.length} 涓腑鏂囪闊砢;
+    } else {
+      voiceSelect.innerHTML = '<option value="">鈿狅笍 鏈娴嬪埌涓枃璇煶</option>';
+      voiceInfo.textContent = '鈿狅笍 璇风敤Edge/Chrome鎵撳紑鎴栧畨瑁呬腑鏂囪闊冲寘';
+    }
+    
+    // 闈炰腑鏂囧閫?    if (otherVoices.length > 0 && zhVoices.length === 0) {
+      otherVoices.slice(0, 10).forEach(v => {
+        const opt = document.createElement('option');
+        opt.value = v.name;
+        opt.textContent = `馃寪 ${v.name} (${v.lang})`;
+        voiceSelect.appendChild(opt);
+      });
+    }
+  }
+
+  synth.onvoiceschanged = loadVoices;
+  loadVoices();
+  // 寤惰繜鍐嶈瘯涓€娆★紙鏌愪簺娴忚鍣ㄥ紓姝ュ姞杞斤級
+  setTimeout(loadVoices, 1000);
+  setTimeout(loadVoices, 3000);
+
+  voiceSelect.addEventListener('change', () => {
+    selectedVoice = voices.find(v => v.name === voiceSelect.value);
+  });
+
+  // ===== 瑙掕壊鐓х墖 =====
+  function setAvatar(url) {
+    if (!url) {
+      avatarImg.style.display = 'none';
+      avatarPlaceholder.style.display = 'flex';
+      return;
+    }
+    avatarImg.src = url;
+    avatarImg.style.display = 'block';
+    avatarPlaceholder.style.display = 'none';
+  }
+
+  // 鎷栨斁鐓х墖
+  character.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    character.classList.add('drag-over');
+  });
+  character.addEventListener('dragleave', () => {
+    character.classList.remove('drag-over');
+  });
+  character.addEventListener('drop', (e) => {
+    e.preventDefault();
+    character.classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (ev) => setAvatar(ev.target.result);
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // 鐐瑰嚮鎹㈢収鐗?  photoBtn.addEventListener('click', () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (ev) => setAvatar(ev.target.result);
+        reader.readAsDataURL(file);
+      }
+    };
+    input.click();
+  });
+
+  // ===== TTS 鎾姤 =====
+  let utteranceQueue = [];
+  let currentUtterance = null;
+
+  function setStatus(state) {
+    statusDot.className = 'status-dot ' + state;
+    if (state === 'speaking') {
+      statusText.textContent = '馃敶 鎾姤涓?..';
+      character.classList.add('speaking');
+    } else {
+      statusText.textContent = '馃煝 灏辩华 路 绛夊緟鑴氭湰';
+      character.classList.remove('speaking');
+    }
+  }
+
+  function speak(text) {
+    return new Promise((resolve) => {
+      if (!text.trim()) { resolve(); return; }
+
+      // 鍙栨秷閲嶅璇煶
+      if (synth.speaking) synth.cancel();
+      
+      const utterance = new SpeechSynthesisUtterance(text);
+      
+      // 閫夋嫨璇煶
+      if (selectedVoice) {
+        utterance.voice = selectedVoice;
+      } else {
+        // 鑷姩鍖归厤涓枃
+        const zh = voices.find(v => v.lang.startsWith('zh'));
+        if (zh) utterance.voice = zh;
+      }
+      
+      utterance.rate = parseFloat(rateSlider.value);
+      utterance.volume = 0.9;
+      utterance.pitch = 1.08;
+
+      utterance.onstart = () => {
+        speaking = true;
+        setStatus('speaking');
+        btnPlay.textContent = '鈴?鏆傚仠';
+      };
+
+      utterance.onend = () => {
+        speaking = false;
+        setStatus('idle');
+        btnPlay.textContent = '鈻?寮€濮嬫挱鎶?;
+        resolve();
+      };
+
+      utterance.onerror = (e) => {
+        if (e.error === 'canceled' || e.error === 'interrupted') {
+          // 姝ｅ父鍙栨秷锛屼笉鎶ラ敊
+        } else {
+          console.warn('TTS閿欒:', e.error);
+        }
+        speaking = false;
+        setStatus('idle');
+        btnPlay.textContent = '鈻?寮€濮嬫挱鎶?;
+        resolve();
+      };
+
+      currentUtterance = utterance;
+      synth.speak(utterance);
+    });
+  }
+
+  async function playScript() {
+    const lines = scriptInput.value
+      .split('\n')
+      .map(l => l.trim())
+      .filter(l => l.length > 0);
+
+    if (lines.length === 0) {
+      scriptInput.value = '鍝堝柦澶у濂斤紒鎴戞槸AI铏氭嫙涓绘挱锝瀄n娆㈣繋鏉ュ埌鐩存挱闂达紝鏂版潵鐨勫皬浼欎即璁板緱鐐逛釜鍏虫敞鍝︼紒\n浠婂ぉ缁欏ぇ瀹跺噯澶囦簡瓒呮鐨勫唴瀹癸綖';
+      return playScript();
+    }
+
+    for (const line of lines) {
+      if (!speaking && btnPlay.textContent === '鈻?寮€濮嬫挱鎶?) break; // 琚仠姝?      await speak(line);
+      await new Promise(r => setTimeout(r, 400)); // 鍙ラ棿鍋滈】
+    }
+  }
+
+  let isPlaying = false;
+
+  async function startPlayback() {
+    if (isPlaying) return;
+    isPlaying = true;
+    btnPlay.textContent = '鈴?鏆傚仠';
+    await playScript();
+    isPlaying = false;
+    btnPlay.textContent = '鈻?寮€濮嬫挱鎶?;
+    setStatus('idle');
+  }
+
+  function stopPlayback() {
+    synth.cancel();
+    speaking = false;
+    isPlaying = false;
+    setStatus('idle');
+    btnPlay.textContent = '鈻?寮€濮嬫挱鎶?;
+  }
+
+  btnPlay.addEventListener('click', () => {
+    if (speaking) {
+      synth.pause();
+      speaking = false;
+      setStatus('idle');
+      btnPlay.textContent = '鈻?缁х画';
+    } else if (synth.paused) {
+      synth.resume();
+      speaking = true;
+      setStatus('speaking');
+      btnPlay.textContent = '鈴?鏆傚仠';
+    } else if (!isPlaying) {
+      startPlayback();
+    }
+  });
+
+  btnStop.addEventListener('click', stopPlayback);
+
+  // 蹇嵎璇?  document.querySelectorAll('.quick-word').forEach(btn => {
+    btn.addEventListener('click', () => {
+      stopPlayback();
+      scriptInput.value = btn.dataset.text;
+      setTimeout(startPlayback, 100);
+    });
+  });
+
+  // 璇€?  rateSlider.addEventListener('input', () => {
+    rateLabel.textContent = rateSlider.value + 'x';
+    if (currentUtterance && speaking) {
+      currentUtterance.rate = parseFloat(rateSlider.value);
+    }
+  });
+
+  // OBS妯″紡
+  obsToggle.addEventListener('click', () => {
+    obsMode = !obsMode;
+    document.body.classList.toggle('obs-mode', obsMode);
+    obsToggle.classList.toggle('active', obsMode);
+    obsToggle.textContent = obsMode ? '馃幀 OBS妯″紡 鉁? : '馃幀 OBS妯″紡';
+  });
+
+  // 蹇嵎閿?  document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space' && e.target === document.body) {
+      e.preventDefault();
+      btnPlay.click();
+    }
+    if (e.code === 'Escape') stopPlayback();
+  });
+
+  // ===== 鍒濆鍔犺浇绀轰緥 =====
+  scriptInput.value = '鍝堝柦澶у濂斤紒娆㈣繋鏉ュ埌鐩存挱闂达綖\n鎴戞槸AI铏氭嫙涓绘挱锛屼粖澶╃粰澶у鍒嗕韩绮惧僵鍐呭锛乗n瑙夊緱涓嶉敊鐨勮瘽锛屽姩鍔ㄥ皬鎵嬬偣涓叧娉綖\n鎰熻阿澶у鐨勬敮鎸侊紒';
+
+  console.log('馃 AI铏氭嫙涓绘挱 v2 宸插氨缁?);
+  console.log('  璇煶寮曟搸:', voices.length, '涓彲鐢?);
+  console.log('  涓枃璇煶:', voices.filter(v=>v.lang.startsWith('zh')).length, '涓?);
+})();
+</script>
+</body>
+</html>
