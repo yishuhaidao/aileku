@@ -1196,14 +1196,16 @@ function closeMomentEditor(){
 function onGalleryPick(input){
   var files=input.files;
   for(var i=0;i<files.length;i++){
+    var f=files[i];
+    if(f.size>2*1024*1024){alert('图片"'+f.name+'"超过2MB，请压缩后再上传');continue;}
     var reader=new FileReader();
     reader.onload=(function(file){
       return function(e){
         postImgs.push(e.target.result);
         renderImgPreview();
       };
-    })(files[i]);
-    reader.readAsDataURL(files[i]);
+    })(f);
+    reader.readAsDataURL(f);
   }
   input.value='';
 }
@@ -1225,7 +1227,7 @@ function submitPost(){
   if(!text&&postImgs.length===0){alert('至少写点文字或放张图片');return}
   posts.unshift({id:++pidCounter,text:text||'',imgs:postImgs.slice(),time:new Date().toLocaleString('zh-CN'),likes:[],comments:[],nickname:'虾球用户',loc:'广州市'});
   postImgs=[];renderImgPreview();
-  S('circle_posts',posts);
+  try{ S('circle_posts',posts); }catch(e){ alert('图片太大，存储空间不足，请压缩后重试');posts.pop();return; }
   document.getElementById('postText').value='';
   document.getElementById('momentEditor').style.display='none';
   renderCircle();renderHome();
