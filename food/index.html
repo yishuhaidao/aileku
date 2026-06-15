@@ -379,6 +379,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="admin-page">
     <h2>📋 今日订单</h2>
     <div id="orderList"></div>
+    <h2>📷 店铺封面</h2>
+    <div class="form-group">
+      <div id="shopImgPreview" style="width:100%;height:160px;border-radius:12px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;font-size:40px;color:#fff;background:linear-gradient(135deg,#ddd,#ccc)">🖼️</div>
+      <input type="file" id="shopImgUpload" accept="image/*" onchange="uploadShopImg()" style="display:none">
+      <div style="display:flex;gap:8px">
+        <button class="btn" onclick="document.getElementById('shopImgUpload').click()" style="flex:1">📁 选择图片</button>
+        <button class="btn btn-outline" onclick="resetShopImg()" style="flex:1">🔄 恢复默认</button>
+      </div>
+      <div style="font-size:10px;color:#999;margin-top:4px">上传有食欲的店铺照片，吸引更多顾客</div>
+    </div>
     <h2>📝 添加菜品</h2>
     <div class="form-group"><label>菜名</label><input type="text" id="newName" placeholder="如：宫保鸡丁"></div>
     <div class="form-group"><label>描述</label><input type="text" id="newDesc" placeholder="简单描述..."></div>
@@ -720,7 +730,7 @@ function renderHome(){
   const approved = shops.filter(s=>s.status==='approved');
   document.getElementById('homeShops').innerHTML = '<div class="shop-img-grid">'+approved.slice(0,6).map(s=>`
     <div class="shop-img-card" onclick="openShop(${s.id})">
-      <div class="sic-gradient" style="background:${s.gradient||'linear-gradient(135deg,#667eea,#764ba2)'}">${s.cat==='中餐'?'🍳':s.cat==='烧烤'?'🔥':s.cat==='饮品'?'🧋':s.cat==='粤菜'?'🦐':s.cat==='火锅'?'🍲':'🍜'}</div>
+      ${s.img?'<img class="sic-img" src="'+s.img+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">':''}<div class="sic-gradient" style="background:${s.gradient||'linear-gradient(135deg,#667eea,#764ba2)'};${s.img?'display:none':''}">${s.cat==='中餐'?'🍳':s.cat==='烧烤'?'🔥':s.cat==='饮品'?'🧋':s.cat==='粤菜'?'🦐':s.cat==='火锅'?'🍲':'🍜'}</div>
       <div class="sic-overlay">
         <div class="sic-badge">${s.cat}</div>
         <div class="sic-name">${s.name}</div>
@@ -1039,7 +1049,42 @@ function deleteItem(id){
   const s=shops.find(s=>s.id===loggedMerchantId); if(!s||!s.menu) return;
   s.menu=s.menu.filter(m=>m.id!==id); S('shops',shops); renderAdminMenu();
 }
-function renderAdminMenu(){
+function uploadShopImg(){
+  const file=document.getElementById('shopImgUpload').files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const s=shops.find(s=>s.id===loggedMerchantId);
+    if(!s)return;
+    s.img=e.target.result;
+    S('shops',shops);
+    renderShopImg();
+  };
+  reader.readAsDataURL(file);
+}
+function resetShopImg(){
+  const s=shops.find(s=>s.id===loggedMerchantId);
+  if(!s)return;
+  delete s.img;
+  S('shops',shops);
+  renderShopImg();
+}
+function renderShopImg(){
+  const s=shops.find(s=>s.id===loggedMerchantId);
+  if(!s)return;
+  const preview=document.getElementById('shopImgPreview');
+  if(!preview)return;
+  if(s.img){
+    preview.innerHTML='<img src="'+s.img+'" style="width:100%;height:100%;object-fit:cover;border-radius:12px">';
+  }else{
+    preview.innerHTML='🖼️';
+    preview.style.background=s.gradient||'linear-gradient(135deg,#ddd,#ccc)';
+    preview.style.color='#fff';
+  }
+}
+
+// ========== 首页 ==========function renderAdminMenu(){
+  renderShopImg();
   const s=shops.find(s=>s.id===loggedMerchantId); if(!s||!s.menu) return;
   document.getElementById('adminMenuList').innerHTML=s.menu.map(m=>`
     <div style="display:flex;align-items:center;padding:8px;border-bottom:1px solid #eee;gap:8px">
