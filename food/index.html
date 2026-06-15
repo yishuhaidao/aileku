@@ -1201,18 +1201,39 @@ function onGalleryPick(input){
   for(var i=0;i<files.length;i++){
     var f=files[i];
     var isVideo=f.type.startsWith('video/');
-    var maxSize=isVideo?8*1024*1024:2*1024*1024;
-    var label=isVideo?'视频':'图片';
-    if(f.size>maxSize){alert(label+'"'+f.name+'"超过'+(isVideo?'8':'2')+'MB，请压缩后再上传');continue;}
-    var reader=new FileReader();
-    reader.onload=(function(file,vid){
-      return function(e){
-        if(vid){ postVids.push(e.target.result); }
-        else { postImgs.push(e.target.result); }
-        renderImgPreview();
-      };
-    })(f,isVideo);
-    reader.readAsDataURL(f);
+    if(isVideo){
+      if(f.size>8*1024*1024){alert('视频"'+f.name+'"超过8MB');continue;}
+      var vreader=new FileReader();
+      vreader.onload=(function(file){
+        return function(e){ postVids.push(e.target.result); renderImgPreview(); };
+      })(f);
+      vreader.readAsDataURL(f);
+    }else{
+      // 图片自动压缩
+      var ireader=new FileReader();
+      ireader.onload=(function(file){
+        return function(e){
+          var img=new Image();
+          img.onload=function(){
+            var canvas=document.createElement('canvas');
+            var maxW=1280, maxH=1280;
+            var w=img.width, h=img.height;
+            if(w>maxW||h>maxH){
+              var ratio=Math.min(maxW/w, maxH/h);
+              w=Math.round(w*ratio); h=Math.round(h*ratio);
+            }
+            canvas.width=w; canvas.height=h;
+            canvas.getContext('2d').drawImage(img,0,0,w,h);
+            // 如果原图是PNG且较小，保持PNG；否则JPEG压缩
+            var data=canvas.toDataURL('image/jpeg',0.82);
+            postImgs.push(data);
+            renderImgPreview();
+          };
+          img.src=e.target.result;
+        };
+      })(f);
+      ireader.readAsDataURL(f);
+    }
   }
   input.value='';
 }
@@ -1238,7 +1259,7 @@ function submitPost(){
   if(!text&&postImgs.length===0&&postVids.length===0){alert('至少写点文字或放张图片/视频');return}
   posts.unshift({id:++pidCounter,text:text||'',imgs:postImgs.slice(),vids:postVids.slice(),time:new Date().toLocaleString('zh-CN'),likes:[],comments:[],nickname:'虾球用户',loc:'广州市'});
   postImgs=[];postVids=[];renderImgPreview();
-  try{ S('circle_posts',posts); }catch(e){ alert('文件太大，存储空间不足，请压缩后重试');posts.pop();return; }
+  try{ S('circle_posts',posts); }catch(e){ alert('存储空间不足，请尝试发纯文字或减少内容');posts.pop();return; }
   document.getElementById('postText').value='';
   document.getElementById('momentEditor').style.display='none';
   renderCircle();renderHome();
