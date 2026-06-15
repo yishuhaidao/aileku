@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -1138,6 +1141,7 @@ let activeShopCat = '全部';
 let activeDealCat = '全部';
 let activeCourseCat = '全部';
 let posts = L('circle_posts', []);
+console.log('🦞虾球本地生活 v3.0 | 9图+1视频 | 自动压缩');
 let pidCounter = 0;
 const MOODS = ['😋','😍','🤤','🥰','😎','🔥','👏','💪','🍜','🍰'];
 let selMood = MOODS[0];
@@ -1202,13 +1206,15 @@ function onGalleryPick(input){
     var f=files[i];
     var isVideo=f.type.startsWith('video/');
     if(isVideo){
-      if(f.size>8*1024*1024){alert('视频"'+f.name+'"超过8MB');continue;}
+      if(postVids.length>=1){alert('最多发1个视频');continue;}
+      if(f.size>8*1024*1024){alert('视频超过8MB，请压缩');continue;}
       var vreader=new FileReader();
       vreader.onload=(function(file){
         return function(e){ postVids.push(e.target.result); renderImgPreview(); };
       })(f);
       vreader.readAsDataURL(f);
     }else{
+      if(postImgs.length>=9){alert('最多发9张图片');continue;}
       // 图片自动压缩
       var ireader=new FileReader();
       ireader.onload=(function(file){
@@ -1224,7 +1230,6 @@ function onGalleryPick(input){
             }
             canvas.width=w; canvas.height=h;
             canvas.getContext('2d').drawImage(img,0,0,w,h);
-            // 如果原图是PNG且较小，保持PNG；否则JPEG压缩
             var data=canvas.toDataURL('image/jpeg',0.82);
             postImgs.push(data);
             renderImgPreview();
