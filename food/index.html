@@ -170,6 +170,40 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .ai-wave span{width:3px;border-radius:2px;background:#ff6b35;height:4px;transition:height 0.1s}
 .ai-speak .ai-wave span{animation:waveDance 0.3s ease infinite}
 @keyframes waveDance{0%,100%{height:4px}50%{height:20px}}
+/* AI主播付费 */
+.pricing-header{text-align:center;padding:24px 16px 12px}
+.pricing-header .ph-icon{font-size:48px}
+.pricing-header h2{font-size:18px;margin:8px 0 4px;color:#333}
+.pricing-header p{font-size:12px;color:#999}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 12px 12px}
+.pricing-card{background:#fff;border-radius:12px;padding:16px 12px;text-align:center;border:2px solid transparent;cursor:pointer;position:relative;transition:all .2s}
+.pricing-card:active{transform:scale(0.97)}
+.pricing-card.recommend{border-color:#ff6b35;box-shadow:0 2px 12px rgba(255,107,53,0.15)}
+.pricing-card.recommend::before{content:'推荐';position:absolute;top:-8px;right:12px;background:#ff6b35;color:#fff;font-size:10px;padding:2px 8px;border-radius:10px}
+.pricing-card .pc-plan{font-size:13px;color:#666;margin-bottom:2px}
+.pricing-card .pc-price{font-size:28px;font-weight:800;color:#ff6b35}
+.pricing-card .pc-price span{font-size:12px;font-weight:400}
+.pricing-card .pc-unit{font-size:11px;color:#999;margin:2px 0 8px}
+.pricing-card .pc-feature{font-size:11px;color:#666;line-height:1.6}
+.pricing-card .pc-btn{display:block;margin-top:10px;padding:8px 0;border-radius:20px;font-size:12px;font-weight:600;border:none;width:100%;cursor:pointer}
+.pricing-card .pc-btn.primary{background:#ff6b35;color:#fff}
+.pricing-card .pc-btn.outline{background:#fff;color:#ff6b35;border:1px solid #ff6b35}
+.activate-row{padding:0 12px 16px;display:flex;gap:8px}
+.activate-row input{flex:1;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:13px;outline:none}
+.activate-row button{padding:10px 18px;background:#ff6b35;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;white-space:nowrap;cursor:pointer}
+.pay-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:200;display:flex;align-items:center;justify-content:center}
+.pay-modal.hidden{display:none}
+.pay-modal .pm-box{background:#fff;border-radius:16px;padding:24px;width:90%;max-width:360px;text-align:center}
+.pay-modal .pm-plan{font-size:16px;font-weight:700;margin-bottom:4px}
+.pay-modal .pm-price{font-size:36px;font-weight:800;color:#ff6b35}
+.pay-modal .pm-qr{width:180px;height:180px;background:#f5f5f5;border-radius:12px;margin:16px auto;display:flex;align-items:center;justify-content:center;font-size:80px}
+.pay-modal .pm-note{font-size:11px;color:#999;line-height:1.6}
+.pay-modal .pm-close{display:block;width:100%;padding:12px;margin-top:16px;border:none;background:#eee;border-radius:10px;font-size:14px;cursor:pointer}
+.admin-badge{display:inline-block;background:#ff6b35;color:#fff;font-size:10px;padding:1px 6px;border-radius:8px;margin-left:4px}
+/* 食圈 */
+.comment-input{display:flex;gap:4px;margin-top:6px}
+.comment-input input{flex:1;border:1px solid #eee;border-radius:14px;padding:4px 10px;font-size:11px;outline:none}
+.comment-input button{background:#ff6b35;color:#fff;border:none;border-radius:14px;padding:4px 12px;font-size:11px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -188,11 +222,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="func-item" onclick="switchPage('ride')"><div class="fi-icon">🚕</div><div class="fi-name">打车</div></div>
     <div class="func-item" onclick="switchPage('courses')"><div class="fi-icon">📚</div><div class="fi-name">教学</div></div>
     <div class="func-item" onclick="switchPage('ai-anchor')"><div class="fi-icon">🎙️</div><div class="fi-name">AI主播</div></div>
+    <div class="func-item" onclick="switchPage('circle')"><div class="fi-icon">💬</div><div class="fi-name">食圈</div></div>
   </div>
   <div class="section-title">🔥 推荐商家 <span class="more" onclick="switchPage('food')">更多 ›</span></div>
   <div class="card-list" id="homeShops"></div>
   <div class="section-title">🎫 热门团购 <span class="more" onclick="switchPage('deals')">更多 ›</span></div>
   <div class="card-list" id="homeDeals"></div>
+  <div class="section-title">💬 食圈热帖 <span class="more" onclick="switchPage('circle')">更多 ›</span></div>
+  <div class="card-list" id="homeCirclePosts"></div>
   <div class="section-title">📚 热门课程</div>
   <div class="card-list" id="homeCourses"></div>
 </div>
@@ -212,6 +249,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="categories" id="shopCategoryBar"></div>
   <div class="card-list" id="shopMenuList"></div>
   <div class="cart-bar" id="cartBar"><div class="cart-info" onclick="showCart()"><div class="cart-icon">🛒<span class="cart-badge" id="cartCount" style="display:none">0</span></div><div style="color:#999;font-size:12px">购物车</div></div><div class="total" id="cartTotal">¥0</div><button class="checkout" onclick="checkout()">结算</button></div>
+</div>
+
+<!-- ========== 食圈 ========== -->
+<div id="page-circle" class="hidden">
+  <div class="header"><h1 onclick="switchPage('home')">← 同城食圈</h1></div>
+  <div class="post-form">
+    <textarea id="postText" placeholder="分享美食心情..."></textarea>
+    <div class="mood-row" id="moodPicker"></div>
+    <div class="img-row">
+      <input type="text" id="postImg" placeholder="图片链接（可选）">
+      <button onclick="alert('在网上找到喜欢的图片，长按/右键选择「复制图片地址」，粘贴到输入框即可')">?</button>
+    </div>
+    <button class="btn" style="margin-top:6px" onclick="submitPost()">📛 发布动态</button>
+  </div>
+  <div class="card-list" id="postList"></div>
 </div>
 
 <!-- ========== 团购 ========== -->
@@ -407,11 +459,56 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
+<!-- AI主播付费 -->
+<div id="page-ai-pricing" class="hidden">
+  <div class="header"><h1 onclick="switchPage('home')">🎙️ AI主播</h1><span class="admin-badge" onclick="showAdminActivate(event)" title="管理员激活">管理</span></div>
+  <div class="pricing-header">
+    <div class="ph-icon">🎤</div>
+    <h2>解锁 AI 智能播报</h2>
+    <p>自动语音播报，提升直播间氛围</p>
+  </div>
+  <div class="pricing-grid" id="pricingGrid"></div>
+  <div class="activate-row">
+    <input type="text" id="activateCode" placeholder="输入激活码" maxlength="20" autocomplete="off">
+    <button onclick="activateAi()">激活</button>
+  </div>
+  <div style="text-align:center;padding:0 12px 20px;font-size:11px;color:#999">
+    付款后联系客服获取激活码 · 激活后永久有效
+  </div>
+</div>
+
+<!-- 付费弹窗 -->
+<div class="pay-modal hidden" id="payModal">
+  <div class="pm-box">
+    <div class="pm-plan" id="payPlanName"></div>
+    <div class="pm-price" id="payPlanPrice"></div>
+    <div class="pm-qr" id="payQr">💬</div>
+    <div class="pm-note">请截图保存上方二维码<br>使用微信扫码付款<br>付款后联系客服获取激活码</div>
+    <button class="pm-close" onclick="closePayModal()">我知道了</button>
+  </div>
+</div>
+
+<!-- 管理员激活面板 -->
+<div id="adminActivatePanel" class="pay-modal hidden">
+  <div class="pm-box">
+    <h3 style="margin-bottom:12px">🔐 生成激活码</h3>
+    <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap">
+      <button class="pc-btn primary" style="flex:1;min-width:60px" onclick="genCode(1)">月卡 ¥99</button>
+      <button class="pc-btn primary" style="flex:1;min-width:60px" onclick="genCode(3)">季卡 ¥269</button>
+      <button class="pc-btn primary" style="flex:1;min-width:60px" onclick="genCode(6)">半年 ¥498</button>
+      <button class="pc-btn primary" style="flex:1;min-width:60px" onclick="genCode(12)">年卡 ¥998</button>
+    </div>
+    <input type="text" id="adminGenCode" readonly style="width:100%;padding:10px;border:2px dashed #ff6b35;border-radius:8px;text-align:center;font-size:14px;font-weight:700;margin:8px 0;background:#fff8f5" placeholder="点击上方按钮生成">
+    <button class="pm-close" onclick="closeAdminPanel()">关闭</button>
+  </div>
+</div>
+
 <!-- 底部导航 -->
 <div class="bottom-nav">
   <div class="nav-item active" onclick="switchPage('home')" id="nav-home"><span class="nav-icon">🏠</span><span>首页</span></div>
   <div class="nav-item" onclick="switchPage('food')" id="nav-food"><span class="nav-icon">🛵</span><span>外卖</span></div>
   <div class="nav-item" onclick="switchPage('deals')" id="nav-deals"><span class="nav-icon">🎫</span><span>团购</span></div>
+  <div class="nav-item" onclick="switchPage('circle')" id="nav-circle"><span class="nav-icon">💬</span><span>食圈</span></div>
   <div class="nav-item" onclick="switchPage('courses')" id="nav-courses"><span class="nav-icon">📚</span><span>教学</span></div>
   <div class="nav-item" onclick="switchPage('ai-anchor')" id="nav-ai-anchor"><span class="nav-icon">🎙️</span><span>AI主播</span></div>
   <div class="nav-item" onclick="switchPage('profile')" id="nav-profile"><span class="nav-icon">👤</span><span>我的</span></div>
@@ -495,6 +592,10 @@ let cart = L('cart', {});
 let activeShopCat = '全部';
 let activeDealCat = '全部';
 let activeCourseCat = '全部';
+let posts = L('circle_posts', []);
+let pidCounter = 0;
+const MOODS = ['😋','😍','🤤','🥰','😎','🔥','👏','💪','🍜','🍰'];
+let selMood = MOODS[0];
 let sidCounter = Math.max(0,...shops.map(s=>s.id))+1;
 let oidCounter = Math.max(0,...orders.map(o=>o.id))+1;
 
@@ -513,9 +614,10 @@ function navTo(p) {
   else if(p==='deals'){renderDealCats();renderDeals();}
   else if(p==='ride') renderRideTypes();
   else if(p==='courses'){renderCourseCats();renderCourses();}
+  else if(p==='circle'){renderMoods();renderCircle();}
   else if(p==='platform-admin') renderPlatform();
   else if(p==='merchant-admin'){renderMerchantOrders();renderAdminMenu();renderAdminDeals();}
-  else if(p==='ai-anchor') initAiAnchor();
+  else if(p==='ai-anchor') checkAiActivation();
 }
 function switchPage(p){currentShopId=null;cart={};S('cart',cart);navTo(p);}
 let prevBeforeShop = 'home';
@@ -536,6 +638,40 @@ function openShop(sid) {
   renderShopCats(); renderShopMenu(); updateCartBar();
 }
 function backToShops(){currentShopId=null;cart={};S('cart',cart);navTo('food');}
+
+// ========== 食圈 ==========
+function renderMoods(){
+  document.getElementById('moodPicker').innerHTML = MOODS.map((m,i)=>`<span class="${i===0?'sel':''}" onclick="pickMood('${m}',this)">${m}</span>`).join('');
+}
+function pickMood(m,el){selMood=m;document.querySelectorAll('#moodPicker span').forEach(e=>e.classList.remove('sel'));el.classList.add('sel');}
+function submitPost(){
+  const text = document.getElementById('postText').value.trim();
+  const img = document.getElementById('postImg').value.trim();
+  if(!text&&!img){alert('至少写点文字或放张图片');return}
+  posts.unshift({id:++pidCounter,text:text||'',img:img||'',mood:selMood,time:new Date().toLocaleString('zh-CN'),likes:[],comments:[],nickname:'虾球用户'});
+  S('circle_posts',posts);
+  document.getElementById('postText').value='';document.getElementById('postImg').value='';
+  renderCircle();renderHome();
+}
+function renderPost(p,showComments=false){
+  const liked = p.likes.includes('me');
+  const imgsHtml = p.img?`<div class="post-images"><img src="${p.img}" onerror="this.style.display='none'"></div>`:'';
+  const moodHtml = p.mood?`<span class="post-mood">${p.mood}</span>`:'';
+  return `<div class="post-card">
+    <div class="post-header"><div class="post-avatar">${p.nickname[0]}</div><div><div class="post-user">${p.nickname}</div><div class="post-time">${moodHtml} ${p.time}</div></div></div>
+    <div class="post-text">${p.text||''}</div>${imgsHtml}
+    <div class="post-actions">
+      <span class="${liked?'liked':''}" onclick="likePost(${p.id})">${liked?'❤️':'🤍'} ${p.likes.length}</span>
+      <span onclick="toggleComments(${p.id})">💬 ${(p.comments||[]).length}</span>
+    </div>
+    ${showComments?`<div class="post-comments">${(p.comments||[]).map(c=>`<div class="post-comment"><span class="cmt-user">${c.user}:</span><span class="cmt-text">${c.text}</span></div>`).join('')}<div class="comment-input"><input type="text" id="cmtInput${p.id}" placeholder="写下评论..."><button onclick="addComment(${p.id})">发送</button></div></div>`:''}
+  </div>`;
+}
+function renderCircle(){document.getElementById('postList').innerHTML=posts.length?posts.map(p=>renderPost(p)).join(''):'<div class="empty-state">还没有动态，快来发第一条吧！</div>'}
+function likePost(id){const p=posts.find(p=>p.id===id);if(!p)return;if(p.likes.includes('me'))p.likes=p.likes.filter(l=>l!=='me');else p.likes.push('me');S('circle_posts',posts);renderCircle()}
+function toggleComments(id){const isOpen=document.getElementById('cmtInput'+id);renderCircleFull(id,!isOpen)}
+function renderCircleFull(openId,show){document.getElementById('postList').innerHTML=posts.length?posts.map(p=>renderPost(p,p.id===openId?show:false)).join(''):'<div class="empty-state">还没有动态</div>'}
+function addComment(id){const input=document.getElementById('cmtInput'+id);if(!input||!input.value.trim())return;const p=posts.find(p=>p.id===id);if(!p)return;if(!p.comments)p.comments=[];p.comments.push({user:'虾球用户',text:input.value.trim()});input.value='';S('circle_posts',posts);renderCircleFull(id,true)}
 
 // ========== 首页 ==========
 function renderHome(){
@@ -558,6 +694,7 @@ function renderHome(){
       <div class="course-thumb ${boughtCourses.includes(c.id)?'':'locked'}">${boughtCourses.includes(c.id)?'▶️':'🔒'}</div>
       <div class="course-body"><div class="course-title">${c.title}</div><div class="course-desc">${c.desc}</div>
         <span class="course-price">${c.price}</span></div></div>`).join('');
+  document.getElementById('homeCirclePosts').innerHTML = posts.slice(0,3).map(p=>renderPost(p)).join('');
 }
 
 // ========== 外卖 — 商家列表 ==========
@@ -989,6 +1126,130 @@ function aiSetState(s){
     status.textContent='🟢 就绪 · 输入台词开始播报';
   }
 }
+
+// ========== AI主播付费 ==========
+const AI_PLANS = [
+  {name:'包月',months:1,price:99,orig:99,recommend:false,features:'30天无限播报<br>全语音库支持'},
+  {name:'包季',months:3,price:269,orig:297,recommend:false,features:'90天无限播报<br>立省¥28'},
+  {name:'半年',months:6,price:498,orig:594,recommend:true,features:'180天无限播报<br>立省¥96 · 热门'},
+  {name:'包年',months:12,price:998,orig:1188,recommend:false,features:'365天无限播报<br>立省¥190 · 划算'}
+];
+const AI_SALT = 'xq2026ai';
+
+function renderPricing(){
+  document.getElementById('pricingGrid').innerHTML = AI_PLANS.map(p=>`
+    <div class="pricing-card${p.recommend?' recommend':''}" onclick="openPay('${p.name}','${p.price}','${p.months}')">
+      <div class="pc-plan">${p.name}</div>
+      <div class="pc-price">${p.price}<span>元</span></div>
+      <div class="pc-unit">${p.months===1?'/月':'/'+p.months+'个月'}</div>
+      <div class="pc-feature">${p.features}</div>
+      <div class="pc-btn primary">立即开通</div>
+    </div>`).join('');
+}
+
+function checkAiActivation(){
+  const act = L('ai_activation', null);
+  if(act && act.expires > Date.now()) {
+    // 已激活且在有效期内
+    navToPage('ai-anchor');
+    initAiAnchor();
+    return;
+  }
+  if(act && act.expires <= Date.now()) {
+    // 已过期
+    S('ai_activation', null);
+  }
+  // 未激活 → 显示定价页
+  navToPage('ai-pricing');
+  renderPricing();
+}
+
+function navToPage(p) {
+  document.querySelectorAll('[id^="page-"]').forEach(e=>e.classList.add('hidden'));
+  const t=document.getElementById('page-'+p); if(t) t.classList.remove('hidden');
+  document.querySelectorAll('.bottom-nav .nav-item').forEach(e=>e.classList.remove('active'));
+  const n=document.getElementById('nav-'+p.startsWith('ai')?'ai-anchor':'home');
+  if(p==='ai-pricing'||p==='ai-anchor'){
+    document.getElementById('nav-ai-anchor').classList.add('active');
+  } else {
+    const nn=document.getElementById('nav-'+p); if(nn) nn.classList.add('active');
+  }
+}
+
+function openPay(name, price, months){
+  document.getElementById('payPlanName').textContent = name + '套餐';
+  document.getElementById('payPlanPrice').textContent = '¥' + price;
+  document.getElementById('payModal').classList.remove('hidden');
+}
+function closePayModal(){
+  document.getElementById('payModal').classList.add('hidden');
+}
+
+function activateAi(){
+  const code = document.getElementById('activateCode').value.trim().toUpperCase();
+  if(!code){alert('请输入激活码');return;}
+  const result = verifyCode(code);
+  if(!result.valid){alert('激活码无效，请检查后重试');return;}
+  // 激活成功
+  const expires = Date.now() + result.months * 30 * 24 * 3600 * 1000;
+  S('ai_activation', {code:code, months:result.months, expires:expires, activatedAt:Date.now()});
+  alert('激活成功！有效期至 ' + new Date(expires).toLocaleDateString('zh-CN'));
+  navTo('ai-anchor');
+}
+
+function verifyCode(code){
+  // 格式: XQ-6M-A1B2C3D4
+  const m = code.match(/^XQ-(\d+)M-([A-F0-9]{6,8})$/);
+  if(!m) return {valid:false};
+  const months = parseInt(m[1]);
+  if(![1,3,6,12].includes(months)) return {valid:false};
+  const hashPart = m[2];
+  // 简单校验: 基于 salt 的 checksum
+  const expected = simpleHash(AI_SALT + months + 'anchor2026');
+  if(hashPart !== expected.substring(0, hashPart.length)) return {valid:false};
+  return {valid:true, months:months};
+}
+
+function simpleHash(str){
+  let h = 0;
+  for(let i=0;i<str.length;i++){
+    h = ((h<<5)-h + str.charCodeAt(i))|0;
+  }
+  let hex = Math.abs(h).toString(16).toUpperCase();
+  while(hex.length<8) hex = '0'+hex;
+  return hex;
+}
+
+function genCode(months){
+  const hash = simpleHash(AI_SALT + months + 'anchor2026').substring(0,8);
+  const code = 'XQ-'+months+'M-'+hash;
+  document.getElementById('adminGenCode').value = code;
+}
+
+function showAdminActivate(e){
+  e.stopPropagation();
+  // 管理员密码保护
+  const pw = prompt('请输入管理员密码：');
+  if(pw !== 'xqadmin888'){
+    if(pw) alert('密码错误');
+    return;
+  }
+  document.getElementById('adminActivatePanel').classList.remove('hidden');
+}
+
+function closeAdminPanel(){
+  document.getElementById('adminActivatePanel').classList.add('hidden');
+}
+
+// 点击遮罩关闭弹窗
+document.addEventListener('click', function(e){
+  if(e.target.classList.contains('pay-modal') && !e.target.closest('.pm-box')){
+    e.target.classList.add('hidden');
+  }
+});
+
+// 初始化定价页
+renderPricing();
 
 // init
 navTo('home');
