@@ -562,6 +562,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="nav-item" onclick="switchPage('courses')" id="nav-courses"><span class="nav-icon">📚</span><span>教学</span></div>
   <div class="nav-item" onclick="switchPage('ai-anchor')" id="nav-ai-anchor"><span class="nav-icon">🎙️</span><span>AI主播</span></div>
   <div class="nav-item" onclick="switchPage('profile')" id="nav-profile"><span class="nav-icon">👤</span><span>我的</span></div>
+  <div class="nav-item" onclick="csToggle()"><span class="nav-icon">💬</span><span>客服</span></div>
 </div>
 
 <script>
@@ -1329,70 +1330,34 @@ document.addEventListener('click', function(e){
 // 初始化定价页
 renderPricing();
 
-// ========== 悬浮客服 ==========
-(function(){
-  var el=document.getElementById('csFloat');
-  if(!el)return;
-  var panel=document.getElementById('csPanel');
-  var dragging=false,startX=0,startY=0,elX=0,elY=0,moved=false;
-  el.style.right='16px';el.style.bottom='120px';
-  
-  function onDown(e){
-    e.preventDefault();
-    dragging=true;moved=false;
-    var t=e.touches?e.touches[0]:e;
-    startX=t.clientX;startY=t.clientY;
-    var r=el.getBoundingClientRect();
-    elX=r.left;elY=r.top;
-  }
-  function onMove(e){
-    if(!dragging)return;
-    var t=e.touches?e.touches[0]:e;
-    var dx=t.clientX-startX,dy=t.clientY-startY;
-    if(Math.abs(dx)<3&&Math.abs(dy)<3)return;
-    moved=true;
-    var L=elX+dx,T=elY+dy;
-    var maxX=window.innerWidth-60,maxY=window.innerHeight-60;
-    el.style.left=Math.max(0,Math.min(L,maxX))+'px';
-    el.style.top=Math.max(0,Math.min(T,maxY))+'px';
-    el.style.right='auto';el.style.bottom='auto';
-  }
-  function onUp(){
-    if(!dragging)return;
-    dragging=false;
-    if(!moved){ csToggle(); }
-  }
-  function csToggle(){
-    if(panel)panel.classList.toggle('show');
-  }
-  el.addEventListener('touchstart',onDown,{passive:false});
-  el.addEventListener('mousedown',onDown);
-  document.addEventListener('touchmove',onMove,{passive:false});
-  document.addEventListener('mousemove',onMove);
-  document.addEventListener('touchend',onUp);
-  document.addEventListener('mouseup',onUp);
-  
-  window.csQuick=function(msg){document.getElementById('csInput').value=msg;csSend();};
-  window.csSend=function(){
-    var inp=document.getElementById('csInput');
-    var msg=inp.value.trim();
-    if(!msg)return;
-    var bd=document.getElementById('csBody');
-    bd.insertAdjacentHTML('beforeend','<div style="text-align:right;margin:4px 0"><span style="background:#ff6b35;color:#fff;padding:6px 12px;border-radius:12px 12px 4px 12px;font-size:12px;display:inline-block">'+msg+'</span></div>');
-    inp.value='';
-    setTimeout(function(){
-      bd.insertAdjacentHTML('beforeend','<div class="cs-msg">收到！客服稍后回复您～<br>紧急问题请直接联系管理员</div>');
-      bd.scrollTop=bd.scrollHeight;
-    },500);
+// ========== 客服 ==========
+function csToggle(){
+  var p=document.getElementById('csPanel');
+  if(p)p.classList.toggle('show');
+}
+function csQuick(msg){
+  document.getElementById('csInput').value=msg;
+  csSend();
+}
+function csSend(){
+  var inp=document.getElementById('csInput');
+  var msg=inp.value.trim();
+  if(!msg)return;
+  var bd=document.getElementById('csBody');
+  bd.insertAdjacentHTML('beforeend','<div style="text-align:right;margin:4px 0"><span style="background:#ff6b35;color:#fff;padding:6px 12px;border-radius:12px 12px 4px 12px;font-size:12px;display:inline-block">'+msg+'</span></div>');
+  inp.value='';
+  setTimeout(function(){
+    bd.insertAdjacentHTML('beforeend','<div class="cs-msg">收到！客服稍后回复您～<br>紧急问题请直接联系管理员</div>');
     bd.scrollTop=bd.scrollHeight;
-  };
-})();
+  },500);
+  bd.scrollTop=bd.scrollHeight;
+}
 
 // init
 navTo('home');
 </script>
 <!-- 悬浮客服 -->
-<div class="cs-float" id="csFloat">💬<span class="cs-badge"></span></div>
+<div class="cs-float" id="csFloat" onclick="csToggle()">💬<span class="cs-badge"></span></div>
 <div class="cs-panel" id="csPanel">
   <div class="cs-head">
     <div class="cs-avatar">🎧</div>
