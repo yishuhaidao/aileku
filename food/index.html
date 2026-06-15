@@ -12,7 +12,7 @@
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f5;max-width:430px;margin:0 auto;min-height:100vh;position:relative;padding-bottom:56px}
 .header{background:#ff6b35;color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .header h1{font-size:16px;font-weight:600;display:flex;align-items:center;gap:6px;cursor:pointer}
-.header .loc{font-size:12px;opacity:0.85}
+.header .loc{font-size:12px;opacity:0.85;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
 .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;display:flex;justify-content:space-around;padding:6px 0 4px;border-top:1px solid #eee;z-index:100}
 .bottom-nav .nav-item{display:flex;flex-direction:column;align-items:center;font-size:10px;color:#999;cursor:pointer;gap:2px}
 .bottom-nav .nav-item .nav-icon{font-size:20px}
@@ -276,7 +276,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <!-- ========== 首页 ========== -->
 <div id="page-home">
   <div class="header">
-    <h1 onclick="switchPage('home')">🍤 虾球本地生活 <span class="loc">📍 广州市</span></h1>
+    <h1 onclick="switchPage('home')">🍤 虾球本地生活 <span class="loc" onclick="event.stopPropagation();openLocPicker()">📍 广州市</span></h1>
     <div style="font-size:10px;opacity:0.5">v250615</div>
     <div style="font-size:20px;cursor:pointer" onclick="switchPage('profile')">👤</div>
   </div>
@@ -605,10 +605,88 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="nav-item" onclick="csToggle()"><span class="nav-icon">💬</span><span>客服</span></div>
 </div>
 
+<!-- 地址选择弹窗 -->
+<div id="locPicker" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#fff;z-index:3000;overflow-y:auto">
+  <div style="position:sticky;top:0;background:#fff;z-index:10;padding:12px 16px;border-bottom:1px solid #eee;display:flex;align-items:center;justify-content:space-between">
+    <span style="font-size:16px;cursor:pointer" onclick="document.getElementById('locPicker').style.display='none'">取消</span>
+    <span style="font-weight:600;font-size:16px">选择地址</span>
+    <span style="width:40px"></span>
+  </div>
+  <div style="display:flex;height:calc(100% - 50px)">
+    <div style="width:120px;background:#f7f7f7;overflow-y:auto;flex-shrink:0" id="locCityList"></div>
+    <div style="flex:1;overflow-y:auto;padding:8px 12px" id="locCountyList"></div>
+  </div>
+</div>
+
 <script>
 // ========== 数据层 ==========
 function L(k,f){try{return JSON.parse(localStorage.getItem(k))||f}catch(e){return f}}
 function S(k,d){localStorage.setItem(k,JSON.stringify(d))}
+
+// 地址数据
+var LOC_DATA={
+  '广州':['天河区','越秀区','海珠区','白云区','番禺区','黄埔区','荔湾区','花都区','南沙区','增城区','从化区'],
+  '深圳':['南山区','福田区','罗湖区','宝安区','龙岗区','龙华区','光明区','坪山区','盐田区'],
+  '佛山':['禅城区','南海区','顺德区','三水区','高明区'],
+  '东莞':['莞城','南城','东城','万江','虎门','长安','厚街','常平','塘厦','大朗'],
+  '中山':['石岐','东区','西区','南区','小榄','古镇','三乡','坦洲'],
+  '珠海':['香洲区','斗门区','金湾区'],
+  '惠州':['惠城区','惠阳区','博罗县','惠东县','龙门县'],
+  '江门':['蓬江区','江海区','新会区','台山市','开平市','鹤山市','恩平市'],
+  '肇庆':['端州区','鼎湖区','高要区','四会市','广宁县','德庆县','封开县','怀集县'],
+  '汕头':['金平区','龙湖区','濠江区','潮阳区','潮南区','澄海区','南澳县'],
+  '潮州':['湘桥区','潮安区','饶平县'],
+  '揭阳':['榕城区','揭东区','普宁市','揭西县','惠来县'],
+  '湛江':['赤坎区','霞山区','坡头区','麻章区','廉江市','雷州市','吴川市','遂溪县','徐闻县'],
+  '茂名':['茂南区','电白区','高州市','化州市','信宜市'],
+  '阳江':['江城区','阳东区','阳春市','阳西县'],
+  '韶关':['浈江区','武江区','曲江区','乐昌市','南雄市','仁化县','始兴县','翁源县','新丰县','乳源县'],
+  '清远':['清城区','清新区','英德市','连州市','佛冈县','阳山县','连山县','连南县'],
+  '梅州':['梅江区','梅县区','兴宁市','平远县','蕉岭县','大埔县','丰顺县','五华县'],
+  '河源':['源城区','紫金县','龙川县','连平县','和平县','东源县'],
+  '汕尾':['城区','陆丰市','海丰县','陆河县'],
+  '云浮':['云城区','云安区','罗定市','新兴县','郁南县']
+};
+
+function openLocPicker(){
+  var current=L('userLoc','广州市');
+  var city=current.split(' ')[0]||current;
+  var div=document.getElementById('locCityList');
+  var cities=Object.keys(LOC_DATA).sort(function(a,b){return a===city?-1:b===city?1:a.localeCompare(b)});
+  div.innerHTML='';
+  for(var i=0;i<cities.length;i++){
+    div.innerHTML+='<div style="padding:14px 12px;cursor:pointer;font-size:14px;'+(cities[i]===city?'background:#fff;color:#ff6b35;font-weight:600':'')+'" onclick="selectLocCity(\''+cities[i]+'\')">'+cities[i]+'</div>';
+  }
+  document.getElementById('locPicker').style.display='block';
+  selectLocCity(city,true);
+}
+
+var _locCounty='';
+function selectLocCity(city,init){
+  _locCounty='';
+  document.getElementById('locCountyList').innerHTML='<div style="font-weight:600;font-size:15px;padding:8px 0 12px;border-bottom:1px solid #eee;margin-bottom:8px">'+city+'</div>'+
+    (LOC_DATA[city]||[]).map(function(c){return '<div style="padding:12px 8px;cursor:pointer;font-size:14px;border-bottom:1px solid #f5f5f5" onclick="selectLocCounty(\''+city+'\',\''+c+'\')">'+c+'</div>'}).join('');
+  // Update city list highlight
+  var icons=document.getElementById('locCityList').querySelectorAll('div');
+  for(var i=0;i<icons.length;i++){
+    icons[i].style.background=icons[i].textContent===city?'#fff':'';
+    icons[i].style.color=icons[i].textContent===city?'#ff6b35':'';
+    icons[i].style.fontWeight=icons[i].textContent===city?'600':'';
+  }
+}
+
+function selectLocCounty(city,county){
+  var loc=city+' '+county;
+  S('userLoc',loc);
+  document.querySelector('.header .loc').textContent='📍 '+loc;
+  document.getElementById('locPicker').style.display='none';
+}
+
+// 页面初始化时恢复位置
+(function(){
+  var saved=L('userLoc','');
+  if(saved) document.querySelector('.header .loc').textContent='📍 '+saved;
+})();
 
 const DEF_SHOPS = [
   {id:1,name:'虾球小厨',cat:'中餐',gradient:'linear-gradient(135deg,#e74c3c,#c0392b)',phone:'13800001111',addr:'广州天河区龙洞商贸大街10号',time:'10:00-22:00',min:20,fee:3,status:'approved',pwd:'123456',
