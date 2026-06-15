@@ -662,12 +662,21 @@ var LOC_DATA={
 };
 
 var _locProv='', _locCity='';
+
+function parseSavedLoc(s){
+  if(!s) return null;
+  var parts=s.split(' ');
+  if(parts.length<2) return null;
+  var prov=parts[0], city=parts[1];
+  if(!LOC_DATA[prov]||!LOC_DATA[prov][city]) return null;
+  return {prov:prov, city:city};
+}
+
 function openLocPicker(){
   var saved=L('userLoc','');
-  var parts=saved?['','','']:['','',''];
-  if(saved){ parts=saved.split(' '); }
-  _locProv=parts[0]||'';
-  _locCity=parts[1]||'';
+  var parsed=parseSavedLoc(saved);
+  _locProv=parsed?parsed.prov:'';
+  _locCity=parsed?parsed.city:'';
   document.getElementById('locPicker').style.display='block';
   var div=document.getElementById('locCityList');
   var provs=Object.keys(LOC_DATA).sort(function(a,b){
@@ -717,9 +726,8 @@ function selectLocCity(prov,city){
 }
 
 function selectLocCounty(prov,city,county){
-  var loc;
-  if(city===county){ loc=prov+' '+city; }
-  else { loc=prov+' '+city+' '+county; }
+  var loc=prov+' '+city;
+  if(county!==city) loc+=' '+county;
   S('userLoc',loc);
   document.querySelector('.header .loc').textContent='📍 '+loc;
   document.getElementById('locPicker').style.display='none';
