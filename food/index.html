@@ -154,7 +154,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .paywall .pw-sub{font-size:12px;color:#999;margin-bottom:12px}
 /* AI主播 */
 .ai-stage{text-align:center;padding:20px 0}
-.ai-avatar{width:160px;height:160px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 30px rgba(102,126,234,0.35);transition:all 0.3s;position:relative;overflow:hidden}.ai-avatar svg{width:80px;height:80px}
+.ai-avatar{width:160px;height:160px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 30px rgba(102,126,234,0.35);transition:all 0.3s;position:relative}.ai-face{font-size:72px;line-height:1}
 .ai-avatar.speaking{animation:aiPulse 0.6s ease-in-out infinite;box-shadow:0 6px 40px rgba(255,107,53,0.6)}
 @keyframes aiPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 .ai-status{font-size:13px;color:#ff6b35;margin-bottom:12px;font-weight:600}
@@ -241,14 +241,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
   <div class="search-bar"><span>🔍</span><input type="text" placeholder="搜商家、菜品、团购、课程..." onfocus="this.blur()"></div>
   <div class="home-banner"><h2>🔥 新用户首单立减5元</h2><p>外卖 · 团购 · 打车 · 小吃教学 一站搞定</p></div>
-  <div class="func-grid">
-    <div class="func-item" onclick="switchPage('food')"><div class="fi-icon">🛵</div><div class="fi-name">外卖</div></div>
-    <div class="func-item" onclick="switchPage('deals')"><div class="fi-icon">🎫</div><div class="fi-name">团购</div></div>
-    <div class="func-item" onclick="switchPage('ride')"><div class="fi-icon">🚕</div><div class="fi-name">打车</div></div>
-    <div class="func-item" onclick="switchPage('courses')"><div class="fi-icon">📚</div><div class="fi-name">教学</div></div>
-    <div class="func-item" onclick="switchPage('ai-anchor')"><div class="fi-icon">🎙️</div><div class="fi-name">AI主播</div></div>
-    <div class="func-item" onclick="switchPage('circle')"><div class="fi-icon">💬</div><div class="fi-name">食圈</div></div>
-  </div>
   <div class="section-title">🔥 推荐商家 <span class="more" onclick="switchPage('food')">更多 ›</span></div>
   <div class="card-list" id="homeShops"></div>
   <div class="section-title">🎫 热门团购 <span class="more" onclick="switchPage('deals')">更多 ›</span></div>
@@ -467,7 +459,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div style="padding:16px">
     <div class="ai-stage">
       <div class="ai-avatar" id="aiAvatar">
-        <svg viewBox="0 0 100 100" width="100" height="100"><circle cx="50" cy="38" r="20" fill="#ffccb3"/><circle cx="50" cy="76" r="28" fill="#ff8c5a"/><circle cx="38" cy="34" r="3" fill="#333"/><circle cx="62" cy="34" r="3" fill="#333"/><path d="M42 46 Q50 54 58 46" stroke="#e55" stroke-width="2.5" fill="none" stroke-linecap="round"/><rect x="33" y="10" width="34" height="6" rx="3" fill="#333"/><rect x="40" y="16" width="6" height="4" rx="2" fill="#ff6b35"/></svg>
+        <div class="ai-face">🎤</div>
       </div>
       <div class="ai-status" id="aiStatus">🟢 就绪 · 输入台词开始播报</div>
       <div class="ai-wave" id="aiWave">${'<span></span>'.repeat(12)}</div>
@@ -1122,11 +1114,12 @@ function updateVoiceSelect(){
   if(!sel)return;
   const zh=aiVoices.filter(v=>v.lang.startsWith('zh'));
   if(zh.length){
-    sel.innerHTML=zh.map((v,i)=>`<option value="${i}" ${i===0?'selected':''}>${v.name} (${v.lang})</option>`).join('');
+    sel.innerHTML=zh.map((v,i)=>`<option value="${i}" ${i===0?'selected':''}>${v.name}</option>`).join('');
   }else if(aiVoices.length){
-    sel.innerHTML=aiVoices.map((v,i)=>`<option value="${i}">${v.name} (${v.lang})</option>`).join('');
+    sel.innerHTML=aiVoices.map((v,i)=>`<option value="${i}">${v.name}</option>`).join('');
   }else{
-    sel.innerHTML='<option value="">未检测到语音引擎</option>';
+    sel.innerHTML='<option value="">语音加载中，请稍候...</option>';
+    setTimeout(updateVoiceSelect, 1000);
   }
   aiVoiceIndex=0;
 }
