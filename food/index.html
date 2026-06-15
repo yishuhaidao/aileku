@@ -198,7 +198,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .pay-modal .pm-price{font-size:36px;font-weight:800;color:#ff6b35}
 .pay-modal .pm-qr{width:180px;height:180px;background:#f5f5f5;border-radius:12px;margin:16px auto;display:flex;align-items:center;justify-content:center;font-size:80px}
 .pay-modal .pm-note{font-size:11px;color:#999;line-height:1.6}
-.pay-modal .pm-close{display:block;width:100%;padding:12px;margin-top:16px;border:none;background:#eee;border-radius:10px;font-size:14px;cursor:pointer}
+.pay-modal .pm-close{display:block;width:100%;padding:12px;margin-top:8px;border:none;background:#eee;border-radius:10px;font-size:14px;cursor:pointer}
 .admin-badge{display:inline-block;background:#ff6b35;color:#fff;font-size:10px;padding:1px 6px;border-radius:8px;margin-left:4px}
 /* 食圈 */
 /* 食圈 */
@@ -507,8 +507,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="pm-plan" id="payPlanName"></div>
     <div class="pm-price" id="payPlanPrice"></div>
     <div class="pm-qr" id="payQr">💬</div>
-    <div class="pm-note">请截图保存上方二维码<br>使用微信扫码付款<br>付款后联系客服获取激活码</div>
-    <button class="pm-close" onclick="closePayModal()">我知道了</button>
+    <div class="pm-note">请截图保存上方二维码<br>使用微信扫码付款<br>付款后点击下方按钮获取激活码</div>
+    <button class="pm-close" style="background:#ff6b35;color:#fff;margin-bottom:6px" onclick="paidAndActivate()">✅ 我已付款，去激活</button>
+    <button class="pm-close" style="background:#eee;color:#666" onclick="closePayModal()">稍后再说</button>
   </div>
 </div>
 
@@ -1227,6 +1228,14 @@ function openPay(name, price, months){
 }
 function closePayModal(){
   document.getElementById('payModal').classList.add('hidden');
+}
+
+function paidAndActivate(){
+  document.getElementById('payModal').classList.add('hidden');
+  setTimeout(()=>{
+    document.getElementById('activateCode').focus();
+    document.getElementById('activateCode').scrollIntoView({behavior:'smooth'});
+  }, 300);
 }
 
 function activateAi(){
